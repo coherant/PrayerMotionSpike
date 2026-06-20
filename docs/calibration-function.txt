@@ -1,0 +1,6 @@
+My recommendation: Use the existing CSVs first. The most accurate method is:
+
+1. For each state_id, compute min, max, mean, and 5th/95th percentiles of pitch (and roll for sujood, yaw for tasleem) across all sessions
+2. The 5th–95th percentile range is your safe detection window — it filters out jitter at the extremes without being so tight it misses valid positions
+3. Check the gaps between adjacent positions (e.g. where does qiyam pitch end and ruku pitch begin) — the threshold should sit in that gap, not at the edge of one position's range
+4. Flag any sessions where the same state_id shows a wider-than-expected spread — that session may have had bad AirPod fit and should be excluded
