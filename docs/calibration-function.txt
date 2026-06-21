@@ -4,3 +4,19 @@ My recommendation: Use the existing CSVs first. The most accurate method is:
 2. The 5th–95th percentile range is your safe detection window — it filters out jitter at the extremes without being so tight it misses valid positions
 3. Check the gaps between adjacent positions (e.g. where does qiyam pitch end and ruku pitch begin) — the threshold should sit in that gap, not at the edge of one position's range
 4. Flag any sessions where the same state_id shows a wider-than-expected spread — that session may have had bad AirPod fit and should be excluded
+
+
+Roadmap
+┌─────────┬────────────────────────────────────┬────────────────────────────────────────────────────────────┐
+│         │ AirPods (CMHeadphoneMotionManager) │                  iPhone (CMMotionManager)                  │
+├─────────┼────────────────────────────────────┼────────────────────────────────────────────────────────────┤
+│ Tracks  │ Head movement                      │ Phone movement                                             │
+├─────────┼────────────────────────────────────┼────────────────────────────────────────────────────────────┤
+│ Ruku    │ Head bowing → pitch drops          │ Phone bowing → pitch drops (phone in hand or chest pocket) │
+├─────────┼────────────────────────────────────┼────────────────────────────────────────────────────────────┤
+│ Sujood  │ Head down → roll flips ~180°       │ Same, if phone is on forehead or held to chest             │
+├─────────┼────────────────────────────────────┼────────────────────────────────────────────────────────────┤
+│ Upright │ Head upright                       │ Phone upright                                              │
+├─────────┼────────────────────────────────────┼────────────────────────────────────────────────────────────┤
+│ Tasleem │ Head turning left/right            │ Only works if phone is held to head or on a band           │
+└─────────┴────────────────────────────────────┴────────────────────────────────────────────────────────────┘

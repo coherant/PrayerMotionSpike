@@ -1,27 +1,11 @@
 import SwiftUI
 
-// MARK: - Root
-
-struct ContentView: View {
-    var body: some View {
-        TabView {
-            ReactivePrayerView()
-                .tabItem { Label("Guided", systemImage: "moon.stars.fill") }
-            CalibrationView()
-                .tabItem { Label("Calibration", systemImage: "person.crop.circle.badge.checkmark") }
-            GuidedRecordingView()
-                .tabItem { Label("Global Calibration", systemImage: "figure.stand") }
-}
-    }
-}
-
-// MARK: - Calibration (Guided Recording)
-
-struct GuidedRecordingView: View {
-    @State private var participantName: String = ""
-    @State private var session = PrayerStateMachine(sequence: GuidedSequenceGenerator.generate())
+struct CalibrationView: View {
+    @State private var session = PrayerStateMachine(sequence: CalibrationSequenceGenerator.generate())
     @State private var sessionFiles: [URL] = []
     @State private var shareURL: URL?
+    @State private var activeProfile: UserCalibrationProfile? = UserCalibrationProfile.load()
+    @State private var calibrationProfile: UserCalibrationProfile?
 
     var body: some View {
         NavigationStack {
@@ -39,12 +23,20 @@ struct GuidedRecordingView: View {
             .sheet(item: $shareURL) { ShareSheet(url: $0) }
             .onAppear { loadSessionFiles() }
             .onChange(of: session.status) {
-                if session.status == .complete { loadSessionFiles() }
+                if session.status == .complete {
+                    loadSessionFiles()
+                    let result = CalibrationAnalyzer(samples: session.sessionSamples).analyze()
+                    calibrationProfile = result
+                    if let result {
+                        activeProfile = result
+                        result.save()
+                    }
+                }
             }
         }
     }
 
-    // MARK: Idle
+    // MARK: - Idle
 
     private var idleView: some View {
         VStack(spacing: 20) {
@@ -56,25 +48,31 @@ struct GuidedRecordingView: View {
                 Text("Run on a physical device with AirPods connected.")
                     .foregroundStyle(.secondary).multilineTextAlignment(.center)
             } else {
-                Image(systemName: "figure.stand")
-                    .font(.system(size: 72)).foregroundStyle(.blue)
-                Text("Calibration Recording").font(.title.weight(.semibold))
-                Text("\(session.states.count) phases · records sensor data per position")
-                    .foregroundStyle(.secondary).multilineTextAlignment(.center)
+                Image(systemName: "person.crop.circle.badge.checkmark")
+                    .font(.system(size: 72)).foregroundStyle(.teal)
+                Text("Personal Calibration").font(.title.weight(.semibold))
+                Text("\(session.states.count) phases · motion detection")
+                    .foregroundStyle(.secondary)
             }
             Spacer()
-            TextField("Participant name", text: $participantName)
-                .textFieldStyle(.roundedBorder)
-                .autocorrectionDisabled()
-            Button("Begin Calibration") {
-                let name = participantName.trimmingCharacters(in: .whitespaces)
-                session = PrayerStateMachine(sequence: GuidedSequenceGenerator.generate(), participantName: name)
-                session.start()
+            Button("Begin Calibration") { session.start() }
+                .buttonStyle(.borderedProminent)
+                .font(.title3.weight(.semibold))
+                .frame(maxWidth: .infinity)
+                .disabled(!session.isAvailable)
+
+            if activeProfile != nil {
+                VStack(spacing: 6) {
+                    Label("Personal calibration active", systemImage: "checkmark.seal.fill")
+                        .font(.caption).foregroundStyle(.teal)
+                    Button("Reset to Global Calibration", role: .destructive) {
+                        UserCalibrationProfile.reset()
+                        activeProfile = nil
+                    }
+                    .font(.caption)
+                }
+                .padding(.top, 4)
             }
-            .buttonStyle(.borderedProminent)
-            .font(.title3.weight(.semibold))
-            .frame(maxWidth: .infinity)
-            .disabled(!session.isAvailable || participantName.trimmingCharacters(in: .whitespaces).isEmpty)
 
             if !sessionFiles.isEmpty {
                 Divider().padding(.top, 8)
@@ -83,7 +81,7 @@ struct GuidedRecordingView: View {
         }
     }
 
-    // MARK: History
+    // MARK: - History
 
     private var historySection: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -95,10 +93,8 @@ struct GuidedRecordingView: View {
                 ForEach(sessionFiles, id: \.self) { url in
                     HStack {
                         VStack(alignment: .leading, spacing: 2) {
-                            Text(participantFromURL(url))
-                                .font(.subheadline).fontWeight(.semibold)
                             Text(sessionDate(from: url))
-                                .font(.caption).foregroundStyle(.secondary)
+                                .font(.subheadline)
                             Text(url.lastPathComponent)
                                 .font(.caption2)
                                 .foregroundStyle(.tertiary)
@@ -116,7 +112,7 @@ struct GuidedRecordingView: View {
         }
     }
 
-    // MARK: Running
+    // MARK: - Running
 
     private var runningView: some View {
         let state = session.currentState
@@ -134,7 +130,7 @@ struct GuidedRecordingView: View {
 
             if session.confirmProgress > 0 {
                 VStack(spacing: 6) {
-                    ProgressView(value: session.confirmProgress).tint(.green)
+                    ProgressView(value: session.confirmProgress).tint(.teal)
                     Text("Holding…").font(.caption).foregroundStyle(.secondary)
                 }
             }
@@ -175,18 +171,40 @@ struct GuidedRecordingView: View {
         }
     }
 
-    // MARK: Complete
+    // MARK: - Complete
 
     private var completeView: some View {
         VStack(spacing: 20) {
             Spacer()
-            Image(systemName: "checkmark.circle.fill")
-                .font(.system(size: 72)).foregroundStyle(.green)
-            Text("Calibration Complete").font(.title.weight(.semibold))
-            Text("Session saved to History.").foregroundStyle(.secondary)
+            if calibrationProfile != nil {
+                Image(systemName: "checkmark.circle.fill")
+                    .font(.system(size: 72)).foregroundStyle(.teal)
+                Text("Calibration Complete").font(.title.weight(.semibold))
+            } else {
+                Image(systemName: "exclamationmark.circle")
+                    .font(.system(size: 72)).foregroundStyle(.orange)
+                Text("Could Not Calibrate").font(.title.weight(.semibold))
+                Text("Not enough data was captured. Please try again.")
+                    .foregroundStyle(.secondary).multilineTextAlignment(.center)
+            }
+
+            if let p = calibrationProfile {
+                VStack(spacing: 0) {
+                    resultRow("Ruku (pitch)",    String(format: "%.0f° to %.0f°",   p.rukuPitchLow, p.rukuPitchHigh))
+                    resultRow("Upright (pitch)", String(format: "%.0f° to %.0f°",   p.uprightPitchLow, p.uprightPitchHigh))
+                    resultRow("Sujood (roll)",   String(format: "≤ %.0f° from 180°", p.sujoodRollRadius))
+                    resultRow("Tasleem (yaw)",   String(format: "≥ %.0f° offset",    p.tasleemYawOffset))
+                }
+                .padding()
+                .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 12))
+                Text("Applied to motion detection.")
+                    .font(.caption).foregroundStyle(.secondary)
+            }
+
             Spacer()
             Button("Done") {
-                session = PrayerStateMachine(sequence: GuidedSequenceGenerator.generate())
+                calibrationProfile = nil
+                session = PrayerStateMachine(sequence: CalibrationSequenceGenerator.generate())
             }
             .buttonStyle(.borderedProminent)
             .font(.title3.weight(.semibold))
@@ -194,23 +212,33 @@ struct GuidedRecordingView: View {
         }
     }
 
-    // MARK: Cancelled
+    // MARK: - Cancelled
 
     private var cancelledView: some View {
         VStack(spacing: 16) {
             Spacer()
             Image(systemName: "xmark.circle")
                 .font(.system(size: 60)).foregroundStyle(.secondary)
-            Text("Session cancelled").foregroundStyle(.secondary)
+            Text("Calibration cancelled").foregroundStyle(.secondary)
             Spacer()
             Button("Try Again") {
-                session = PrayerStateMachine(sequence: GuidedSequenceGenerator.generate())
+                session = PrayerStateMachine(sequence: CalibrationSequenceGenerator.generate())
             }
             .buttonStyle(.borderedProminent).frame(maxWidth: .infinity)
         }
     }
 
-    // MARK: Helpers
+    // MARK: - Helpers
+
+    private func resultRow(_ label: String, _ value: String) -> some View {
+        HStack {
+            Text(label).foregroundStyle(.secondary)
+            Spacer()
+            Text(value).fontWeight(.medium)
+        }
+        .font(.subheadline)
+        .padding(.vertical, 6)
+    }
 
     private func loadSessionFiles() {
         let docs = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
@@ -220,7 +248,7 @@ struct GuidedRecordingView: View {
             options: .skipsHiddenFiles
         )) ?? []
         sessionFiles = all
-            .filter { $0.lastPathComponent.hasPrefix("prayer_calibration_") }
+            .filter { $0.lastPathComponent.hasPrefix("prayer_session_") }
             .sorted { $0.lastPathComponent > $1.lastPathComponent }
     }
 
@@ -231,8 +259,7 @@ struct GuidedRecordingView: View {
 
     private func sessionDate(from url: URL) -> String {
         let stem = url.deletingPathExtension().lastPathComponent
-        // filename: prayer_calibration_<slug>_<timestamp>
-        if let ts = Double(stem.components(separatedBy: "_").last ?? "") {
+        if let ts = Double(stem.replacingOccurrences(of: "prayer_session_", with: "")) {
             return DateFormatter.localizedString(
                 from: Date(timeIntervalSince1970: ts),
                 dateStyle: .medium, timeStyle: .short
@@ -241,38 +268,10 @@ struct GuidedRecordingView: View {
         return stem
     }
 
-    private func participantFromURL(_ url: URL) -> String {
-        let stem = url.deletingPathExtension().lastPathComponent
-        let withoutPrefix = stem.replacingOccurrences(of: "prayer_calibration_", with: "")
-        let parts = withoutPrefix.components(separatedBy: "_")
-        guard parts.count >= 2 else { return withoutPrefix }
-        return parts.dropLast().joined(separator: "_")
-            .replacingOccurrences(of: "-", with: " ")
-            .capitalized
-    }
-
     private func angleCell(_ name: String, _ value: Double) -> some View {
         VStack(spacing: 2) {
             Text(name).font(.caption).foregroundStyle(.secondary)
             Text(String(format: "%+.1f°", value)).fontWeight(.semibold)
         }
     }
-}
-
-// MARK: - Shared
-
-extension URL: @retroactive Identifiable {
-    public var id: String { absoluteString }
-}
-
-struct ShareSheet: UIViewControllerRepresentable {
-    let url: URL
-    func makeUIViewController(context: Context) -> UIActivityViewController {
-        UIActivityViewController(activityItems: [url], applicationActivities: nil)
-    }
-    func updateUIViewController(_: UIActivityViewController, context: Context) {}
-}
-
-#Preview {
-    ContentView()
 }

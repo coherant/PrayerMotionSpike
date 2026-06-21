@@ -16,7 +16,7 @@ enum AudioRoute {
 
 // MARK: - Session sample
 
-private struct SessionSample {
+struct SessionSample {
     let timestamp: Double
     let stateID: String
     let pitch: Double
@@ -39,15 +39,16 @@ final class PrayerStateMachine {
     private(set) var roll:  Double = 0
     private(set) var yaw:   Double = 0
 
-    private let headphoneManager = CMHeadphoneMotionManager()
-    private let synthesizer      = AVSpeechSynthesizer()
-    private let speechDelegate   = PrayerSpeechDelegate()
-    private let motionQueue      = OperationQueue()
+    nonisolated(unsafe) private let headphoneManager = CMHeadphoneMotionManager()
+    nonisolated(unsafe) private let synthesizer      = AVSpeechSynthesizer()
+    nonisolated(unsafe) private let speechDelegate   = PrayerSpeechDelegate()
+    nonisolated(unsafe) private let motionQueue      = OperationQueue()
 
     private var sensorReadings     = SensorReadings()
     private var qiyamYawBaseline: Double? = nil
     private var sessionTask: Task<Void, Never>?
-    private var sessionSamples: [SessionSample] = []
+    private(set) var sessionSamples: [SessionSample] = []
+    private var userProfile: UserCalibrationProfile? = UserCalibrationProfile.load()
     private var sessionStartDate: Date?
     private let participantName: String
     private let audioRoute: AudioRoute
@@ -97,7 +98,7 @@ final class PrayerStateMachine {
             let p = motion.attitude.pitch * 180 / .pi
             let r = motion.attitude.roll  * 180 / .pi
             let y = motion.attitude.yaw   * 180 / .pi
-            DispatchQueue.main.async { [weak self] in
+            Task { @MainActor [weak self] in
                 guard let self else { return }
                 self.sensorReadings.add(pitch: p, roll: r, yaw: y)
                 self.pitch = self.sensorReadings.smoothedPitch
@@ -191,9 +192,10 @@ final class PrayerStateMachine {
 
     @MainActor
     private func runMotionPhase(_ state: PrayerState) async {
+        if let speech = state.entrySpeech { await speak(speech) }
+        guard !Task.isCancelled else { return }
         await waitForMotion(state)
         guard !Task.isCancelled else { return }
-        if let speech = state.entrySpeech { await speak(speech) }
         for prayer in state.prayers {
             guard !Task.isCancelled else { return }
             if !prayer.utterance.isEmpty { await speak(prayer.utterance) }
@@ -309,26 +311,30 @@ final class PrayerStateMachine {
     private func isMotionSatisfied(_ trigger: MotionTrigger, pitch: Double, roll: Double, yaw: Double) -> Bool {
         switch trigger {
         case .ruku:
-            return pitch >= -82 && pitch <= -48
+            let lo = userProfile?.rukuPitchLow  ?? -82
+            let hi = userProfile?.rukuPitchHigh ?? -48
+            return pitch >= lo && pitch <= hi
 
         case .sujood:
-            // angDist handles Euler-angle wraparound. Calibrated: 88% coverage, 0.3% false-positive vs upright.
-            return angularDistance(roll, 180) <= 35
+            // angDist handles Euler-angle wraparound; fallback radius calibrated at 88% coverage.
+            let radius = userProfile?.sujoodRollRadius ?? 35
+            return angularDistance(roll, 180) <= radius
 
         case .upright:
-            // Pitch alone distinguishes upright from ruku (~-73°) and sujood (roll ~180°).
             // Roll is NOT a hard gate — sequence position disambiguates standing vs sitting.
-            return pitch >= -40 && pitch <= 6
+            let lo = userProfile?.uprightPitchLow  ?? -40
+            let hi = userProfile?.uprightPitchHigh ?? 6
+            return pitch >= lo && pitch <= hi
 
         case .headTurnRight:
-            // Right turn = yaw decreases from baseline. Calibrated: baseline − yaw ≥ 30°.
             guard let baseline = qiyamYawBaseline else { return false }
-            return baseline - yaw >= 30
+            let offset = userProfile?.tasleemYawOffset ?? 30
+            return baseline - yaw >= offset
 
         case .headTurnLeft:
-            // Left turn = yaw increases from baseline. Calibrated: yaw − baseline ≥ 30°.
             guard let baseline = qiyamYawBaseline else { return false }
-            return yaw - baseline >= 30
+            let offset = userProfile?.tasleemYawOffset ?? 30
+            return yaw - baseline >= offset
         }
     }
 
@@ -402,12 +408,12 @@ final class PrayerStateMachine {
 // MARK: - Speech delegate
 
 private final class PrayerSpeechDelegate: NSObject, AVSpeechSynthesizerDelegate {
-    var onFinish: (() -> Void)?
+    nonisolated(unsafe) var onFinish: (() -> Void)?
 
-    func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
+    nonisolated func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
         let fn = onFinish; onFinish = nil; fn?()
     }
-    func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didCancel utterance: AVSpeechUtterance) {
+    nonisolated func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didCancel utterance: AVSpeechUtterance) {
         let fn = onFinish; onFinish = nil; fn?()
     }
 }

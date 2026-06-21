@@ -504,3 +504,125 @@ enum GuidedSequenceGenerator {
               repromptInterval: 5),
     ] }
 }
+
+// MARK: - Calibration sequence
+// Source: docs/calibration/prayers-for-each-state-in-state-machine.md
+// No reprompts — user flows through positions silently. Entry speech plays before motion wait.
+
+enum CalibrationSequenceGenerator {
+
+    static func generate() -> [PrayerState] { masterSequence() }
+
+    private static func masterSequence() -> [PrayerState] { [
+
+        // Position 1
+        .init(id: .qiyamStart, mode: .timed,
+              displayLabel: "Standing (Qiyam) - Start",
+              entrySpeech: "We are starting the callibration of the prayers.",
+              prayers: [
+                  ("The next steps will guide you through 2 Rakat's and record your movements.", 2.0),
+                  ("Do not move from the position until the app instructs you with the next movement it want you to make.", 2.0),
+                  ("Calibration starts in 5 seconds", 5.0),
+              ]),
+
+        // Position 2
+        .init(id: .rukuFirst, mode: .motion,
+              displayLabel: "Bowing (Ruku) - First",
+              entrySpeech: "Bow forward and put both your hands on your knees.",
+              prayers: [("Hold this position.", 3.0)],
+              motionTrigger: .ruku),
+
+        // Position 3
+        .init(id: .qiyamAfterRukuFirst, mode: .motion,
+              displayLabel: "Standing (Qiyam) - After Ruku (Rakat 1)",
+              entrySpeech: "Return to standing up right position.",
+              prayers: [("Hold this position.", 3.0)],
+              motionTrigger: .upright),
+
+        // Position 4
+        .init(id: .sujoodFirst, mode: .motion,
+              displayLabel: "Prostration (Sujood) - First",
+              entrySpeech: "Go onto your hands and knees into a prostrating position with your forhead touching the ground.",
+              prayers: [("Hold this position.", 3.0)],
+              motionTrigger: .sujood),
+
+        // Position 5
+        .init(id: .julusFirst, mode: .motion,
+              displayLabel: "Sitting (Julus) - Between Prostrations (Rakat 1)",
+              entrySpeech: "Sit upright and remain seated on your knees.",
+              prayers: [("Hold this position.", 3.0)],
+              motionTrigger: .upright),
+
+        // Position 6
+        .init(id: .sujoodSecond, mode: .motion,
+              displayLabel: "Prostration (Sujood) - Second",
+              entrySpeech: "Go into the prostration position with your forhead touching the ground again for the second time.",
+              prayers: [("Hold this position.", 3.0)],
+              motionTrigger: .sujood),
+
+        // Position 7
+        .init(id: .qiyamRakat2, mode: .motion,
+              displayLabel: "Standing (Qiyam) - Rakat 2",
+              entrySpeech: "Stand up all the way straight and look forward.",
+              prayers: [("Hold this position.", 3.0)],
+              motionTrigger: .upright),
+
+        // Position 8
+        .init(id: .rukuSecond, mode: .motion,
+              displayLabel: "Bowing (Ruku) - Second",
+              entrySpeech: "Bow forward and put both your hands on your knees.",
+              prayers: [("Hold this position.", 3.0)],
+              motionTrigger: .ruku),
+
+        // Position 9 — yaw baseline captured here for Tasleem detection
+        .init(id: .qiyamAfterRukuSecond, mode: .motion,
+              displayLabel: "Standing (Qiyam) - After Ruku (Rakat 2)",
+              entrySpeech: "Return to standing up right position.",
+              prayers: [("Hold this position.", 3.0)],
+              motionTrigger: .upright,
+              capturesYawBaseline: true),
+
+        // Position 10
+        .init(id: .sujoodThird, mode: .motion,
+              displayLabel: "Prostration (Sujood) - Third",
+              entrySpeech: "Go onto your hands and knees into a prostrating position with your forhead touching the ground.",
+              prayers: [("Hold this position.", 3.0)],
+              motionTrigger: .sujood),
+
+        // Position 11
+        .init(id: .julusSecond, mode: .motion,
+              displayLabel: "Sitting (Julus) - Between Prostrations (Rakat 2)",
+              entrySpeech: "Sit upright and remain seated on your knees.",
+              prayers: [("Hold this position.", 3.0)],
+              motionTrigger: .upright),
+
+        // Position 12
+        .init(id: .sujoodFourth, mode: .motion,
+              displayLabel: "Prostration (Sujood) - Fourth",
+              entrySpeech: "Go into the prostration position with your forhead touching the ground again for the second time.",
+              prayers: [("Hold this position.", 3.0)],
+              motionTrigger: .sujood),
+
+        // Position 13
+        .init(id: .julusTashahhud, mode: .motion,
+              displayLabel: "Sitting (Julus) - Tashahhud",
+              entrySpeech: "Sit upright and remain seated on your knees.",
+              prayers: [("Hold this position.", 3.0)],
+              motionTrigger: .upright),
+
+        // Position 14
+        .init(id: .tasleemRight, mode: .motion,
+              displayLabel: "Tasleem - Look Right",
+              entrySpeech: "Turn your head to the right.",
+              prayers: [("Hold this position.", 3.0)],
+              motionTrigger: .headTurnRight),
+
+        // Position 15
+        .init(id: .tasleemLeft, mode: .motion,
+              displayLabel: "Tasleem - Look Left",
+              entrySpeech: "Turn your head to the left.",
+              prayers: [("Hold this position.", 3.0)],
+              exitSpeech: "Calibration complete. You may move freely.",
+              motionTrigger: .headTurnLeft),
+    ] }
+}

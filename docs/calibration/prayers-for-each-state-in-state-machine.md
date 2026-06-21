@@ -39,12 +39,10 @@ When reading this file to generate Swift code or utterance arrays:
 
 | role | utterance | duration |
 |---|---|---|
-| entry | Start | 5s | #Stand upright for Qiyam.
-| prayer | Listen to the Ezan. | 5s |
-| prayer | Give niyet | 5s |
-| prayer | P-0 | 3s | # Allah huekber
-| prayer | Al-Fatiha | 5s | # Al-Fatiha
-| prayer | P-0 | 3s | # Allah huekber
+| entry | We are starting the callibration of the prayers. | 5s |
+| prayer | The next steps will guide you through 2 Rakat's and record your movements. | 2s |
+| prayer | Do not move from the position until the app instructs you with the next movement it want you to make. | 2s |
+| prayer | Calibration starts in 5 seconds | 5s |
 | exit |  |  | # Allah huekber
 
 ---
@@ -53,12 +51,9 @@ When reading this file to generate Swift code or utterance arrays:
 
 | role | utterance | duration |
 |---|---|---|
-| entry | | 3s | #Bow forward into Ruku.
-| reprompt | Please bow into Ruku | |
-| prayer | P-1 | 1s |
-| prayer | P-1 | 1s |
-| prayer | P-1 | 3s |
-| exit | P-3  | |
+| entry | Bow forward and put both your hands on your knees.| 3s | #Bow forward into Ruku.
+| prayer | Hold this position. | 3s |
+| exit | | |
 
 
 ---
@@ -67,10 +62,9 @@ When reading this file to generate Swift code or utterance arrays:
 
 | role | utterance | duration |
 |---|---|---|
-| entry | | 3s | # Return to standing.
-| reprompt | Please return to standing | |
-| prayer | P-4 | 3s |
-| exit | P-0 | |
+| entry | Return to standing up right position. | 3s | # Return to standing.
+| prayer | Hold this position. | 3s  |
+| exit | | |
 
 
 ---
@@ -79,12 +73,9 @@ When reading this file to generate Swift code or utterance arrays:
 
 | role | utterance | duration |
 |---|---|---|
-| entry |  | 3s | #Prostrate into Sujood.
-| reprompt | Please lower into Sujood | |
-| prayer | P-2 | 1s |
-| prayer | P-2 | 1s |
-| prayer | P-2 | 1s |
-| exit | P-0 | |
+| entry | Go onto your hands and knees into a prostrating position with your forhead touching the ground. | 3s | #Prostrate into Sujood.
+| prayer | Hold this position | 3s |
+| exit | | |
 
 
 ---
@@ -93,11 +84,9 @@ When reading this file to generate Swift code or utterance arrays:
 
 | role | utterance | duration |
 |---|---|---|
-| entry |  | 3s | #Sit upright.
-| reprompt | Please sit up | |
-| prayer | P-5 | 1.5s |
-| prayer | P-5 | 1.5s |
-| exit | P-0 | |
+| entry | Sit upright and remain seated on your knees. | 3s | #Sit upright.
+| prayer | Hold this position | 3s |
+| exit | | |
 
 
 ---
@@ -106,13 +95,9 @@ When reading this file to generate Swift code or utterance arrays:
 
 | role | utterance | duration |
 |---|---|---|
-| entry |  | 3s | #Prostrate into Sujood again.
-| reprompt | Please lower into Sujood again | |
-| prayer | P-2 | 1s |
-| prayer | P-2 | 1s |
-| prayer | P-2 | 1s |
-| exit | P-0 | |
-
+| entry | Go into the prostration position with your forhead touching the ground again for the second time. | 3s | #Prostrate into Sujood again.
+| prayer | Hold this position | 3s |
+| exit | | |
 
 ---
 
@@ -120,10 +105,9 @@ When reading this file to generate Swift code or utterance arrays:
 
 | role | utterance | duration |
 |---|---|---|
-| entry |  | 3s | #Stand for the second rakat.
-| reprompt | Please stand for the next rakat | |
-| prayer | Al Fatiha | 5s |
-| exit | P-0 | |
+| entry | Stand up all the way straight and look forward. | 3s | #Stand for the second rakat.
+| prayer | Hold this position | 3s |
+| exit | | |
 
 
 ---
@@ -132,12 +116,9 @@ When reading this file to generate Swift code or utterance arrays:
 
 | role | utterance | duration |
 |---|---|---|
-| entry |  | 3s | #Bow forward into Ruku.
-| reprompt | Please bow into Ruku | |
-| prayer | P-1 | 1s |
-| prayer | P-1 | 1s |
-| prayer | P-1 | 3s |
-| exit | P-3  | |
+| entry | Bow forward and put both your hands on your knees.| 3s | #Bow forward into Ruku.
+| prayer | Hold this position. | 3s |
+| exit | | |
 
 
 ---
@@ -148,10 +129,9 @@ When reading this file to generate Swift code or utterance arrays:
 
 | role | utterance | duration |
 |---|---|---|
-| entry |  | 3s | #Return to standing.
-| reprompt | Please return to standing | |
-| prayer | P-4 | 3s |
-| exit | P-0 | |
+| entry | Return to standing up right position. | 3s | # Return to standing.
+| prayer | Hold this position. | 3s  |
+| exit | | |
 
 
 ---
@@ -160,12 +140,9 @@ When reading this file to generate Swift code or utterance arrays:
 
 | role | utterance | duration |
 |---|---|---|
-| entry |  | 3s | #Prostrate into Sujood.
-| reprompt | Please lower into Sujood | |
-| prayer | P-2 | 1s |
-| prayer | P-2 | 1s |
-| prayer | P-2 | 1s |
-| exit | P-0 | |
+| entry | Go onto your hands and knees into a prostrating position with your forhead touching the ground. | 3s | #Prostrate into Sujood.
+| prayer | Hold this position | 3s |
+| exit | | |
 
 
 ---
@@ -174,11 +151,9 @@ When reading this file to generate Swift code or utterance arrays:
 
 | role | utterance | duration |
 |---|---|---|
-| entry |  | 3s | # Sit upright.
-| reprompt | Please sit up | |
-| prayer | P-5 | 1.5s |
-| prayer | P-5 | 1.5s |
-| exit | P-0 | |
+| entry | Sit upright and remain seated on your knees. | 3s | #Sit upright.
+| prayer | Hold this position | 3s |
+| exit | | |
 
 ---
 
@@ -186,12 +161,9 @@ When reading this file to generate Swift code or utterance arrays:
 
 | role | utterance | duration |
 |---|---|---|
-| entry |  | 3s | #Prostrate into Sujood again.
-| reprompt | Please lower into Sujood again | |
-| prayer | P-2 | 1s |
-| prayer | P-2 | 1s |
-| prayer | P-2 | 1s |
-| exit | P-0 | |
+| entry | Go into the prostration position with your forhead touching the ground again for the second time. | 3s | #Prostrate into Sujood again.
+| prayer | Hold this position | 3s |
+| exit | | |
 
 
 ---
@@ -200,15 +172,9 @@ When reading this file to generate Swift code or utterance arrays:
 
 | role | utterance | duration |
 |---|---|---|
-| entry |  | | #Sit for Tashahhud.
-| reprompt | Please sit for Tashahhud | |
-| prayer | Tashahhud | 2s |
-| prayer | Honour muhamman | 2s |
-| prayer | Bless Huhammas | 2s |
-| prayer | Grant me the good of this world | 2s |
-| prayer | Forgive me and my parents | 2s |
-| prayer | Ive greatly wronged myself | 2s |
-| exit |  | |
+| entry | Sit upright and remain seated on your knees. | 3s | #Sit upright.
+| prayer | Hold this position | 3s |
+| exit | | |
 
 
 ---
@@ -217,9 +183,8 @@ When reading this file to generate Swift code or utterance arrays:
 
 | role | utterance | duration |
 |---|---|---|
-| entry |  | 3s | #Turn your head to the right.
-| reprompt | Please turn your head to the right | |
-| prayer | P-6  | 3s |
+| entry | Turn your head to the right. | 3s | #Turn your head to the right.
+| prayer | Hold this position.  | 3s |
 | exit |  | |
 
 
@@ -229,8 +194,7 @@ When reading this file to generate Swift code or utterance arrays:
 
 | role | utterance | duration |
 |---|---|---|
-| entry |  | 3s | #Turn your head to the left.
-| reprompt | Please turn your head to the left | |
-| prayer | P-6 | 3s |
-| exit | Oh Allah, you are peace and pease comes from you | 8s |
+| entry | Turn your head to the left. | 3s | #Turn your head to the left.
+| prayer | Hold this position.  | 3s |
+| exit | Calibration complete.  You may move freely. | |
 
