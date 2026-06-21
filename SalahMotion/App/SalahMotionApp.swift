@@ -1,7 +1,7 @@
 import SwiftUI
 
 @main
-struct PrayerMotionSpikeApp: App {
+struct SalahMotionApp: App {
     @State private var router = Router()
 
     var body: some Scene {
