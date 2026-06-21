@@ -1,0 +1,33 @@
+{
+  "reciters": {
+    "alafasy": {
+      "displayName": "Alafasy",
+      "language": "ar",
+      "files": {
+        "takbir": "takbir.mp3",
+        "fatiha": "fatiha.mp3",
+        "ruku_dhikr": "ruku.mp3",
+        "sujood_dhikr_1": "sujood_1.mp3",
+        "sujood_dhikr_2": "sujood_2.mp3",
+        "tashahhud": "tashahhud.mp3",
+        "tasleem_right": "tasleem_right.mp3",
+        "tasleem_left": "tasleem_left.mp3"
+      }
+    }
+  },
+  "narration": {
+    "en": {
+      "language": "en",
+      "files": {
+        "takbir": "takbir.mp3",
+        "fatiha": "fatiha.mp3",
+        "ruku_dhikr": "ruku.mp3",
+        "sujood_dhikr_1": "sujood_1.mp3",
+        "sujood_dhikr_2": "sujood_2.mp3",
+        "tashahhud": "tashahhud.mp3",
+        "tasleem_right": "tasleem_right.mp3",
+        "tasleem_left": "tasleem_left.mp3"
+      }
+    }
+  }
+}

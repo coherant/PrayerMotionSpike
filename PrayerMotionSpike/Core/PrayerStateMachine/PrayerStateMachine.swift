@@ -1,5 +1,4 @@
 import Foundation
-import AVFoundation
 import AudioToolbox
 #if canImport(UIKit)
 import UIKit
@@ -38,9 +37,7 @@ final class PrayerStateMachine {
     private(set) var roll:  Double = 0
     private(set) var yaw:   Double = 0
 
-    nonisolated(unsafe) private let synthesizer = AVSpeechSynthesizer()
-    private let speechDelegate = PrayerSpeechDelegate()
-
+    private let audioManager   = AudioManager()
     private let detector       = HeadphoneMotionDetector()
     private var thresholds: MotionThresholds
 
@@ -62,12 +59,11 @@ final class PrayerStateMachine {
         self.participantName = participantName
         self.audioRoute = audioRoute
         self.thresholds = MotionThresholds(profile: UserCalibrationProfile.load())
-        synthesizer.delegate = speechDelegate
     }
 
     func start() {
         guard isAvailable, status == .idle else { return }
-        configureAudioSession()
+        audioManager.configure(route: audioRoute)
 #if canImport(UIKit)
         UIApplication.shared.isIdleTimerDisabled = true
 #endif
@@ -81,7 +77,7 @@ final class PrayerStateMachine {
 
     func cancel() {
         sessionTask?.cancel()
-        synthesizer.stopSpeaking(at: .immediate)
+        audioManager.stop()
         detector.stop()
 #if canImport(UIKit)
         UIApplication.shared.isIdleTimerDisabled = false
@@ -147,25 +143,25 @@ final class PrayerStateMachine {
 
     @MainActor
     private func runAutoPhase(_ state: PrayerState) async {
-        if let speech = state.entrySpeech { await speak(speech) }
+        if let speech = state.entrySpeech { await audioManager.speak(speech) }
         for prayer in state.prayers {
             guard !Task.isCancelled else { return }
-            if !prayer.utterance.isEmpty { await speak(prayer.utterance) }
+            if !prayer.utterance.isEmpty { await audioManager.speak(prayer.utterance) }
             guard !Task.isCancelled else { return }
             if prayer.duration > 0 { try? await Task.sleep(for: .seconds(prayer.duration)) }
         }
         guard !Task.isCancelled else { return }
-        if let speech = state.exitSpeech { await speak(speech) }
+        if let speech = state.exitSpeech { await audioManager.speak(speech) }
     }
 
     @MainActor
     private func runTimedPhase(_ state: PrayerState) async {
-        if let speech = state.entrySpeech { await speak(speech) }
+        if let speech = state.entrySpeech { await audioManager.speak(speech) }
         guard !Task.isCancelled else { return }
         if !state.prayers.isEmpty { AudioServicesPlaySystemSound(1108) }
         for prayer in state.prayers {
             guard !Task.isCancelled else { return }
-            if !prayer.utterance.isEmpty { await speak(prayer.utterance) }
+            if !prayer.utterance.isEmpty { await audioManager.speak(prayer.utterance) }
             guard !Task.isCancelled else { return }
             if prayer.duration > 0 {
                 let start = Date()
@@ -179,28 +175,28 @@ final class PrayerStateMachine {
             }
         }
         guard !Task.isCancelled else { return }
-        if let speech = state.exitSpeech { await speak(speech) }
+        if let speech = state.exitSpeech { await audioManager.speak(speech) }
     }
 
     @MainActor
     private func runMotionPhase(_ state: PrayerState) async {
-        if let speech = state.entrySpeech { await speak(speech) }
+        if let speech = state.entrySpeech { await audioManager.speak(speech) }
         guard !Task.isCancelled else { return }
         await waitForMotion(state)
         guard !Task.isCancelled else { return }
         for prayer in state.prayers {
             guard !Task.isCancelled else { return }
-            if !prayer.utterance.isEmpty { await speak(prayer.utterance) }
+            if !prayer.utterance.isEmpty { await audioManager.speak(prayer.utterance) }
             guard !Task.isCancelled else { return }
             if prayer.duration > 0 { try? await Task.sleep(for: .seconds(prayer.duration)) }
         }
         guard !Task.isCancelled else { return }
-        if let speech = state.exitSpeech { await speak(speech) }
+        if let speech = state.exitSpeech { await audioManager.speak(speech) }
     }
 
     @MainActor
     private func runTimedMotionPhase(_ state: PrayerState) async {
-        if let speech = state.entrySpeech { await speak(speech) }
+        if let speech = state.entrySpeech { await audioManager.speak(speech) }
         guard !Task.isCancelled else { return }
         if !state.prayers.isEmpty { AudioServicesPlaySystemSound(1108) }
 
@@ -209,7 +205,7 @@ final class PrayerStateMachine {
 
         for prayer in state.prayers {
             guard !Task.isCancelled else { return }
-            if !prayer.utterance.isEmpty { await speak(prayer.utterance) }
+            if !prayer.utterance.isEmpty { await audioManager.speak(prayer.utterance) }
             guard !Task.isCancelled else { return }
 
             if prayer.duration > 0 {
@@ -240,7 +236,7 @@ final class PrayerStateMachine {
                            let reprompt = state.repromptAudio,
                            motionHoldStart == nil {
                             print("[PrayerSM] ⏰ Reprompt: \(state.id.rawValue)")
-                            await speak(reprompt)
+                            await audioManager.speak(reprompt)
                             lastRepromptAt = Date()
                         }
                     }
@@ -252,7 +248,7 @@ final class PrayerStateMachine {
         }
 
         guard !Task.isCancelled else { return }
-        if let speech = state.exitSpeech { await speak(speech) }
+        if let speech = state.exitSpeech { await audioManager.speak(speech) }
     }
 
     // MARK: - Motion waiting (used by .motion mode)
@@ -283,7 +279,7 @@ final class PrayerStateMachine {
                 if Date().timeIntervalSince(lastRepromptAt) >= state.repromptInterval,
                    let reprompt = state.repromptAudio {
                     print("[PrayerSM] ⏰ Reprompt: \(state.id.rawValue)")
-                    await speak(reprompt)
+                    await audioManager.speak(reprompt)
                     lastRepromptAt = Date()
                 }
             }
@@ -332,37 +328,5 @@ final class PrayerStateMachine {
         } catch {
             print("[PrayerSM] ❌ Save failed: \(error)")
         }
-    }
-
-    // MARK: - Audio
-
-    private func configureAudioSession() {
-        var options: AVAudioSession.CategoryOptions = .duckOthers
-        if audioRoute == .speakerOnly { options.insert(.defaultToSpeaker) }
-        try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .default, options: options)
-        try? AVAudioSession.sharedInstance().setActive(true)
-    }
-
-    @MainActor
-    private func speak(_ text: String) async {
-        await withCheckedContinuation { (cont: CheckedContinuation<Void, Never>) in
-            speechDelegate.onFinish = { cont.resume() }
-            let u = AVSpeechUtterance(string: text)
-            u.rate = AVSpeechUtteranceDefaultSpeechRate * 0.85
-            synthesizer.speak(u)
-        }
-    }
-}
-
-// MARK: - Speech delegate
-
-private final class PrayerSpeechDelegate: NSObject, AVSpeechSynthesizerDelegate {
-    nonisolated(unsafe) var onFinish: (() -> Void)?
-
-    nonisolated func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
-        let fn = onFinish; onFinish = nil; fn?()
-    }
-    nonisolated func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didCancel utterance: AVSpeechUtterance) {
-        let fn = onFinish; onFinish = nil; fn?()
     }
 }
