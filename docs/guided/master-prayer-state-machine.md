@@ -25,7 +25,7 @@ reference this document.
 | `auto` | Plays entry speech, plays exit speech, advances immediately — no timer, no motion gate |
 | `timed` | Plays entry speech, plays prayer rows in sequence, plays exit speech |
 | `motion` | Waits indefinitely for confirmed motion (reprompts every reprompt interval), plays entry speech, plays prayer rows in sequence, plays exit speech |
-| `timed-motion` | Plays entry speech, plays prayer rows in sequence (each followed by its duration pause), plays exit speech — motion detection runs throughout; reprompts fire every reprompt interval if position not yet confirmed |
+| `motion` | Plays entry speech, plays prayer rows in sequence (each followed by its duration pause), plays exit speech — motion detection runs throughout; reprompts fire every reprompt interval if position not yet confirmed |
 
 ## Timing ownership
 
@@ -62,8 +62,8 @@ Defines which file or constant controls each timing parameter.
 
 | Parameter | Applies to | Meaning |
 |---|---|---|
-| `Motion Trigger` | `motion`, `timed-motion` | Sensor condition that must be satisfied to confirm the position |
-| `Reprompt Interval` | `motion`, `timed-motion` | How often the reprompt fires while waiting for motion confirmation |
+| `Motion Trigger` | `motion`, `motion` | Sensor condition that must be satisfied to confirm the position |
+| `Reprompt Interval` | `motion`, `motion` | How often the reprompt fires while waiting for motion confirmation |
 
 ## Motion detection thresholds
 

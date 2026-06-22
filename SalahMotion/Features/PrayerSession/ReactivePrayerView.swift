@@ -98,16 +98,15 @@ struct ReactivePrayerView: View {
                 ZStack(alignment: .leading) {
                     PositionOrbView(arabicText: state.arabic, prayerTime: prayerTime)
                         .frame(maxWidth: .infinity)
-                        .offset(x: 58) // ~15% of 390pt screen
-                    PositionTrackerView(positions: trackerPositions, prayerTime: prayerTime)
-                        .padding(.leading, 24)
-                }
-
-                if session.confirmProgress > 0 {
-                    ProgressView(value: session.confirmProgress)
-                        .tint(prayerTime.theme.accent)
-                        .padding(.horizontal, 24)
-                        .padding(.top, 12)
+                        .offset(x: 58)
+                    PositionTrackerView(
+                        positions: trackerPositions,
+                        prayerTime: prayerTime,
+                        progress: session.confirmProgress,
+                        isSpeaking: session.isSpeaking
+                    )
+                    .padding(.leading, 24)
+                    .offset(y: -65)
                 }
 
                 Spacer()
@@ -117,6 +116,7 @@ struct ReactivePrayerView: View {
                     positionMeaning: state.englishMeaning,
                     recitationText: state.prayers.first?.utterance ?? "",
                     instruction: state.motionTrigger != nil ? "awaiting motion" : "timed",
+                    prayerTime: prayerTime,
                     onEndPrayer: { session.cancel() }
                 )
                 .padding(.bottom, 40)

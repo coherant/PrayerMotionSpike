@@ -50,10 +50,11 @@ final class PrayerStateMachine {
     private let audioRoute: AudioRoute
     private let holdWindow: Double = 1.5
 
-    var isAvailable: Bool { detector.isAvailable }
+    var isAvailable: Bool  { detector.isAvailable }
+    var isSpeaking: Bool   { audioManager.isSpeaking }
     var currentState: PrayerState { states[currentStateIndex] }
-    var currentRakat: Int { currentState.rakatNumber }
-    var totalRakat: Int   { states.map(\.rakatNumber).max() ?? 1 }
+    var currentRakat: Int  { currentState.rakatNumber }
+    var totalRakat: Int    { states.map(\.rakatNumber).max() ?? 1 }
 
     init(sequence: [PrayerState] = PrayerSequenceGenerator.generate(),
          participantName: String = "",

@@ -5,7 +5,10 @@ struct PrayerSessionBottomTextView: View {
     let positionMeaning: String
     let recitationText: String
     let instruction: String
+    let prayerTime: PrayerTime
     let onEndPrayer: () -> Void
+
+    private var accent: Color { prayerTime.theme.accent }
 
     var body: some View {
         VStack(spacing: 0) {
@@ -35,14 +38,20 @@ struct PrayerSessionBottomTextView: View {
                 .foregroundStyle(.white.opacity(0.38))
                 .kerning(0.4)
 
-            Spacer().frame(height: 20)
+            Spacer().frame(height: 24)
 
-            // End prayer
+            // End prayer — capsule border in theme accent
             Button(action: onEndPrayer) {
                 Text("END PRAYER")
-                    .font(.system(size: 10, weight: .medium))
+                    .font(.system(size: 11, weight: .medium))
                     .kerning(2.0)
-                    .foregroundStyle(.white.opacity(0.28))
+                    .foregroundStyle(accent)
+                    .padding(.horizontal, 20)
+                    .padding(.vertical, 8)
+                    .background(
+                        Capsule()
+                            .strokeBorder(accent.opacity(0.5), lineWidth: 1)
+                    )
             }
             .buttonStyle(.plain)
         }
@@ -70,6 +79,7 @@ private struct BottomTextPreview: View {
                 positionMeaning: "Prostration",
                 recitationText: "Glory be to Allah the most high",
                 instruction: "awaiting motion",
+                prayerTime: prayerTime,
                 onEndPrayer: {}
             )
             .padding(.bottom, 40)

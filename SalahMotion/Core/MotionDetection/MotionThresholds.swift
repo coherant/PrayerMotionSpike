@@ -17,7 +17,7 @@ struct MotionThresholds {
 
         case .sujood:
             // angDist handles Euler-angle wraparound; fallback radius calibrated at 88% coverage.
-            return angularDistance(roll, 180) <= (profile?.sujoodRollRadius ?? 35)
+            return angularDistance(roll, 180) <= (profile?.sujoodRollRadius ?? 30)
 
         case .upright:
             // Roll is NOT a hard gate — sequence position disambiguates standing vs sitting.

@@ -61,6 +61,7 @@ struct PrayerSessionScreen: View {
                     positionMeaning: "Prostration",
                     recitationText: "Subḥāna Rabbiyal-A'lā",
                     instruction: "held · 3 times",
+                    prayerTime: prayerTime,
                     onEndPrayer: {}
                 )
                 .padding(.bottom, 40)
