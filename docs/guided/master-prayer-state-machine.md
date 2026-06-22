@@ -40,23 +40,23 @@ Defines which file or constant controls each timing parameter.
 
 ## Master phase sequence
 
-| position-id | Label | Mode | Motion Trigger | Reprompt Interval |
-|---|---|---|---|---|
-| 1 | Qiyam | `timed` | — | — | # Standing (Qiyam) - Start
-| 2 | Ruku | `motion` | pitch (ruku) | 5s | # Bowing (Ruku) - First
-| 3 | Qiyam | `motion` | pitch (upright) | 5s | #Standing (Qiyam) - After Ruku (Rakat 1)
-| 4 | Sujood | `motion` | roll (sujood) | 5s | # Prostration (Sujood) - First
-| 5 | Julus | `motion` | pitch (upright) | 5s | # Sitting (Julus) - Between Prostrations (Rakat 1)
-| 6 | Sujood | `motion` | roll (sujood) | 5s | # Prostration (Sujood) - Second
-| 7 | Qiyam | `motion` | pitch (upright) | 5s | # Standing (Qiyam) - Rakat 2
-| 8 | Ruku | `motion` | pitch (ruku) | 5s | # Bowing (Ruku) - Second
-| 9 | Qiyam | `motion` | pitch (upright) | 5s | # Standing (Qiyam) - After Ruku (Rakat 2)
-| 10 | Sujood | `motion` | roll (sujood) | 5s | # Prostration (Sujood) - Third
-| 11 | Julus | `motion` | pitch (upright) | 5s | # Sitting (Julus) - Between Prostrations (Rakat 2)
-| 12 | Sujood | `motion` | roll (sujood) | 5s | # Prostration (Sujood) - Fourth
-| 13 | Julus | `motion` | pitch (upright) | 5s | # Sitting (Julus) - Tashahhud
-| 14 | Tasleem | `motion` | yaw delta (right) | 5s | # Tasleem - Look Right
-| 15 | Tasleem | `motion` | yaw delta (left) | 5s | # Tasleem - Look Left
+| position-id | Label | Arabic | English Meaning | Mode | Motion Trigger | Reprompt Interval |
+|---|---|---|---|---|---|---|
+| 1 | Qiyam | قِيَام | Standing | `timed` | — | — |
+| 2 | Ruku | رُكُوع | Bowing | `motion` | pitch (ruku) | 5s |
+| 3 | Qiyam | قِيَام | Standing | `motion` | pitch (upright) | 5s |
+| 4 | Sujood | سُجُود | Prostration | `motion` | roll (sujood) | 5s |
+| 5 | Julus | جُلُوس | Sitting | `motion` | pitch (upright) | 5s |
+| 6 | Sujood | سُجُود | Prostration | `motion` | roll (sujood) | 5s |
+| 7 | Qiyam | قِيَام | Standing | `motion` | pitch (upright) | 5s |
+| 8 | Ruku | رُكُوع | Bowing | `motion` | pitch (ruku) | 5s |
+| 9 | Qiyam | قِيَام | Standing | `motion` | pitch (upright) | 5s |
+| 10 | Sujood | سُجُود | Prostration | `motion` | roll (sujood) | 5s |
+| 11 | Julus | جُلُوس | Sitting | `motion` | pitch (upright) | 5s |
+| 12 | Sujood | سُجُود | Prostration | `motion` | roll (sujood) | 5s |
+| 13 | Julus | جُلُوس | Sitting | `motion` | pitch (upright) | 5s |
+| 14 | Tasleem | تَسْلِيم | Salutation | `motion` | yaw delta (right) | 5s |
+| 15 | Tasleem | تَسْلِيم | Salutation | `motion` | yaw delta (left) | 5s |
 
 ## Parameter definitions
 

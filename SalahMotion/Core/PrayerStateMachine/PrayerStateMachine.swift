@@ -32,6 +32,7 @@ final class PrayerStateMachine {
     private(set) var status: Status = .idle
     private(set) var currentStateIndex: Int = 0
     private(set) var states: [PrayerState]
+    private(set) var visitedStates: [PrayerState] = []
     private(set) var confirmProgress: Double = 0
     private(set) var pitch: Double = 0
     private(set) var roll:  Double = 0
@@ -51,6 +52,8 @@ final class PrayerStateMachine {
 
     var isAvailable: Bool { detector.isAvailable }
     var currentState: PrayerState { states[currentStateIndex] }
+    var currentRakat: Int { currentState.rakatNumber }
+    var totalRakat: Int   { states.map(\.rakatNumber).max() ?? 1 }
 
     init(sequence: [PrayerState] = PrayerSequenceGenerator.generate(),
          participantName: String = "",
@@ -68,6 +71,7 @@ final class PrayerStateMachine {
         UIApplication.shared.isIdleTimerDisabled = true
 #endif
         sessionSamples = []
+        visitedStates  = []
         sessionStartDate = Date()
         qiyamYawBaseline = nil
         startMotionUpdates()
@@ -110,6 +114,7 @@ final class PrayerStateMachine {
         for (index, state) in states.enumerated() {
             guard !Task.isCancelled else { break }
             currentStateIndex = index
+            visitedStates.append(state)
             print(String(format: "[PrayerSM] ▶ %d/%d %@ (%@) t=%.1fs",
                          index + 1, states.count, state.id.rawValue, state.mode.rawValue,
                          Date().timeIntervalSince(sessionStart)))
