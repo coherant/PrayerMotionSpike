@@ -54,8 +54,11 @@ struct CalibrationAnalyzer {
         let upP5    = percentile(uprightPitches, 5)
         let upP95   = percentile(uprightPitches, 95)
 
+        // Reject the profile if the upright and ruku ranges overlap — this would cause
+        // upright states to fire while the user is still bowing.
         if upP5 < rukuP95 {
-            print(String(format: "[CalibrationAnalyzer] ⚠️ Gap warning: upright p5 (%.1f°) overlaps ruku p95 (%.1f°)", upP5, rukuP95))
+            print(String(format: "[CalibrationAnalyzer] ❌ Rejected: upright p5 (%.1f°) overlaps ruku p95 (%.1f°) — insufficient gap between positions", upP5, rukuP95))
+            return nil
         }
 
         return UserCalibrationProfile(

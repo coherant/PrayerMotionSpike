@@ -462,7 +462,7 @@ enum CalibrationSequenceGenerator {
               displayLabel: "Qiyam", arabic: Arabic.qiyam, englishMeaning: Meaning.standing,
               entrySpeech: "Calibration starting. You have fifteen positions to complete. Stand upright — this is Qiyam.",
               prayers: [("Hold this position for five seconds.", 5.0)],
-              exitSpeech: "Next: Ruku — bowing."),
+              exitSpeech: "Get ready to bow into Ruku."),
 
         // Position 2
         .init(id: .rukuFirst, rakatNumber: 1, mode: .motion,
@@ -470,7 +470,8 @@ enum CalibrationSequenceGenerator {
               entrySpeech: "Ruku. Bow forward and place both hands on your knees.",
               prayers: [("Hold this position for five seconds.", 5.0)],
               exitSpeech: "Get ready to stand upright into Qiyam.",
-              motionTrigger: .ruku),
+              motionTrigger: .ruku,
+              repromptInterval: 5),
 
         // Position 3
         .init(id: .qiyamAfterRukuFirst, rakatNumber: 1, mode: .motion,
@@ -478,7 +479,8 @@ enum CalibrationSequenceGenerator {
               entrySpeech: "Qiyam. Return to standing upright.",
               prayers: [("Hold this position for five seconds.", 5.0)],
               exitSpeech: "Get ready to lower into Sujood.",
-              motionTrigger: .upright),
+              motionTrigger: .upright,
+              repromptInterval: 5),
 
         // Position 4
         .init(id: .sujoodFirst, rakatNumber: 1, mode: .motion,
@@ -486,7 +488,8 @@ enum CalibrationSequenceGenerator {
               entrySpeech: "Sujood. Lower into prostration with your forehead touching the ground.",
               prayers: [("Hold this position for five seconds.", 5.0)],
               exitSpeech: "Get ready to sit upright into Julus.",
-              motionTrigger: .sujood),
+              motionTrigger: .sujood,
+              repromptInterval: 5),
 
         // Position 5
         .init(id: .julusFirst, rakatNumber: 1, mode: .motion,
@@ -494,7 +497,8 @@ enum CalibrationSequenceGenerator {
               entrySpeech: "Julus. Sit upright on your knees.",
               prayers: [("Hold this position for five seconds.", 5.0)],
               exitSpeech: "Get ready to lower into Sujood again.",
-              motionTrigger: .upright),
+              motionTrigger: .upright,
+              repromptInterval: 5),
 
         // Position 6
         .init(id: .sujoodSecond, rakatNumber: 1, mode: .motion,
@@ -502,7 +506,8 @@ enum CalibrationSequenceGenerator {
               entrySpeech: "Sujood. Lower into prostration again with your forehead touching the ground.",
               prayers: [("Hold this position for five seconds.", 5.0)],
               exitSpeech: "Get ready to stand upright for the second rakat.",
-              motionTrigger: .sujood),
+              motionTrigger: .sujood,
+              repromptInterval: 5),
 
         // Position 7 — Rakat 2
         .init(id: .qiyamRakat2, rakatNumber: 2, mode: .motion,
@@ -510,7 +515,8 @@ enum CalibrationSequenceGenerator {
               entrySpeech: "Qiyam. Stand upright for the second rakat.",
               prayers: [("Hold this position for five seconds.", 5.0)],
               exitSpeech: "Get ready to bow into Ruku.",
-              motionTrigger: .upright),
+              motionTrigger: .upright,
+              repromptInterval: 5),
 
         // Position 8
         .init(id: .rukuSecond, rakatNumber: 2, mode: .motion,
@@ -518,7 +524,8 @@ enum CalibrationSequenceGenerator {
               entrySpeech: "Ruku. Bow forward and place both hands on your knees.",
               prayers: [("Hold this position for five seconds.", 5.0)],
               exitSpeech: "Get ready to stand upright into Qiyam.",
-              motionTrigger: .ruku),
+              motionTrigger: .ruku,
+              repromptInterval: 5),
 
         // Position 9 — yaw baseline captured here for Tasleem detection
         .init(id: .qiyamAfterRukuSecond, rakatNumber: 2, mode: .motion,
@@ -527,6 +534,7 @@ enum CalibrationSequenceGenerator {
               prayers: [("Hold this position for five seconds.", 5.0)],
               exitSpeech: "Get ready to lower into Sujood.",
               motionTrigger: .upright,
+              repromptInterval: 5,
               capturesYawBaseline: true),
 
         // Position 10
@@ -535,7 +543,8 @@ enum CalibrationSequenceGenerator {
               entrySpeech: "Sujood. Lower into prostration with your forehead touching the ground.",
               prayers: [("Hold this position for five seconds.", 5.0)],
               exitSpeech: "Get ready to sit upright into Julus.",
-              motionTrigger: .sujood),
+              motionTrigger: .sujood,
+              repromptInterval: 5),
 
         // Position 11
         .init(id: .julusSecond, rakatNumber: 2, mode: .motion,
@@ -543,7 +552,8 @@ enum CalibrationSequenceGenerator {
               entrySpeech: "Julus. Sit upright on your knees.",
               prayers: [("Hold this position for five seconds.", 5.0)],
               exitSpeech: "Get ready to lower into Sujood again.",
-              motionTrigger: .upright),
+              motionTrigger: .upright,
+              repromptInterval: 5),
 
         // Position 12
         .init(id: .sujoodFourth, rakatNumber: 2, mode: .motion,
@@ -551,7 +561,8 @@ enum CalibrationSequenceGenerator {
               entrySpeech: "Sujood. Lower into prostration again with your forehead touching the ground.",
               prayers: [("Hold this position for five seconds.", 5.0)],
               exitSpeech: "Get ready to sit for Tashahhud.",
-              motionTrigger: .sujood),
+              motionTrigger: .sujood,
+              repromptInterval: 5),
 
         // Position 13
         .init(id: .julusTashahhud, rakatNumber: 2, mode: .motion,
@@ -559,7 +570,8 @@ enum CalibrationSequenceGenerator {
               entrySpeech: "Julus. Sit upright for Tashahhud.",
               prayers: [("Hold this position for five seconds.", 5.0)],
               exitSpeech: "Get ready to turn your head to the right for Tasleem.",
-              motionTrigger: .upright),
+              motionTrigger: .upright,
+              repromptInterval: 5),
 
         // Position 14
         .init(id: .tasleemRight, rakatNumber: 2, mode: .motion,
@@ -567,7 +579,8 @@ enum CalibrationSequenceGenerator {
               entrySpeech: "Tasleem. Turn your head to the right.",
               prayers: [("Hold this position for five seconds.", 5.0)],
               exitSpeech: "Get ready to turn your head to the left.",
-              motionTrigger: .headTurnRight),
+              motionTrigger: .headTurnRight,
+              repromptInterval: 5),
 
         // Position 15
         .init(id: .tasleemLeft, rakatNumber: 2, mode: .motion,
@@ -575,6 +588,7 @@ enum CalibrationSequenceGenerator {
               entrySpeech: "Tasleem. Turn your head to the left.",
               prayers: [("Hold this position for five seconds.", 5.0)],
               exitSpeech: "Calibration complete. You may move freely.",
-              motionTrigger: .headTurnLeft),
+              motionTrigger: .headTurnLeft,
+              repromptInterval: 5),
     ] }
 }

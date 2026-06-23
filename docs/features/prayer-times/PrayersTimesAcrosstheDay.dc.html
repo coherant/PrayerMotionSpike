@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Manrope:wght@300;400;500;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; }
+  @keyframes pulseRing { 0% { transform: scale(0.85); opacity: 0.55; } 100% { transform: scale(1.5); opacity: 0; } }
+</style>
+</helmet>
+
+<div style="width: max-content; min-width: 100%; min-height: 100vh; box-sizing: border-box; padding: 56px 64px 80px; background: #e7e5df; font-family: 'Manrope', system-ui, sans-serif;">
+
+  <div style="margin-bottom: 40px; max-width: 780px;">
+    <div style="display: flex; align-items: baseline; gap: 14px;">
+      <div style="font-family: 'Cormorant Garamond', serif; font-size: 38px; font-weight: 500; color: #1a1729; letter-spacing: 0.3px;">Today, across the day</div>
+      <div style="font-family: 'Amiri', serif; direction: rtl; font-size: 24px; color: #8a8499;">اليوم</div>
+    </div>
+    <div style="font-size: 15px; color: #57536a; margin-top: 8px; line-height: 1.55;">The same dashboard as the hours turn — the atmosphere shifts with the light, and the day fills in: at Fajr nothing is prayed yet; by Isha, four are gently behind you. <span style="color: #8a8499;">Five states of one screen.</span></div>
+  </div>
+
+  <div style="display: flex; gap: 56px; align-items: flex-start;">
+
+    <!-- ===== FAJR · TODAY ===== -->
+    <div style="flex: none;" data-screen-label="Today — Fajr">
+      <div style="font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; color: #8a8499; margin-bottom: 16px; font-weight: 600;">Today — Fajr</div>
+      <x-import component="IOSDevice" from="./ios-frame.jsx" dark="true" hint-size="402px,874px">
+        <div style="height: 100%; box-sizing: border-box; background: linear-gradient(180deg, #0d1430 0%, #1c2147 36%, #46324f 64%, #8a5560 84%, #d18d6c 100%); color: #f4f1fa; display: flex; flex-direction: column; padding: 60px 22px 100px; position: relative;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; padding: 6px 4px 0;">
+            <div>
+              <div style="font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: #e8a07e; font-weight: 600;">5 Muḥarram · Dawn</div>
+              <div style="font-family: 'Cormorant Garamond', serif; font-size: 27px; font-weight: 500; color: #f4f1fa; margin-top: 2px;">Thursday, 21 June</div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); padding: 7px 12px; border-radius: 100px; margin-top: 4px;">
+              <svg width="11" height="14" viewBox="0 0 11 14" fill="none"><path d="M5.5 1C3 1 1 3 1 5.5c0 3 4.5 7.5 4.5 7.5S10 8.5 10 5.5C10 3 8 1 5.5 1z" stroke="#c8b3a8" stroke-width="1.2"/><circle cx="5.5" cy="5.5" r="1.6" fill="#c8b3a8"/></svg>
+              <span style="font-size: 13px; color: #d8d0ca;">London</span>
+            </div>
+          </div>
+
+          <div style="margin-top: 22px; background: linear-gradient(160deg, rgba(232,160,126,0.16), rgba(232,160,126,0.04)); border: 1px solid rgba(232,160,126,0.24); border-radius: 24px; padding: 20px 22px;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+              <div>
+                <div style="font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; color: rgba(255,255,255,0.6); font-weight: 600;">Up next</div>
+                <div style="display: flex; align-items: baseline; gap: 10px; margin-top: 8px;">
+                  <div style="font-family: 'Amiri', serif; direction: rtl; font-size: 34px; color: #f4f1fa;">الفجر</div>
+                  <div style="font-family: 'Cormorant Garamond', serif; font-size: 26px; color: #ecd8cf;">Fajr</div>
+                </div>
+              </div>
+              <div style="text-align: right;">
+                <div style="font-size: 18px; font-weight: 600; color: #e8a07e;">in 14m</div>
+                <div style="font-size: 13px; color: rgba(255,255,255,0.5); margin-top: 3px;">4:52 AM</div>
+              </div>
+            </div>
+            <div style="position: relative; height: 26px; margin-top: 18px;">
+              <div style="position: absolute; top: 12px; left: 0; right: 0; height: 1.5px; background: rgba(255,255,255,0.1);"></div>
+              <div style="position: absolute; top: 12px; left: 0; width: 2%; height: 1.5px; background: #e8a07e;"></div>
+              <div style="position: absolute; top: 9px; left: 5%; width: 8px; height: 8px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.3); box-sizing: border-box; transform: translateX(-50%);"></div>
+              <div style="position: absolute; top: 9px; left: 38%; width: 8px; height: 8px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.3); box-sizing: border-box; transform: translateX(-50%);"></div>
+              <div style="position: absolute; top: 9px; left: 56%; width: 8px; height: 8px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.3); box-sizing: border-box; transform: translateX(-50%);"></div>
+              <div style="position: absolute; top: 9px; left: 72%; width: 8px; height: 8px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.3); box-sizing: border-box; transform: translateX(-50%);"></div>
+              <div style="position: absolute; top: 9px; left: 90%; width: 8px; height: 8px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.3); box-sizing: border-box; transform: translateX(-50%);"></div>
+              <div style="position: absolute; top: 1px; left: 2%; transform: translateX(-50%); width: 23px; height: 23px;"><div style="position: absolute; inset: 0; border-radius: 50%; border: 1px solid #e8a07e; animation: pulseRing 3.6s ease-out infinite;"></div><div style="position: absolute; top: 5px; left: 5px; width: 13px; height: 13px; border-radius: 50%; background: #e8a07e; box-shadow: 0 0 14px rgba(232,160,126,0.9);"></div></div>
+            </div>
+          </div>
+
+          <div style="margin-top: 22px; display: flex; flex-direction: column; gap: 2px;">
+            <div style="display: flex; align-items: center; padding: 13px 8px; gap: 13px; background: rgba(255,255,255,0.04); border-radius: 14px; border: 1px solid rgba(232,160,126,0.2);">
+              <div style="width: 24px; height: 24px; border-radius: 50%; border: 2px solid #e8a07e; box-sizing: border-box; flex: none; box-shadow: 0 0 12px rgba(232,160,126,0.5);"></div>
+              <div style="flex: 1; display: flex; align-items: baseline; gap: 9px;"><span style="font-size: 16px; color: #f4f1fa; font-weight: 600;">Fajr</span><span style="font-family: 'Amiri', serif; direction: rtl; font-size: 16px; color: rgba(255,255,255,0.6);">الفجر</span></div>
+              <span style="font-size: 15px; color: #e8a07e; font-weight: 600;">4:52 AM</span>
+            </div>
+            <div style="display: flex; align-items: center; padding: 11px 8px; gap: 13px;"><div style="width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.14); box-sizing: border-box; flex: none;"></div><div style="flex: 1; display: flex; align-items: baseline; gap: 9px;"><span style="font-size: 16px; color: rgba(255,255,255,0.5);">Dhuhr</span><span style="font-family: 'Amiri', serif; direction: rtl; font-size: 16px; color: rgba(255,255,255,0.32);">الظهر</span></div><span style="font-size: 15px; color: rgba(255,255,255,0.35);">12:21 PM</span></div>
+            <div style="display: flex; align-items: center; padding: 11px 8px; gap: 13px;"><div style="width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.14); box-sizing: border-box; flex: none;"></div><div style="flex: 1; display: flex; align-items: baseline; gap: 9px;"><span style="font-size: 16px; color: rgba(255,255,255,0.5);">Asr</span><span style="font-family: 'Amiri', serif; direction: rtl; font-size: 16px; color: rgba(255,255,255,0.32);">العصر</span></div><span style="font-size: 15px; color: rgba(255,255,255,0.35);">3:47 PM</span></div>
+            <div style="display: flex; align-items: center; padding: 11px 8px; gap: 13px;"><div style="width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.14); box-sizing: border-box; flex: none;"></div><div style="flex: 1; display: flex; align-items: baseline; gap: 9px;"><span style="font-size: 16px; color: rgba(255,255,255,0.5);">Maghrib</span><span style="font-family: 'Amiri', serif; direction: rtl; font-size: 16px; color: rgba(255,255,255,0.32);">المغرب</span></div><span style="font-size: 15px; color: rgba(255,255,255,0.35);">6:58 PM</span></div>
+            <div style="display: flex; align-items: center; padding: 11px 8px; gap: 13px;"><div style="width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.14); box-sizing: border-box; flex: none;"></div><div style="flex: 1; display: flex; align-items: baseline; gap: 9px;"><span style="font-size: 16px; color: rgba(255,255,255,0.5);">Isha</span><span style="font-family: 'Amiri', serif; direction: rtl; font-size: 16px; color: rgba(255,255,255,0.32);">العشاء</span></div><span style="font-size: 15px; color: rgba(255,255,255,0.35);">8:24 PM</span></div>
+          </div>
+
+          <div style="margin-top: 18px; height: 54px; border-radius: 16px; background: #e8a07e; color: #2a1626; font-size: 15px; font-weight: 600; display: flex; align-items: center; justify-content: center;">Prepare for Fajr</div>
+
+          <dc-import name="SukunTabBar" active="prayer-times" accent="#e8a07e" hint-size="100%,84px" style="position: absolute; left: 0; right: 0; bottom: 0; width: 100%;"></dc-import>
+        </div>
+      </x-import>
+    </div>
+
+    <!-- ===== DHUHR · TODAY (light) ===== -->
+    <div style="flex: none;" data-screen-label="Today — Dhuhr">
+      <div style="font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; color: #8a8499; margin-bottom: 16px; font-weight: 600;">Today — Dhuhr</div>
+      <x-import component="IOSDevice" from="./ios-frame.jsx" hint-size="402px,874px">
+        <div style="height: 100%; box-sizing: border-box; background: linear-gradient(180deg, #8fb8df 0%, #bcd6ec 42%, #e6eef4 78%, #f4efe6 100%); color: #243648; display: flex; flex-direction: column; padding: 60px 22px 100px; position: relative;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; padding: 6px 4px 0;">
+            <div>
+              <div style="font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: #c08326; font-weight: 700;">5 Muḥarram · Midday</div>
+              <div style="font-family: 'Cormorant Garamond', serif; font-size: 27px; font-weight: 500; color: #243648; margin-top: 2px;">Thursday, 21 June</div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.6); border: 1px solid rgba(43,58,74,0.1); padding: 7px 12px; border-radius: 100px; margin-top: 4px;">
+              <svg width="11" height="14" viewBox="0 0 11 14" fill="none"><path d="M5.5 1C3 1 1 3 1 5.5c0 3 4.5 7.5 4.5 7.5S10 8.5 10 5.5C10 3 8 1 5.5 1z" stroke="rgba(43,58,74,0.6)" stroke-width="1.2"/><circle cx="5.5" cy="5.5" r="1.6" fill="rgba(43,58,74,0.6)"/></svg>
+              <span style="font-size: 13px; color: rgba(43,58,74,0.75);">London</span>
+            </div>
+          </div>
+
+          <div style="margin-top: 22px; background: linear-gradient(160deg, rgba(201,143,44,0.14), rgba(201,143,44,0.03)); border: 1px solid rgba(201,143,44,0.28); border-radius: 24px; padding: 20px 22px;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+              <div>
+                <div style="font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; color: rgba(43,58,74,0.55); font-weight: 600;">Up next</div>
+                <div style="display: flex; align-items: baseline; gap: 10px; margin-top: 8px;">
+                  <div style="font-family: 'Amiri', serif; direction: rtl; font-size: 34px; color: #243648;">الظهر</div>
+                  <div style="font-family: 'Cormorant Garamond', serif; font-size: 26px; color: #4a5b6a;">Dhuhr</div>
+                </div>
+              </div>
+              <div style="text-align: right;">
+                <div style="font-size: 18px; font-weight: 700; color: #c08326;">in 31m</div>
+                <div style="font-size: 13px; color: rgba(43,58,74,0.5); margin-top: 3px;">12:21 PM</div>
+              </div>
+            </div>
+            <div style="position: relative; height: 26px; margin-top: 18px;">
+              <div style="position: absolute; top: 12px; left: 0; right: 0; height: 1.5px; background: rgba(43,58,74,0.12);"></div>
+              <div style="position: absolute; top: 12px; left: 0; width: 32%; height: 1.5px; background: #d29a32;"></div>
+              <div style="position: absolute; top: 8px; left: 5%; width: 9px; height: 9px; border-radius: 50%; background: #d29a32; transform: translateX(-50%);"></div>
+              <div style="position: absolute; top: 9px; left: 38%; width: 8px; height: 8px; border-radius: 50%; border: 1.5px solid rgba(43,58,74,0.28); box-sizing: border-box; transform: translateX(-50%);"></div>
+              <div style="position: absolute; top: 9px; left: 56%; width: 8px; height: 8px; border-radius: 50%; border: 1.5px solid rgba(43,58,74,0.28); box-sizing: border-box; transform: translateX(-50%);"></div>
+              <div style="position: absolute; top: 9px; left: 72%; width: 8px; height: 8px; border-radius: 50%; border: 1.5px solid rgba(43,58,74,0.28); box-sizing: border-box; transform: translateX(-50%);"></div>
+              <div style="position: absolute; top: 9px; left: 90%; width: 8px; height: 8px; border-radius: 50%; border: 1.5px solid rgba(43,58,74,0.28); box-sizing: border-box; transform: translateX(-50%);"></div>
+              <div style="position: absolute; top: 1px; left: 32%; transform: translateX(-50%); width: 23px; height: 23px;"><div style="position: absolute; inset: 0; border-radius: 50%; border: 1px solid #d29a32; animation: pulseRing 3.6s ease-out infinite;"></div><div style="position: absolute; top: 5px; left: 5px; width: 13px; height: 13px; border-radius: 50%; background: #d29a32; box-shadow: 0 0 14px rgba(210,154,50,0.8);"></div></div>
+            </div>
+          </div>
+
+          <div style="margin-top: 22px; display: flex; flex-direction: column; gap: 2px;">
+            <div style="display: flex; align-items: center; padding: 11px 8px; gap: 13px;"><div style="width: 24px; height: 24px; border-radius: 50%; background: rgba(201,143,44,0.18); display: flex; align-items: center; justify-content: center; flex: none;"><svg width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4.5L4 7.5L10 1.5" stroke="#c08326" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div style="flex: 1; display: flex; align-items: baseline; gap: 9px;"><span style="font-size: 16px; color: rgba(43,58,74,0.7);">Fajr</span><span style="font-family: 'Amiri', serif; direction: rtl; font-size: 16px; color: rgba(43,58,74,0.45);">الفجر</span></div><span style="font-size: 15px; color: rgba(43,58,74,0.45);">4:52 AM</span></div>
+            <div style="display: flex; align-items: center; padding: 13px 8px; gap: 13px; background: rgba(255,255,255,0.55); border-radius: 14px; border: 1px solid rgba(201,143,44,0.28);">
+              <div style="width: 24px; height: 24px; border-radius: 50%; border: 2px solid #c08326; box-sizing: border-box; flex: none; box-shadow: 0 0 12px rgba(201,143,44,0.4);"></div>
+              <div style="flex: 1; display: flex; align-items: baseline; gap: 9px;"><span style="font-size: 16px; color: #243648; font-weight: 600;">Dhuhr</span><span style="font-family: 'Amiri', serif; direction: rtl; font-size: 16px; color: rgba(43,58,74,0.6);">الظهر</span></div>
+              <span style="font-size: 15px; color: #c08326; font-weight: 600;">12:21 PM</span>
+            </div>
+            <div style="display: flex; align-items: center; padding: 11px 8px; gap: 13px;"><div style="width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid rgba(43,58,74,0.2); box-sizing: border-box; flex: none;"></div><div style="flex: 1; display: flex; align-items: baseline; gap: 9px;"><span style="font-size: 16px; color: rgba(43,58,74,0.55);">Asr</span><span style="font-family: 'Amiri', serif; direction: rtl; font-size: 16px; color: rgba(43,58,74,0.35);">العصر</span></div><span style="font-size: 15px; color: rgba(43,58,74,0.4);">3:47 PM</span></div>
+            <div style="display: flex; align-items: center; padding: 11px 8px; gap: 13px;"><div style="width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid rgba(43,58,74,0.2); box-sizing: border-box; flex: none;"></div><div style="flex: 1; display: flex; align-items: baseline; gap: 9px;"><span style="font-size: 16px; color: rgba(43,58,74,0.55);">Maghrib</span><span style="font-family: 'Amiri', serif; direction: rtl; font-size: 16px; color: rgba(43,58,74,0.35);">المغرب</span></div><span style="font-size: 15px; color: rgba(43,58,74,0.4);">6:58 PM</span></div>
+            <div style="display: flex; align-items: center; padding: 11px 8px; gap: 13px;"><div style="width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid rgba(43,58,74,0.2); box-sizing: border-box; flex: none;"></div><div style="flex: 1; display: flex; align-items: baseline; gap: 9px;"><span style="font-size: 16px; color: rgba(43,58,74,0.55);">Isha</span><span style="font-family: 'Amiri', serif; direction: rtl; font-size: 16px; color: rgba(43,58,74,0.35);">العشاء</span></div><span style="font-size: 15px; color: rgba(43,58,74,0.4);">8:24 PM</span></div>
+          </div>
+
+          <div style="margin-top: 18px; height: 54px; border-radius: 16px; background: #e7b23e; color: #3a2a08; font-size: 15px; font-weight: 600; display: flex; align-items: center; justify-content: center;">Prepare for Dhuhr</div>
+
+          <dc-import name="SukunTabBar" active="prayer-times" accent="#c08326" light="true" hint-size="100%,84px" style="position: absolute; left: 0; right: 0; bottom: 0; width: 100%;"></dc-import>
+        </div>
+      </x-import>
+    </div>
+
+    <!-- ===== ASR · TODAY ===== -->
+    <div style="flex: none;" data-screen-label="Today — Asr">
+      <div style="font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; color: #8a8499; margin-bottom: 16px; font-weight: 600;">Today — Asr</div>
+      <x-import component="IOSDevice" from="./ios-frame.jsx" dark="true" hint-size="402px,874px">
+        <div style="height: 100%; box-sizing: border-box; background: linear-gradient(180deg, #2c3f63 0%, #5b5570 42%, #9c7158 74%, #d59a5c 100%); color: #f4ece2; display: flex; flex-direction: column; padding: 60px 22px 100px; position: relative;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; padding: 6px 4px 0;">
+            <div>
+              <div style="font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: #ecb877; font-weight: 600;">5 Muḥarram · Afternoon</div>
+              <div style="font-family: 'Cormorant Garamond', serif; font-size: 27px; font-weight: 500; color: #fbf3ea; margin-top: 2px;">Thursday, 21 June</div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); padding: 7px 12px; border-radius: 100px; margin-top: 4px;">
+              <svg width="11" height="14" viewBox="0 0 11 14" fill="none"><path d="M5.5 1C3 1 1 3 1 5.5c0 3 4.5 7.5 4.5 7.5S10 8.5 10 5.5C10 3 8 1 5.5 1z" stroke="#d8c4ad" stroke-width="1.2"/><circle cx="5.5" cy="5.5" r="1.6" fill="#d8c4ad"/></svg>
+              <span style="font-size: 13px; color: #e6dccd;">London</span>
+            </div>
+          </div>
+
+          <div style="margin-top: 22px; background: linear-gradient(160deg, rgba(230,168,90,0.16), rgba(230,168,90,0.04)); border: 1px solid rgba(230,168,90,0.24); border-radius: 24px; padding: 20px 22px;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+              <div>
+                <div style="font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; color: rgba(255,255,255,0.6); font-weight: 600;">Up next</div>
+                <div style="display: flex; align-items: baseline; gap: 10px; margin-top: 8px;">
+                  <div style="font-family: 'Amiri', serif; direction: rtl; font-size: 34px; color: #fbf3ea;">العصر</div>
+                  <div style="font-family: 'Cormorant Garamond', serif; font-size: 26px; color: #ecd9c6;">Asr</div>
+                </div>
+              </div>
+              <div style="text-align: right;">
+                <div style="font-size: 18px; font-weight: 600; color: #ecb877;">in 27m</div>
+                <div style="font-size: 13px; color: rgba(255,255,255,0.5); margin-top: 3px;">3:47 PM</div>
+              </div>
+            </div>
+            <div style="position: relative; height: 26px; margin-top: 18px;">
+              <div style="position: absolute; top: 12px; left: 0; right: 0; height: 1.5px; background: rgba(255,255,255,0.1);"></div>
+              <div style="position: absolute; top: 12px; left: 0; width: 52%; height: 1.5px; background: #e6a85a;"></div>
+              <div style="position: absolute; top: 8px; left: 5%; width: 9px; height: 9px; border-radius: 50%; background: #e6a85a; transform: translateX(-50%);"></div>
+              <div style="position: absolute; top: 8px; left: 38%; width: 9px; height: 9px; border-radius: 50%; background: #e6a85a; transform: translateX(-50%);"></div>
+              <div style="position: absolute; top: 9px; left: 56%; width: 8px; height: 8px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.3); box-sizing: border-box; transform: translateX(-50%);"></div>
+              <div style="position: absolute; top: 9px; left: 72%; width: 8px; height: 8px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.3); box-sizing: border-box; transform: translateX(-50%);"></div>
+              <div style="position: absolute; top: 9px; left: 90%; width: 8px; height: 8px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.3); box-sizing: border-box; transform: translateX(-50%);"></div>
+              <div style="position: absolute; top: 1px; left: 52%; transform: translateX(-50%); width: 23px; height: 23px;"><div style="position: absolute; inset: 0; border-radius: 50%; border: 1px solid #e6a85a; animation: pulseRing 3.6s ease-out infinite;"></div><div style="position: absolute; top: 5px; left: 5px; width: 13px; height: 13px; border-radius: 50%; background: #e6a85a; box-shadow: 0 0 14px rgba(230,168,90,0.9);"></div></div>
+            </div>
+          </div>
+
+          <div style="margin-top: 22px; display: flex; flex-direction: column; gap: 2px;">
+            <div style="display: flex; align-items: center; padding: 11px 8px; gap: 13px;"><div style="width: 24px; height: 24px; border-radius: 50%; background: rgba(230,168,90,0.2); display: flex; align-items: center; justify-content: center; flex: none;"><svg width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4.5L4 7.5L10 1.5" stroke="#ecb877" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div style="flex: 1; display: flex; align-items: baseline; gap: 9px;"><span style="font-size: 16px; color: rgba(255,255,255,0.7);">Fajr</span><span style="font-family: 'Amiri', serif; direction: rtl; font-size: 16px; color: rgba(255,255,255,0.42);">الفجر</span></div><span style="font-size: 15px; color: rgba(255,255,255,0.42);">4:52 AM</span></div>
+            <div style="display: flex; align-items: center; padding: 11px 8px; gap: 13px;"><div style="width: 24px; height: 24px; border-radius: 50%; background: rgba(230,168,90,0.2); display: flex; align-items: center; justify-content: center; flex: none;"><svg width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4.5L4 7.5L10 1.5" stroke="#ecb877" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div style="flex: 1; display: flex; align-items: baseline; gap: 9px;"><span style="font-size: 16px; color: rgba(255,255,255,0.7);">Dhuhr</span><span style="font-family: 'Amiri', serif; direction: rtl; font-size: 16px; color: rgba(255,255,255,0.42);">الظهر</span></div><span style="font-size: 15px; color: rgba(255,255,255,0.42);">12:21 PM</span></div>
+            <div style="display: flex; align-items: center; padding: 13px 8px; gap: 13px; background: rgba(255,255,255,0.04); border-radius: 14px; border: 1px solid rgba(230,168,90,0.2);">
+              <div style="width: 24px; height: 24px; border-radius: 50%; border: 2px solid #e6a85a; box-sizing: border-box; flex: none; box-shadow: 0 0 12px rgba(230,168,90,0.5);"></div>
+              <div style="flex: 1; display: flex; align-items: baseline; gap: 9px;"><span style="font-size: 16px; color: #fbf3ea; font-weight: 600;">Asr</span><span style="font-family: 'Amiri', serif; direction: rtl; font-size: 16px; color: rgba(255,255,255,0.6);">العصر</span></div>
+              <span style="font-size: 15px; color: #e6a85a; font-weight: 600;">3:47 PM</span>
+            </div>
+            <div style="display: flex; align-items: center; padding: 11px 8px; gap: 13px;"><div style="width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.14); box-sizing: border-box; flex: none;"></div><div style="flex: 1; display: flex; align-items: baseline; gap: 9px;"><span style="font-size: 16px; color: rgba(255,255,255,0.5);">Maghrib</span><span style="font-family: 'Amiri', serif; direction: rtl; font-size: 16px; color: rgba(255,255,255,0.32);">المغرب</span></div><span style="font-size: 15px; color: rgba(255,255,255,0.35);">6:58 PM</span></div>
+            <div style="display: flex; align-items: center; padding: 11px 8px; gap: 13px;"><div style="width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.14); box-sizing: border-box; flex: none;"></div><div style="flex: 1; display: flex; align-items: baseline; gap: 9px;"><span style="font-size: 16px; color: rgba(255,255,255,0.5);">Isha</span><span style="font-family: 'Amiri', serif; direction: rtl; font-size: 16px; color: rgba(255,255,255,0.32);">العشاء</span></div><span style="font-size: 15px; color: rgba(255,255,255,0.35);">8:24 PM</span></div>
+          </div>
+
+          <div style="margin-top: 18px; height: 54px; border-radius: 16px; background: #e6a85a; color: #2a1c0e; font-size: 15px; font-weight: 600; display: flex; align-items: center; justify-content: center;">Prepare for Asr</div>
+
+          <dc-import name="SukunTabBar" active="prayer-times" accent="#ecb877" hint-size="100%,84px" style="position: absolute; left: 0; right: 0; bottom: 0; width: 100%;"></dc-import>
+        </div>
+      </x-import>
+    </div>
+
+    <!-- ===== MAGHRIB · TODAY ===== -->
+    <div style="flex: none;" data-screen-label="Today — Maghrib">
+      <div style="font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; color: #8a8499; margin-bottom: 16px; font-weight: 600;">Today — Maghrib</div>
+      <x-import component="IOSDevice" from="./ios-frame.jsx" dark="true" hint-size="402px,874px">
+        <div style="height: 100%; box-sizing: border-box; background: linear-gradient(180deg, #241640 0%, #6a2c54 36%, #b34440 60%, #db6e3a 80%, #f2a85a 100%); color: #fbeede; display: flex; flex-direction: column; padding: 60px 22px 100px; position: relative;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; padding: 6px 4px 0;">
+            <div>
+              <div style="font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: #f6b079; font-weight: 600;">5 Muḥarram · Evening</div>
+              <div style="font-family: 'Cormorant Garamond', serif; font-size: 27px; font-weight: 500; color: #fdf2e8; margin-top: 2px;">Thursday, 21 June</div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); padding: 7px 12px; border-radius: 100px; margin-top: 4px;">
+              <svg width="11" height="14" viewBox="0 0 11 14" fill="none"><path d="M5.5 1C3 1 1 3 1 5.5c0 3 4.5 7.5 4.5 7.5S10 8.5 10 5.5C10 3 8 1 5.5 1z" stroke="#e6c4ad" stroke-width="1.2"/><circle cx="5.5" cy="5.5" r="1.6" fill="#e6c4ad"/></svg>
+              <span style="font-size: 13px; color: #f0ddcd;">London</span>
+            </div>
+          </div>
+
+          <div style="margin-top: 22px; background: linear-gradient(160deg, rgba(240,160,90,0.16), rgba(240,160,90,0.04)); border: 1px solid rgba(240,160,90,0.26); border-radius: 24px; padding: 20px 22px;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+              <div>
+                <div style="font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; color: rgba(255,255,255,0.62); font-weight: 600;">Up next</div>
+                <div style="display: flex; align-items: baseline; gap: 10px; margin-top: 8px;">
+                  <div style="font-family: 'Amiri', serif; direction: rtl; font-size: 34px; color: #fdf2e8;">المغرب</div>
+                  <div style="font-family: 'Cormorant Garamond', serif; font-size: 26px; color: #f3ddcb;">Maghrib</div>
+                </div>
+              </div>
+              <div style="text-align: right;">
+                <div style="font-size: 18px; font-weight: 600; color: #f6b079;">in 1h 02m</div>
+                <div style="font-size: 13px; color: rgba(255,255,255,0.5); margin-top: 3px;">6:58 PM</div>
+              </div>
+            </div>
+            <div style="position: relative; height: 26px; margin-top: 18px;">
+              <div style="position: absolute; top: 12px; left: 0; right: 0; height: 1.5px; background: rgba(255,255,255,0.1);"></div>
+              <div style="position: absolute; top: 12px; left: 0; width: 66%; height: 1.5px; background: #f0a05a;"></div>
+              <div style="position: absolute; top: 8px; left: 5%; width: 9px; height: 9px; border-radius: 50%; background: #f0a05a; transform: translateX(-50%);"></div>
+              <div style="position: absolute; top: 8px; left: 38%; width: 9px; height: 9px; border-radius: 50%; background: #f0a05a; transform: translateX(-50%);"></div>
+              <div style="position: absolute; top: 8px; left: 56%; width: 9px; height: 9px; border-radius: 50%; background: #f0a05a; transform: translateX(-50%);"></div>
+              <div style="position: absolute; top: 9px; left: 72%; width: 8px; height: 8px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.3); box-sizing: border-box; transform: translateX(-50%);"></div>
+              <div style="position: absolute; top: 9px; left: 90%; width: 8px; height: 8px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.3); box-sizing: border-box; transform: translateX(-50%);"></div>
+              <div style="position: absolute; top: 1px; left: 66%; transform: translateX(-50%); width: 23px; height: 23px;"><div style="position: absolute; inset: 0; border-radius: 50%; border: 1px solid #f0a05a; animation: pulseRing 3.6s ease-out infinite;"></div><div style="position: absolute; top: 5px; left: 5px; width: 13px; height: 13px; border-radius: 50%; background: #f0a05a; box-shadow: 0 0 14px rgba(240,160,90,0.9);"></div></div>
+            </div>
+          </div>
+
+          <div style="margin-top: 22px; display: flex; flex-direction: column; gap: 2px;">
+            <div style="display: flex; align-items: center; padding: 11px 8px; gap: 13px;"><div style="width: 24px; height: 24px; border-radius: 50%; background: rgba(240,160,90,0.2); display: flex; align-items: center; justify-content: center; flex: none;"><svg width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4.5L4 7.5L10 1.5" stroke="#f6b079" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div style="flex: 1; display: flex; align-items: baseline; gap: 9px;"><span style="font-size: 16px; color: rgba(255,255,255,0.7);">Fajr</span><span style="font-family: 'Amiri', serif; direction: rtl; font-size: 16px; color: rgba(255,255,255,0.42);">الفجر</span></div><span style="font-size: 15px; color: rgba(255,255,255,0.42);">4:52 AM</span></div>
+            <div style="display: flex; align-items: center; padding: 11px 8px; gap: 13px;"><div style="width: 24px; height: 24px; border-radius: 50%; background: rgba(240,160,90,0.2); display: flex; align-items: center; justify-content: center; flex: none;"><svg width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4.5L4 7.5L10 1.5" stroke="#f6b079" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div style="flex: 1; display: flex; align-items: baseline; gap: 9px;"><span style="font-size: 16px; color: rgba(255,255,255,0.7);">Dhuhr</span><span style="font-family: 'Amiri', serif; direction: rtl; font-size: 16px; color: rgba(255,255,255,0.42);">الظهر</span></div><span style="font-size: 15px; color: rgba(255,255,255,0.42);">12:21 PM</span></div>
+            <div style="display: flex; align-items: center; padding: 11px 8px; gap: 13px;"><div style="width: 24px; height: 24px; border-radius: 50%; background: rgba(240,160,90,0.2); display: flex; align-items: center; justify-content: center; flex: none;"><svg width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4.5L4 7.5L10 1.5" stroke="#f6b079" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div style="flex: 1; display: flex; align-items: baseline; gap: 9px;"><span style="font-size: 16px; color: rgba(255,255,255,0.7);">Asr</span><span style="font-family: 'Amiri', serif; direction: rtl; font-size: 16px; color: rgba(255,255,255,0.42);">العصر</span></div><span style="font-size: 15px; color: rgba(255,255,255,0.42);">3:47 PM</span></div>
+            <div style="display: flex; align-items: center; padding: 13px 8px; gap: 13px; background: rgba(255,255,255,0.05); border-radius: 14px; border: 1px solid rgba(240,160,90,0.2);">
+              <div style="width: 24px; height: 24px; border-radius: 50%; border: 2px solid #f0a05a; box-sizing: border-box; flex: none; box-shadow: 0 0 12px rgba(240,160,90,0.5);"></div>
+              <div style="flex: 1; display: flex; align-items: baseline; gap: 9px;"><span style="font-size: 16px; color: #fdf2e8; font-weight: 600;">Maghrib</span><span style="font-family: 'Amiri', serif; direction: rtl; font-size: 16px; color: rgba(255,255,255,0.6);">المغرب</span></div>
+              <span style="font-size: 15px; color: #f0a05a; font-weight: 600;">6:58 PM</span>
+            </div>
+            <div style="display: flex; align-items: center; padding: 11px 8px; gap: 13px;"><div style="width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.14); box-sizing: border-box; flex: none;"></div><div style="flex: 1; display: flex; align-items: baseline; gap: 9px;"><span style="font-size: 16px; color: rgba(255,255,255,0.5);">Isha</span><span style="font-family: 'Amiri', serif; direction: rtl; font-size: 16px; color: rgba(255,255,255,0.32);">العشاء</span></div><span style="font-size: 15px; color: rgba(255,255,255,0.35);">8:24 PM</span></div>
+          </div>
+
+          <div style="margin-top: 18px; height: 54px; border-radius: 16px; background: #f0a05a; color: #3a1626; font-size: 15px; font-weight: 600; display: flex; align-items: center; justify-content: center;">Prepare for Maghrib</div>
+
+          <dc-import name="SukunTabBar" active="prayer-times" accent="#f6b079" hint-size="100%,84px" style="position: absolute; left: 0; right: 0; bottom: 0; width: 100%;"></dc-import>
+        </div>
+      </x-import>
+    </div>
+
+    <!-- ===== ISHA · TODAY ===== -->
+    <div style="flex: none;" data-screen-label="Today — Isha">
+      <div style="font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; color: #8a8499; margin-bottom: 16px; font-weight: 600;">Today — Isha</div>
+      <x-import component="IOSDevice" from="./ios-frame.jsx" dark="true" hint-size="402px,874px">
+        <div style="height: 100%; box-sizing: border-box; background: radial-gradient(125% 75% at 50% 8%, #251f40 0%, #16142a 46%, #0d0c18 100%); color: #f3f1f8; display: flex; flex-direction: column; padding: 60px 22px 100px; position: relative;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; padding: 6px 4px 0;">
+            <div>
+              <div style="font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: #b6a6e0; font-weight: 600;">5 Muḥarram · Night</div>
+              <div style="font-family: 'Cormorant Garamond', serif; font-size: 27px; font-weight: 500; color: #f4f1fa; margin-top: 2px;">Thursday, 21 June</div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); padding: 7px 12px; border-radius: 100px; margin-top: 4px;">
+              <svg width="11" height="14" viewBox="0 0 11 14" fill="none"><path d="M5.5 1C3 1 1 3 1 5.5c0 3 4.5 7.5 4.5 7.5S10 8.5 10 5.5C10 3 8 1 5.5 1z" stroke="#a39db6" stroke-width="1.2"/><circle cx="5.5" cy="5.5" r="1.6" fill="#a39db6"/></svg>
+              <span style="font-size: 13px; color: #c5c0d4;">London</span>
+            </div>
+          </div>
+
+          <div style="margin-top: 22px; background: linear-gradient(160deg, rgba(154,134,199,0.16), rgba(154,134,199,0.04)); border: 1px solid rgba(154,134,199,0.22); border-radius: 24px; padding: 20px 22px;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+              <div>
+                <div style="font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; color: #a39db6; font-weight: 600;">Up next</div>
+                <div style="display: flex; align-items: baseline; gap: 10px; margin-top: 8px;">
+                  <div style="font-family: 'Amiri', serif; direction: rtl; font-size: 34px; color: #f4f1fa;">العشاء</div>
+                  <div style="font-family: 'Cormorant Garamond', serif; font-size: 26px; color: #d8d2e6;">Isha</div>
+                </div>
+              </div>
+              <div style="text-align: right;">
+                <div style="font-size: 18px; font-weight: 600; color: #9a86c7;">in 19m</div>
+                <div style="font-size: 13px; color: #847e98; margin-top: 3px;">8:24 PM</div>
+              </div>
+            </div>
+            <div style="position: relative; height: 26px; margin-top: 18px;">
+              <div style="position: absolute; top: 12px; left: 0; right: 0; height: 1.5px; background: rgba(255,255,255,0.1);"></div>
+              <div style="position: absolute; top: 12px; left: 0; width: 84%; height: 1.5px; background: #9a86c7;"></div>
+              <div style="position: absolute; top: 8px; left: 5%; width: 9px; height: 9px; border-radius: 50%; background: #9a86c7; transform: translateX(-50%);"></div>
+              <div style="position: absolute; top: 8px; left: 38%; width: 9px; height: 9px; border-radius: 50%; background: #9a86c7; transform: translateX(-50%);"></div>
+              <div style="position: absolute; top: 8px; left: 56%; width: 9px; height: 9px; border-radius: 50%; background: #9a86c7; transform: translateX(-50%);"></div>
+              <div style="position: absolute; top: 8px; left: 72%; width: 9px; height: 9px; border-radius: 50%; background: #9a86c7; transform: translateX(-50%);"></div>
+              <div style="position: absolute; top: 9px; left: 90%; width: 8px; height: 8px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.3); box-sizing: border-box; transform: translateX(-50%);"></div>
+              <div style="position: absolute; top: 1px; left: 84%; transform: translateX(-50%); width: 23px; height: 23px;"><div style="position: absolute; inset: 0; border-radius: 50%; border: 1px solid #9a86c7; animation: pulseRing 3.6s ease-out infinite;"></div><div style="position: absolute; top: 5px; left: 5px; width: 13px; height: 13px; border-radius: 50%; background: #9a86c7; box-shadow: 0 0 14px rgba(154,134,199,0.9);"></div></div>
+            </div>
+          </div>
+
+          <div style="margin-top: 22px; display: flex; flex-direction: column; gap: 2px;">
+            <div style="display: flex; align-items: center; padding: 11px 8px; gap: 13px;"><div style="width: 24px; height: 24px; border-radius: 50%; background: rgba(154,134,199,0.18); display: flex; align-items: center; justify-content: center; flex: none;"><svg width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4.5L4 7.5L10 1.5" stroke="#9a86c7" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div style="flex: 1; display: flex; align-items: baseline; gap: 9px;"><span style="font-size: 16px; color: #b8b2c8;">Fajr</span><span style="font-family: 'Amiri', serif; direction: rtl; font-size: 16px; color: #6b6580;">الفجر</span></div><span style="font-size: 15px; color: #6b6580;">4:52 AM</span></div>
+            <div style="display: flex; align-items: center; padding: 11px 8px; gap: 13px;"><div style="width: 24px; height: 24px; border-radius: 50%; background: rgba(154,134,199,0.18); display: flex; align-items: center; justify-content: center; flex: none;"><svg width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4.5L4 7.5L10 1.5" stroke="#9a86c7" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div style="flex: 1; display: flex; align-items: baseline; gap: 9px;"><span style="font-size: 16px; color: #b8b2c8;">Dhuhr</span><span style="font-family: 'Amiri', serif; direction: rtl; font-size: 16px; color: #6b6580;">الظهر</span></div><span style="font-size: 15px; color: #6b6580;">12:21 PM</span></div>
+            <div style="display: flex; align-items: center; padding: 11px 8px; gap: 13px;"><div style="width: 24px; height: 24px; border-radius: 50%; background: rgba(154,134,199,0.18); display: flex; align-items: center; justify-content: center; flex: none;"><svg width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4.5L4 7.5L10 1.5" stroke="#9a86c7" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div style="flex: 1; display: flex; align-items: baseline; gap: 9px;"><span style="font-size: 16px; color: #b8b2c8;">Asr</span><span style="font-family: 'Amiri', serif; direction: rtl; font-size: 16px; color: #6b6580;">العصر</span></div><span style="font-size: 15px; color: #6b6580;">3:47 PM</span></div>
+            <div style="display: flex; align-items: center; padding: 11px 8px; gap: 13px;"><div style="width: 24px; height: 24px; border-radius: 50%; background: rgba(154,134,199,0.18); display: flex; align-items: center; justify-content: center; flex: none;"><svg width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4.5L4 7.5L10 1.5" stroke="#9a86c7" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div style="flex: 1; display: flex; align-items: baseline; gap: 9px;"><span style="font-size: 16px; color: #b8b2c8;">Maghrib</span><span style="font-family: 'Amiri', serif; direction: rtl; font-size: 16px; color: #6b6580;">المغرب</span></div><span style="font-size: 15px; color: #6b6580;">6:58 PM</span></div>
+            <div style="display: flex; align-items: center; padding: 13px 8px; gap: 13px; background: rgba(255,255,255,0.04); border-radius: 14px; border: 1px solid rgba(154,134,199,0.18);">
+              <div style="width: 24px; height: 24px; border-radius: 50%; border: 2px solid #9a86c7; box-sizing: border-box; flex: none; box-shadow: 0 0 12px rgba(154,134,199,0.5);"></div>
+              <div style="flex: 1; display: flex; align-items: baseline; gap: 9px;"><span style="font-size: 16px; color: #f4f1fa; font-weight: 600;">Isha</span><span style="font-family: 'Amiri', serif; direction: rtl; font-size: 16px; color: #a39db6;">العشاء</span></div>
+              <span style="font-size: 15px; color: #9a86c7; font-weight: 600;">8:24 PM</span>
+            </div>
+          </div>
+
+          <div style="margin-top: 18px; height: 54px; border-radius: 16px; background: #9a86c7; color: #16142a; font-size: 15px; font-weight: 600; display: flex; align-items: center; justify-content: center;">Begin Isha</div>
+
+          <dc-import name="SukunTabBar" active="prayer-times" accent="#9a86c7" hint-size="100%,84px" style="position: absolute; left: 0; right: 0; bottom: 0; width: 100%;"></dc-import>
+        </div>
+      </x-import>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

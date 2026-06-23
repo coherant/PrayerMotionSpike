@@ -10,7 +10,7 @@ struct SalahMotionApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            AppShell()
                 .environment(router)
                 .environment(UserPreferences.shared)
         }

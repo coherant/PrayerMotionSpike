@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct PrayerSessionHeaderView: View {
+struct GuidedPrayerHeaderView: View {
     @Binding var isSilenced: Bool
     let currentRakat: Int
     let totalRakat: Int
@@ -58,7 +58,7 @@ private struct HeaderPreview: View {
         ZStack(alignment: .top) {
             prayerTime.backgroundGradient.ignoresSafeArea()
             VStack {
-                PrayerSessionHeaderView(
+                GuidedPrayerHeaderView(
                     isSilenced: $silenced,
                     currentRakat: 1,
                     totalRakat: 2,

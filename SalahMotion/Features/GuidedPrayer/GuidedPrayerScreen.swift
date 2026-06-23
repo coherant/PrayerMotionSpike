@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct PrayerSessionScreen: View {
+struct GuidedPrayerScreen: View {
     let prayerTime: PrayerTime
 
     @State private var isSilenced = true
@@ -27,7 +27,7 @@ struct PrayerSessionScreen: View {
 
             VStack(spacing: 0) {
                 // Header
-                PrayerSessionHeaderView(
+                GuidedPrayerHeaderView(
                     isSilenced: $isSilenced,
                     currentRakat: 2,
                     totalRakat: 4,
@@ -56,7 +56,7 @@ struct PrayerSessionScreen: View {
                 Spacer()
 
                 // Bottom text block
-                PrayerSessionBottomTextView(
+                GuidedPrayerBottomTextView(
                     positionName: "Sujūd",
                     positionMeaning: "Prostration",
                     recitationText: "Subḥāna Rabbiyal-A'lā",
@@ -72,8 +72,8 @@ struct PrayerSessionScreen: View {
 
 // MARK: - Previews (one per prayer time)
 
-#Preview("Fajr")    { PrayerSessionScreen(prayerTime: .fajr) }
-#Preview("Dhuhr")   { PrayerSessionScreen(prayerTime: .dhuhr) }
-#Preview("Asr")     { PrayerSessionScreen(prayerTime: .asr) }
-#Preview("Maghrib") { PrayerSessionScreen(prayerTime: .maghrib) }
-#Preview("Isha")    { PrayerSessionScreen(prayerTime: .isha) }
+#Preview("Fajr")    { GuidedPrayerScreen(prayerTime: .fajr) }
+#Preview("Dhuhr")   { GuidedPrayerScreen(prayerTime: .dhuhr) }
+#Preview("Asr")     { GuidedPrayerScreen(prayerTime: .asr) }
+#Preview("Maghrib") { GuidedPrayerScreen(prayerTime: .maghrib) }
+#Preview("Isha")    { GuidedPrayerScreen(prayerTime: .isha) }

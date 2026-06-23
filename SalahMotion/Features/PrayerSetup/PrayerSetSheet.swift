@@ -81,7 +81,7 @@ struct PrayerSetSheet: View {
 
             Spacer().frame(height: 24)
         }
-        .background(DesignTokens.sheetGradient(accent: accent))
+        .background(DesignTokens.sheetGradient(accent: accent).ignoresSafeArea(edges: .bottom))
     }
 
     private func unitRow(_ unit: PrayerUnit) -> some View {

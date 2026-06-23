@@ -177,7 +177,7 @@ final class PrayerStateMachine {
                 guard !Task.isCancelled else { return }
                 if !prayer.utterance.isEmpty { await audioManager.speak(prayer.utterance) }
                 guard !Task.isCancelled else { return }
-                let duration = pace.pauseDuration
+                let duration = prayer.duration > 0 ? prayer.duration : pace.pauseDuration
                 let start = Date()
                 while !Task.isCancelled {
                     let elapsed = Date().timeIntervalSince(start)
@@ -208,7 +208,8 @@ final class PrayerStateMachine {
                 guard !Task.isCancelled else { return }
                 if !prayer.utterance.isEmpty { await audioManager.speak(prayer.utterance) }
                 guard !Task.isCancelled else { return }
-                try? await Task.sleep(for: .seconds(pace.pauseDuration))
+                let holdDuration = prayer.duration > 0 ? prayer.duration : pace.pauseDuration
+                try? await Task.sleep(for: .seconds(holdDuration))
             }
             guard !Task.isCancelled else { return }
             if let speech = state.exitSpeech { await audioManager.speak(speech) }

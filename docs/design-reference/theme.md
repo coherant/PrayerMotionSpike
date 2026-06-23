@@ -6,12 +6,12 @@ reproduce it identically.
 
 There are two layers:
 1. **Atmospheric themes** — full-bleed per-prayer gradients used on all
-   prayer-facing screens (welcome/entry, dashboard, in-prayer motion, and
-   **Guided Prayer Setup**). The setup screen uses whichever prayer is
-   currently selected — switching prayer immediately re-skins the screen.
+   prayer-facing screens (welcome/entry, **Prayer Times**, dashboard, in-prayer
+   motion, and **Guided Prayer Setup**). These screens re-skin entirely to the
+   current prayer's gradient — background, text, and accent all shift.
    At app launch, the gradient matches the current time-of-day prayer.
 2. **Chrome theme** — a constant calm dark-indigo shell used on true utility
-   screens only (Today list, Qibla, Path, Settings), which only borrows each
+   screens only (Qibla, Path, Settings), which only borrows each
    prayer's **accent** colour.
 
 ---
@@ -24,7 +24,7 @@ There are two layers:
 > **Note:** Guided Prayer Setup is NOT a chrome screen. It uses the full
 > atmospheric per-prayer gradient, updating in real time as the user
 > selects a prayer. Text tokens also switch (Dhuhr uses dark ink on its
-> light sky gradient). Only Today list, Qibla, Path, and Settings use chrome.
+> light sky gradient). Only Qibla, Path, and Settings use chrome.
 
 ### Chrome text ramp (on the dark shell)
 | Token | Value | Use |

@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct GuidedRecordingView: View {
+struct GlobalCalibrationView: View {
     @State private var participantName: String = ""
     @State private var session = PrayerStateMachine(sequence: GuidedSequenceGenerator.generate())
     @State private var sessionFiles: [URL] = []

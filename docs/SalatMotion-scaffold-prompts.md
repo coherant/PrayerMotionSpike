@@ -15,7 +15,7 @@ SalatMotion/
   App/                    (App entry point, Router)
   Features/
     Home/
-    PrayerSession/
+    GuidedPrayer/
     Settings/
     Onboarding/
   Core/
@@ -58,7 +58,7 @@ Specifically:
   (motion-triggered/auto/user-paced), and the 8-second reprompt timer logic
 
 Keep these fully decoupled from any View — they should expose state via
-@Observable so a PrayerSession screen can simply observe and render.
+@Observable so a GuidedPrayer screen can simply observe and render.
 
 Do not fix the known Rakat 1 → Rakat 2 bug in this pass — that's a separate
 targeted task next.

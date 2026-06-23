@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct PrayerSessionBottomTextView: View {
+struct GuidedPrayerBottomTextView: View {
     let positionName: String
     let positionMeaning: String
     let recitationText: String
@@ -65,7 +65,7 @@ private struct BottomTextPreview: View {
     var body: some View {
         ZStack(alignment: .bottom) {
             prayerTime.backgroundGradient.ignoresSafeArea()
-            PrayerSessionBottomTextView(
+            GuidedPrayerBottomTextView(
                 positionName: "Sujood",
                 positionMeaning: "Prostration",
                 recitationText: "Glory be to Allah the most high",

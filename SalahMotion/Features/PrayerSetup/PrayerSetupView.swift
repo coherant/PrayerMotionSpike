@@ -97,7 +97,6 @@ struct PrayerSetupView: View {
                         ))
                         .shadow(color: .black.opacity(0.55), radius: 27, y: -11)
                 }
-                .ignoresSafeArea(edges: .bottom)
                 .transition(.move(edge: .bottom))
             }
         }
@@ -137,7 +136,7 @@ struct PrayerSetupView: View {
                 .fixedSize()
         }
         .padding(.horizontal, 22)
-        .padding(.top, 54)
+        .padding(.top, 8)
         .padding(.bottom, 0)
     }
 
@@ -306,6 +305,28 @@ struct PrayerSetupView: View {
                     .foregroundStyle(DesignTokens.faint)
                     .lineSpacing(1.4)
                     .fixedSize(horizontal: false, vertical: true)
+
+                // Equaliser — shown only on the active voice card
+                if selected {
+                    HStack(alignment: .bottom, spacing: 3) {
+                        ForEach([5, 9, 6, 12, 7, 10, 5, 8, 6].indices, id: \.self) { i in
+                            let h = CGFloat([5, 9, 6, 12, 7, 10, 5, 8, 6][i])
+                            let dur = 0.8 + Double(i % 3) * 0.25
+                            RoundedRectangle(cornerRadius: 2)
+                                .fill(accent.opacity(0.55 + Double(h) / 28.0))
+                                .frame(width: 3, height: h)
+                                .scaleEffect(y: wavePhase ? 1.0 : 0.35, anchor: .bottom)
+                                .animation(
+                                    .easeInOut(duration: dur)
+                                        .repeatForever(autoreverses: true)
+                                        .delay(Double(i) * 0.09),
+                                    value: wavePhase
+                                )
+                        }
+                    }
+                    .frame(height: 14, alignment: .bottom)
+                    .padding(.top, 6)
+                }
             }
             .padding(13)
             .frame(maxWidth: .infinity, alignment: .leading)

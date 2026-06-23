@@ -11,8 +11,8 @@ Guided prayer sequence: `../guided/master-prayer-state-machine.md`
 | `SalahMotion/Core/PrayerStateMachine/PrayerStateMachine.swift` | Runtime engine — all four modes, session recording, TTS, idle timer |
 | `SalahMotion/Core/PrayerStateMachine/CalibrationAnalyzer.swift` | Derives `UserCalibrationProfile` from recorded session samples |
 | `SalahMotion/Core/PrayerStateMachine/UserCalibrationProfile.swift` | Persists calibrated thresholds to UserDefaults |
-| `SalahMotion/Features/Settings/CalibrationView.swift` | Personal calibration UI |
-| `SalahMotion/Features/Settings/GlobalCalibrationView.swift` | Researcher recording tool (multi-participant data collection) |
+| `SalahMotion/Features/Calibration/CalibrationView.swift` | Personal calibration UI |
+| `SalahMotion/Features/Calibration/GlobalCalibrationView.swift` | Researcher recording tool (multi-participant data collection) |
 
 ## Phase modes
 

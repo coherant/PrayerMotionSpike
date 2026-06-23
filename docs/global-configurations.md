@@ -38,8 +38,8 @@ Controls which sequence generator and participant name behaviour each tab uses. 
 
 | Tab | View | Sequence Generator | Participant Name | CSV Prefix |
 |---|---|---|---|---|
-| Guided | `ReactivePrayerView` | `GuidedSequenceGenerator` | Not required (empty string) | `prayer_session_` |
-| Calibration | `GuidedRecordingView` | `GuidedSequenceGenerator` | Required (user-entered, blocks start if empty) | `prayer_calibration_` |
+| Guided | `GuidedPrayerView` | `GuidedSequenceGenerator` | Not required (empty string) | `prayer_session_` |
+| Calibration | `GlobalCalibrationView` | `GuidedSequenceGenerator` | Required (user-entered, blocks start if empty) | `prayer_calibration_` |
 
 **How Claude should build from this table:**
 1. For each tab, find the view named in the `View` column.

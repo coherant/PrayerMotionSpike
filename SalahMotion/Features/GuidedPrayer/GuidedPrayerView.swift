@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct ReactivePrayerView: View {
+struct GuidedPrayerView: View {
     // Explicit @State so SwiftUI re-renders all screens when prayer changes.
     // Set in onBegin so the running screen always matches the selected prayer.
     @State private var prayerTime: PrayerTime = UserPreferences.shared.salatType.prayerTime
@@ -59,7 +59,7 @@ struct ReactivePrayerView: View {
             .ignoresSafeArea()
 
             VStack(spacing: 0) {
-                PrayerSessionHeaderView(
+                GuidedPrayerHeaderView(
                     isSilenced: $isSilenced,
                     currentRakat: session.currentRakat,
                     totalRakat: session.totalRakat,
@@ -84,7 +84,7 @@ struct ReactivePrayerView: View {
 
                 Spacer()
 
-                PrayerSessionBottomTextView(
+                GuidedPrayerBottomTextView(
                     positionName: state.displayLabel,
                     positionMeaning: state.englishMeaning,
                     recitationText: state.prayers.first?.utterance ?? "",
@@ -210,4 +210,4 @@ struct ReactivePrayerView: View {
     }
 }
 
-#Preview { ReactivePrayerView() }
+#Preview { GuidedPrayerView() }
