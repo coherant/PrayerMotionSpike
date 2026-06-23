@@ -307,16 +307,19 @@ struct PrayerTimesView: View {
             ? "Begin Isha"
             : "Prepare for \(prayerTime.displayName)"
 
-        return Button(label) { }
-            .font(Typography.ui(15, weight: .semibold))
-            .foregroundStyle(isLight ? Color(hex: "#3a2a08") : DesignTokens.darkOnAccent)
-            .frame(maxWidth: .infinity)
-            .frame(height: 54)
-            .background(
-                RoundedRectangle(cornerRadius: 16)
-                    .fill(accent)
-                    .shadow(color: accent.opacity(0.34), radius: 12, y: 8)
-            )
+        return Button { } label: {
+            Text(label)
+                .font(Typography.eyebrow)
+                .tracking(1.5)
+                .foregroundStyle(accent)
+                .padding(.horizontal, 20)
+                .padding(.vertical, 8)
+                .background(
+                    Capsule()
+                        .strokeBorder(accent.opacity(0.5), lineWidth: 1)
+                )
+        }
+        .buttonStyle(.plain)
     }
 }
 
