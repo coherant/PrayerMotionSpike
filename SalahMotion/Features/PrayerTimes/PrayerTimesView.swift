@@ -63,7 +63,6 @@ struct PrayerTimesView: View {
             Spacer()
             locationPill.padding(.top, 4)
         }
-        .padding(.vertical, 6)
         .padding(.horizontal, 4)
     }
 
