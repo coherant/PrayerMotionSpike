@@ -2,6 +2,7 @@ import SwiftUI
 
 struct PrayerTimesView: View {
 
+    @Environment(Router.self) private var router
     @State private var vm = PrayerTimesViewModel()
     @State private var enabledNotifications: Set<String> = NotificationManager.enabledPrayers()
     @State private var ctaPulsing = false
@@ -306,7 +307,7 @@ struct PrayerTimesView: View {
     private var ctaButton: some View {
         let label = vm.ctaLabel
 
-        return Button { } label: {
+        return Button { router.selectedTab = .guided } label: {
             Text(label)
                 .font(Typography.eyebrow)
                 .tracking(1.5)

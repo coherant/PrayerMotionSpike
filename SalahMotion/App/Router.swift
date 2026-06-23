@@ -8,9 +8,17 @@ enum Route: Hashable {
     case onboarding
 }
 
+enum AppTab: Hashable {
+    case prayerTimes
+    case guided
+    case calibration
+    case globalCalibration
+}
+
 @Observable
 final class Router {
     var path = NavigationPath()
+    var selectedTab: AppTab = .prayerTimes
 
     func push(_ route: Route) {
         path.append(route)
