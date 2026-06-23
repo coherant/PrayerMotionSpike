@@ -140,6 +140,52 @@ enum PrayerTime: String, CaseIterable, Identifiable {
         }
     }
 
+    // MARK: - Prayer times screen properties
+
+    var phase: String {
+        switch self {
+        case .fajr:    return "Dawn"
+        case .dhuhr:   return "Midday"
+        case .asr:     return "Afternoon"
+        case .maghrib: return "Evening"
+        case .isha:    return "Night"
+        }
+    }
+
+    var arabic: String {
+        switch self {
+        case .fajr:    return "الفجر"
+        case .dhuhr:   return "الظهر"
+        case .asr:     return "العصر"
+        case .maghrib: return "المغرب"
+        case .isha:    return "العشاء"
+        }
+    }
+
+    // How far the day-progress rail is filled when this prayer is current
+    var railFill: Double {
+        switch self {
+        case .fajr:    return 0.02
+        case .dhuhr:   return 0.32
+        case .asr:     return 0.52
+        case .maghrib: return 0.66
+        case .isha:    return 0.84
+        }
+    }
+
+    // Today's date at the hardcoded prayer time — used for countdown calculation
+    var scheduledDate: Date {
+        var c = Calendar.current.dateComponents([.year, .month, .day], from: Date())
+        switch self {
+        case .fajr:    c.hour = 4;  c.minute = 52
+        case .dhuhr:   c.hour = 12; c.minute = 21
+        case .asr:     c.hour = 15; c.minute = 47
+        case .maghrib: c.hour = 18; c.minute = 58
+        case .isha:    c.hour = 20; c.minute = 24
+        }
+        return Calendar.current.date(from: c) ?? Date()
+    }
+
     // MARK: - Setup screen accent (Column B — restrained wash, not the full in-prayer accent)
     // Source: docs/features/prayer-setup/SETUP-THEMED.md §3
     var setupAccent: Color {
