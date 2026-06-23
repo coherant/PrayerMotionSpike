@@ -30,20 +30,19 @@ struct PrayerTimesView: View {
         ZStack {
             prayerTime.backgroundGradient.ignoresSafeArea()
 
-            ScrollView(showsIndicators: false) {
-                VStack(spacing: 0) {
-                    header
-                        .padding(.top, 8)
-                    upNextCard
-                        .padding(.top, 22)
-                    prayerList
-                        .padding(.top, 22)
-                    ctaButton
-                        .padding(.top, 18)
-                }
-                .padding(.horizontal, 22)
-                .padding(.bottom, 110)
+            VStack(spacing: 0) {
+                header
+                    .padding(.top, 8)
+                upNextCard
+                    .padding(.top, 22)
+                prayerList
+                    .padding(.top, 22)
+                Spacer()
+                ctaButton
+                    .padding(.bottom, 32)
             }
+            .padding(.horizontal, 22)
+            .padding(.bottom, 80)
         }
         .onAppear { vm.location.requestLocation() }
     }
