@@ -47,6 +47,7 @@ struct PositionTrackerView: View {
     var isSpeaking: Bool = false
 
     private var accent: Color { prayerTime.theme.accent }
+    private var ink:    Color { prayerTime.theme.ink    }
 
     private var visible: [TrackerPosition] {
         Array(positions.suffix(3))
@@ -66,7 +67,7 @@ struct PositionTrackerView: View {
                         // Line above
                         if !isFirst {
                             Rectangle()
-                                .fill(Color.white.opacity(0.18))
+                                .fill(accent.opacity(0.18))
                                 .frame(width: 1.5, height: 48)
                         }
 
@@ -78,7 +79,7 @@ struct PositionTrackerView: View {
                                     .frame(width: 20, height: 20)
                             }
                             Circle()
-                                .fill(isActive ? accent : Color.white.opacity(0.30))
+                                .fill(isActive ? accent : accent.opacity(0.30))
                                 .frame(
                                     width:  isActive ? 9 : 5,
                                     height: isActive ? 9 : 5
@@ -108,7 +109,7 @@ struct PositionTrackerView: View {
                             }
                         } else {
                             Rectangle()
-                                .fill(Color.white.opacity(0.18))
+                                .fill(accent.opacity(0.18))
                                 .frame(width: 1.5, height: 48)
                         }
                     }
@@ -116,15 +117,13 @@ struct PositionTrackerView: View {
                     // Labels
                     VStack(alignment: .leading, spacing: 2) {
                         Text(position.transliteration)
-                            .font(.system(
-                                size: isActive ? 15 : 11,
-                                weight: isActive ? .semibold : .regular,
-                                design: .serif
-                            ))
-                            .foregroundStyle(.white.opacity(dimness))
+                            .font(isActive ? Typography.bodyDisplay : Typography.captionDisplay)
+                            .fontWeight(isActive ? .semibold : .regular)
+                            .foregroundStyle(ink.opacity(dimness))
                         Text(position.arabic)
-                            .font(.system(size: isActive ? 11 : 9))
-                            .foregroundStyle(.white.opacity(dimness * 0.65))
+                            .font(isActive ? Typography.arabicLabel : Typography.arabicCaption)
+                            .environment(\.layoutDirection, .rightToLeft)
+                            .foregroundStyle(ink.opacity(dimness * 0.65))
                     }
                     .padding(.top, isFirst ? 4 : 54)
                 }

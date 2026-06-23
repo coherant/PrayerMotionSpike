@@ -42,10 +42,7 @@ struct CalibrationView: View {
 
     private var idleView: some View {
         ZStack {
-            LinearGradient(
-                colors: [prayerTime.theme.gradientTop, prayerTime.theme.gradientBottom],
-                startPoint: .top, endPoint: .bottom
-            )
+            prayerTime.backgroundGradient
             .ignoresSafeArea()
 
             VStack(spacing: 20) {
@@ -136,10 +133,7 @@ struct CalibrationView: View {
         }
 
         return ZStack {
-            LinearGradient(
-                colors: [prayerTime.theme.gradientTop, prayerTime.theme.gradientBottom],
-                startPoint: .top, endPoint: .bottom
-            )
+            prayerTime.backgroundGradient
             .ignoresSafeArea()
 
             VStack(spacing: 0) {

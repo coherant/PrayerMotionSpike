@@ -1,22 +1,18 @@
-# Master Prayer State Machine
+# Calibration Master Prayer State Machine
 
-## Guided
-This is the guided state machine
-
-This is the single source of truth for the prayer sequence used by both the
-Guided and Calibration tabs. All other documentation and all source files
-reference this document.
+Single source of truth for the calibration sequence and validated motion thresholds.
+Guided prayer sequence: `../guided/master-prayer-state-machine.md`
 
 ## Source files
 
-### Calibration Master Prayer State Machine 
-
 | File | Purpose |
 |---|---|
-| `PrayerMotionSpike/PrayerSequence.swift` | `PhaseMode`, `PrayerState`, `MotionTrigger`, `SensorReadings`, `PrayerSequenceGenerator` — **edit this file to change the sequence** |
-| `PrayerMotionSpike/PrayerStateMachine.swift` | Runtime engine — handles all four modes, session recording, TTS, idle timer |
-| `PrayerMotionSpike/ReactivePrayerView.swift` | Guided tab UI |
-| `PrayerMotionSpike/ContentView.swift` | Calibration tab UI (`GuidedRecordingView`) and Manual tab |
+| `SalahMotion/Core/PrayerStateMachine/PrayerSequence.swift` | `CalibrationSequenceGenerator` — edit here to change the sequence |
+| `SalahMotion/Core/PrayerStateMachine/PrayerStateMachine.swift` | Runtime engine — all four modes, session recording, TTS, idle timer |
+| `SalahMotion/Core/PrayerStateMachine/CalibrationAnalyzer.swift` | Derives `UserCalibrationProfile` from recorded session samples |
+| `SalahMotion/Core/PrayerStateMachine/UserCalibrationProfile.swift` | Persists calibrated thresholds to UserDefaults |
+| `SalahMotion/Features/Settings/CalibrationView.swift` | Personal calibration UI |
+| `SalahMotion/Features/Settings/GlobalCalibrationView.swift` | Researcher recording tool (multi-participant data collection) |
 
 ## Phase modes
 

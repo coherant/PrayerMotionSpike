@@ -1,7 +1,9 @@
 import SwiftUI
 
 struct ReactivePrayerView: View {
-    var prayerTime: PrayerTime = .isha
+    // Explicit @State so SwiftUI re-renders all screens when prayer changes.
+    // Set in onBegin so the running screen always matches the selected prayer.
+    @State private var prayerTime: PrayerTime = UserPreferences.shared.salatType.prayerTime
 
     @State private var session = PrayerStateMachine(sequence: GuidedSequenceGenerator.generate(language: UserPreferences.shared.language))
     @State private var isSilenced = false
@@ -11,7 +13,7 @@ struct ReactivePrayerView: View {
     var body: some View {
         Group {
             switch session.status {
-            case .idle:      idleView
+            case .idle:      setupView
             case .running:   runningView
             case .complete:  completeView
             case .cancelled: cancelledView
@@ -25,107 +27,22 @@ struct ReactivePrayerView: View {
         }
     }
 
-    // MARK: - Idle
+    // MARK: - Setup (idle)
 
-    private var idleView: some View {
-        ZStack {
-            LinearGradient(
-                colors: [prayerTime.theme.gradientTop, prayerTime.theme.gradientBottom],
-                startPoint: .top, endPoint: .bottom
+    private var setupView: some View {
+        PrayerSetupView(isAvailable: session.isAvailable) { salat, unitIds, lang, guidance, pace, muezzinId in
+            prayerTime = salat.prayerTime   // ← explicit @State update drives all screens
+            UserPreferences.shared.salatType       = salat
+            UserPreferences.shared.selectedUnitIds = unitIds
+            UserPreferences.shared.language        = lang
+            UserPreferences.shared.guidanceLevel   = guidance
+            UserPreferences.shared.pace            = pace
+            UserPreferences.shared.muezzinId       = muezzinId
+            session = PrayerStateMachine(
+                sequence: GuidedSequenceGenerator.generate(language: lang),
+                guidanceLevel: guidance
             )
-            .ignoresSafeArea()
-
-            VStack(spacing: 20) {
-                Spacer()
-                if !session.isAvailable {
-                    Image(systemName: "exclamationmark.triangle")
-                        .font(.system(size: 60)).foregroundStyle(.orange)
-                    Text("Headphone motion unavailable")
-                        .font(.title3.weight(.semibold)).foregroundStyle(.white)
-                    Text("Run on a physical device with AirPods connected.")
-                        .foregroundStyle(.white.opacity(0.6)).multilineTextAlignment(.center)
-                } else {
-                    Image(systemName: "moon.stars.fill")
-                        .font(.system(size: 72)).foregroundStyle(prayerTime.theme.orbGlow)
-                    Text("2-Rakat Prayer")
-                        .font(.title.weight(.semibold)).foregroundStyle(.white)
-                    Text("\(session.states.count) phases · motion guided")
-                        .foregroundStyle(.white.opacity(0.55))
-                }
-                Spacer()
-
-                // Language + Pace pickers
-                HStack(spacing: 12) {
-                    // Language
-                    Menu {
-                        ForEach(Language.allCases) { lang in
-                            Button {
-                                UserPreferences.shared.language = lang
-                                session = PrayerStateMachine(sequence: GuidedSequenceGenerator.generate(language: lang))
-                            } label: {
-                                if lang == UserPreferences.shared.language {
-                                    Label(lang.displayName, systemImage: "checkmark")
-                                } else {
-                                    Text(lang.displayName)
-                                }
-                            }
-                        }
-                    } label: {
-                        HStack(spacing: 6) {
-                            Image(systemName: "globe")
-                            Text(UserPreferences.shared.language.displayName)
-                            Image(systemName: "chevron.up.chevron.down")
-                                .font(.system(size: 10))
-                        }
-                        .font(.system(size: 13, weight: .medium))
-                        .foregroundStyle(.white.opacity(0.75))
-                        .padding(.horizontal, 14)
-                        .padding(.vertical, 8)
-                        .background(Capsule().strokeBorder(.white.opacity(0.25), lineWidth: 1))
-                    }
-
-                    // Pace
-                    Menu {
-                        ForEach(PrayerPace.allCases) { pace in
-                            Button {
-                                UserPreferences.shared.pace = pace
-                            } label: {
-                                if pace == UserPreferences.shared.pace {
-                                    Label(pace.displayName, systemImage: "checkmark")
-                                } else {
-                                    Text(pace.displayName)
-                                }
-                            }
-                        }
-                    } label: {
-                        HStack(spacing: 6) {
-                            Image(systemName: "gauge.medium")
-                            Text(UserPreferences.shared.pace.displayName)
-                            Image(systemName: "chevron.up.chevron.down")
-                                .font(.system(size: 10))
-                        }
-                        .font(.system(size: 13, weight: .medium))
-                        .foregroundStyle(.white.opacity(0.75))
-                        .padding(.horizontal, 14)
-                        .padding(.vertical, 8)
-                        .background(Capsule().strokeBorder(.white.opacity(0.25), lineWidth: 1))
-                    }
-                }
-                .padding(.horizontal, 24)
-
-                Button("Begin Prayer") { session.start() }
-                    .buttonStyle(.borderedProminent)
-                    .font(.title3.weight(.semibold))
-                    .frame(maxWidth: .infinity)
-                    .disabled(!session.isAvailable)
-                    .padding(.horizontal, 24)
-
-                if !sessionFiles.isEmpty {
-                    Divider().overlay(.white.opacity(0.2)).padding(.top, 8)
-                    historySection
-                }
-            }
-            .padding()
+            session.start()
         }
     }
 
@@ -138,10 +55,7 @@ struct ReactivePrayerView: View {
         }
 
         return ZStack {
-            LinearGradient(
-                colors: [prayerTime.theme.gradientTop, prayerTime.theme.gradientBottom],
-                startPoint: .top, endPoint: .bottom
-            )
+            prayerTime.backgroundGradient
             .ignoresSafeArea()
 
             VStack(spacing: 0) {
@@ -187,18 +101,15 @@ struct ReactivePrayerView: View {
 
     private var completeView: some View {
         ZStack {
-            LinearGradient(
-                colors: [prayerTime.theme.gradientTop, prayerTime.theme.gradientBottom],
-                startPoint: .top, endPoint: .bottom
-            )
+            prayerTime.backgroundGradient
             .ignoresSafeArea()
 
             VStack(spacing: 20) {
                 Spacer()
                 Image(systemName: "checkmark.circle.fill")
                     .font(.system(size: 72)).foregroundStyle(prayerTime.theme.orbGlow)
-                Text("Prayer Complete").font(.title.weight(.semibold)).foregroundStyle(.white)
-                Text("Session saved to History.").foregroundStyle(.white.opacity(0.55))
+                Text("Prayer Complete").font(.title.weight(.semibold)).foregroundStyle(prayerTime.theme.ink)
+                Text("Session saved to History.").foregroundStyle(prayerTime.theme.ink.opacity(0.55))
                 Spacer()
                 Button("Done") {
                     session = PrayerStateMachine(sequence: GuidedSequenceGenerator.generate(language: UserPreferences.shared.language))
@@ -221,17 +132,14 @@ struct ReactivePrayerView: View {
 
     private var cancelledView: some View {
         ZStack {
-            LinearGradient(
-                colors: [prayerTime.theme.gradientTop, prayerTime.theme.gradientBottom],
-                startPoint: .top, endPoint: .bottom
-            )
+            prayerTime.backgroundGradient
             .ignoresSafeArea()
 
             VStack(spacing: 16) {
                 Spacer()
                 Image(systemName: "xmark.circle")
-                    .font(.system(size: 60)).foregroundStyle(.white.opacity(0.5))
-                Text("Prayer cancelled").foregroundStyle(.white.opacity(0.55))
+                    .font(.system(size: 60)).foregroundStyle(prayerTime.theme.ink.opacity(0.5))
+                Text("Prayer cancelled").foregroundStyle(prayerTime.theme.ink.opacity(0.55))
                 Spacer()
                 Button("Try Again") {
                     session = PrayerStateMachine(sequence: GuidedSequenceGenerator.generate(language: UserPreferences.shared.language))
@@ -302,6 +210,4 @@ struct ReactivePrayerView: View {
     }
 }
 
-#Preview("Isha")    { ReactivePrayerView(prayerTime: .isha) }
-#Preview("Maghrib") { ReactivePrayerView(prayerTime: .maghrib) }
-#Preview("Fajr")    { ReactivePrayerView(prayerTime: .fajr) }
+#Preview { ReactivePrayerView() }

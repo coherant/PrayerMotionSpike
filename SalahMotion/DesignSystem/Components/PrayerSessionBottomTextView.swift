@@ -8,49 +8,44 @@ struct PrayerSessionBottomTextView: View {
     let prayerTime: PrayerTime
     let onEndPrayer: () -> Void
 
-    private var accent: Color { prayerTime.theme.accent }
+    private var theme: PrayerTimeTheme { prayerTime.theme }
 
     var body: some View {
         VStack(spacing: 0) {
-            // Position name · meaning
             HStack(alignment: .firstTextBaseline, spacing: 6) {
                 Text(positionName)
-                    .font(.system(size: 28, weight: .semibold, design: .serif))
-                    .foregroundStyle(.white)
+                    .font(Typography.prayerName)
+                    .foregroundStyle(theme.ink)
                 Text("· \(positionMeaning)")
-                    .font(.system(size: 28, weight: .regular, design: .serif))
-                    .foregroundStyle(.white.opacity(0.55))
+                    .font(Typography.prayerNameSub)
+                    .foregroundStyle(theme.ink.opacity(0.55))
             }
 
             Spacer().frame(height: 10)
 
-            // Recitation
             Text(recitationText)
-                .font(.system(size: 14, weight: .regular, design: .serif))
+                .font(Typography.recitation)
                 .italic()
-                .foregroundStyle(.white.opacity(0.65))
+                .foregroundStyle(theme.ink.opacity(0.65))
 
             Spacer().frame(height: 6)
 
-            // Instruction
             Text(instruction)
-                .font(.system(size: 11, weight: .regular))
-                .foregroundStyle(.white.opacity(0.38))
-                .kerning(0.4)
+                .font(Typography.labelSm)
+                .foregroundStyle(theme.ink.opacity(0.38))
+                .tracking(0.4)
 
             Spacer().frame(height: 24)
 
-            // End prayer — capsule border in theme accent
             Button(action: onEndPrayer) {
                 Text("END PRAYER")
-                    .font(.system(size: 11, weight: .medium))
-                    .kerning(2.0)
-                    .foregroundStyle(accent)
+                    .eyebrowStyle()
+                    .foregroundStyle(theme.accent)
                     .padding(.horizontal, 20)
                     .padding(.vertical, 8)
                     .background(
                         Capsule()
-                            .strokeBorder(accent.opacity(0.5), lineWidth: 1)
+                            .strokeBorder(theme.accent.opacity(0.5), lineWidth: 1)
                     )
             }
             .buttonStyle(.plain)
@@ -69,11 +64,7 @@ private struct BottomTextPreview: View {
     let prayerTime: PrayerTime
     var body: some View {
         ZStack(alignment: .bottom) {
-            LinearGradient(
-                colors: [prayerTime.theme.gradientTop, prayerTime.theme.gradientBottom],
-                startPoint: .top, endPoint: .bottom
-            )
-            .ignoresSafeArea()
+            prayerTime.backgroundGradient.ignoresSafeArea()
             PrayerSessionBottomTextView(
                 positionName: "Sujood",
                 positionMeaning: "Prostration",

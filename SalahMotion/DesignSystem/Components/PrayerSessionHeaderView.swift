@@ -6,9 +6,10 @@ struct PrayerSessionHeaderView: View {
     let totalRakat: Int
     let prayerTime: PrayerTime
 
+    private var theme: PrayerTimeTheme { prayerTime.theme }
+
     var body: some View {
         HStack(alignment: .center) {
-            // Silence toggle
             Button {
                 isSilenced.toggle()
             } label: {
@@ -16,27 +17,25 @@ struct PrayerSessionHeaderView: View {
                     Image(systemName: isSilenced ? "speaker.slash.fill" : "speaker.wave.2.fill")
                         .font(.system(size: 13))
                     Text(isSilenced ? "SILENCE ON" : "SILENCE OFF")
-                        .font(.system(size: 10, weight: .medium))
-                        .kerning(1.2)
+                        .eyebrowStyle()
                 }
-                .foregroundStyle(.white.opacity(0.60))
+                .foregroundStyle(theme.ink.opacity(0.60))
             }
             .buttonStyle(.plain)
 
             Spacer()
 
-            // Rak'ah counter + progress dots
             HStack(spacing: 8) {
                 Text("Rak'ah \(currentRakat) / \(totalRakat)")
-                    .font(.system(size: 11, weight: .medium))
-                    .foregroundStyle(.white.opacity(0.55))
+                    .font(Typography.labelSm)
+                    .foregroundStyle(theme.ink.opacity(0.55))
 
                 HStack(spacing: 4) {
                     ForEach(1...max(1, totalRakat), id: \.self) { i in
                         Circle()
                             .fill(i <= currentRakat
-                                  ? Color.white.opacity(0.80)
-                                  : Color.white.opacity(0.20))
+                                  ? theme.ink.opacity(0.80)
+                                  : theme.ink.opacity(0.20))
                             .frame(width: 5, height: 5)
                     }
                 }
@@ -47,22 +46,17 @@ struct PrayerSessionHeaderView: View {
     }
 }
 
-#Preview("Fajr · silenced")    { HeaderPreview(prayerTime: .fajr,    silenced: true) }
-#Preview("Dhuhr · active")     { HeaderPreview(prayerTime: .dhuhr,   silenced: false) }
-#Preview("Asr · active")       { HeaderPreview(prayerTime: .asr,     silenced: false) }
-#Preview("Maghrib · silenced") { HeaderPreview(prayerTime: .maghrib, silenced: true) }
-#Preview("Isha · active")      { HeaderPreview(prayerTime: .isha,    silenced: false) }
+#Preview("Fajr")    { HeaderPreview(prayerTime: .fajr,    silenced: true) }
+#Preview("Dhuhr")   { HeaderPreview(prayerTime: .dhuhr,   silenced: false) }
+#Preview("Maghrib") { HeaderPreview(prayerTime: .maghrib, silenced: true) }
+#Preview("Isha")    { HeaderPreview(prayerTime: .isha,    silenced: false) }
 
 private struct HeaderPreview: View {
     let prayerTime: PrayerTime
     @State var silenced: Bool
     var body: some View {
         ZStack(alignment: .top) {
-            LinearGradient(
-                colors: [prayerTime.theme.gradientTop, prayerTime.theme.gradientBottom],
-                startPoint: .top, endPoint: .bottom
-            )
-            .ignoresSafeArea()
+            prayerTime.backgroundGradient.ignoresSafeArea()
             VStack {
                 PrayerSessionHeaderView(
                     isSilenced: $silenced,

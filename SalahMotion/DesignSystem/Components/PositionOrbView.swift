@@ -20,14 +20,10 @@ struct PositionOrbView: View {
     var body: some View {
         ZStack {
             // ── Layer 5 (back): Haze / radial glow ──
-            // Sits behind the moon disc so the glow blooms out from behind it.
             Circle()
                 .fill(
                     RadialGradient(
-                        colors: [
-                            theme.orbGlow.opacity(0.95),
-                            theme.orbGlow.opacity(0)
-                        ],
+                        colors: [theme.orbB.opacity(0.95), theme.orbB.opacity(0)],
                         center: .center,
                         startRadius: 0,
                         endRadius: 120
@@ -43,50 +39,46 @@ struct PositionOrbView: View {
 
             // ── Layer 4: Outer thin ring ──
             Circle()
-                .stroke(theme.orbGlow.opacity(0.1), lineWidth: 1)
+                .stroke(theme.orbB.opacity(0.1), lineWidth: 1)
                 .frame(width: 350, height: 250)
 
             // ── Layer 3: Dashed decorative ring ──
             Circle()
-                .stroke(
-                    theme.orbGlow.opacity(0.2),
-                    style: StrokeStyle(lineWidth: 1, dash: [4, 4])
-                )
+                .stroke(theme.orbB.opacity(0.2), style: StrokeStyle(lineWidth: 1, dash: [4, 4]))
                 .frame(width: 180, height: 180)
 
-            // ── Layers 2b & 2: Moon disc — driven by TimelineView ──
-            // 2b: Full background-coloured circle covering the entire moon disc.
-            //     Sits in front of the haze, blocking glow through the dark side.
-            // 2:  Lit MoonPhaseShape on top — shows only the illuminated crescent.
+            // ── Layers 2b & 2: Moon disc ──
             TimelineView(.animation(minimumInterval: 1.0 / 30.0)) { context in
                 let phase = moonPhase(at: context.date)
                 ZStack {
-                    // Layer 2b — full dark-side disc (background colour, fully opaque)
+                    // Layer 2b — dark-side disc in screen background colours
                     Circle()
                         .fill(
                             LinearGradient(
-                                colors: [theme.gradientTop, theme.gradientBottom],
+                                stops: theme.gradientStops,
                                 startPoint: .top,
                                 endPoint: .bottom
                             )
                         )
 
-                    // Layer 2 — lit moon phase on top of dark disc
+                    // Layer 2 — lit crescent using orbA → orbB gradient
                     MoonPhaseShape(phase: phase)
-                        .fill(theme.orbGlow)
+                        .fill(
+                            LinearGradient(
+                                colors: [theme.orbA, theme.orbB],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                        )
                 }
                 .frame(width: 140, height: 140)
-//                .scaleEffect(isPulsing ? 1.06 : 1.0)
-//                .animation(
-//                    .easeInOut(duration: 2.0).repeatForever(autoreverses: true),
-//                    value: isPulsing
-//                )
             }
 
             // ── Layer 1 (front): Arabic text ──
             Text(arabicText)
-                .font(.system(size: 28, weight: .medium))
-                .foregroundColor(theme.textPrimary.opacity(0.9))
+                .font(Typography.arabicOrb)
+                .environment(\.layoutDirection, .rightToLeft)
+                .foregroundColor(theme.orbInk)
                 .multilineTextAlignment(.center)
         }
         .onAppear { isPulsing = true }
