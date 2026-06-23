@@ -4,6 +4,7 @@ struct PrayerTimesView: View {
 
     @State private var vm = PrayerTimesViewModel()
     @State private var enabledNotifications: Set<String> = NotificationManager.enabledPrayers()
+    @State private var ctaPulsing = false
 
     private var prayerTime: PrayerTime { vm.prayerTime }
     private var theme: PrayerTimeTheme { prayerTime.theme }
@@ -318,8 +319,19 @@ struct PrayerTimesView: View {
                     Capsule()
                         .strokeBorder(accent.opacity(0.5), lineWidth: 1)
                 )
+                .overlay(
+                    Capsule()
+                        .strokeBorder(accent, lineWidth: 1)
+                        .scaleEffect(ctaPulsing ? 1.18 : 1.0)
+                        .opacity(ctaPulsing ? 0 : 0.55)
+                        .animation(
+                            .easeOut(duration: 3.6).repeatForever(autoreverses: false),
+                            value: ctaPulsing
+                        )
+                )
         }
         .buttonStyle(.plain)
+        .onAppear { ctaPulsing = true }
     }
 }
 
