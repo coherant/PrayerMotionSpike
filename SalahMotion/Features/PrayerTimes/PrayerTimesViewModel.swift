@@ -46,4 +46,33 @@ final class PrayerTimesViewModel {
         }
         return "in \(minutes)m"
     }
+
+    // Continuous rail fill — interpolates between prayer node positions
+    // based on actual clock time so the marker drifts in real time.
+    //
+    // Node visual positions: Fajr=5%, Dhuhr=38%, Asr=56%, Maghrib=72%, Isha=90%
+    // Segments: midnight→Fajr, Fajr→Dhuhr, Dhuhr→Asr, Asr→Maghrib, Maghrib→Isha, Isha→midnight
+    var continuousRailFill: Double {
+        let cal = Calendar.current
+        let now = cal.dateComponents([.hour, .minute], from: Date())
+        let nowMinutes = (now.hour ?? 0) * 60 + (now.minute ?? 0)
+
+        // Prayer times in minutes from midnight (matches PrayerTime.scheduledDate)
+        let segments: [(start: Int, end: Int, fillStart: Double, fillEnd: Double)] = [
+            (0,    292,  0.00, 0.05),   // midnight  → Fajr    4:52
+            (292,  741,  0.05, 0.38),   // Fajr      → Dhuhr  12:21
+            (741,  947,  0.38, 0.56),   // Dhuhr     → Asr     3:47
+            (947,  1138, 0.56, 0.72),   // Asr       → Maghrib 6:58
+            (1138, 1224, 0.72, 0.90),   // Maghrib   → Isha    8:24
+            (1224, 1440, 0.90, 1.00),   // Isha      → midnight
+        ]
+
+        for seg in segments {
+            if nowMinutes >= seg.start && nowMinutes < seg.end {
+                let progress = Double(nowMinutes - seg.start) / Double(seg.end - seg.start)
+                return seg.fillStart + progress * (seg.fillEnd - seg.fillStart)
+            }
+        }
+        return 1.0
+    }
 }

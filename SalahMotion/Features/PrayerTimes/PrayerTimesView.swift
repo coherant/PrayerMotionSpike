@@ -138,7 +138,7 @@ struct PrayerTimesView: View {
 
     private var dayRail: some View {
         let currentIndex = PrayerTime.allCases.firstIndex(of: prayerTime) ?? 0
-        let fill = prayerTime.railFill
+        let fill = vm.continuousRailFill
 
         return GeometryReader { geo in
             let w = geo.size.width
