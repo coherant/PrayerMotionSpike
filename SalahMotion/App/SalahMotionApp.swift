@@ -6,6 +6,8 @@ struct SalahMotionApp: App {
 
     init() {
         FontRegistrar.registerAll()
+        NotificationManager.requestAuthorization()
+        NotificationManager.refreshIfAuthorized()
     }
 
     var body: some Scene {
