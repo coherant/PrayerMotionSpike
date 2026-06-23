@@ -306,7 +306,9 @@ struct PrayerTimesView: View {
     private var ctaButton: some View {
         let label = vm.ctaLabel
 
-        return Button { router.selectedTab = .guided } label: {
+        return Button {
+            if vm.isInPrayerWindow { router.selectedTab = .guided }
+        } label: {
             Text(label)
                 .font(Typography.eyebrow)
                 .tracking(1.5)
