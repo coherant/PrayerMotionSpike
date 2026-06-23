@@ -106,6 +106,9 @@ struct PrayerState {
     let repromptInterval: Double
     let capturesYawBaseline: Bool
     let maxReprompts: Int?
+    // Calibration sets this false — arc fills only during the hold phase, not motion wait.
+    // Guided leaves it true (default) — arc fills during reprompt countdown as before.
+    let showProgressDuringWait: Bool
 
     init(
         id: PrayerStateID,
@@ -121,7 +124,8 @@ struct PrayerState {
         repromptAudio: String? = nil,
         repromptInterval: Double = 8,
         capturesYawBaseline: Bool = false,
-        maxReprompts: Int? = nil
+        maxReprompts: Int? = nil,
+        showProgressDuringWait: Bool = true
     ) {
         self.id = id
         self.rakatNumber = rakatNumber
@@ -137,6 +141,7 @@ struct PrayerState {
         self.repromptInterval = repromptInterval
         self.capturesYawBaseline = capturesYawBaseline
         self.maxReprompts = maxReprompts
+        self.showProgressDuringWait = showProgressDuringWait
     }
 }
 
@@ -494,7 +499,7 @@ enum CalibrationSequenceGenerator {
               exitSpeech: "Get ready to stand upright into Qiyam.",
               motionTrigger: .ruku,
               repromptAudio: "Bow forward and place both hands on your knees.",
-              repromptInterval: 5, maxReprompts: 3),
+              repromptInterval: 5, maxReprompts: 3, showProgressDuringWait: false),
 
         // Position 3
         .init(id: .r1QiyamAfterRuku, rakatNumber: 1, mode: .motion,
@@ -504,7 +509,7 @@ enum CalibrationSequenceGenerator {
               exitSpeech: "Get ready to lower into Sujood.",
               motionTrigger: .upright,
               repromptAudio: "Stand upright.",
-              repromptInterval: 5, maxReprompts: 3),
+              repromptInterval: 5, maxReprompts: 3, showProgressDuringWait: false),
 
         // Position 4
         .init(id: .r1SujoodFirst, rakatNumber: 1, mode: .motion,
@@ -514,7 +519,7 @@ enum CalibrationSequenceGenerator {
               exitSpeech: "Get ready to sit upright into Julus.",
               motionTrigger: .sujood,
               repromptAudio: "Lower into prostration with your forehead touching the ground.",
-              repromptInterval: 5, maxReprompts: 3),
+              repromptInterval: 5, maxReprompts: 3, showProgressDuringWait: false),
 
         // Position 5
         .init(id: .r1JulusBetween, rakatNumber: 1, mode: .motion,
@@ -524,7 +529,7 @@ enum CalibrationSequenceGenerator {
               exitSpeech: "Get ready to lower into Sujood again.",
               motionTrigger: .upright,
               repromptAudio: "Sit upright on your knees.",
-              repromptInterval: 5, maxReprompts: 3),
+              repromptInterval: 5, maxReprompts: 3, showProgressDuringWait: false),
 
         // Position 6
         .init(id: .r1SujoodSecond, rakatNumber: 1, mode: .motion,
@@ -534,7 +539,7 @@ enum CalibrationSequenceGenerator {
               exitSpeech: "Get ready to stand upright for the second rakat.",
               motionTrigger: .sujood,
               repromptAudio: "Lower into prostration with your forehead touching the ground.",
-              repromptInterval: 5, maxReprompts: 3),
+              repromptInterval: 5, maxReprompts: 3, showProgressDuringWait: false),
 
         // Position 7 — Rakat 2
         .init(id: .r2QiyamFull, rakatNumber: 2, mode: .motion,
@@ -544,7 +549,7 @@ enum CalibrationSequenceGenerator {
               exitSpeech: "Get ready to bow into Ruku.",
               motionTrigger: .upright,
               repromptAudio: "Stand upright.",
-              repromptInterval: 5, maxReprompts: 3),
+              repromptInterval: 5, maxReprompts: 3, showProgressDuringWait: false),
 
         // Position 8
         .init(id: .r2Ruku, rakatNumber: 2, mode: .motion,
@@ -554,7 +559,7 @@ enum CalibrationSequenceGenerator {
               exitSpeech: "Get ready to stand upright into Qiyam.",
               motionTrigger: .ruku,
               repromptAudio: "Bow forward and place both hands on your knees.",
-              repromptInterval: 5, maxReprompts: 3),
+              repromptInterval: 5, maxReprompts: 3, showProgressDuringWait: false),
 
         // Position 9 — yaw baseline captured here for Tasleem detection
         .init(id: .r2QiyamAfterRuku, rakatNumber: 2, mode: .motion,
@@ -575,7 +580,7 @@ enum CalibrationSequenceGenerator {
               exitSpeech: "Get ready to sit upright into Julus.",
               motionTrigger: .sujood,
               repromptAudio: "Lower into prostration with your forehead touching the ground.",
-              repromptInterval: 5, maxReprompts: 3),
+              repromptInterval: 5, maxReprompts: 3, showProgressDuringWait: false),
 
         // Position 11
         .init(id: .r2JulusBetween, rakatNumber: 2, mode: .motion,
@@ -585,7 +590,7 @@ enum CalibrationSequenceGenerator {
               exitSpeech: "Get ready to lower into Sujood again.",
               motionTrigger: .upright,
               repromptAudio: "Sit upright on your knees.",
-              repromptInterval: 5, maxReprompts: 3),
+              repromptInterval: 5, maxReprompts: 3, showProgressDuringWait: false),
 
         // Position 12
         .init(id: .r2SujoodSecond, rakatNumber: 2, mode: .motion,
@@ -595,7 +600,7 @@ enum CalibrationSequenceGenerator {
               exitSpeech: "Get ready to sit for Tashahhud.",
               motionTrigger: .sujood,
               repromptAudio: "Lower into prostration with your forehead touching the ground.",
-              repromptInterval: 5, maxReprompts: 3),
+              repromptInterval: 5, maxReprompts: 3, showProgressDuringWait: false),
 
         // Position 13
         .init(id: .julusFull, rakatNumber: 2, mode: .motion,
@@ -605,7 +610,7 @@ enum CalibrationSequenceGenerator {
               exitSpeech: "Get ready to turn your head to the right for Tasleem.",
               motionTrigger: .upright,
               repromptAudio: "Sit upright on your knees.",
-              repromptInterval: 5, maxReprompts: 3),
+              repromptInterval: 5, maxReprompts: 3, showProgressDuringWait: false),
 
         // Position 14
         .init(id: .tasleemRight, rakatNumber: 2, mode: .motion,
@@ -615,7 +620,7 @@ enum CalibrationSequenceGenerator {
               exitSpeech: "Get ready to turn your head to the left.",
               motionTrigger: .headTurnRight,
               repromptAudio: "Turn your head to the right.",
-              repromptInterval: 5, maxReprompts: 3),
+              repromptInterval: 5, maxReprompts: 3, showProgressDuringWait: false),
 
         // Position 15
         .init(id: .tasleemLeft, rakatNumber: 2, mode: .motion,
@@ -625,6 +630,6 @@ enum CalibrationSequenceGenerator {
               exitSpeech: "Calibration complete. You may move freely.",
               motionTrigger: .headTurnLeft,
               repromptAudio: "Turn your head to the left.",
-              repromptInterval: 5, maxReprompts: 3),
+              repromptInterval: 5, maxReprompts: 3, showProgressDuringWait: false),
     ] }
 }

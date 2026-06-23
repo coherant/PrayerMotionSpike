@@ -33,6 +33,7 @@ Defines which file or constant controls each timing parameter.
 | Motion confirmation hold window | Fixed code constant | `PrayerStateMachine.swift` — 1.5s |
 | Reprompt interval | Master sequence table | `master-prayer-state-machine.md` — `Reprompt Interval` column |
 | Reprompt utterance | Prayer role row | `prayers-for-each-state-in-state-machine.md` — `reprompt` role |
+| Arc progress indicator | Hold phase only | `PrayerSequence.swift` — `showProgressDuringWait: false` on all motion states; arc fills only during the 5s hold, not during motion wait |
 
 ## Master phase sequence
 

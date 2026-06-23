@@ -212,7 +212,16 @@ final class PrayerStateMachine {
                 if !prayer.utterance.isEmpty { await audioManager.speak(prayer.utterance) }
                 guard !Task.isCancelled else { return }
                 let holdDuration = prayer.duration.seconds(pace: pace)
-                try? await Task.sleep(for: .seconds(holdDuration))
+                if holdDuration > 0 {
+                    let holdStart = Date()
+                    while !Task.isCancelled {
+                        let elapsed = Date().timeIntervalSince(holdStart)
+                        confirmProgress = min(elapsed / holdDuration, 1.0)
+                        if elapsed >= holdDuration { break }
+                        try? await Task.sleep(for: .milliseconds(50))
+                    }
+                    confirmProgress = 0
+                }
             }
             guard !Task.isCancelled else { return }
             if let speech = state.exitSpeech { await audioManager.speak(speech) }
@@ -289,7 +298,9 @@ final class PrayerStateMachine {
 
         while !Task.isCancelled {
             let elapsed = Date().timeIntervalSince(lastRepromptAt)
-            confirmProgress = min(elapsed / state.repromptInterval, 1.0)
+            confirmProgress = state.showProgressDuringWait
+                ? min(elapsed / state.repromptInterval, 1.0)
+                : 0
 
             if thresholds.isSatisfied(trigger, pitch: pitch, roll: roll, yaw: yaw,
                                       yawBaseline: qiyamYawBaseline) {
