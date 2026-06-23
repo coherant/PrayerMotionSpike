@@ -38,8 +38,31 @@ final class PrayerTimesViewModel {
     var isInPrayerWindow: Bool {
         let now = Date()
         let start = prayerTime.scheduledDate
-        let end = start.addingTimeInterval(15 * 60)
-        return now >= start && now < end
+        return now >= start && now < start.addingTimeInterval(15 * 60)
+    }
+
+    var nextPrayer: PrayerTime {
+        let all = PrayerTime.allCases
+        let next = (all.firstIndex(of: prayerTime) ?? 0) + 1
+        return all[next % all.count]
+    }
+
+    var isBeforeNextPrayer: Bool {
+        var nextDate = nextPrayer.scheduledDate
+        // If wrapping from Isha to Fajr, next Fajr is tomorrow
+        if prayerTime == .isha && nextPrayer == .fajr {
+            nextDate = nextDate.addingTimeInterval(24 * 60 * 60)
+        }
+        let windowStart = nextDate.addingTimeInterval(-15 * 60)
+        let now = Date()
+        return now >= windowStart && now < nextDate
+    }
+
+    var ctaLabel: String {
+        if isBeforeNextPrayer {
+            return "Prepare for \(nextPrayer.displayName)"
+        }
+        return "Pray \(prayerTime.displayName)"
     }
 
     var countdown: String {
