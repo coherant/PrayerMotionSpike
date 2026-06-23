@@ -35,6 +35,13 @@ final class PrayerTimesViewModel {
         return f.string(from: Date())
     }
 
+    var isInPrayerWindow: Bool {
+        let now = Date()
+        let start = prayerTime.scheduledDate
+        let end = start.addingTimeInterval(15 * 60)
+        return now >= start && now < end
+    }
+
     var countdown: String {
         let interval = prayerTime.scheduledDate.timeIntervalSince(Date())
         guard interval > 0 else { return "now" }

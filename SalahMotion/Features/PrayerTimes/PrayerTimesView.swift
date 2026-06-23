@@ -304,9 +304,9 @@ struct PrayerTimesView: View {
     // MARK: - CTA button
 
     private var ctaButton: some View {
-        let label = prayerTime == .isha
-            ? "Begin Isha"
-            : "Prepare for \(prayerTime.displayName)"
+        let label = vm.isInPrayerWindow
+            ? "Pray \(prayerTime.displayName)"
+            : (prayerTime == .isha ? "Begin Isha" : "Prepare for \(prayerTime.displayName)")
 
         return Button { } label: {
             Text(label)
@@ -334,7 +334,8 @@ struct PrayerTimesView: View {
                 )
         }
         .buttonStyle(.plain)
-        .onAppear { ctaPulsing = true }
+        .onAppear { ctaPulsing = vm.isInPrayerWindow }
+        .onChange(of: vm.isInPrayerWindow) { ctaPulsing = vm.isInPrayerWindow }
     }
 }
 
