@@ -4,7 +4,10 @@ import Foundation
 final class PrayerTimesViewModel {
 
     private(set) var prayerTime: PrayerTime = .current
+    let location = LocationManager()
     private var timer: Timer?
+
+    var cityName: String { location.cityName }
 
     init() {
         timer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { [weak self] _ in

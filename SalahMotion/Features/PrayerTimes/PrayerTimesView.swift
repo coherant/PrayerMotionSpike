@@ -42,6 +42,7 @@ struct PrayerTimesView: View {
                 .padding(.bottom, 110)
             }
         }
+        .onAppear { vm.location.requestLocation() }
     }
 
     // MARK: - Header
@@ -65,16 +66,16 @@ struct PrayerTimesView: View {
     }
 
     private var locationPill: some View {
-        HStack(spacing: 6) {
+        HStack(spacing: 4) {
             Image(systemName: "mappin.and.ellipse")
-                .font(.system(size: 11))
+                .font(.system(size: 7))
                 .foregroundStyle(isLight ? Color(hex: "#2b3a4a").opacity(0.6) : Color(hex: "#c8b3a8"))
-            Text("London")
-                .font(Typography.ui(13))
+            Text(vm.cityName)
+                .font(Typography.ui(9))
                 .foregroundStyle(isLight ? Color(hex: "#2b3a4a").opacity(0.75) : Color(hex: "#d8d0ca"))
         }
-        .padding(.horizontal, 12)
-        .padding(.vertical, 7)
+        .padding(.horizontal, 8)
+        .padding(.vertical, 5)
         .background(
             Capsule()
                 .fill(isLight ? Color.white.opacity(0.6) : Color.white.opacity(0.05))
