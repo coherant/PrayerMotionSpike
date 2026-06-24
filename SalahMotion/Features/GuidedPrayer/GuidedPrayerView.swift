@@ -18,7 +18,7 @@ struct GuidedPrayerView: View {
             case .idle:      setupView
             case .running:   runningView
             case .complete:  completeView
-            case .cancelled: prayerTime.backgroundGradient.ignoresSafeArea()
+            case .cancelled: runningView
             }
         }
         .animation(.easeInOut(duration: 0.3), value: session.status)
@@ -143,8 +143,6 @@ struct GuidedPrayerView: View {
     private var cancelOverlay: some View {
         let accent = prayerTime.theme.accent
         return ZStack {
-            prayerTime.backgroundGradient.ignoresSafeArea()
-
             Text("Prayer Cancelled")
                 .font(Typography.eyebrow)
                 .tracking(1.5)
@@ -164,10 +162,11 @@ struct GuidedPrayerView: View {
                                    value: cancelPulsing)
                 )
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .onAppear {
             cancelPulsing = true
             Task {
-                try? await Task.sleep(for: .seconds(2))
+                try? await Task.sleep(for: .seconds(3))
                 cancelPulsing = false
                 withAnimation(.easeInOut(duration: 0.4)) { showCancelOverlay = false }
                 session = PrayerStateMachine(
