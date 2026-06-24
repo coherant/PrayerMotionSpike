@@ -62,7 +62,8 @@ struct GuidedPrayerScreen: View {
                     recitationText: "Subḥāna Rabbiyal-A'lā",
                     instruction: "held · 3 times",
                     prayerTime: prayerTime,
-                    onEndPrayer: {}
+                    onCancel: {},
+                    onNavigate: {}
                 )
                 .padding(.bottom, 40)
             }

@@ -9,24 +9,16 @@ struct GuidedPrayerView: View {
     @State private var isSilenced = false
     @State private var shareURL: URL?
     @State private var sessionFiles: [URL] = []
-    @State private var showCancelOverlay = false
-    @State private var cancelPulsing = false
 
     var body: some View {
         Group {
             switch session.status {
-            case .idle:      setupView
-            case .running:   runningView
-            case .complete:  completeView
-            case .cancelled: runningView
+            case .idle:                setupView
+            case .running, .cancelled: runningView
+            case .complete:            completeView
             }
         }
         .animation(.easeInOut(duration: 0.3), value: session.status)
-        .overlay {
-            if showCancelOverlay {
-                cancelOverlay.transition(.opacity)
-            }
-        }
         .sheet(item: $shareURL) { ShareSheet(url: $0) }
         .onAppear { loadSessionFiles() }
         .onChange(of: session.status) {
@@ -97,9 +89,11 @@ struct GuidedPrayerView: View {
                     recitationText: state.prayers.first?.utterance ?? "",
                     instruction: state.motionTrigger != nil ? "awaiting motion" : "timed",
                     prayerTime: prayerTime,
-                    onEndPrayer: {
-                        session.cancel()
-                        withAnimation(.easeInOut(duration: 0.3)) { showCancelOverlay = true }
+                    onCancel: { session.cancel() },
+                    onNavigate: {
+                        session = PrayerStateMachine(
+                            sequence: GuidedSequenceGenerator.generate(language: UserPreferences.shared.language)
+                        )
                     }
                 )
                 .padding(.bottom, 40)
@@ -135,44 +129,6 @@ struct GuidedPrayerView: View {
                 }
             }
             .padding()
-        }
-    }
-
-    // MARK: - Cancel overlay
-
-    private var cancelOverlay: some View {
-        let accent = prayerTime.theme.accent
-        return ZStack {
-            Text("Prayer Cancelled")
-                .font(Typography.eyebrow)
-                .tracking(1.5)
-                .foregroundStyle(accent)
-                .padding(.horizontal, 20)
-                .padding(.vertical, 8)
-                .background(
-                    Capsule().strokeBorder(accent.opacity(0.5), lineWidth: 1)
-                )
-                .overlay(
-                    Capsule()
-                        .fill(accent)
-                        .scaleEffect(x: cancelPulsing ? 1.12 : 1.0,
-                                     y: cancelPulsing ? 1.5  : 1.0)
-                        .opacity(cancelPulsing ? 0 : 0.35)
-                        .animation(.easeOut(duration: 3.6).repeatForever(autoreverses: false),
-                                   value: cancelPulsing)
-                )
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .onAppear {
-            cancelPulsing = true
-            Task {
-                try? await Task.sleep(for: .seconds(3))
-                cancelPulsing = false
-                withAnimation(.easeInOut(duration: 0.4)) { showCancelOverlay = false }
-                session = PrayerStateMachine(
-                    sequence: GuidedSequenceGenerator.generate(language: UserPreferences.shared.language)
-                )
-            }
         }
     }
 

@@ -6,9 +6,14 @@ struct GuidedPrayerBottomTextView: View {
     let recitationText: String
     let instruction: String
     let prayerTime: PrayerTime
-    let onEndPrayer: () -> Void
+    let onCancel: () -> Void
+    let onNavigate: () -> Void
+
+    @State private var cancelled = false
+    @State private var pulsing = false
 
     private var theme: PrayerTimeTheme { prayerTime.theme }
+    private var accent: Color { theme.accent }
 
     var body: some View {
         VStack(spacing: 0) {
@@ -37,18 +42,37 @@ struct GuidedPrayerBottomTextView: View {
 
             Spacer().frame(height: 24)
 
-            Button(action: onEndPrayer) {
-                Text("END PRAYER")
+            // END PRAYER / Prayer Cancelled capsule
+            Button {
+                guard !cancelled else { return }
+                cancelled = true
+                pulsing = true
+                onCancel()
+                Task {
+                    try? await Task.sleep(for: .seconds(3))
+                    onNavigate()
+                }
+            } label: {
+                Text(cancelled ? "Prayer Cancelled" : "END PRAYER")
                     .eyebrowStyle()
-                    .foregroundStyle(theme.accent)
+                    .foregroundStyle(accent)
                     .padding(.horizontal, 20)
                     .padding(.vertical, 8)
-                    .background(
+                    .background(Capsule().strokeBorder(accent.opacity(0.5), lineWidth: 1))
+                    .overlay(
                         Capsule()
-                            .strokeBorder(theme.accent.opacity(0.5), lineWidth: 1)
+                            .fill(accent)
+                            .scaleEffect(x: pulsing ? 1.12 : 1.0,
+                                         y: pulsing ? 1.5  : 1.0)
+                            .opacity(pulsing ? 0 : 0.35)
+                            .animation(
+                                .easeOut(duration: 3.6).repeatForever(autoreverses: false),
+                                value: pulsing
+                            )
                     )
             }
             .buttonStyle(.plain)
+            .animation(.easeInOut(duration: 0.2), value: cancelled)
         }
         .multilineTextAlignment(.center)
     }
@@ -71,7 +95,8 @@ private struct BottomTextPreview: View {
                 recitationText: "Glory be to Allah the most high",
                 instruction: "awaiting motion",
                 prayerTime: prayerTime,
-                onEndPrayer: {}
+                onCancel: {},
+                onNavigate: {}
             )
             .padding(.bottom, 40)
         }
