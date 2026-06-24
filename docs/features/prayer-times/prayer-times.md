@@ -5,7 +5,7 @@ five states — the layout never changes, only the atmosphere (background gradie
 + accent) and the *progress* (which prayers are already prayed). At Fajr nothing
 is behind you; by Isha, four are gently complete.
 
-File: `PrayersTimesAcrosstheDay.dc.html` (depends on sibling `ios-frame.jsx` and
+File: `prayer-times-across-the-day.html` (depends on sibling `ios-frame.jsx` and
 `SukunTabBar.dc.html`).
 
 ---

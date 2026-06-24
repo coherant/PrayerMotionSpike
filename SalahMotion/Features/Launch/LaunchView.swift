@@ -1,7 +1,7 @@
 import SwiftUI
 
 // MARK: - Launch / Splash Screen
-// Source: docs/features/launch-screen/LAUNCH.md
+// Source: docs/features/launch-screen/launch.md
 // Shown immediately after the system launch screen.
 // Theme driven by PrayerTime.current.
 
@@ -336,7 +336,7 @@ struct LaunchView: View {
         isPulsing   = true
         isTwinkling = true
 
-        // Sequenced intro per LAUNCH.md §6
+        // Sequenced intro per launch.md §6
         withAnimation(.easeIn(duration: 1.6).delay(0.3))  { showHorizon    = true }
         withAnimation(.easeOut(duration: 1.4).delay(0.2)) { lineHeight      = 60 }
         withAnimation(.easeIn(duration: 0.8).delay(0.45)) { showLoader      = true }

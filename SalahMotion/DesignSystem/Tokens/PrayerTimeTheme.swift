@@ -196,7 +196,7 @@ enum PrayerTime: String, CaseIterable, Identifiable {
     }
 
     // MARK: - Setup screen accent (Column B — restrained wash, not the full in-prayer accent)
-    // Source: docs/features/prayer-setup/SETUP-THEMED.md §3
+    // Source: docs/features/prayer-setup/setup-themed.md §3
     var setupAccent: Color {
         switch self {
         case .fajr:    return Color(hex: "#e8a07e")

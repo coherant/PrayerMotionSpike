@@ -2,7 +2,7 @@
 
 The first screen shown when the app opens. An animated, reverent splash themed
 to the current prayer hour. Pairs with `THEME.md` (day-colour system),
-`SPEC.md`, `SETUP-THEMED.md`, `COMPOSER.md`.
+`SPEC.md`, `setup-themed.md`, `composer.md`.
 
 Artboard **402 × 874** inside the iOS frame. Default theme **isha** (primary night sky).
 

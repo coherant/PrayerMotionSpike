@@ -5,7 +5,7 @@ Guided Prayer Setup screen. Lets the user pick the prayer and toggle which rakʿ
 units are included. Reflects the current build (Done-only, no confirm button, no
 totals row).
 
-Pairs with `SPEC.md` (full screen), `THEME.md` (day colours), `SETUP-THEMED.md`
+Pairs with `SPEC.md` (full screen), `THEME.md` (day colours), `setup-themed.md`
 (themed background + sheet tint).
 
 ---
