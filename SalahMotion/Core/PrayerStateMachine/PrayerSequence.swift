@@ -169,6 +169,14 @@ private enum Meaning {
 //          docs/guided/prayer-sets/{prayer}.md
 //          docs/prayers/prayers.md
 
+// MARK: - Prayer unit
+// A unit is one complete prayer from niyet to Tasleem — the atom the generator
+// builds. The canonical unit model lives in SalatType.swift (`PrayerUnit`), where
+// `SalatType.units` already lists each prayer-time's full composition (built for
+// prayer-setup). The guided generator consumes that model here; the observance
+// layer that *chains* those units is parked (docs/guided/observance-considerations.md).
+// See also the "Unit identity" section of docs/guided/master-prayer-state-machine.md.
+
 enum GuidedSequenceGenerator {
 
     // MARK: Public API
@@ -179,14 +187,7 @@ enum GuidedSequenceGenerator {
     ) -> [PrayerState] {
         let tx = Tx(language: language)
         let c  = makeContent(for: salat, tx: tx)
-        switch salat {
-        case .fajr:
-            return fajrSequence(tx: tx, c: c)
-        case .maghrib:
-            return maghribSequence(tx: tx, c: c)
-        case .dhuhr, .asr, .isha:
-            return fourRakatSequence(tx: tx, c: c)
-        }
+        return generateUnit(fardUnit(for: salat), content: c, tx: tx)
     }
 
     // Witr is a sunnah unit within Isha — exposed separately for future unit composition.
@@ -194,15 +195,43 @@ enum GuidedSequenceGenerator {
         let tx = Tx(language: language)
         let c  = Content(niyetText: InstructionLibrary.text(.i25, prayer: "Witr"), hasOpeningCue: false,
                          rakat1Surah: tx.P16, rakat2Surah: tx.P17)
-        let qunut: [(utterance: String, duration: PrayerDuration)] = [
-            (tx.P18, .pace), (tx.P19, .pace), (tx.P20, .pace), (tx.P21, .pace), (tx.P22, .pace)
-        ]
-        return rakat1Full(tx: tx, c: c)
-             + rakat2Full(tx: tx, c: c, capturesYaw: false)
-             + shortTashahhud(tx: tx)
-             + rakat3FatihaOnly(tx: tx, extraPrayers: qunut, capturesYaw: true)
-             + fullTashahhud(tx: tx, rakat: 3)
-             + tasleem(tx: tx, rakat: 3)
+        return generateUnit(PrayerUnit(id: "isha_witr", kind: .witr, rakats: 3), content: c, tx: tx)
+    }
+
+    // MARK: - Unit generation
+
+    // The Fard-equivalent unit for each prayer-time (the single unit emitted today).
+    private static func fardUnit(for salat: SalatType) -> PrayerUnit {
+        salat.units.first(where: \.isObligatory)
+            ?? PrayerUnit(id: "\(salat.rawValue)_f", kind: .fard, rakats: salat.fardRakats)
+    }
+
+    // True when this unit recites the Qunut dua in its final standing (Witr only).
+    private static func hasQunut(_ unit: PrayerUnit) -> Bool {
+        if case .witr = unit.kind { return true }
+        return false
+    }
+
+    // Builds one unit's full [PrayerState] from its identity (rakat count, kind)
+    // + content. The yaw baseline is always the last qiyam-after-ruku before Tasleem.
+    private static func generateUnit(_ unit: PrayerUnit, content c: Content, tx: Tx) -> [PrayerState] {
+        var states = rakat1Full(tx: tx, c: c)
+        states += rakat2Full(tx: tx, c: c, capturesYaw: unit.rakats == 2)
+
+        if unit.rakats >= 3 {
+            states += shortTashahhud(tx: tx)
+            let qunut: [(utterance: String, duration: PrayerDuration)] = hasQunut(unit)
+                ? [(tx.P18, .pace), (tx.P19, .pace), (tx.P20, .pace), (tx.P21, .pace), (tx.P22, .pace)]
+                : []
+            states += rakat3FatihaOnly(tx: tx, extraPrayers: qunut, capturesYaw: unit.rakats == 3)
+            if unit.rakats == 4 {
+                states += rakat4FatihaOnly(tx: tx, capturesYaw: true)
+            }
+        }
+
+        states += fullTashahhud(tx: tx, rakat: unit.rakats)
+        states += tasleem(tx: tx, rakat: unit.rakats)
+        return states
     }
 
     // MARK: - Prayer text bundle
@@ -257,34 +286,6 @@ enum GuidedSequenceGenerator {
         case .maghrib: return Content(niyetText: niyet, hasOpeningCue: true, rakat1Surah: tx.P11, rakat2Surah: tx.P13)
         case .isha:    return Content(niyetText: niyet, hasOpeningCue: true, rakat1Surah: tx.P11, rakat2Surah: tx.P12)
         }
-    }
-
-    // MARK: - Prayer sequences
-
-    private static func fajrSequence(tx: Tx, c: Content) -> [PrayerState] {
-        rakat1Full(tx: tx, c: c)
-        + rakat2Full(tx: tx, c: c, capturesYaw: true)
-        + fullTashahhud(tx: tx, rakat: 2)
-        + tasleem(tx: tx, rakat: 2)
-    }
-
-    private static func maghribSequence(tx: Tx, c: Content) -> [PrayerState] {
-        rakat1Full(tx: tx, c: c)
-        + rakat2Full(tx: tx, c: c, capturesYaw: false)
-        + shortTashahhud(tx: tx)
-        + rakat3FatihaOnly(tx: tx, extraPrayers: [], capturesYaw: true)
-        + fullTashahhud(tx: tx, rakat: 3)
-        + tasleem(tx: tx, rakat: 3)
-    }
-
-    private static func fourRakatSequence(tx: Tx, c: Content) -> [PrayerState] {
-        rakat1Full(tx: tx, c: c)
-        + rakat2Full(tx: tx, c: c, capturesYaw: false)
-        + shortTashahhud(tx: tx)
-        + rakat3FatihaOnly(tx: tx, extraPrayers: [], capturesYaw: false)
-        + rakat4FatihaOnly(tx: tx, capturesYaw: true)
-        + fullTashahhud(tx: tx, rakat: 4)
-        + tasleem(tx: tx, rakat: 4)
     }
 
     // MARK: - Block generators

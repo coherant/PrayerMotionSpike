@@ -11,6 +11,38 @@ Prayer text library: `../prayers/prayers.md`
 - Yaw baseline is always captured at the last qiyam-after-ruku before TASLEEM
 - The future observance-level lifetime of `I-1` / `I-24` is parked in `observance-considerations.md` (not yet implemented)
 
+## Unit identity
+
+A **unit** is one complete prayer from niyet to Tasleem. It is the atom the
+generator builds; the **observance** layer that chains multiple units per
+prayer-time is parked in `observance-considerations.md` (not yet implemented).
+
+The unit model is **canonical, not guided-specific**: it is `PrayerUnit` in
+`SalatType.swift`, and `SalatType.units` already lists each prayer-time's full
+composition in order (built for prayer-setup). The guided generator consumes that
+same model — it does not define its own.
+
+A unit's *structural* identity:
+
+| Field | Meaning | Values today |
+|---|---|---|
+| `kind` | role within its observance | `fard` · `sunnahBefore(emphasised)` · `sunnahAfter(emphasised)` · `witr` |
+| `rakats` | number of rakats | 2 · 3 · 4 |
+
+Whether a unit recites the **Qunut** dua in its final standing is *derived* from
+`kind == .witr` — not a stored field. The unit's *content* (niyet name, the two
+surahs, whether it opens with the `I-24` stand-upright cue) is carried separately
+— see `prayer-sets/{prayer}.md`.
+
+Today every guided sequence is a **single unit** — the Fard-equivalent for each
+prayer-time (`SalatType.units.first(where: \.isObligatory)`), plus Witr exposed on
+its own. The shape is fully determined by `rakats` and the derived Qunut flag:
+
+- `rakat1` RAKAT_FULL · `rakat2` RAKAT_FULL — yaw here when `rakats == 2`
+- if `rakats >= 3`: SHORT_TASHAHHUD, then RAKAT_FATIHA_ONLY rakats up to `rakats`
+  — yaw on the last one; Qunut folded into rakat 3 for Witr
+- FULL_TASHAHHUD then TASLEEM at `rakats`
+
 ---
 
 ## Fajr

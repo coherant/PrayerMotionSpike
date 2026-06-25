@@ -64,20 +64,28 @@ is not throwaway — it is the **seed of the Stage 3 `observances.md` spec**.
 
 ### Stage 1 — (folded into Stage 0)
 
-### Stage 2 — Introduce unit identity (model, no composition)
-- Spec: formalize `Unit` identity `{ kind: sunnahBefore | fard | sunnahAfter | witr,
-  rakatCount, hasQunut }`.
-- Code: `PrayerUnit` value type; refactor generator to
-  `generateUnit(_:isFirst:isLast:) -> [PrayerState]`. Keep `generate(salat:)` as a
-  thin shim returning the single Fard unit.
-- Retire the runtime `session` word in favor of `unit`/`observance`.
-- **Exit:** snapshot green; model exists, nothing chains yet; fully reversible.
+### Stage 2 — Introduce unit identity (model, no composition) ✅ DONE
+- Spec: documented unit identity in `master-prayer-state-machine.md` (§ Unit identity).
+- **Key finding:** the unit model already existed — `PrayerUnit` in `SalatType.swift`,
+  and `SalatType.units` already lists each prayer-time's **full composition** (built
+  for prayer-setup). We **reused the canonical model** instead of adding a parallel
+  one. The guided generator now consumes it.
+- Code: `generateUnit(_ unit: PrayerUnit, content:tx:)` composes the existing block
+  generators by `unit.rakats` (+ Qunut derived from `kind == .witr`). `generate(salat:)`
+  / `witrSequence()` are thin shims; the three per-shape sequence funcs were deleted.
+- **Deviations from original plan (approved):** (a) skipped `isFirst:isLast:` — inert
+  today and would pre-decide a parked opener question; add in Stage 3. (b) Skipped the
+  `session` rename — that word is the *recording-session* concept, correctly named.
+- **Exit:** snapshot byte-identical (green); nothing chains yet; fully reversible. ✅
 
 ### Stage 3 — The observance layer (new)
-- Promote `observance-considerations.md` → `observances.md`: the composition table
-  (Fajr `[SunnahBefore-2, Fard-2]`, Dhuhr `[SunnahBefore-4, Fard-4, SunnahAfter-2]`,
-  Asr `[SunnahBefore-4, Fard-4]`, Maghrib `[Fard-3, SunnahAfter-2]`,
-  Isha `[Fard-4, SunnahAfter-2, Witr-3]`) + inclusion rules.
+- **The composition table already exists** as `SalatType.units` (see Stage 2 finding)
+  — Stage 3 consumes it rather than re-authoring. Promote `observance-considerations.md`
+  → `observances.md` for the *transition* semantics + inclusion rules, and reconcile
+  its parked composition table against `SalatType.units` (they match today).
+  Original table for reference: Fajr `[SunnahBefore-2, Fard-2]`, Dhuhr
+  `[SunnahBefore-4, Fard-4, SunnahAfter-2]`, Asr `[SunnahBefore-4, Fard-4]`,
+  Maghrib `[Fard-3, SunnahAfter-2]`, Isha `[Fard-4, SunnahAfter-2, Witr-3]`.
 - Write the transition semantics: niyet replays per unit; I-1 fires once
   (observance start); I-24 per the parked decision; timed pie-opening restarts each
   unit; P-23 placement fixed.
@@ -130,10 +138,12 @@ is not throwaway — it is the **seed of the Stage 3 `observances.md` spec**.
 ## Status
 
 - Baseline committed `ab7ae2e`; on branch `observance-sequencer`.
-- **Stage 0 ✅ complete** (uncommitted): live spec locked to current truth (parked
-  forward content to `observance-considerations.md`); golden snapshot test
-  (`SalahMotionTests/GuidedSnapshotTests.swift` + `__Snapshots__/guided-sequences.txt`,
-  583 lines) green. State counts match master phase counts (fajr 15, dhuhr/asr/isha 28,
-  maghrib 22, witr 22); exactly one yaw-capture per sequence.
-- **Next action:** Stage 2 — unit identity (`PrayerUnit` model, `generateUnit`,
-  `generate(salat:)` shim), snapshot must stay green.
+- **Stage 0 ✅ committed** (`1346d83`): live spec locked to current truth; golden
+  snapshot (`SalahMotionTests/GuidedSnapshotTests.swift` + `__Snapshots__/guided-sequences.txt`,
+  584 lines) green. State counts match master phase counts; one yaw-capture per sequence.
+- **Stage 2 ✅ complete** (uncommitted): generator reuses canonical `PrayerUnit` /
+  `SalatType.units`; single `generateUnit` composes by `rakats`; per-shape funcs
+  deleted; spec § Unit identity added. Snapshot byte-identical (still green). Key
+  finding: composition table already exists in `SalatType.units` — de-risks Stage 3.
+- **Next action:** commit Stage 2, then Stage 3 — observance layer (consume
+  `SalatType.units`; author transition semantics; resolve the 4 parked decisions).
