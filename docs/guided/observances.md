@@ -83,13 +83,54 @@ by `generate`. From it the machine exposes `currentUnitIndex`, `unitCount`,
 
 ---
 
-## Deferred to Stage 5 (content correctness)
+## 5. Per-unit content (niyet identity + surahs) — Stage 5
 
-- **Niyet identity.** `I-25` is templated only on the prayer-*time* ("Fajr"), so a
-  chained Sunnah and Fard unit currently declare the *same* niyet. Stage 5 gives the
-  niyet unit identity — "the Sunnah of Fajr" vs "the Fard of Fajr".
-- **Per-unit surahs.** Sunnah units currently reuse the Fard prayer-set content
-  (same surahs). Per-unit surah verification is Stage 5.
+A unit's recitation content (niyet + the two opening-rakat surahs) is resolved
+per **unit**, not per prayer-time, by `content(for:unit:)`. This is the authoritative
+source for the surah assignment; the prayer-set shape files defer to this table.
+
+### Niyet identity
+
+`I-25` ("Give your niyet for {prayer}") substitutes the unit's identity, so each unit
+in a chained observance declares its own intention:
+
+| Unit kind | `{prayer}` substitution | Spoken niyet |
+|---|---|---|
+| Farḍ | "the Farḍ of *{Prayer}*" | "Give your niyet for the Farḍ of Fajr" |
+| Sunnah (before/after) | "the Sunnah of *{Prayer}*" | "Give your niyet for the Sunnah of Fajr" |
+| Witr | "Witr" | "Give your niyet for Witr" |
+
+### Surahs (rakat 1 / rakat 2 of each unit)
+
+Drawn from the seven short surahs `P-11…P-17`. Curation rules: **every Farḍ unit opens
+(rakat 1) with Al-Ikhlas** — the declaration of tawhid at the start of every obligatory
+prayer; no surah repeats inside a unit; no surah repeats across a unit boundary; Witr
+keeps its traditional Al-Aʿlā / Al-Kāfirūn.
+
+| Prayer | Unit (`id`) | Rakat 1 | Rakat 2 |
+|---|---|---|---|
+| Fajr | Sunnah (`fajr_sb`) | Al-Aʿlā `P-16` | Al-Kāfirūn `P-17` |
+| | **Farḍ** (`fajr_f`) | **Al-Ikhlas `P-11`** | Al-Falaq `P-13` |
+| Dhuhr | Sunnah before (`dhuhr_sb`) | Al-Kawthar `P-14` | Al-Nas `P-12` |
+| | **Farḍ** (`dhuhr_f`) | **Al-Ikhlas `P-11`** | Al-ʿAsr `P-15` |
+| | Sunnah after (`dhuhr_sa`) | Al-Falaq `P-13` | Al-Aʿlā `P-16` |
+| Asr | Sunnah before (`asr_sb`) | Al-Kāfirūn `P-17` | Al-Nas `P-12` |
+| | **Farḍ** (`asr_f`) | **Al-Ikhlas `P-11`** | Al-Kawthar `P-14` |
+| Maghrib | **Farḍ** (`maghrib_f`) | **Al-Ikhlas `P-11`** | Al-Falaq `P-13` |
+| | Sunnah after (`maghrib_sa`) | Al-Kāfirūn `P-17` | Al-Aʿlā `P-16` |
+| Isha | **Farḍ** (`isha_f`) | **Al-Ikhlas `P-11`** | Al-Nas `P-12` |
+| | Sunnah after (`isha_sa`) | Al-Falaq `P-13` | Al-Kawthar `P-14` |
+| | Witr (`isha_witr`) | Al-Aʿlā `P-16` | Al-Kāfirūn `P-17` |
+
+Standalone Witr (`witrSequence`) uses the same `isha_witr` content.
+
+---
+
+## Resolved in Stage 5
+
+- ~~Niyet identity~~ → §5. Each unit declares its own niyet ("the Farḍ of Fajr" vs
+  "the Sunnah of Fajr"; Witr stands alone).
+- ~~Per-unit surahs~~ → §5. Each unit recites its own surahs; Farḍ always opens Al-Ikhlas.
 
 ## Micro-enhancement (deferred)
 

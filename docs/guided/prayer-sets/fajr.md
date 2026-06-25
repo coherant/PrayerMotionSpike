@@ -3,6 +3,7 @@
 Used by: Fajr Sunnah · Fajr Fard
 Structure: `../master-prayer-state-machine.md` → Fajr
 Prayers: `../../prayers/prayers.md`
+Surahs: rakat-1 `surah¹` · rakat-2 `surah²` — **per-unit**; assignments in `../observances.md` §5.
 
 ## Guidance level key
 | Symbol | Meaning |
@@ -24,7 +25,7 @@ Mode: `timed`
 | prayer | I-25 | F | 5s |
 | prayer | P-0 | F+P | 3s |
 | prayer | P-7 | F+P | 2s |
-| prayer | P-11 | F+P | 2s |
+| prayer | surah¹ | F+P | 2s |
 | prayer | P-0 | F+P | 2s |
 
 ---
@@ -37,7 +38,7 @@ Mode: `motion` · Motion trigger: pitch (upright)
 | entry | I-2 | F |
 | reprompt | I-14 | F+P |
 | prayer | P-7 | F+P |
-| prayer | P-12 | F+P |
+| prayer | surah² | F+P |
 | prayer | P-0 | F+P |
 
 ---

@@ -128,16 +128,14 @@ determined by its `rakats` count (Qunut derived from `kind == .witr`):
 Unit-boundary behaviour (first vs subsequent unit openers, `P-23` placement) is in
 `observances.md`.
 
-### Content per prayer (`makeContent`)
+### Content per unit (`content(for:unit:)`)
 
-| Prayer | hasOpeningCue | niyet | rakat-1 surah | rakat-2 surah |
-|---|---|---|---|---|
-| Fajr | yes | "Give your niyet for Fajr" | P-11 | P-12 |
-| Dhuhr | yes | …Dhuhr | P-11 | P-14 |
-| Asr | yes | …Asr | P-15 | P-11 |
-| Maghrib | yes | …Maghrib | P-11 | P-13 |
-| Isha | yes | …Isha | P-11 | P-12 |
-| Witr | no | …Witr | P-16 | P-17 |
+Niyet + the two opening-rakat surahs are resolved **per unit**, not per prayer-time.
+The authoritative niyet-identity rule and the full per-unit surah table live in
+`observances.md` §5. In summary: each unit declares its own niyet ("the Farḍ of
+Fajr" / "the Sunnah of Fajr" / "Witr"); every Farḍ unit opens with Al-Ikhlas `P-11`;
+Witr keeps Al-Aʿlā `P-16` / Al-Kāfirūn `P-17`. `hasOpeningCue` is `true` for every
+unit except Witr (`false`).
 
 ---
 

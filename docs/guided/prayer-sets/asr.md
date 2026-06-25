@@ -3,9 +3,10 @@
 Used by: Asr Sunnah · Asr Fard
 Structure: `../master-prayer-state-machine.md` → Asr
 Prayers: `../../prayers/prayers.md`
+Surahs: rakat-1 `surah¹` · rakat-2 `surah²` — **per-unit**; assignments in `../observances.md` §5.
 
 Note: Asr shares the same 4-rakat block structure as Dhuhr.
-Differences from Dhuhr: niyet mention, surah choices in Rakat 2.
+Differences from Dhuhr: niyet mention; surahs are per-unit (see `../observances.md` §5).
 Asr Sunnah is Ghair Mu'akkadah (less emphasised).
 
 ## Guidance level key
@@ -26,7 +27,7 @@ Mode: `timed`
 | prayer | I-25 | F | 5s |
 | prayer | P-0 | F+P | 3s |
 | prayer | P-7 | F+P | 2s |
-| prayer | P-15 | F+P | 2s |
+| prayer | surah¹ | F+P | 2s |
 | prayer | P-0 | F+P | 2s |
 
 ---
@@ -39,7 +40,7 @@ Mode: `motion` · Motion trigger: pitch (upright)
 | entry | I-2 | F |
 | reprompt | I-14 | F+P |
 | prayer | P-7 | F+P |
-| prayer | P-11 | F+P |
+| prayer | surah² | F+P |
 | prayer | P-0 | F+P |
 
 ---

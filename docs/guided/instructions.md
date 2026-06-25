@@ -11,7 +11,9 @@ from a `prayer-sets/*.md` row by its `instruction-id` (e.g. `I-1`), exactly the 
 
 `I-1 … I-13` are `entry` instructions; `I-14 … I-23` are `reprompt` instructions;
 `I-24 … I-25` are opening cues spoken in the timed first Qiyam. `I-25` is **templated** —
-`{prayer}` is replaced at runtime with the prayer's display name (e.g. "Fajr", "Witr").
+`{prayer}` is replaced at runtime with the **unit's** identity, so each unit in a chained
+observance declares its own intention: "the Farḍ of Fajr", "the Sunnah of Fajr", or "Witr"
+(see `observances.md` §5).
 
 | instruction-id | instruction |
 |---|---|

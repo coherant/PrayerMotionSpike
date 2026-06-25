@@ -95,7 +95,7 @@ is not throwaway — it is the **seed of the Stage 3 `observances.md` spec**.
   dhuhr 28→71, asr 28→56, maghrib 22→37, isha 28→65; standalone witr 22 unchanged).
   Test passes explicit full `unitIds` for determinism. Green, reviewed.
 
-### Stage 4 — Runtime + UI chaining (highest risk; device-tested) ⏳ CODE DONE, device-test pending
+### Stage 4 — Runtime + UI chaining (highest risk; device-tested) ✅ DONE (`0681db8`, worked first go on device)
 - **Key finding:** the engine already iterated the chained array (array-driven loop);
   yaw re-captures per unit; `.complete` only after the final TASLEEM; one CSV per
   observance. So no engine surgery — only unit-awareness was missing.
@@ -110,9 +110,23 @@ is not throwaway — it is the **seed of the Stage 3 `observances.md` spec**.
 - **Still needs real-device iteration:** card timing/feel, header layout, multi-unit
   motion flow on AirPods, rakat-reset across the boundary. No automated net for these.
 
-### Stage 5 — Content correctness
-- Unit-scoped niyet (names Sunnah vs Fard); surah verification per unit; Witr opener
-  decision; P-23 placement confirmed; P-23 Arabic/Turkish verification (outstanding).
+### Stage 5 — Content correctness ✅ DONE (uncommitted)
+- **Per-unit niyet identity:** `I-25` now substitutes the *unit's* intention via
+  `niyetName(for:salat:)` — "the Farḍ of {Prayer}" / "the Sunnah of {Prayer}" / "Witr"
+  (wording chosen by user). Each unit in a chained observance declares its own niyet.
+- **Per-unit surahs:** new `surahs(for:unit:)` keyed by `unit.id` (authoritative table
+  in `observances.md` §5). Curation: **every Farḍ unit opens rakat-1 with Al-Ikhlas**
+  (user's rule — tawhid at the start of every obligatory prayer); varied spread of the
+  seven short surahs `P-11…P-17`, no repeat within a unit or across a unit boundary;
+  Witr keeps Al-Aʿlā/Al-Kāfirūn. Dead `makeContent(for:salat)` removed.
+- Spec (MD-first): `observances.md` §5 (new) + "Resolved in Stage 5"; README §4 table →
+  per-unit pointer; `instructions.md` I-25 note; 5 prayer-sets surah rows → `surah¹`/
+  `surah²` placeholders deferring to §5 (witr.md left concrete — fixed surahs).
+- **Snapshot:** intentional diff, reviewed — 1135↔1135 lines (no structural change), 40
+  changed lines, *every one a recitation line* (niyet + surah text only); all other
+  fields (ids, modes, durations, motion, yaw, rakat, `unit=`) byte-identical. Green.
+- **Still outstanding (→ Stage 6 / QA):** P-23 Arabic/Turkish translation verification
+  (placement was settled in Stage 3); device listen-through of the new niyets/surahs.
 
 ### Stage 6 — Validation & cleanup
 - Phase counts re-derived as observance totals (checksums, not generators).
@@ -161,8 +175,12 @@ is not throwaway — it is the **seed of the Stage 3 `observances.md` spec**.
   deleted. Decisions resolved: sunnah toggleable (already modelled via selectedUnitIds);
   I-1 once + I-24 motion opener for later units; P-23 at observance end; Hanafi locked.
   Snapshot regenerated (intentional diff, reviewed, green).
-- **Stage 4 ⏳ code complete** (uncommitted): unit identity on `PrayerState`, machine
-  unit surfaces + per-unit rakat + `unitTransition` boundary hold, header unit chrome,
-  `UnitTransitionCardView`. Builds + snapshot green. **Device-test pending.**
-- **Next action:** device-test Stage 4 (card feel, header, multi-unit motion flow),
-  iterate, then commit. Then Stage 5 — content correctness.
+- **Stage 4 ✅ committed** (`0681db8`): unit identity on `PrayerState`, machine unit
+  surfaces + per-unit rakat + `unitTransition` boundary hold, header unit chrome,
+  `UnitTransitionCardView`. Builds + snapshot green; device-tested (worked first go).
+- **Stage 5 ✅ done (uncommitted):** per-unit niyet identity (`niyetName`) + per-unit
+  surahs (`surahs(for:unit:)`, Farḍ always opens Al-Ikhlas) in `content(for:unit:)`;
+  `makeContent` removed. Spec: `observances.md` §5 + README §4/instructions.md/prayer-set
+  placeholders. Snapshot regenerated (recitation-only diff, reviewed, green).
+- **Next action:** user review + commit Stage 5; then Stage 6 (validation & cleanup),
+  incl. P-23 translation verification and retiring any remaining redundancy.

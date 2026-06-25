@@ -226,15 +226,47 @@ enum GuidedSequenceGenerator {
 
     // MARK: - Unit generation
 
-    // Resolves a unit's recitation content. Witr has its own surahs + niyet and no
-    // opening cue; every other unit shares its prayer-time's Farḍ content (per-unit
-    // niyet / surah refinement is Stage 5 — see observances.md).
+    // Resolves a unit's recitation content — niyet identity + the two opening-rakat
+    // surahs, both per-unit. Witr has no opening cue. See observances.md §5.
     private static func content(for salat: SalatType, unit: PrayerUnit, tx: Tx) -> Content {
-        if case .witr = unit.kind {
-            return Content(niyetText: InstructionLibrary.text(.i25, prayer: "Witr"),
-                           hasOpeningCue: false, rakat1Surah: tx.P16, rakat2Surah: tx.P17)
+        let isWitr: Bool = { if case .witr = unit.kind { return true } else { return false } }()
+        let (s1, s2) = surahs(for: unit, tx: tx)
+        return Content(
+            niyetText: InstructionLibrary.text(.i25, prayer: niyetName(for: unit, salat: salat)),
+            hasOpeningCue: !isWitr,
+            rakat1Surah: s1,
+            rakat2Surah: s2
+        )
+    }
+
+    // The unit's intention, substituted into I-25 ("Give your niyet for {prayer}") so
+    // each unit in a chained observance declares its own. See observances.md §5.
+    private static func niyetName(for unit: PrayerUnit, salat: SalatType) -> String {
+        switch unit.kind {
+        case .fard:                       return "the Farḍ of \(salat.displayName)"
+        case .sunnahBefore, .sunnahAfter: return "the Sunnah of \(salat.displayName)"
+        case .witr:                       return "Witr"
         }
-        return makeContent(for: salat, tx: tx)
+    }
+
+    // Per-unit surahs (rakat 1, rakat 2), keyed by unit id. Every Farḍ unit opens with
+    // Al-Ikhlas (P-11); Witr keeps P-16/P-17. Authoritative table: observances.md §5.
+    private static func surahs(for unit: PrayerUnit, tx: Tx) -> (String, String) {
+        if case .witr = unit.kind { return (tx.P16, tx.P17) }
+        switch unit.id {
+        case "fajr_sb":    return (tx.P16, tx.P17)
+        case "fajr_f":     return (tx.P11, tx.P13)
+        case "dhuhr_sb":   return (tx.P14, tx.P12)
+        case "dhuhr_f":    return (tx.P11, tx.P15)
+        case "dhuhr_sa":   return (tx.P13, tx.P16)
+        case "asr_sb":     return (tx.P17, tx.P12)
+        case "asr_f":      return (tx.P11, tx.P14)
+        case "maghrib_f":  return (tx.P11, tx.P13)
+        case "maghrib_sa": return (tx.P17, tx.P16)
+        case "isha_f":     return (tx.P11, tx.P12)
+        case "isha_sa":    return (tx.P13, tx.P14)
+        default:           return (tx.P11, tx.P12)
+        }
     }
 
     // True when this unit recites the Qunut dua in its final standing (Witr only).
@@ -310,17 +342,6 @@ enum GuidedSequenceGenerator {
         let hasOpeningCue: Bool
         let rakat1Surah: String
         let rakat2Surah: String
-    }
-
-    private static func makeContent(for salat: SalatType, tx: Tx) -> Content {
-        let niyet = InstructionLibrary.text(.i25, prayer: salat.displayName)
-        switch salat {
-        case .fajr:    return Content(niyetText: niyet, hasOpeningCue: true, rakat1Surah: tx.P11, rakat2Surah: tx.P12)
-        case .dhuhr:   return Content(niyetText: niyet, hasOpeningCue: true, rakat1Surah: tx.P11, rakat2Surah: tx.P14)
-        case .asr:     return Content(niyetText: niyet, hasOpeningCue: true, rakat1Surah: tx.P15, rakat2Surah: tx.P11)
-        case .maghrib: return Content(niyetText: niyet, hasOpeningCue: true, rakat1Surah: tx.P11, rakat2Surah: tx.P13)
-        case .isha:    return Content(niyetText: niyet, hasOpeningCue: true, rakat1Surah: tx.P11, rakat2Surah: tx.P12)
-        }
     }
 
     // MARK: - Block generators
