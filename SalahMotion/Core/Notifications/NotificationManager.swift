@@ -63,6 +63,7 @@ enum NotificationManager {
         let allIds = PrayerTime.allCases.map { identifier(for: $0) }
         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: allIds)
         PrayerTime.allCases.filter { enabled.contains($0.rawValue) }.forEach { schedule($0) }
+        if isSuhoorEnabled() { scheduleSuhoor() } else { cancelSuhoor() }
     }
 
     private static func schedule(_ prayer: PrayerTime) {
@@ -80,5 +81,39 @@ enum NotificationManager {
     private static func cancel(_ prayer: PrayerTime) {
         UNUserNotificationCenter.current()
             .removePendingNotificationRequests(withIdentifiers: [identifier(for: prayer)])
+    }
+
+    // MARK: - Suhoor ending reminder (Ramadan)
+
+    private static let suhoorKey = "notifications.suhoorReminder"
+    private static let suhoorId  = "salahmotion.suhoor"
+
+    // Off by default — opt-in for Ramadan.
+    static func isSuhoorEnabled() -> Bool {
+        UserDefaults.standard.bool(forKey: suhoorKey)
+    }
+
+    static func setSuhoorEnabled(_ enabled: Bool) {
+        UserDefaults.standard.set(enabled, forKey: suhoorKey)
+        if enabled { scheduleSuhoor() } else { cancelSuhoor() }
+    }
+
+    // Fires 15 minutes before Fajr (i.e. before Suhoor ends), repeating daily.
+    private static func scheduleSuhoor() {
+        let remindAt = PrayerTime.fajr.scheduledDate.addingTimeInterval(-15 * 60)
+        let content = UNMutableNotificationContent()
+        content.title = "Suhoor ending soon"
+        content.body  = "About 15 minutes until Fajr."
+        content.sound = .default
+
+        let components = Calendar.current.dateComponents([.hour, .minute], from: remindAt)
+        let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: true)
+        let request = UNNotificationRequest(identifier: suhoorId, content: content, trigger: trigger)
+        UNUserNotificationCenter.current().add(request)
+    }
+
+    private static func cancelSuhoor() {
+        UNUserNotificationCenter.current()
+            .removePendingNotificationRequests(withIdentifiers: [suhoorId])
     }
 }

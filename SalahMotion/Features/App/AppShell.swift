@@ -17,9 +17,15 @@ struct AppShell: View {
                 CalibrationView()
                     .tabItem { Label("Calibration", systemImage: "person.crop.circle.badge.checkmark") }
                     .tag(AppTab.calibration)
-                GlobalCalibrationView()
-                    .tabItem { Label("Global Calibration", systemImage: "figure.stand") }
-                    .tag(AppTab.globalCalibration)
+                // REMOVED FROM TAB BAR (kept implementation): the Global Calibration tab.
+                // `GlobalCalibrationView` and `AppTab.globalCalibration` still exist — to
+                // restore, re-add the tab item below:
+                //   GlobalCalibrationView()
+                //       .tabItem { Label("Global Calibration", systemImage: "figure.stand") }
+                //       .tag(AppTab.globalCalibration)
+                SettingsView()
+                    .tabItem { Label("Settings", systemImage: "gearshape.fill") }
+                    .tag(AppTab.settings)
             }
 
             if showingLaunch {

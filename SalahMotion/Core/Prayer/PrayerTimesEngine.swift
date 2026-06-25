@@ -81,8 +81,19 @@ final class PrayerTimesEngine {
             .isha:    pt.isha,
         ]
         sunrise = pt.sunrise
+
+        // Fajr override: a fixed 1.5h before sunrise, plus any user Fajr offset.
+        if settings.fajrRule == .beforeSunrise {
+            let off = settings.offsets[.fajr] ?? 0
+            times[.fajr] = pt.sunrise.addingTimeInterval(TimeInterval(-90 * 60 + off * 60))
+        }
+
         qiyam = SunnahTimes(from: pt)?.lastThirdOfTheNight
         computedForDay = cal.startOfDay(for: now)
+
+        // Times just changed (location, settings, or day rollover) — keep the
+        // scheduled prayer notifications in sync. No-op unless already authorized.
+        NotificationManager.refreshIfAuthorized()
     }
 
     // MARK: - Queries

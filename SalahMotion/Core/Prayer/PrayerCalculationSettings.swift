@@ -8,6 +8,21 @@ import Observation
 // The Advanced settings screen binds directly to these values; PrayerTimesEngine
 // reads them when it (re)computes. Changing any value triggers a recompute.
 
+/// How Fajr is derived. SPEC §2 Advanced → Fajr (only one selectable).
+enum FajrRule: String, CaseIterable, Identifiable {
+    case normal          // use the calculation method's Fajr angle (master time)
+    case beforeSunrise   // fixed 1.5 hours before sunrise
+
+    var id: String { rawValue }
+
+    var displayName: String {
+        switch self {
+        case .normal:        return "Normal"
+        case .beforeSunrise: return "1.5 hours before sunrise"
+        }
+    }
+}
+
 @Observable
 final class PrayerCalculationSettings {
     static let shared = PrayerCalculationSettings()
@@ -16,6 +31,14 @@ final class PrayerCalculationSettings {
     var method: CalculationMethod {
         didSet {
             UserDefaults.standard.set(method.rawValue, forKey: Keys.method)
+            PrayerTimesEngine.shared.recompute()
+        }
+    }
+
+    /// How Fajr is derived (master angle vs. fixed before sunrise).
+    var fajrRule: FajrRule {
+        didSet {
+            UserDefaults.standard.set(fajrRule.rawValue, forKey: Keys.fajrRule)
             PrayerTimesEngine.shared.recompute()
         }
     }
@@ -56,6 +79,7 @@ final class PrayerCalculationSettings {
     private init() {
         let d = UserDefaults.standard
         method = CalculationMethod(rawValue: d.string(forKey: Keys.method) ?? "") ?? .muslimWorldLeague
+        fajrRule = FajrRule(rawValue: d.string(forKey: Keys.fajrRule) ?? "") ?? .normal
         // integer(forKey:) returns 0 when unset; Madhab has no rawValue 0, so this
         // falls back to .shafi for a fresh install.
         madhab = Madhab(rawValue: d.integer(forKey: Keys.madhab)) ?? .shafi
@@ -73,9 +97,10 @@ final class PrayerCalculationSettings {
     }
 
     private enum Keys {
-        static let method  = "prayerCalc.method"
-        static let madhab  = "prayerCalc.madhab"
-        static let offsets = "prayerCalc.offsets"
-        static let hijri   = "prayerCalc.hijriOffsetDays"
+        static let method   = "prayerCalc.method"
+        static let fajrRule = "prayerCalc.fajrRule"
+        static let madhab   = "prayerCalc.madhab"
+        static let offsets  = "prayerCalc.offsets"
+        static let hijri    = "prayerCalc.hijriOffsetDays"
     }
 }

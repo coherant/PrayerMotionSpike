@@ -13,6 +13,7 @@ enum AppTab: Hashable {
     case guided
     case calibration
     case globalCalibration
+    case settings
 }
 
 @Observable

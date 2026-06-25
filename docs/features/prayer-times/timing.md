@@ -72,10 +72,16 @@ Applies only during the prayer window.
 
 ## Day-progress rail
 
+State is derived from the **real engine prayer times** (`PrayerTime.scheduledDate`),
+not a fixed hour map — so nodes, row checks, and fill all stay consistent and reset
+together at the day rollover.
+
 | Parameter | Value | Notes |
 |---|---|---|
-| Fill calculation | Continuous interpolation | Between prayer node positions based on clock time |
-| Node positions (%) | 5, 38, 56, 72, 90 | Fajr → Isha |
-| Fill anchors (%) | 0→5, 5→38, 38→56, 56→72, 72→90, 90→100 | Midnight segments |
-| Pulse marker | Scale 0.85→1.5, opacity 0.55→0, 3.6s easeOut | `PulseMarker` struct |
-| Refresh cadence | Every 60 seconds | |
+| Current prayer | First prayer whose time is still in the future ("up next") | `PrayerTimesViewModel.currentPrayerIndex`. Prayers before it = prayed (filled), after it = future (hollow). Once Isha has passed it stays current through the night; the new day's Fajr resets it. |
+| Fill calculation | Continuous interpolation | Anchored to the actual prayer instants, not clock percentages — `continuousRailFill` |
+| Node positions (%) | 5, 38, 56, 72, 90 | Fajr → Isha (`railNodeFractions`) |
+| Fill anchors | startOfDay→0, then each prayer's real time → its node %, midnight → 100% | Interpolated between anchors so fill + marker line up with the nodes |
+| Reset | At the day rollover | Pre-dawn (before Fajr) reads as a fresh day: nothing prayed, Fajr up-next, fill near 0% (matches the spec's Fajr state sampled at 4:38 AM) |
+| Pulse marker | Scale 0.85→1.5, opacity 0.55→0, 3.6s easeOut | `PulseMarker` struct, rides the fill's leading edge |
+| Refresh cadence | Countdown every 1s; prayer period + day-rollover recompute every 60s | |

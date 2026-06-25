@@ -94,24 +94,49 @@ final class PrayerTimesViewModel {
         return "in \(minutes)m"
     }
 
+    // MARK: - Day rail state (derived from real engine times)
+
+    /// Node-fraction positions of the five prayers along the rail — must match
+    /// `PrayerTimesView.nodePositions`.
+    static let railNodeFractions: [Double] = [0.05, 0.38, 0.56, 0.72, 0.90]
+
+    /// Index into `PrayerTime.allCases` of the prayer to treat as **current / up-next**:
+    /// the next prayer whose time hasn't occurred yet. Prayers before it are "prayed",
+    /// after it "future". Once Isha has passed it stays on Isha for the rest of the
+    /// night; at the day rollover (`refreshIfNeeded` recomputes the new day's times)
+    /// the next Fajr becomes current and the rail resets on its own.
+    var currentPrayerIndex: Int {
+        let all = PrayerTime.allCases
+        if let next = all.firstIndex(where: { $0.scheduledDate > now }) {
+            return next
+        }
+        return all.count - 1   // every prayer has passed → Isha is active through the night
+    }
+
+    var currentRailPrayer: PrayerTime { PrayerTime.allCases[currentPrayerIndex] }
+
+    /// Continuous 0…1 fill for the day rail, anchored to the **actual** prayer
+    /// instants: 0 at the start of the local day, each prayer's node fraction at its
+    /// real time, 1.0 at midnight. Interpolated so the fill + pulse marker always
+    /// line up with the nodes, and it resets cleanly at the day rollover.
     var continuousRailFill: Double {
-        let c = Calendar.current.dateComponents([.hour, .minute], from: now)
-        let nowMinutes = (c.hour ?? 0) * 60 + (c.minute ?? 0)
+        let cal = Calendar.current
+        let startOfDay = cal.startOfDay(for: now)
+        let endOfDay = startOfDay.addingTimeInterval(24 * 60 * 60)
 
-        let segments: [(start: Int, end: Int, fillStart: Double, fillEnd: Double)] = [
-            (0,    292,  0.00, 0.05),
-            (292,  741,  0.05, 0.38),
-            (741,  947,  0.38, 0.56),
-            (947,  1138, 0.56, 0.72),
-            (1138, 1224, 0.72, 0.90),
-            (1224, 1440, 0.90, 1.00),
-        ]
+        var anchors: [(date: Date, fill: Double)] = [(startOfDay, 0.0)]
+        for (i, prayer) in PrayerTime.allCases.enumerated() {
+            anchors.append((prayer.scheduledDate, Self.railNodeFractions[i]))
+        }
+        anchors.append((endOfDay, 1.0))
 
-        for seg in segments {
-            if nowMinutes >= seg.start && nowMinutes < seg.end {
-                let progress = Double(nowMinutes - seg.start) / Double(seg.end - seg.start)
-                return seg.fillStart + progress * (seg.fillEnd - seg.fillStart)
-            }
+        for k in 0..<(anchors.count - 1) {
+            let a = anchors[k], b = anchors[k + 1]
+            guard now >= a.date && now < b.date else { continue }
+            let span = b.date.timeIntervalSince(a.date)
+            guard span > 0 else { return a.fill }
+            let t = now.timeIntervalSince(a.date) / span
+            return a.fill + t * (b.fill - a.fill)
         }
         return 1.0
     }

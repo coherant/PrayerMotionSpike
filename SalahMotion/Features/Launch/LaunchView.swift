@@ -24,6 +24,7 @@ struct LaunchView: View {
     // Ambient loop flags
     @State private var isPulsing    = false
     @State private var isTwinkling  = false
+    @State private var showStars    = false
     @State private var lineHeight: CGFloat = 0
 
     private var theme: PrayerTimeTheme { prayerTime.theme }
@@ -84,17 +85,20 @@ struct LaunchView: View {
                     .padding(.bottom, 52)
             }
 
-            // .equatable() prevents re-render on every parent body evaluation,
-            // keeping star positions stable across the intro animation sequence.
+            // Stars are generated once (held in StarfieldView's @State) and fade
+            // in via an explicit, value-scoped animation. This keeps the ambient
+            // intro `withAnimation` transactions from animating their positions —
+            // which is what made them fly around the orb before settling.
             if starCount > 0 {
                 StarfieldView(
                     count: starCount,
                     isDhuhr: prayerTime == .dhuhr,
                     accent: accent
                 )
-                .equatable()
+                .opacity(showStars ? 1 : 0)
+                .animation(.easeIn(duration: 1.2), value: showStars)
                 .ignoresSafeArea()
-                .transition(.opacity)
+                .allowsHitTesting(false)
             }
 
             // Horizon glow
@@ -336,6 +340,10 @@ struct LaunchView: View {
         isPulsing   = true
         isTwinkling = true
 
+        // Fade stars in (positions are fixed; only opacity animates, via the
+        // value-scoped .animation on the starfield — never the intro transactions)
+        showStars = true
+
         // Sequenced intro per launch.md §6
         withAnimation(.easeIn(duration: 1.6).delay(0.3))  { showHorizon    = true }
         withAnimation(.easeOut(duration: 1.4).delay(0.2)) { lineHeight      = 60 }
@@ -355,18 +363,9 @@ struct LaunchView: View {
 
 // MARK: - Starfield
 
-private struct StarfieldView: View, Equatable {
-    let count: Int
+private struct StarfieldView: View {
     let isDhuhr: Bool
     let accent: Color
-
-    // SwiftUI re-creates this struct on every parent render, generating new
-    // random positions each time. Making it Equatable + using .equatable()
-    // tells SwiftUI to skip re-rendering if count/isDhuhr haven't changed,
-    // so stars stay locked in their initial positions.
-    static func == (lhs: StarfieldView, rhs: StarfieldView) -> Bool {
-        lhs.count == rhs.count && lhs.isDhuhr == rhs.isDhuhr
-    }
 
     private struct Star: Identifiable {
         let id: Int
@@ -377,14 +376,17 @@ private struct StarfieldView: View, Equatable {
         let isSparkle: Bool
     }
 
-    private let stars: [Star]
+    // Generated ONCE and held in @State: SwiftUI re-creates this struct on every
+    // parent render, but State's initialValue is only used the first time the
+    // view's identity appears — so positions are locked and never re-randomize
+    // (no reliance on .equatable(), which didn't reliably stop them animating in).
+    @State private var stars: [Star]
 
     init(count: Int, isDhuhr: Bool, accent: Color) {
-        self.count   = count
         self.isDhuhr = isDhuhr
         self.accent  = accent
         var rng = SystemRandomNumberGenerator()
-        self.stars = (0..<count).map { i in
+        _stars = State(initialValue: (0..<count).map { i in
             Star(
                 id: i,
                 x: CGFloat.random(in: 0.05...0.95, using: &rng),
@@ -393,7 +395,7 @@ private struct StarfieldView: View, Equatable {
                 opacity: Double.random(in: 0.4...0.9, using: &rng),
                 isSparkle: i < (count / 7)
             )
-        }
+        })
     }
 
     var body: some View {

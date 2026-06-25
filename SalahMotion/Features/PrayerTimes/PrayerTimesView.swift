@@ -139,7 +139,7 @@ struct PrayerTimesView: View {
     private let nodePositions: [Double] = [0.05, 0.38, 0.56, 0.72, 0.90]
 
     private var dayRail: some View {
-        let currentIndex = PrayerTime.allCases.firstIndex(of: prayerTime) ?? 0
+        let currentIndex = vm.currentPrayerIndex
         let fill = vm.continuousRailFill
 
         return GeometryReader { geo in
@@ -199,7 +199,7 @@ struct PrayerTimesView: View {
 
     private func prayerRow(_ prayer: PrayerTime) -> some View {
         let allCases = PrayerTime.allCases
-        let currentIndex = allCases.firstIndex(of: prayerTime) ?? 0
+        let currentIndex = vm.currentPrayerIndex
         let rowIndex = allCases.firstIndex(of: prayer) ?? 0
         let isPast = rowIndex < currentIndex
         let isCurrent = rowIndex == currentIndex

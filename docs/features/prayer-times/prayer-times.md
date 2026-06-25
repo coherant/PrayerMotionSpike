@@ -35,6 +35,12 @@ File: `prayer-times-across-the-day.html` (depends on sibling `ios-frame.jsx` and
 The currently-due prayer is always shown as the highlighted "up next" row, never
 yet checked — the screen captures the moment *just before* each prayer.
 
+The `Rail fill` / `Prayed` / `Highlighted row` columns above are **illustrative
+samples**; at runtime they are computed from the real engine times (see
+`timing.md` §Day-progress rail). The "up next" row is the first prayer whose time
+hasn't passed; earlier prayers show as prayed, later ones as future; the set
+resets at the day rollover.
+
 ---
 
 ## 3. Theme per state
