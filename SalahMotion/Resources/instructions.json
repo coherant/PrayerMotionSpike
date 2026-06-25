@@ -1,0 +1,29 @@
+{
+  "instructions": [
+    { "id": "I-1",  "instruction": "Stand upright and raise your hands to your ears" },
+    { "id": "I-2",  "instruction": "Stand for the second rak'ah" },
+    { "id": "I-3",  "instruction": "Bow forward, hands on knees" },
+    { "id": "I-4",  "instruction": "Rise to standing" },
+    { "id": "I-5",  "instruction": "Prostrate, forehead to ground" },
+    { "id": "I-6",  "instruction": "Sit upright" },
+    { "id": "I-7",  "instruction": "Prostrate again" },
+    { "id": "I-8",  "instruction": "Sit for the short Tashahhud" },
+    { "id": "I-9",  "instruction": "Stand for the fourth rak'ah" },
+    { "id": "I-10", "instruction": "Stand for the third rak'ah" },
+    { "id": "I-11", "instruction": "Sit for Tashahhud" },
+    { "id": "I-12", "instruction": "Turn your head to the right" },
+    { "id": "I-13", "instruction": "Turn your head to the left" },
+    { "id": "I-14", "instruction": "Please stand" },
+    { "id": "I-15", "instruction": "Please bow into Ruku" },
+    { "id": "I-16", "instruction": "Please return to standing" },
+    { "id": "I-17", "instruction": "Please lower into Sujood" },
+    { "id": "I-18", "instruction": "Please sit up" },
+    { "id": "I-19", "instruction": "Please lower into Sujood again" },
+    { "id": "I-20", "instruction": "Please sit" },
+    { "id": "I-21", "instruction": "Please sit for Tashahhud" },
+    { "id": "I-22", "instruction": "Please turn right" },
+    { "id": "I-23", "instruction": "Please turn left" },
+    { "id": "I-24", "instruction": "Listen to the Ezan" },
+    { "id": "I-25", "instruction": "Give your niyet for {prayer}" }
+  ]
+}

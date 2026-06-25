@@ -1,4 +1,4 @@
-# Guided Prayer State Machine — Architecture & Rebuild Guide
+# Guided Prayer State Machine — Architecture & Rebuild Instructions
 
 **Purpose:** the single entry point for understanding how the guided prayer
 sequences are specified and how they are rebuilt into Swift from scratch. If you
@@ -9,7 +9,7 @@ scope here.
 
 ---
 
-## 0. TL;DR
+## 0. The Prayer State Machine Taxonomy
 
 - The MD files in `docs/guided/` + `docs/prayers/prayers.md` are the **spec**
   (master source of truth — edit these first).
@@ -17,9 +17,16 @@ scope here.
   `SalahMotion/Core/PrayerStateMachine/PrayerSequence.swift`
   (`enum GuidedSequenceGenerator`). The MD is **not parsed at runtime** — it is the
   blueprint a human/Claude uses to author the generator.
+- Any deviation between this spec and the implementation is a defect, and Claude must flag it immediately. No exceptions.
 - Prayer **text** is the exception: it lives in `docs/prayers/prayers.md` (spec)
   and is shipped as `SalahMotion/Resources/prayers.json` (runtime), loaded by
   `Core/Language/PrayerLibrary.swift`. The two must stay in sync; the MD is master.
+- **Instructions** — every English-only spoken line that isn't canonical prayer text:
+  the `entry` / `reprompt` movement guidance plus the opening **Ezan / niyet** cues.
+  Spec in `docs/guided/instructions.md`, shipped as
+  `SalahMotion/Resources/instructions.json` (runtime), loaded by
+  `Core/Language/InstructionLibrary.swift`, keyed `I-1 … I-25`. English-only by design.
+  `I-25` is templated (`{prayer}` substituted at runtime).
 
 ```
 SPEC (markdown)                         CODE (Swift)
@@ -28,24 +35,27 @@ docs/guided/rakats.md            ─┐
 docs/guided/master-...machine.md ─┼──►  Core/PrayerStateMachine/PrayerSequence.swift
 docs/guided/prayer-sets/*.md     ─┘      (GuidedSequenceGenerator)
 
-docs/prayers/prayers.md          ──►    Resources/prayers.json  (loaded by PrayerLibrary.swift)
+docs/prayers/prayers.md          ──►    Resources/prayers.json       (loaded by PrayerLibrary.swift)
+docs/guided/instructions.md      ──►    Resources/instructions.json  (loaded by InstructionLibrary.swift)
 ```
 
 ---
 
-## 1. The four spec layers
+## 1. The spec layers
 
 | Layer | File(s) | Owns |
 |---|---|---|
-| ① **Text library** | `../prayers/prayers.md` | Every prayer's Arabic / Turkish / English, keyed `P-0 … P-22`. Shipped as `Resources/prayers.json`. |
-| ② **Blocks** | `rakats.md` | Reusable position blocks — order, motion trigger, mode, reprompt. **No utterances.** |
-| ③ **Structure** | `master-prayer-state-machine.md` | Which blocks compose each prayer variant, rakat numbers, phase counts, yaw-baseline marks. |
-| ④ **Content** | `prayer-sets/{prayer}.md` | Per-prayer utterances per position (P-ids + guidance levels F / F+P). |
+| 1a. **Text library** | `../prayers/prayers.md` | Every prayer's Arabic / Turkish / English, keyed `P-0 … P-23`. Shipped as `Resources/prayers.json`. |
+| 1b. **Instruction library** | `instructions.md` | Every English-only spoken line that isn't prayer text — movement guidance (`entry` / `reprompt`) + opening Ezan / niyet cues, keyed `I-1 … I-25` (`I-25` templated). Shipped as `Resources/instructions.json`. |
+| 2. **Blocks** | `rakats.md` | Reusable position blocks — order, motion trigger, mode, reprompt. **No utterances.** |
+| 3. **Structure** | `master-prayer-state-machine.md` | Which blocks compose each prayer variant, rakat numbers, phase counts, yaw-baseline marks. |
+| 4. **Content** | `prayer-sets/{prayer}.md` | Per-prayer rows per position: `P-ids` (prayer text), `I-ids` (movement instructions), and guidance levels F / F+P. |
 
-Composition flows ④ → ③ → ② → ①: a prayer-set fills the positions that the
-structure composes from blocks, and each utterance resolves through the text library.
+Composition flows 4 → 3 → 2 → 1: a prayer-set fills the positions that the
+structure composes from blocks; each `P-id` resolves through the text library and
+each `I-id` through the instruction library.
 
-The five blocks (②) are: `RAKAT_FULL`, `RAKAT_FATIHA_ONLY`, `SHORT_TASHAHHUD`,
+The five blocks (2) are: `RAKAT_FULL`, `RAKAT_FATIHA_ONLY`, `SHORT_TASHAHHUD`,
 `FULL_TASHAHHUD`, `TASLEEM`.
 
 ---
@@ -72,6 +82,7 @@ All in `Core/PrayerStateMachine/PrayerSequence.swift` unless noted:
 | Pause length | `enum PrayerDuration` — `.pace` (user setting) / `.fixed(seconds)` |
 | Generator | `enum GuidedSequenceGenerator` — `generate(salat:language:)` |
 | Text lookup | `Core/Language/PrayerLibrary.swift` → `PrayerLibrary.text(_:_:)`, `enum PrayerID` |
+| Instruction lookup | `Core/Language/InstructionLibrary.swift` → `InstructionLibrary.text(_:)`, `enum InstructionID` |
 | Per-prayer content | `Tx` (resolved P-id strings) + `Content` (niyet, hasEzan, surahs) |
 
 The runtime engine (`PrayerStateMachine.swift`) consumes the `[PrayerState]` array;
@@ -127,16 +138,20 @@ empty utterances/speech are skipped.
 
 To regenerate `GuidedSequenceGenerator`:
 
-1. **Text library** — ensure every `P-id` in `prayers.md` exists in `Resources/prayers.json`
-   (same ids, all three languages). Add a `PrayerID` case per id.
+1. **Libraries** — ensure every `P-id` in `prayers.md` exists in `Resources/prayers.json`
+   (same ids, all three languages) with a `PrayerID` case, and every `I-id` in
+   `instructions.md` exists in `Resources/instructions.json` with an `InstructionID` case.
 2. **Block helpers** — author one function per block from `rakats.md`, emitting `PrayerState`s
    with the block's positions, modes, motion triggers, and 5s reprompts:
    `rakat1Full`, `rakat2Full`, `rakat3FatihaOnly`, `rakat4FatihaOnly`, `shortTashahhud`,
    `fullTashahhud`, `tasleem`, plus shared single-state helpers (`ruku`, `qiyamAfterRuku`,
    `sujoodFirst`, `julusBetween`, `sujoodSecond`).
-3. **Utterances** — fill each position's `prayers` from the matching `prayer-sets/{prayer}.md`
-   row, substituting `P-id` → `tx.P{n}` (resolved text) and keeping inline instruction
-   strings verbatim. Durations: `.fixed` only in the timed opening, `.pace` elsewhere.
+3. **Utterances** — fill each position from the matching `prayer-sets/{prayer}.md` rows:
+   `prayer` rows → `prayers`, substituting `P-id` → `tx.P{n}` (resolved text);
+   `entry` / `reprompt` rows → `entrySpeech` / `repromptAudio`, substituting
+   `I-id` → `InstructionLibrary.text(.i{n})`. The opening **Ezan / niyet** cues are also
+   `I-ids` (the niyet via `InstructionLibrary.text(.i25, prayer:)`), and the closing-dua
+   `exit` row is `P-23`. Durations: `.fixed` only in the timed opening, `.pace` elsewhere.
 4. **Content** — encode `makeContent` from the per-prayer niyet + surah table (§4).
 5. **Compose** — wire each `…Sequence` builder to the block order in
    `master-prayer-state-machine.md` (§4), setting `capturesYaw` on the correct block.
@@ -145,11 +160,15 @@ To regenerate `GuidedSequenceGenerator`:
 
 ---
 
-## 7. Known gap (tracked, not yet resolved)
+## 7. Known gaps (none open)
 
-Instructional speech — `entrySpeech`, `repromptAudio`, `exitSpeech`, plus the
-opening **Ezan / niyet** rows and the **closing dua** — are **inline English literals**
-in `PrayerSequence.swift`, not `P-ids`. They are English-only and bypass the
-`prayers.json` library. Converting the *prayer-content* literals (Ezan, niyet,
-closing dua) to P-ids is the scoped refactor; movement instructions are intentionally
-left as literals. See the `prayer-state-machine-tuning` branch work.
+**Every spoken line now resolves through a library** — no prayer-content literals remain in
+`PrayerSequence.swift`. Prayer text → `P-ids` (`prayers.json`); movement guidance plus the
+opening **Ezan / niyet** cues → `I-ids` (`instructions.json`). The niyet is the single
+templated id **`I-25`** ("Give your niyet for {prayer}"); the closing dua is **`P-23`**. The
+only literals left in the guided generator are position **display labels** ("Qiyam", "Ruku", …).
+
+The standing-into-a-rakat cues run a clean ordinal: rakat 2 = `I-2` ("second"),
+rakat 3 = `I-10` ("third"), rakat 4 = `I-9` ("fourth") — rakat 1 is the opening takbir
+(`I-1`, no number). Dhuhr / Asr / Isha prayer-sets list rakat 3 and rakat 4 as **separate**
+`qiyam-fatiha` blocks so spec ↔ code agree; Maghrib / Witr (rakat 3 only) use `I-10` in both.

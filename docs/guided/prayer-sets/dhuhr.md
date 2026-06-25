@@ -17,9 +17,9 @@ Mode: `timed`
 
 | role | utterance | levels | duration |
 |---|---|---|---|
-| entry | Stand upright and raise your hands to your ears | F | — |
-| prayer | Listen to the Ezan | F | 5s |
-| prayer | Give your niyet for Dhuhr | F | 5s |
+| entry | I-1 | F | — |
+| prayer | I-24 | F | 5s |
+| prayer | I-25 | F | 5s |
 | prayer | P-0 | F+P | 3s |
 | prayer | P-7 | F+P | 2s |
 | prayer | P-11 | F+P | 2s |
@@ -32,8 +32,8 @@ Mode: `motion` · Motion trigger: pitch (upright)
 
 | role | utterance | levels |
 |---|---|---|
-| entry | Stand for the second rak'ah | F |
-| reprompt | Please stand | F+P |
+| entry | I-2 | F |
+| reprompt | I-14 | F+P |
 | prayer | P-7 | F+P |
 | prayer | P-14 | F+P |
 | prayer | P-0 | F+P |
@@ -45,8 +45,8 @@ Mode: `motion` · Motion trigger: pitch (ruku)
 
 | role | utterance | levels |
 |---|---|---|
-| entry | Bow forward, hands on knees | F |
-| reprompt | Please bow into Ruku | F+P |
+| entry | I-3 | F |
+| reprompt | I-15 | F+P |
 | prayer | P-1 | F+P |
 | prayer | P-1 | F+P |
 | prayer | P-1 | F+P |
@@ -59,8 +59,8 @@ Mode: `motion` · Motion trigger: pitch (upright)
 
 | role | utterance | levels |
 |---|---|---|
-| entry | Rise to standing | F |
-| reprompt | Please return to standing | F+P |
+| entry | I-4 | F |
+| reprompt | I-16 | F+P |
 | prayer | P-4 | F+P |
 | exit | P-0 | F+P |
 
@@ -71,8 +71,8 @@ Mode: `motion` · Motion trigger: roll (sujood)
 
 | role | utterance | levels |
 |---|---|---|
-| entry | Prostrate, forehead to ground | F |
-| reprompt | Please lower into Sujood | F+P |
+| entry | I-5 | F |
+| reprompt | I-17 | F+P |
 | prayer | P-2 | F+P |
 | prayer | P-2 | F+P |
 | prayer | P-2 | F+P |
@@ -85,8 +85,8 @@ Mode: `motion` · Motion trigger: pitch (upright)
 
 | role | utterance | levels |
 |---|---|---|
-| entry | Sit upright | F |
-| reprompt | Please sit up | F+P |
+| entry | I-6 | F |
+| reprompt | I-18 | F+P |
 | prayer | P-5 | F+P |
 | prayer | P-5 | F+P |
 | exit | P-0 | F+P |
@@ -98,8 +98,8 @@ Mode: `motion` · Motion trigger: roll (sujood)
 
 | role | utterance | levels |
 |---|---|---|
-| entry | Prostrate again | F |
-| reprompt | Please lower into Sujood again | F+P |
+| entry | I-7 | F |
+| reprompt | I-19 | F+P |
 | prayer | P-2 | F+P |
 | prayer | P-2 | F+P |
 | prayer | P-2 | F+P |
@@ -112,19 +112,31 @@ Mode: `motion` · Motion trigger: pitch (upright)
 
 | role | utterance | levels |
 |---|---|---|
-| entry | Sit for the short Tashahhud | F |
-| reprompt | Please sit | F+P |
+| entry | I-8 | F |
+| reprompt | I-20 | F+P |
 | prayer | P-8 | F+P |
 
 ---
 
-## RAKAT_FATIHA_ONLY — qiyam-fatiha (Rakats 3 & 4)
+## RAKAT_FATIHA_ONLY — qiyam-fatiha (Rakat 3)
 Mode: `motion` · Motion trigger: pitch (upright)
 
 | role | utterance | levels |
 |---|---|---|
-| entry | Stand for the next rak'ah | F |
-| reprompt | Please stand | F+P |
+| entry | I-10 | F |
+| reprompt | I-14 | F+P |
+| prayer | P-7 | F+P |
+| prayer | P-0 | F+P |
+
+---
+
+## RAKAT_FATIHA_ONLY — qiyam-fatiha (Rakat 4)
+Mode: `motion` · Motion trigger: pitch (upright)
+
+| role | utterance | levels |
+|---|---|---|
+| entry | I-9 | F |
+| reprompt | I-14 | F+P |
 | prayer | P-7 | F+P |
 | prayer | P-0 | F+P |
 
@@ -135,8 +147,8 @@ Mode: `motion` · Motion trigger: pitch (upright)
 
 | role | utterance | levels |
 |---|---|---|
-| entry | Sit for the final Tashahhud | F |
-| reprompt | Please sit for Tashahhud | F+P |
+| entry | I-11 | F |
+| reprompt | I-21 | F+P |
 | prayer | P-8 | F+P |
 | prayer | P-9 | F+P |
 | prayer | P-10 | F+P |
@@ -148,8 +160,8 @@ Mode: `motion` · Motion trigger: yaw delta (right)
 
 | role | utterance | levels |
 |---|---|---|
-| entry | Turn your head to the right | F |
-| reprompt | Please turn right | F+P |
+| entry | I-12 | F |
+| reprompt | I-22 | F+P |
 | prayer | P-6 | F+P |
 
 ---
@@ -159,7 +171,7 @@ Mode: `motion` · Motion trigger: yaw delta (left)
 
 | role | utterance | levels |
 |---|---|---|
-| entry | Turn your head to the left | F |
-| reprompt | Please turn left | F+P |
+| entry | I-13 | F |
+| reprompt | I-23 | F+P |
 | prayer | P-6 | F+P |
-| exit | Oh Allah, you are peace and peace comes from you | F+P |
+| exit | P-23 | F+P |

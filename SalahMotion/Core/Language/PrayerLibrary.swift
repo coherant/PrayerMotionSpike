@@ -26,6 +26,7 @@ enum PrayerID: String {
     case p20 = "P-20"
     case p21 = "P-21"
     case p22 = "P-22"
+    case p23 = "P-23"
 }
 
 // MARK: - Prayer Library
