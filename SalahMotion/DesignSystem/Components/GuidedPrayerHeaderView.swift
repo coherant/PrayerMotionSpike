@@ -5,8 +5,13 @@ struct GuidedPrayerHeaderView: View {
     let currentRakat: Int
     let totalRakat: Int
     let prayerTime: PrayerTime
+    // Unit context — shown only for multi-unit observances (unitCount > 1).
+    var unitLabel: String = ""
+    var unitIndex: Int = 0   // 0-based
+    var unitCount: Int = 1
 
     private var theme: PrayerTimeTheme { prayerTime.theme }
+    private var showsUnit: Bool { unitCount > 1 }
 
     var body: some View {
         HStack(alignment: .center) {
@@ -25,19 +30,29 @@ struct GuidedPrayerHeaderView: View {
 
             Spacer()
 
-            HStack(spacing: 8) {
-                Text("Rak'ah \(currentRakat) / \(totalRakat)")
-                    .font(Typography.labelSm)
-                    .foregroundStyle(theme.ink.opacity(0.55))
+            VStack(alignment: .trailing, spacing: 3) {
+                HStack(spacing: 8) {
+                    Text(showsUnit
+                         ? "\(unitLabel) · Rak'ah \(currentRakat) / \(totalRakat)"
+                         : "Rak'ah \(currentRakat) / \(totalRakat)")
+                        .font(Typography.labelSm)
+                        .foregroundStyle(theme.ink.opacity(0.55))
 
-                HStack(spacing: 4) {
-                    ForEach(1...max(1, totalRakat), id: \.self) { i in
-                        Circle()
-                            .fill(i <= currentRakat
-                                  ? theme.ink.opacity(0.80)
-                                  : theme.ink.opacity(0.20))
-                            .frame(width: 5, height: 5)
+                    HStack(spacing: 4) {
+                        ForEach(1...max(1, totalRakat), id: \.self) { i in
+                            Circle()
+                                .fill(i <= currentRakat
+                                      ? theme.ink.opacity(0.80)
+                                      : theme.ink.opacity(0.20))
+                                .frame(width: 5, height: 5)
+                        }
                     }
+                }
+
+                if showsUnit {
+                    Text("unit \(unitIndex + 1) of \(unitCount)")
+                        .font(Typography.labelSm)
+                        .foregroundStyle(theme.ink.opacity(0.40))
                 }
             }
         }

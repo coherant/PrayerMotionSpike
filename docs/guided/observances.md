@@ -61,6 +61,28 @@ unit's* last `qiyam-after-ruku` before its TASLEEM.
 
 ---
 
+## 4. Runtime & UI (Stage 4)
+
+The engine (`PrayerStateMachine`) runs the whole observance in one pass — it is
+array-driven, so the chained `[PrayerState]` needs no special iteration. The yaw
+baseline re-captures per unit (each unit's last `qiyam-after-ruku` sets it before
+that unit's TASLEEM); `status` becomes `.complete` only after the final TASLEEM; one
+session CSV covers the whole observance.
+
+Each `PrayerState` carries its **unit identity** (`unitIndex`, `unitLabel`), stamped
+by `generate`. From it the machine exposes `currentUnitIndex`, `unitCount`,
+`currentUnitLabel`, and a **per-unit** `totalRakat`.
+
+- **Header.** When `unitCount > 1` the header shows the unit name + its own rak'ah
+  count + "unit *i* of *N*" (e.g. "Sunnah · Rak'ah 1/2 · unit 1 of 2"). A single-unit
+  observance keeps the plain "Rak'ah X/Y" with no unit chrome.
+- **Boundary card.** Crossing from one unit to the next, the machine publishes
+  `unitTransition {from,to}` and holds ~2s (silent) while the UI shows a
+  "*from* complete — Begin *to*" card; then the next unit's `I-24` motion opener
+  runs. Rakat numbering resets at the boundary.
+
+---
+
 ## Deferred to Stage 5 (content correctness)
 
 - **Niyet identity.** `I-25` is templated only on the prayer-*time* ("Fajr"), so a

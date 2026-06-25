@@ -34,6 +34,7 @@ struct GuidedSnapshotTests {
         for (i, s) in states.enumerated() {
             let trig = s.motionTrigger.map { "\($0)" } ?? "-"
             out += "[\(i)] \(s.id.rawValue) r\(s.rakatNumber) \(s.mode.rawValue)"
+            out += " unit=\(s.unitIndex):\(q(s.unitLabel))"
             out += " trigger=\(trig) yaw=\(s.capturesYawBaseline)"
             out += " reprompt=\(num(s.repromptInterval)) maxReprompts=\(s.maxReprompts.map(String.init) ?? "-")"
             out += " progressDuringWait=\(s.showProgressDuringWait)\n"

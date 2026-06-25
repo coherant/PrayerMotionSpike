@@ -95,12 +95,20 @@ is not throwaway — it is the **seed of the Stage 3 `observances.md` spec**.
   dhuhr 28→71, asr 28→56, maghrib 22→37, isha 28→65; standalone witr 22 unchanged).
   Test passes explicit full `unitIds` for determinism. Green, reviewed.
 
-### Stage 4 — Runtime + UI chaining (highest risk; device-tested)
-- `PrayerStateMachine` iterates the chained array; per-unit rakat numbering + unit
-  index; observance-spanning progress.
-- `GuidedPrayerView` advances unit→unit at TASLEEM instead of completing; unit-boundary
-  affordance ("Sunnah complete → begin Fard"); History records the observance.
-- **No snapshot net here** — needs real-device iteration. Expect a round or two.
+### Stage 4 — Runtime + UI chaining (highest risk; device-tested) ⏳ CODE DONE, device-test pending
+- **Key finding:** the engine already iterated the chained array (array-driven loop);
+  yaw re-captures per unit; `.complete` only after the final TASLEEM; one CSV per
+  observance. So no engine surgery — only unit-awareness was missing.
+- Done: `PrayerState.unitIndex`/`unitLabel` (stamped by `generate`); machine exposes
+  `currentUnitIndex`/`unitCount`/`currentUnitLabel` + **per-unit** `totalRakat`;
+  `unitTransition` published with a ~2s silent hold at each boundary.
+- UI: header shows unit name + per-unit rak'ah + "unit i of N" when `unitCount > 1`
+  (single-unit unchanged); `UnitTransitionCardView` overlay ("{from} complete — Begin
+  {to}"); `GuidedPrayerView` passes explicit `unitIds`. Decisions: brief titled card
+  (~2s auto-dismiss); unit-name header.
+- Builds green; snapshot extended with `unit=i:"Label"` (byte-identical otherwise).
+- **Still needs real-device iteration:** card timing/feel, header layout, multi-unit
+  motion flow on AirPods, rakat-reset across the boundary. No automated net for these.
 
 ### Stage 5 — Content correctness
 - Unit-scoped niyet (names Sunnah vs Fard); surah verification per unit; Witr opener
@@ -146,12 +154,15 @@ is not throwaway — it is the **seed of the Stage 3 `observances.md` spec**.
   `SalatType.units`; single `generateUnit` composes by `rakats`; per-shape funcs
   deleted; spec § Unit identity added. Snapshot byte-identical. Key finding:
   composition table already exists in `SalatType.units` — de-risked Stage 3.
-- **Stage 3 ✅ complete** (uncommitted): observance layer. `generate(…unitIds:)`
+- **Stage 3 ✅ committed** (`31a6fb6`): observance layer. `generate(…unitIds:)`
   chains the selected `SalatType.units`; `isFirst`/`isLast` boundary handling
   (motion opener for subsequent units, P-23 once at end). Live spec `observances.md`
   added; README §4-5 + master Notes/Unit-identity reconciled; `observance-considerations.md`
   deleted. Decisions resolved: sunnah toggleable (already modelled via selectedUnitIds);
   I-1 once + I-24 motion opener for later units; P-23 at observance end; Hanafi locked.
   Snapshot regenerated (intentional diff, reviewed, green).
-- **Next action:** commit Stage 3, then Stage 4 — runtime + UI chaining (highest risk,
-  no snapshot net, device-tested).
+- **Stage 4 ⏳ code complete** (uncommitted): unit identity on `PrayerState`, machine
+  unit surfaces + per-unit rakat + `unitTransition` boundary hold, header unit chrome,
+  `UnitTransitionCardView`. Builds + snapshot green. **Device-test pending.**
+- **Next action:** device-test Stage 4 (card feel, header, multi-unit motion flow),
+  iterate, then commit. Then Stage 5 — content correctness.

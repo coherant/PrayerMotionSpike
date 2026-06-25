@@ -29,7 +29,12 @@ final class PrayerStateMachine {
 
     enum Status: Equatable { case idle, running, complete, cancelled }
 
+    struct UnitTransition: Equatable { let from: String; let to: String }
+
     private(set) var status: Status = .idle
+    // Non-nil only while the ~2s unit-boundary card is showing (observance with >1 unit).
+    private(set) var unitTransition: UnitTransition? = nil
+    private let unitTransitionHold: Double = 2.0
     private(set) var currentStateIndex: Int = 0
     private(set) var states: [PrayerState]
     private(set) var visitedStates: [PrayerState] = []
@@ -54,7 +59,15 @@ final class PrayerStateMachine {
     var isSpeaking: Bool   { audioManager.isSpeaking }
     var currentState: PrayerState { states[currentStateIndex] }
     var currentRakat: Int  { currentState.rakatNumber }
-    var totalRakat: Int    { states.map(\.rakatNumber).max() ?? 1 }
+    // Rakat numbering resets per unit, so totalRakat is the current unit's rakat count.
+    var totalRakat: Int {
+        states.filter { $0.unitIndex == currentState.unitIndex }.map(\.rakatNumber).max() ?? 1
+    }
+
+    // Unit identity (observance chaining)
+    var currentUnitIndex: Int  { currentState.unitIndex }
+    var currentUnitLabel: String { currentState.unitLabel }
+    var unitCount: Int { (states.map(\.unitIndex).max() ?? 0) + 1 }
 
     private(set) var guidanceLevel: GuidanceLevel
 
@@ -78,6 +91,7 @@ final class PrayerStateMachine {
 #endif
         sessionSamples = []
         visitedStates  = []
+        unitTransition = nil
         sessionStartDate = Date()
         qiyamYawBaseline = nil
         startMotionUpdates()
@@ -87,6 +101,7 @@ final class PrayerStateMachine {
 
     func cancel() {
         sessionTask?.cancel()
+        unitTransition = nil
         audioManager.stop()
         detector.stop()
 #if canImport(UIKit)
@@ -121,6 +136,18 @@ final class PrayerStateMachine {
             guard !Task.isCancelled else { break }
             currentStateIndex = index
             visitedStates.append(state)
+
+            // Unit boundary — show a brief silent "X complete — Begin Y" card before
+            // the next unit's I-24 opener runs (see observances.md §4).
+            if index > 0, states[index - 1].unitIndex != state.unitIndex {
+                unitTransition = UnitTransition(from: states[index - 1].unitLabel,
+                                                to: state.unitLabel)
+                print("[PrayerSM] ⟂ Unit boundary: \(unitTransition!.from) → \(unitTransition!.to)")
+                try? await Task.sleep(for: .seconds(unitTransitionHold))
+                unitTransition = nil
+                guard !Task.isCancelled else { break }
+            }
+
             print(String(format: "[PrayerSM] ▶ %d/%d %@ (%@) t=%.1fs",
                          index + 1, states.count, state.id.rawValue, state.mode.rawValue,
                          Date().timeIntervalSince(sessionStart)))

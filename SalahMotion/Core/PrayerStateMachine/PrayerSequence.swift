@@ -109,6 +109,10 @@ struct PrayerState {
     // Calibration sets this false — arc fills only during the hold phase, not motion wait.
     // Guided leaves it true (default) — arc fills during reprompt countdown as before.
     let showProgressDuringWait: Bool
+    // Unit identity within the observance — stamped by GuidedSequenceGenerator.generate.
+    // Single-unit sequences (calibration, witr standalone) leave the defaults.
+    var unitIndex: Int
+    var unitLabel: String
 
     init(
         id: PrayerStateID,
@@ -125,7 +129,9 @@ struct PrayerState {
         repromptInterval: Double = 8,
         capturesYawBaseline: Bool = false,
         maxReprompts: Int? = nil,
-        showProgressDuringWait: Bool = true
+        showProgressDuringWait: Bool = true,
+        unitIndex: Int = 0,
+        unitLabel: String = ""
     ) {
         self.id = id
         self.rakatNumber = rakatNumber
@@ -142,6 +148,8 @@ struct PrayerState {
         self.capturesYawBaseline = capturesYawBaseline
         self.maxReprompts = maxReprompts
         self.showProgressDuringWait = showProgressDuringWait
+        self.unitIndex = unitIndex
+        self.unitLabel = unitLabel
     }
 }
 
@@ -192,21 +200,28 @@ enum GuidedSequenceGenerator {
         let chain = salat.units.filter { $0.isObligatory || unitIds.contains($0.id) }
         var states: [PrayerState] = []
         for (i, unit) in chain.enumerated() {
-            states += generateUnit(unit,
-                                   content: content(for: salat, unit: unit, tx: tx),
-                                   tx: tx,
-                                   isFirst: i == 0,
-                                   isLast: i == chain.count - 1)
+            let unitStates = generateUnit(unit,
+                                          content: content(for: salat, unit: unit, tx: tx),
+                                          tx: tx,
+                                          isFirst: i == 0,
+                                          isLast: i == chain.count - 1)
+            states += stamp(unitStates, index: i, label: unit.displayName)
         }
         return states
+    }
+
+    // Stamps unit identity (index + label) onto every state of a unit.
+    private static func stamp(_ states: [PrayerState], index: Int, label: String) -> [PrayerState] {
+        states.map { var s = $0; s.unitIndex = index; s.unitLabel = label; return s }
     }
 
     // Witr exposed standalone — a self-contained single-unit observance.
     static func witrSequence(language: Language = UserPreferences.shared.language) -> [PrayerState] {
         let tx = Tx(language: language)
         let unit = PrayerUnit(id: "isha_witr", kind: .witr, rakats: 3)
-        return generateUnit(unit, content: content(for: .isha, unit: unit, tx: tx), tx: tx,
-                            isFirst: true, isLast: true)
+        let states = generateUnit(unit, content: content(for: .isha, unit: unit, tx: tx), tx: tx,
+                                  isFirst: true, isLast: true)
+        return stamp(states, index: 0, label: unit.displayName)
     }
 
     // MARK: - Unit generation

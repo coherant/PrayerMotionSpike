@@ -38,7 +38,7 @@ struct GuidedPrayerView: View {
             UserPreferences.shared.pace            = pace
             UserPreferences.shared.muezzinId       = muezzinId
             session = PrayerStateMachine(
-                sequence: GuidedSequenceGenerator.generate(salat: salat, language: lang),
+                sequence: GuidedSequenceGenerator.generate(salat: salat, language: lang, unitIds: unitIds),
                 guidanceLevel: guidance
             )
             session.start()
@@ -62,7 +62,10 @@ struct GuidedPrayerView: View {
                     isSilenced: $isSilenced,
                     currentRakat: session.currentRakat,
                     totalRakat: session.totalRakat,
-                    prayerTime: prayerTime
+                    prayerTime: prayerTime,
+                    unitLabel: session.currentUnitLabel,
+                    unitIndex: session.currentUnitIndex,
+                    unitCount: session.unitCount
                 )
 
                 Spacer()
@@ -98,7 +101,12 @@ struct GuidedPrayerView: View {
                 )
                 .padding(.bottom, 40)
             }
+
+            if let t = session.unitTransition {
+                UnitTransitionCardView(from: t.from, to: t.to, prayerTime: prayerTime)
+            }
         }
+        .animation(.easeInOut(duration: 0.3), value: session.unitTransition)
     }
 
     // MARK: - Complete

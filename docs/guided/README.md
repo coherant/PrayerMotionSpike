@@ -80,13 +80,30 @@ All in `Core/PrayerStateMachine/PrayerSequence.swift` unless noted:
 | Phase behaviour | `enum PhaseMode` — `auto` / `timed` / `motion` / `timedMotion` |
 | Sensor gate | `enum MotionTrigger` — `ruku` / `sujood` / `upright` / `headTurnRight` / `headTurnLeft` |
 | Pause length | `enum PrayerDuration` — `.pace` (user setting) / `.fixed(seconds)` |
-| Generator | `enum GuidedSequenceGenerator` — `generate(salat:language:)` |
+| Generator | `enum GuidedSequenceGenerator` — `generate(salat:language:unitIds:)` |
+| Unit identity on a state | `PrayerState.unitIndex` (0-based position in the chain) + `unitLabel` ("Farḍ"/"Sunnah"/"Witr") — stamped by `generate` |
 | Text lookup | `Core/Language/PrayerLibrary.swift` → `PrayerLibrary.text(_:_:)`, `enum PrayerID` |
 | Instruction lookup | `Core/Language/InstructionLibrary.swift` → `InstructionLibrary.text(_:)`, `enum InstructionID` |
 | Per-prayer content | `Tx` (resolved P-id strings) + `Content` (niyet, hasOpeningCue, surahs) |
 
 The runtime engine (`PrayerStateMachine.swift`) consumes the `[PrayerState]` array;
-empty utterances/speech are skipped.
+empty utterances/speech are skipped. It runs a whole **observance** (every chained
+unit) in one pass — `status` becomes `.complete` only after the final unit's TASLEEM.
+
+**Unit-aware runtime surfaces** (consumed by the UI):
+
+| Concept | Swift symbol |
+|---|---|
+| Current unit (0-based) | `PrayerStateMachine.currentUnitIndex` |
+| Units in the observance | `PrayerStateMachine.unitCount` |
+| Current unit label | `PrayerStateMachine.currentUnitLabel` |
+| Rak'ah count of the current unit | `PrayerStateMachine.totalRakat` (per-unit, not observance-wide) |
+| Unit-boundary card | `PrayerStateMachine.unitTransition` (`{from,to}` while the ~2s card shows, else `nil`) |
+
+Rakat numbering **resets per unit** (each unit is its own niyet→TASLEEM), so
+`currentRakat` / `totalRakat` are unit-relative. At a unit boundary the machine
+publishes `unitTransition` and holds ~2s (silent) before the next unit's `I-24`
+opener — see `observances.md`.
 
 ---
 
