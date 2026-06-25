@@ -147,8 +147,8 @@ unit except Witr (`false`).
    later position in the unit is `motion` with `.pace`. (Entry speech carries no duration;
    the `—` on `I-1` entry rows in the prayer-sets reflects that.)
    - A **subsequent** unit's opening Qiyam is `motion` (`upright`): entry `I-24`, reprompt
-     `I-14`, renewed niyet `I-25`, then `P-7 → surah → P-0` at `.pace` — **no** `I-1`. See
-     `observances.md`.
+     `I-14`, renewed niyet `I-25`, then `P-0 → P-7 → surah → P-0` at `.pace` — **no** `I-1`.
+     See `observances.md`.
 2. **Yaw baseline** is captured at the last `qiyam-after-ruku` before `TASLEEM`, in the
    same unit (yaw is unit-relative).
 3. **Reprompt interval = 5s** for all guided motion positions (the `PrayerState`
@@ -181,7 +181,8 @@ To regenerate `GuidedSequenceGenerator`:
    `I-id` → `InstructionLibrary.text(.i{n})`. The opening **stand-upright / niyet** cues are also
    `I-ids` (the niyet via `InstructionLibrary.text(.i25, prayer:)`), and the closing-dua
    `exit` row is `P-23`. Durations: `.fixed` only in the timed opening, `.pace` elsewhere.
-4. **Content** — encode `makeContent` from the per-prayer niyet + surah table (§4).
+4. **Content** — encode `content(for:unit:)` (niyet via `niyetName`, the two opening
+   surahs via `surahs(for:unit:)`) from the per-unit niyet + surah table (§5 / `observances.md`).
 5. **Compose** — `generateUnit(_:content:isFirst:isLast:)` wires the block order by
    `rakats` (§4), setting `capturesYaw` on the last `qiyam-after-ruku`; apply the unit
    opener / `P-23` boundary rules from `observances.md`. `generate(salat:…)` chains the

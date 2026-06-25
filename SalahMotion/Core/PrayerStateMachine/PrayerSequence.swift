@@ -215,7 +215,10 @@ enum GuidedSequenceGenerator {
         states.map { var s = $0; s.unitIndex = index; s.unitLabel = label; return s }
     }
 
-    // Witr exposed standalone — a self-contained single-unit observance.
+    // Standalone Witr — a single-unit observance (isFirst & isLast). NOT redundant with
+    // generate(): farḍ is always force-included, so generate() can never emit Witr in
+    // isolation. This is also the only coverage of the cue-less timed opener (Witr's
+    // hasOpeningCue == false). Keep it. Currently exercised by the snapshot test.
     static func witrSequence(language: Language = UserPreferences.shared.language) -> [PrayerState] {
         let tx = Tx(language: language)
         let unit = PrayerUnit(id: "isha_witr", kind: .witr, rakats: 3)

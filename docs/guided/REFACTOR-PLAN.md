@@ -110,7 +110,7 @@ is not throwaway — it is the **seed of the Stage 3 `observances.md` spec**.
 - **Still needs real-device iteration:** card timing/feel, header layout, multi-unit
   motion flow on AirPods, rakat-reset across the boundary. No automated net for these.
 
-### Stage 5 — Content correctness ✅ DONE (uncommitted)
+### Stage 5 — Content correctness ✅ DONE (`cdfabcd`)
 - **Per-unit niyet identity:** `I-25` now substitutes the *unit's* intention via
   `niyetName(for:salat:)` — "the Farḍ of {Prayer}" / "the Sunnah of {Prayer}" / "Witr"
   (wording chosen by user). Each unit in a chained observance declares its own niyet.
@@ -125,12 +125,27 @@ is not throwaway — it is the **seed of the Stage 3 `observances.md` spec**.
 - **Snapshot:** intentional diff, reviewed — 1135↔1135 lines (no structural change), 40
   changed lines, *every one a recitation line* (niyet + surah text only); all other
   fields (ids, modes, durations, motion, yaw, rakat, `unit=`) byte-identical. Green.
-- **Still outstanding (→ Stage 6 / QA):** P-23 Arabic/Turkish translation verification
-  (placement was settled in Stage 3); device listen-through of the new niyets/surahs.
+- **Still outstanding:** P-23 Arabic/Turkish translation verification — *moved to the
+  parked language refactor* (`LANGUAGE-REFACTOR.md`), where field-level translation work
+  belongs (placement was settled in Stage 3). Optional device listen-through of the new
+  niyets/surahs.
 
-### Stage 6 — Validation & cleanup
-- Phase counts re-derived as observance totals (checksums, not generators).
-- Re-verify every README invariant; final MD↔code↔JSON sync sweep.
+### Stage 6 — Validation & cleanup ✅ DONE
+- **Phase-count checksums (pass):** observance totals = sum of unit checksums (2-rakat
+  unit = 15, 3-rakat = 22, 4-rakat = 28) — Fajr 30, Dhuhr 71, Asr 56, Maghrib 37, Isha 65,
+  standalone Witr 22. Snapshot section headers match actual `[index]` ranges exactly.
+- **ID sync (pass):** `P-0…P-23` + `I-1…I-25` identical across `prayers.json` /
+  `PrayerLibrary` / `prayers.md` and `instructions.json` / `InstructionLibrary` /
+  `instructions.md`. `observances.md` §5 surah table ↔ `surahs(for:unit:)` — all 12 match.
+- **README invariants 2–5 (pass):** yaw-at-last-qiyam, 5s reprompts, P-23 once on `isLast`,
+  motion triggers — all verified against code. master-prayer-state-machine.md clean.
+- **Two doc drifts fixed:** README §5 invariant 1 (subsequent-unit opener was missing the
+  takbīr `P-0` after the niyet — code emits `niyet → P-0 → P-7 → surah → P-0`); README §6
+  step 4 (referenced the deleted `makeContent`; now `content(for:unit:)` / §5).
+- **`witrSequence()` kept (not redundant):** sole producer of standalone Witr
+  (`generate()` always force-includes farḍ, so can't emit Witr in isolation) and the only
+  coverage of the cue-less timed opener (`hasOpeningCue == false`). Comment relabelled.
+- Snapshot test green; no regen needed (no behaviour change).
 
 ---
 
@@ -178,9 +193,16 @@ is not throwaway — it is the **seed of the Stage 3 `observances.md` spec**.
 - **Stage 4 ✅ committed** (`0681db8`): unit identity on `PrayerState`, machine unit
   surfaces + per-unit rakat + `unitTransition` boundary hold, header unit chrome,
   `UnitTransitionCardView`. Builds + snapshot green; device-tested (worked first go).
-- **Stage 5 ✅ done (uncommitted):** per-unit niyet identity (`niyetName`) + per-unit
+- **Stage 5 ✅ committed** (`cdfabcd`): per-unit niyet identity (`niyetName`) + per-unit
   surahs (`surahs(for:unit:)`, Farḍ always opens Al-Ikhlas) in `content(for:unit:)`;
   `makeContent` removed. Spec: `observances.md` §5 + README §4/instructions.md/prayer-set
   placeholders. Snapshot regenerated (recitation-only diff, reviewed, green).
-- **Next action:** user review + commit Stage 5; then Stage 6 (validation & cleanup),
-  incl. P-23 translation verification and retiring any remaining redundancy.
+- **Language refactor parked** (`ed2b21b`, `LANGUAGE-REFACTOR.md`): its own deferred
+  track; absorbs the P-23 translation-verification item.
+- **Stage 6 ✅ committed** (`STAGE6_HASH`): validation & cleanup. Phase-count checksums,
+  ID sync, and README invariants 2–5 all pass; two README doc drifts fixed (subsequent-unit
+  takbīr P-0, stale `makeContent` ref); `witrSequence()` kept (not redundant — sole
+  standalone-Witr path + cue-less-opener coverage) with comment relabelled. Snapshot green,
+  no regen.
+- **The observance-sequencer arc is COMPLETE** (Stages 0–6). Remaining open work lives in
+  the parked language refactor (`LANGUAGE-REFACTOR.md`). No further observance stages.
