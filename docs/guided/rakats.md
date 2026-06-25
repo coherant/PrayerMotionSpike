@@ -40,6 +40,10 @@ Qiyam includes Al-Fatiha + an additional surah.
 Used for: Rakats 3 & 4 in 4-rakat prayers. Rakat 3 in Maghrib.
 Qiyam includes Al-Fatiha only — no additional surah.
 
+The prayer-set files list only the `qiyam-fatiha` utterances for this block; every
+other sub-phase (`ruku`, `qiyam-after-ruku`, `sujood-first`, `julus-between`,
+`sujood-second`) reuses RAKAT_FULL's utterances verbatim.
+
 | position | Label | Arabic | English Meaning | Mode | Motion Trigger | Reprompt |
 |---|---|---|---|---|---|---|
 | qiyam-fatiha | Qiyam | قِيَام | Standing | `motion` | pitch (upright) | 5s |

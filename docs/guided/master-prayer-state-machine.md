@@ -6,10 +6,10 @@ Prayer content: `prayer-sets/{prayer}.md`
 Prayer text library: `../prayers/prayers.md`
 
 ## Notes
-- The first Qiyam of any prayer unit is `timed` — it includes the niyet (renewed per unit), then Al-Fatiha + surah
-- The intro (`I-1`) and opening stand-upright cue (`I-24`) are observance-level openers — played once at the start, not repeated per unit
+- The first Qiyam of any prayer unit is `timed` — entry `I-1`, then `I-24` (when hasOpeningCue), the niyet (renewed per unit), then Al-Fatiha + surah
 - All subsequent Qiyams within a unit are `motion`
 - Yaw baseline is always captured at the last qiyam-after-ruku before TASLEEM
+- The future observance-level lifetime of `I-1` / `I-24` is parked in `observance-considerations.md` (not yet implemented)
 
 ---
 

@@ -119,22 +119,22 @@ empty utterances/speech are skipped.
 
 ## 5. Invariants (must hold after any rebuild)
 
-1. **First Qiyam of a unit is `timed`** with `.fixed` durations. The per-unit opening
-   order is `niyet → P-0 → P-7 (Fatiha) → surah → P-0` (niyet 5s, P-0 3s, Fatiha 2s,
-   surah 2s, P-0 2s). Every later position is `motion` with `.pace`.
-2. **Observance-level openers** — the intro (`I-1`) and the stand-upright cue (`I-24`,
-   gated by `hasOpeningCue`, absent for Witr) play once at the start of the observance,
-   not per unit.
-   > ⚠ Spec↔code gap: the code still emits `I-24` inside every unit's opening
-   > (`if c.hasOpeningCue …`); relocating it is part of the observance/composition layer.
-3. **Yaw baseline** is captured at the last `qiyam-after-ruku` before `TASLEEM`, in the
+1. **First Qiyam of a unit is `timed`.** Entry speech is `I-1`. The opening prayer rows
+   are `[I-24 (when hasOpeningCue) →] niyet → P-0 → P-7 (Fatiha) → surah → P-0` with
+   `.fixed` durations (I-24 5s, niyet 5s, P-0 3s, Fatiha 2s, surah 2s, P-0 2s). Every
+   later position is `motion` with `.pace`. (Entry speech carries no duration; the `—`
+   on `I-1` entry rows in the prayer-sets reflects that.)
+2. **Yaw baseline** is captured at the last `qiyam-after-ruku` before `TASLEEM`, in the
    same unit (yaw is unit-relative).
-4. **Reprompt interval = 5s** for all guided motion positions (the `PrayerState`
+3. **Reprompt interval = 5s** for all guided motion positions (the `PrayerState`
    default of 8 is overridden everywhere in guided).
-5. **Closing dua** "Oh Allah, you are peace and peace comes from you" is the `exitSpeech`
+4. **Closing dua** "Oh Allah, you are peace and peace comes from you" is the `exitSpeech`
    of `tasleemLeft`.
-6. **Motion triggers:** Ruku→`ruku`, every standing/sitting→`upright`, Sujood→`sujood`,
+5. **Motion triggers:** Ruku→`ruku`, every standing/sitting→`upright`, Sujood→`sujood`,
    Tasleem→`headTurnRight` then `headTurnLeft`.
+
+> The lifetime of the `I-1` intro and `I-24` stand-upright cue (per-unit today,
+> observance-level in the future) is parked in `observance-considerations.md`.
 
 ---
 

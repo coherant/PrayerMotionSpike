@@ -6,11 +6,27 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXContainerItemProxy section */
+		AD31F9222FED68C900EF6F5B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AD5C71A52FE586D00022EFD3 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AD5C71AC2FE586D00022EFD3;
+			remoteInfo = SalahMotion;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		AD31F91E2FED68C900EF6F5B /* SalahMotionTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SalahMotionTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD5C71AD2FE586D00022EFD3 /* SalahMotion.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SalahMotion.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		AD31F91F2FED68C900EF6F5B /* SalahMotionTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = SalahMotionTests;
+			sourceTree = "<group>";
+		};
 		AD5C71AF2FE586D00022EFD3 /* SalahMotion */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = SalahMotion;
@@ -19,6 +35,13 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		AD31F91B2FED68C900EF6F5B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AD5C71AA2FE586D00022EFD3 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -33,6 +56,7 @@
 			isa = PBXGroup;
 			children = (
 				AD5C71AF2FE586D00022EFD3 /* SalahMotion */,
+				AD31F91F2FED68C900EF6F5B /* SalahMotionTests */,
 				AD5C71AE2FE586D00022EFD3 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -41,6 +65,7 @@
 			isa = PBXGroup;
 			children = (
 				AD5C71AD2FE586D00022EFD3 /* SalahMotion.app */,
+				AD31F91E2FED68C900EF6F5B /* SalahMotionTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -48,6 +73,29 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		AD31F91D2FED68C900EF6F5B /* SalahMotionTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AD31F9242FED68C900EF6F5B /* Build configuration list for PBXNativeTarget "SalahMotionTests" */;
+			buildPhases = (
+				AD31F91A2FED68C900EF6F5B /* Sources */,
+				AD31F91B2FED68C900EF6F5B /* Frameworks */,
+				AD31F91C2FED68C900EF6F5B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AD31F9232FED68C900EF6F5B /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				AD31F91F2FED68C900EF6F5B /* SalahMotionTests */,
+			);
+			name = SalahMotionTests;
+			packageProductDependencies = (
+			);
+			productName = SalahMotionTests;
+			productReference = AD31F91E2FED68C900EF6F5B /* SalahMotionTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		AD5C71AC2FE586D00022EFD3 /* SalahMotion */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = AD5C71B82FE586D20022EFD3 /* Build configuration list for PBXNativeTarget "SalahMotion" */;
@@ -80,6 +128,10 @@
 				LastSwiftUpdateCheck = 2650;
 				LastUpgradeCheck = 2650;
 				TargetAttributes = {
+					AD31F91D2FED68C900EF6F5B = {
+						CreatedOnToolsVersion = 26.5;
+						TestTargetID = AD5C71AC2FE586D00022EFD3;
+					};
 					AD5C71AC2FE586D00022EFD3 = {
 						CreatedOnToolsVersion = 26.5;
 					};
@@ -100,11 +152,19 @@
 			projectRoot = "";
 			targets = (
 				AD5C71AC2FE586D00022EFD3 /* SalahMotion */,
+				AD31F91D2FED68C900EF6F5B /* SalahMotionTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		AD31F91C2FED68C900EF6F5B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AD5C71AB2FE586D00022EFD3 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -115,6 +175,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		AD31F91A2FED68C900EF6F5B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AD5C71A92FE586D00022EFD3 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -124,7 +191,57 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		AD31F9232FED68C900EF6F5B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AD5C71AC2FE586D00022EFD3 /* SalahMotion */;
+			targetProxy = AD31F9222FED68C900EF6F5B /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		AD31F9252FED68C900EF6F5B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = UGGK9A63KZ;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.xienta.SalahMotionTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SalahMotion.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/SalahMotion";
+			};
+			name = Debug;
+		};
+		AD31F9262FED68C900EF6F5B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = UGGK9A63KZ;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.xienta.SalahMotionTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SalahMotion.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/SalahMotion";
+			};
+			name = Release;
+		};
 		AD5C71B62FE586D20022EFD3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -317,6 +434,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		AD31F9242FED68C900EF6F5B /* Build configuration list for PBXNativeTarget "SalahMotionTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AD31F9252FED68C900EF6F5B /* Debug */,
+				AD31F9262FED68C900EF6F5B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		AD5C71A82FE586D00022EFD3 /* Build configuration list for PBXProject "SalahMotion" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
