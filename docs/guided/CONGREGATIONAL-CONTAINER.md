@@ -141,13 +141,52 @@ movement*; in Silent Mode the worshipper fills it themselves, then moves.
   for the confirmed movement into the next posture → advance.
 - It is essentially *motion mode everywhere, with the voice withdrawn.*
 
+### The advancement model (resolved — what "motion everywhere" means in code)
+
+The generated sequence uses only **two** modes in practice: `motion` (303 states) and
+`timed` (6 states — the opening `r1QiyamFull` of each observance). `.auto`/`.timedMotion`
+are defined but unused. Silent Mode **needs no generator change — the golden snapshot stays
+byte-identical**; it is implemented as a single `runSilentPhase` runner that overrides the
+per-mode runners while `guidanceLevel == .silent`.
+
+**The principle: dwell, then depart.** A posture's recitation happens *while you are in it*;
+you leave it by making the *next* movement. So in Silent Mode each state shows its text
+(display-only) and **advances on the *departure* — the next state's trigger**
+(`states[i+1].motionTrigger`), waited for patiently and indefinitely. This keeps the display
+on the posture the worshipper is actually in (e.g. Rukūʿ stays up, reciting, until they
+*rise*), rather than the today-model's "wait for this posture's *arrival*," which would flip
+the display a step early once the voice/timer is removed. The state's own arrival trigger was
+already consumed by the previous state's departure-wait, so it isn't re-waited — no
+double-hold.
+
+**The one exception — the movement the sensor can't see.** Detection is by AirPods *head
+attitude*; **standing up from sitting is invisible** (a seated tashahhud reads as "upright,"
+identical to standing). That bites at the **middle tashahhud → next rakʿah** and at **unit
+boundaries**. There, Silent Mode bridges with a **short timed dwell** sized to the seated
+recitation (`Σ prayer durations`, floor 2s), then advances automatically — *the body is the
+clock everywhere the body is visible; a recitation-length hold only where it isn't.* In code:
+`runSilentPhase` takes the timed-dwell branch when the departure trigger is `.upright` **and**
+the current posture is seated (`isSeatedUpright`); the final taslīm also dwells briefly, then
+completes.
+
+**No reprompts, no fallback.** Visible-departure waits run through `confirmMotion`, which in
+silent mode emits **no reprompt audio** and **disables the `maxReprompts` fallback advance** —
+it waits forever. A tap (the escape hatch, below) is the only non-motion way forward.
+
+**The opening teaching intro (`I-1`) and timed niyet rows** are `playsEntryGuidance` /
+`playsPrayers` content — already gated off in `.silent`. So the opening is a quiet "begin when
+ready," not the full instructional walk-through. *(Answers the §6 "Opening" question.)*
+
 ### The three craft details that make it humane
-1. **Patience, not nagging.** Today motion states reprompt every `5s`. In Silent Mode that
-   rushes someone mid-Fātiḥa. Reprompts go **silent and long — ideally none by default**;
-   the worshipper isn't stuck, they're praying. The app must learn to wait in silence.
-2. **An escape hatch.** Since only motion advances, a missed sensor read could strand
-   someone. After a long, generous hold with no detected movement, offer a gentle
-   **tap-to-advance** — always available, never intrusive. Never a hostage to the sensor.
+1. **Patience, not nagging — LOCKED: total silence.** Today motion states reprompt every
+   `5s`, which would rush someone mid-Fātiḥa. In Silent Mode there are **no reprompts at
+   all** — no audio, no visual nudge. The app waits **indefinitely**; the `maxReprompts`
+   fallback-advance is disabled. The worshipper isn't stuck, they're praying.
+2. **An escape hatch — LOCKED: tap appears after a long hold.** Since only motion advances,
+   a missed sensor read could strand someone. The screen stays pure; after **~60s in one
+   posture with no confirmed movement**, a gentle **"Tap to continue"** fades in. Tapping
+   advances to the next posture. Hidden until needed, never intrusive — and it doubles as
+   manual pacing for anyone who wants it.
 3. **The Muezzin re-entry is where timing returns.** The silent, self-paced span is *only
    the salah itself*. The instant a unit's final Taslīm is confirmed, the worshipper hands
    the clock back and the **Muezzin takes it**: boundary du'ā, then the voiced closing
@@ -234,15 +273,16 @@ tap-to-advance hatch is the safety net beneath it. See `[[project_calibration_bu
   Witr**. Witr is the last unit, so the general "seal after the last unit" rule holds with
   **no special case**. The Muezzin is **silent through the Witr** — its Qunūt is in-salah
   recitation, which he never voices — then seals once it's complete.
-- **Isha composition — BUG to fix in build:** full Ḥanafī Isha is **4→4→2→3** (13 rakʿah);
-  the canonical table omits the 4-rakʿah ghayr-muʾakkad **sunnah-before** (`SalatType.units`
-  `.isha`; `observances.md` 25 + §5; `prayer-sets/isha.md`). Add `isha_sb` mirroring Asr's
-  optional sunnah-before; regen snapshot (Isha 65 → ~93). Container-sets already map the
-  corrected composition. *(Code change — not done in the spec work.)*
-- **Reprompt policy in Silent Mode:** none at all by default, or a single very-delayed
-  gentle cue? Escape-hatch (tap-to-advance) hold-time threshold?
-- **Opening:** does the first unit still get the I-1 intro (teaching), or a "begin when
-  ready" hand-off straight into self-paced silence?
+- **Isha composition — FIXED (`ea5cb8c`, build Stage 0):** full Ḥanafī Isha is **4→4→2→3**
+  (13 rakʿah). `isha_sb` added (`SalatType.units` `.isha`; `observances.md` §1 + §5;
+  `prayer-sets/isha.md`; surahs Al-ʿAsr `P-15` / Al-Kāfirūn `P-17`); snapshot regenerated
+  Isha 65 → 93, green.
+- **Reprompt policy in Silent Mode — SETTLED:** **total silence** (no reprompts, audio or
+  visual; `maxReprompts` fallback disabled; wait indefinitely). Escape hatch = **"Tap to
+  continue" after ~60s** in one posture with no confirmed motion (see §3 craft detail 2).
+- **Opening — SETTLED:** Silent Mode gets a quiet "begin when ready," not the `I-1`
+  teaching intro — `I-1`/timed niyet rows are `playsEntryGuidance`/`playsPrayers` content,
+  already gated off in `.silent` (see §3, advancement model).
 - **Container content authoring:** Adhān/Iqāma/tasbīḥāt/ṣalawāt/closing du'ā text + the
   `C-` namespace + recordings vs TTS for each.
 
@@ -250,8 +290,13 @@ tap-to-advance hatch is the safety net beneath it. See `[[project_calibration_bu
 
 ## 7. Likely stages when un-parked (sketch)
 
-1. **Silent Mode (inner):** add the mode — in-salah rows display-only, motion-gated,
-   patient reprompts, tap-to-advance hatch. Snapshot-protected. No new content.
+1. **Silent Mode (inner) — BUILT (pending on-device verification).** `runSilentPhase` +
+   `confirmMotion`/`timedSilentDwell` in `PrayerStateMachine`; escape-hatch tap in
+   `GuidedPrayerView`. In-salah rows already display-only; motion-gated dwell-then-depart;
+   total silence (no reprompts, no fallback); short timed dwell only at the invisible
+   sit→stand; "Tap to continue" after 60s. Snapshot byte-identical; build + snapshot green.
+   *Still to confirm on a device with AirPods: dwell feel, the 60s hatch, the tashahhud
+   bridge.*
 2. **The container shell (outer):** wrap the observance — container phase type, `C-`
    namespace, Iqāma open + closing sequence; rebind `P-23` as a Muezzin boundary act.
 3. **Muezzin voice binding:** wire `muezzinId` → container audio (the binding policy);

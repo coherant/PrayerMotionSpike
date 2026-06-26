@@ -102,11 +102,31 @@ struct GuidedPrayerView: View {
                 .padding(.bottom, 40)
             }
 
+            // Silent Mode escape hatch — fades in after a long hold with no detected
+            // movement, so a missed sensor read never strands the worshipper.
+            // See docs/guided/CONGREGATIONAL-CONTAINER.md §3.
+            if session.escapeHatchVisible {
+                VStack {
+                    Spacer()
+                    Button { session.requestManualAdvance() } label: {
+                        Label("Tap to continue", systemImage: "hand.tap")
+                            .font(.callout.weight(.medium))
+                            .foregroundStyle(prayerTime.theme.ink.opacity(0.75))
+                            .padding(.horizontal, 18)
+                            .padding(.vertical, 10)
+                            .background(.ultraThinMaterial, in: Capsule())
+                    }
+                    .padding(.bottom, 124)
+                }
+                .transition(.opacity)
+            }
+
             if let t = session.unitTransition {
                 UnitTransitionCardView(from: t.from, to: t.to, prayerTime: prayerTime)
             }
         }
         .animation(.easeInOut(duration: 0.3), value: session.unitTransition)
+        .animation(.easeInOut(duration: 0.4), value: session.escapeHatchVisible)
     }
 
     // MARK: - Complete

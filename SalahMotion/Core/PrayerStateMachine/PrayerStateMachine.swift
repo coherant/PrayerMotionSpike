@@ -71,6 +71,33 @@ final class PrayerStateMachine {
 
     private(set) var guidanceLevel: GuidanceLevel
 
+    // MARK: - Silent Mode (the body is the clock — docs/guided/CONGREGATIONAL-CONTAINER.md §3)
+    // The voice is withdrawn; advancement is purely the worshipper's own movement, patient
+    // and indefinite (no reprompts, no fallback advance). The one transition the sensor
+    // can't see — standing up from sitting — is bridged by a short recitation-sized dwell.
+    private var isSilent: Bool { guidanceLevel == .silent }
+    /// After this long held in one posture with no confirmed movement, the silent-mode
+    /// "Tap to continue" escape hatch appears.
+    private let escapeHatchDelay: Double = 60
+    /// UI binds this to show/hide the "Tap to continue" control (silent mode only).
+    private(set) var escapeHatchVisible: Bool = false
+    /// Set by the UI tap; consumed by the wait loop to advance to the next posture.
+    private var manualAdvanceRequested = false
+    func requestManualAdvance() { manualAdvanceRequested = true }
+
+    /// Postures where the head is already upright at rest (seated). A following `.upright`
+    /// (stand-up) trigger is therefore invisible to head-attitude detection — bridge it
+    /// with a timed dwell rather than waiting for a movement that can't be sensed.
+    private func isSeatedUpright(_ state: PrayerState) -> Bool {
+        switch state.id {
+        case .julusShort, .julusFull, .tasleemRight, .tasleemLeft,
+             .r1JulusBetween, .r2JulusBetween, .r3JulusBetween, .r4JulusBetween:
+            return true
+        default:
+            return false
+        }
+    }
+
     init(sequence: [PrayerState] = GuidedSequenceGenerator.generate(),
          guidanceLevel: GuidanceLevel = UserPreferences.shared.guidanceLevel,
          participantName: String = "",
@@ -92,6 +119,8 @@ final class PrayerStateMachine {
         sessionSamples = []
         visitedStates  = []
         unitTransition = nil
+        escapeHatchVisible = false
+        manualAdvanceRequested = false
         sessionStartDate = Date()
         qiyamYawBaseline = nil
         startMotionUpdates()
@@ -102,6 +131,7 @@ final class PrayerStateMachine {
     func cancel() {
         sessionTask?.cancel()
         unitTransition = nil
+        escapeHatchVisible = false
         audioManager.stop()
         detector.stop()
 #if canImport(UIKit)
@@ -152,11 +182,15 @@ final class PrayerStateMachine {
                          index + 1, states.count, state.id.rawValue, state.mode.rawValue,
                          Date().timeIntervalSince(sessionStart)))
 
-            switch state.mode {
-            case .auto:        await runAutoPhase(state)
-            case .timed:       await runTimedPhase(state)
-            case .motion:      await runMotionPhase(state)
-            case .timedMotion: await runTimedMotionPhase(state)
+            if isSilent {
+                await runSilentPhase(state, index: index)
+            } else {
+                switch state.mode {
+                case .auto:        await runAutoPhase(state)
+                case .timed:       await runTimedPhase(state)
+                case .motion:      await runMotionPhase(state)
+                case .timedMotion: await runTimedMotionPhase(state)
+                }
             }
 
             if state.capturesYawBaseline {
@@ -175,6 +209,50 @@ final class PrayerStateMachine {
             status = .complete
         }
         print("[PrayerSM] ✅ Session ended — status: \(status)")
+    }
+
+    // MARK: - Silent phase runner
+
+    /// Silent Mode runs every in-salah state through here (overriding the per-mode runners).
+    /// The orb shows the posture/recitation text (display-only) and the state dwells until
+    /// the worshipper makes the *departure* movement — the next state's trigger — patiently
+    /// and indefinitely. The lone exception is the seated→stand transition the sensor can't
+    /// see, bridged by a short recitation-sized dwell. No audio. See CONGREGATIONAL-CONTAINER.md §3.
+    @MainActor
+    private func runSilentPhase(_ state: PrayerState, index: Int) async {
+        let isLast = index == states.count - 1
+        let nextTrigger = isLast ? nil : states[index + 1].motionTrigger
+
+        if isLast {
+            // Final taslīm — the prayer is complete; brief close, then end.
+            await timedSilentDwell(state)
+        } else if nextTrigger == .upright && isSeatedUpright(state) {
+            // Invisible sit→stand (middle tashahhud → next rakʿah, or unit boundary).
+            await timedSilentDwell(state)
+        } else {
+            // Visible departure — wait, indefinitely, for the worshipper to move on.
+            await confirmMotion(trigger: nextTrigger,
+                                reprompt: nil,
+                                repromptInterval: state.repromptInterval,
+                                maxReprompts: nil,
+                                showProgressDuringWait: false,
+                                stateID: state.id.rawValue)
+        }
+    }
+
+    /// A short dwell sized to the seated recitation (sum of the state's prayer durations,
+    /// with a floor), used only where a movement can't be sensed. A tap advances early.
+    @MainActor
+    private func timedSilentDwell(_ state: PrayerState) async {
+        let pace = UserPreferences.shared.pace
+        let recitation = state.prayers.reduce(0.0) { $0 + $1.duration.seconds(pace: pace) }
+        let dwell = max(recitation, 2.0)
+        let start = Date()
+        while !Task.isCancelled {
+            if manualAdvanceRequested { manualAdvanceRequested = false; return }
+            if Date().timeIntervalSince(start) >= dwell { return }
+            try? await Task.sleep(for: .milliseconds(50))
+        }
     }
 
     // MARK: - Phase runners
@@ -314,45 +392,73 @@ final class PrayerStateMachine {
         if let speech = state.exitSpeech { await audioManager.speak(speech) }
     }
 
-    // MARK: - Motion waiting (used by .motion mode)
+    // MARK: - Motion waiting
 
     @MainActor
     private func waitForMotion(_ state: PrayerState) async {
-        guard let trigger = state.motionTrigger else { return }
+        await confirmMotion(trigger: state.motionTrigger,
+                            reprompt: state.repromptAudio,
+                            repromptInterval: state.repromptInterval,
+                            maxReprompts: state.maxReprompts,
+                            showProgressDuringWait: state.showProgressDuringWait,
+                            stateID: state.id.rawValue)
+    }
+
+    /// Core motion-confirm wait, shared by `.motion` phases (voiced) and the silent runner.
+    /// Returns when `trigger` is held for `holdWindow`, when the UI requests a manual
+    /// advance, or — voiced only — after `maxReprompts` fallbacks. Silent mode: no reprompt
+    /// audio, no fallback advance, waits indefinitely, and surfaces the escape hatch after
+    /// `escapeHatchDelay`.
+    @MainActor
+    private func confirmMotion(trigger: MotionTrigger?,
+                               reprompt: String?,
+                               repromptInterval: Double,
+                               maxReprompts: Int?,
+                               showProgressDuringWait: Bool,
+                               stateID: String) async {
+        manualAdvanceRequested = false
+        defer { escapeHatchVisible = false; confirmProgress = 0 }
+
+        guard let trigger else { return }
+
+        let waitStart = Date()
         var holdStart: Date? = nil
         var lastRepromptAt = Date()
         var repromptCount = 0
 
         while !Task.isCancelled {
-            let elapsed = Date().timeIntervalSince(lastRepromptAt)
-            confirmProgress = state.showProgressDuringWait
-                ? min(elapsed / state.repromptInterval, 1.0)
-                : 0
+            if manualAdvanceRequested {
+                manualAdvanceRequested = false
+                print("[PrayerSM] 👆 Manual advance: \(stateID)")
+                return
+            }
+
+            if isSilent {
+                escapeHatchVisible = Date().timeIntervalSince(waitStart) >= escapeHatchDelay
+                confirmProgress = 0
+            } else {
+                let elapsed = Date().timeIntervalSince(lastRepromptAt)
+                confirmProgress = showProgressDuringWait ? min(elapsed / repromptInterval, 1.0) : 0
+            }
 
             if thresholds.isSatisfied(trigger, pitch: pitch, roll: roll, yaw: yaw,
                                       yawBaseline: qiyamYawBaseline) {
                 if holdStart == nil { holdStart = Date() }
-                let held = Date().timeIntervalSince(holdStart!)
-
-                if held >= holdWindow {
-                    print(String(format: "[PrayerSM] ✓ Motion confirmed: %@ held=%.2fs",
-                                 state.id.rawValue, held))
-                    confirmProgress = 0
+                if Date().timeIntervalSince(holdStart!) >= holdWindow {
+                    print(String(format: "[PrayerSM] ✓ Motion confirmed: %@", stateID))
                     return
                 }
             } else {
                 holdStart = nil
-
-                if elapsed >= state.repromptInterval,
-                   let reprompt = state.repromptAudio {
+                if !isSilent,
+                   Date().timeIntervalSince(lastRepromptAt) >= repromptInterval,
+                   let reprompt {
                     repromptCount += 1
-                    print("[PrayerSM] ⏰ Reprompt \(repromptCount): \(state.id.rawValue)")
+                    print("[PrayerSM] ⏰ Reprompt \(repromptCount): \(stateID)")
                     await audioManager.speak(reprompt)
                     lastRepromptAt = Date()
-
-                    if let max = state.maxReprompts, repromptCount >= max {
-                        print("[PrayerSM] ⏭ Fallback advance after \(repromptCount) reprompts: \(state.id.rawValue)")
-                        confirmProgress = 0
+                    if let max = maxReprompts, repromptCount >= max {
+                        print("[PrayerSM] ⏭ Fallback advance after \(repromptCount): \(stateID)")
                         return
                     }
                 }
