@@ -61,6 +61,57 @@ Maps to the worshipper's words: *Ezan → Iqāma opens the container → worship
 unit → Muezzin punctuates each completion → after all units, Muezzin leads dhikr +
 ṣalawāt + closing du'ā.*
 
+> **Worked references — `container-sets/`** (each maps this onto one prayer phase-by-phase,
+> the way `prayer-sets/` anchors the inner units):
+> - `fajr.md` — Sunnah→Farḍ; the carrier of *aṣ-ṣalātu khayrun mina-n-nawm*; degenerate tail.
+> - `dhuhr.md` — Sunnah→Farḍ→Sunnah-after; sets the **two-anchor** tail rule.
+> - `asr.md` — Sunnah(optional)→Farḍ; Fajr-degenerate at 4+4.
+> - `maghrib.md` — Farḍ→Sunnah-after; **no sunnah-before** (Ezan→Iqāma directly); 3-rakʿah farḍ.
+> - `isha.md` — Sunnah→Farḍ→Sunnah-after→**Witr**; seal **after** the Witr; flags the Isha
+>   composition bug (missing sunnah-before).
+
+---
+
+## A. Container Call Library (`C-` ids)
+
+The Muezzin's content namespace — the parallel to `docs/prayers/prayers.md` (`P-ids`). None
+of these exist yet. When built, this graduates to its own `calls.md` (mirroring
+`prayers.md`); kept inline here while in SPEC. **Binding policy:** a Muezzin recording binds
+**only** to a `C-` id, never a `P-id` (see §4).
+
+| id | name | text (transliteration) | meaning | shape |
+|---|---|---|---|---|
+| `C-1` | Adhān | Allāhu akbar ×4 · Ashhadu an lā ilāha illā-llāh ×2 · Ashhadu anna Muḥammadan rasūlu-llāh ×2 · Ḥayya ʿalā-ṣ-ṣalāh ×2 · Ḥayya ʿalā-l-falāḥ ×2 · Allāhu akbar ×2 · Lā ilāha illā-llāh ×1 | The call to prayer | call |
+| `C-1F` | Adhān (Fajr) | …as `C-1`, **with** *Aṣ-ṣalātu khayrun mina-n-nawm* ×2 after *Ḥayya ʿalā-l-falāḥ* | "Prayer is better than sleep" — Fajr only | call |
+| `C-2` | Iqāma | …as adhān phrases (Ḥanafī doubles them), **plus** *Qad qāmati-ṣ-ṣalāh* ×2 before the closing takbīr | The prayer has begun | call |
+| `C-3` | Boundary du'ā | *Allāhumma anta-s-salām wa minka-s-salām, tabārakta yā dhā-l-jalāli wa-l-ikrām* — **= `P-23`** | O God, You are Peace… | boundary |
+| `C-4` | Istighfār | *Astaghfirullāh* ×3 | I seek God's forgiveness | dhikr |
+| `C-5` | Āyat al-Kursī | Qur'an 2:255 (*Allāhu lā ilāha illā huwa-l-Ḥayyu-l-Qayyūm…*) | The Throne Verse — *the best gem* | dhikr |
+| `C-6` | Tasbīḥ | *Subḥānallāh* ×33 | Glory be to God | dhikr |
+| `C-7` | Taḥmīd | *Alḥamdulillāh* ×33 | All praise to God | dhikr |
+| `C-8` | Takbīr | *Allāhu akbar* ×33 | God is the Greatest | dhikr |
+| `C-9` | Tahlīl | *Lā ilāha illā-llāhu waḥdahu lā sharīka lah, lahu-l-mulku wa lahu-l-ḥamd, wa huwa ʿalā kulli shay'in qadīr* | …completes 100 | dhikr |
+| `C-10` | Ṣalawāt | *Allāhumma ṣalli ʿalā Muḥammad…* | Blessings upon the Prophet ﷺ | dhikr |
+| `C-11` | Closing du'ā | Free supplication — istighfār, asking acceptance (hands raised) | — | closing |
+
+`C-3` is the same text as the in-salah-adjacent `P-23`; it is a *post-salah* act, so it
+lives honestly in the container. One source, re-voiced by the Muezzin — not duplicated.
+
+## B. The dhikr count is **not** a madhab axis
+
+The post-salah tasbīḥ counts come from **multiple authentic hadith**, not from the four
+schools diverging. All four treat post-salah tasbīḥ as *mustaḥabb* from the same narrations;
+picking a formula is choosing *which sunnah narration*, not which madhab.
+
+**Locked default: 33 Subḥānallāh · 33 Alḥamdulillāh · 33 Allāhu akbar · + 1 tahlīl = 100**
+(Muslim) — the most widely practiced, including the Turkish/Ḥanafī tradition this Muezzin
+belongs to. (Alternative narrations: 33/33/34; 25×4; 10×3 — all valid; could be an optional
+*formula* setting later, but it is **not** wired to the madhab toggle.)
+
+What genuinely *is* madhab-driven nearby — and must not be conflated: **Qunūt** (Ḥanafī =
+Witr only → Fajr carries none), and **unit composition** (already in `SalatType.units`).
+Āyat al-Kursī after the farḍ is broadly recommended across schools — **included**.
+
 ---
 
 ## 3. Silent Mode — the timing model (the final stitch)
@@ -163,14 +214,31 @@ tap-to-advance hatch is the safety net beneath it. See `[[project_calibration_bu
 
 - **1c — settled:** in-salah recitation = setting, default worshipper-recites (silent),
   learner scaffold optional.
-- **Adhān/Iqāma scope:** Adhān + Iqāma are for the *farḍ* in congregation; sunnah-before is
-  prayed individually *before* the Iqāma. Should the container open (Iqāma) wrap **only the
-  farḍ onward** (sunnah-before sitting outside/before the container), or embrace the whole
-  observance?
-- **Boundary du'ā + dhikr placement:** the post-salah "Allāhumma anta-s-salām" and the full
-  tasbīḥāt traditionally follow the **farḍ**, not every sunnah unit. Boundary du'ā after
-  **every** unit, or specifically after the **farḍ**, with the big dhikr/ṣalawāt/closing
-  reserved for the true end?
+- **Adhān/Iqāma scope — SETTLED (via `container-sets/fajr.md`):** the **Iqāma opens the
+  container between sunnah and farḍ** (sunnah-before is prayed before it, as in
+  congregation); the **Ezan is a pre-roll** above the container, prayer-time-tied. Generalise
+  to the other four when mapped.
+- **Boundary du'ā + dhikr placement — SETTLED (general rule, via `container-sets/dhuhr.md`):**
+  two acts, two anchors —
+  1. **Boundary du'ā `C-3`** (*Allāhumma anta-s-salām*) fires **immediately after the FARḌ**
+     unit (the du'ā of exiting the obligatory prayer; punctuates farḍ → sunnah-after).
+  2. **Full dhikr `C-4…C-10` + closing `C-11`** **seal the whole observance** — after the
+     **last** unit.
+  Matches Turkish/Ḥanafī practice (*entesselâm* after the farz; **tesbîhât** after the
+  son-sünnet). **Fajr is the degenerate case** (farḍ *is* last → both anchors coincide).
+  Never after a sunnah-**before** (the Iqāma marks that). **Build implication:** `C-3` is a
+  **new emission point** after the *farḍ* — today `P-23` fires only on the *last* unit; the
+  container splits that single closing into *(boundary-after-farḍ)* + *(seal-at-end)*.
+- **Dhikr formula — SETTLED:** 33/33/33 + tahlīl; Āyat al-Kursī included (see §B).
+- **Witr placement — SETTLED (via `container-sets/isha.md`):** the seal falls **after the
+  Witr**. Witr is the last unit, so the general "seal after the last unit" rule holds with
+  **no special case**. The Muezzin is **silent through the Witr** — its Qunūt is in-salah
+  recitation, which he never voices — then seals once it's complete.
+- **Isha composition — BUG to fix in build:** full Ḥanafī Isha is **4→4→2→3** (13 rakʿah);
+  the canonical table omits the 4-rakʿah ghayr-muʾakkad **sunnah-before** (`SalatType.units`
+  `.isha`; `observances.md` 25 + §5; `prayer-sets/isha.md`). Add `isha_sb` mirroring Asr's
+  optional sunnah-before; regen snapshot (Isha 65 → ~93). Container-sets already map the
+  corrected composition. *(Code change — not done in the spec work.)*
 - **Reprompt policy in Silent Mode:** none at all by default, or a single very-delayed
   gentle cue? Escape-hatch (tap-to-advance) hold-time threshold?
 - **Opening:** does the first unit still get the I-1 intro (teaching), or a "begin when
