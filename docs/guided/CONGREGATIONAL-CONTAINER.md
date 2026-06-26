@@ -277,6 +277,37 @@ tap-to-advance hatch is the safety net beneath it. See `[[project_calibration_bu
   (13 rakʿah). `isha_sb` added (`SalatType.units` `.isha`; `observances.md` §1 + §5;
   `prayer-sets/isha.md`; surahs Al-ʿAsr `P-15` / Al-Kāfirūn `P-17`); snapshot regenerated
   Isha 65 → 93, green.
+- **Taslīm not detected — KNOWN BUG, DIAGNOSED, DEFERRED (fix *after* the observance
+  refactor + addition).** The head-turn taslīm is the *only* yaw-based posture, and it fails
+  to register across **all three** guidance levels (Full, Prayer-only, Silent) — which
+  localises it to the one thing they share: the **yaw baseline**, not the per-mode runners.
+  Root cause: the baseline (`qiyamYawBaseline`) is captured once at **`r2QiyamAfterRuku`**
+  (`capturesYawBaseline`, run loop `PrayerStateMachine.swift:196`, sampled *after* the phase
+  returns — already heading into the first sujood) and then *used* two prostrations later at
+  `tasleemRight`/`tasleemLeft`. Two failure modes, both mode-independent: (1) sampled
+  too-early/mid-motion so "forward" is already tilted; (2) AirPods yaw heading **drifts**
+  through the two intervening sujoods, so the head-turn delta never crosses threshold.
+  Everything pitch/roll-based (rukūʿ, sujood, sit) is unaffected — exactly the observed
+  symptom. **Proposed fix (≈6 lines, snapshot byte-identical):** capture `qiyamYawBaseline =
+  yaw` at the final sitting, the instant before the *first* turn, in each model —
+  non-silent: first line of `runMotionPhase` when `motionTrigger == .headTurnRight`
+  (`tasleemRight`), before any entry cue could prompt an early turn; silent: in
+  `runSilentPhase` when `nextTrigger == .headTurnRight` (`julusFull`), before `confirmMotion`.
+  `tasleemLeft` keeps that same forward baseline (head already turned — must *not* re-sample);
+  the old early capture becomes harmlessly overwritten in every mode (no sequence change).
+  **⚠️ Overwrite-ordering hazard to respect when implementing:** `qiyamYawBaseline` is a single
+  shared var written in *two* places — the run-loop `capturesYawBaseline` block
+  (`PrayerStateMachine.swift:196`, fires *after* each phase) and the new pre-turn capture. The
+  benign overwrite is early→late (garbage early reading replaced by good forward reading). The
+  **dangerous** overwrite is the reverse: do **not** let a `capturesYawBaseline` state run
+  *after* the good forward capture, or it clobbers the baseline mid-taslīm — e.g. if the flag
+  is ever moved onto `julusFull`, in Silent that state departs on `headTurnRight` so its
+  after-phase capture would resample with the head **already turned right**, breaking the
+  second turn (`headTurnLeft`). Keep the good capture the *last* write before each taslīm pair
+  (guard the run-loop block, or leave the flag on `r2QiyamAfterRuku` which is safely earlier).
+  Add a `[PrayerSM] 📐` baseline log to confirm on the next device run. Same yaw/detection
+  neighbourhood as the calibration overlap bug. **Not fixing now — logged for repair after the
+  refactor + observance addition, per decision 2026-06-26.**
 - **Reprompt policy in Silent Mode — SETTLED:** **total silence** (no reprompts, audio or
   visual; `maxReprompts` fallback disabled; wait indefinitely). Escape hatch = **"Tap to
   continue" after ~60s** in one posture with no confirmed motion (see §3 craft detail 2).
