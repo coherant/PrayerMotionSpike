@@ -2,7 +2,7 @@ import Foundation
 
 // MARK: - Prayer ID
 
-enum PrayerID: String {
+enum PrayerID: String, CaseIterable {
     case p0  = "P-0"
     case p1  = "P-1"
     case p2  = "P-2"

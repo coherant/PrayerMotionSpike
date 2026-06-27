@@ -19,32 +19,56 @@ enum Lunar {
     }
 }
 
-// MARK: - SwiftAALunarEphemeris (real, behind the dependency seam)
+// MARK: - SwiftAALunarEphemeris (real, SwiftAA 3.x)
 //
-// Active only once SwiftAA is added to the project. The phase is wired here
-// (elongation = Moon − Sun ecliptic longitude); the arc position is left as the
-// one TODO because the Moon's fast motion needs hourly interpolation through the
-// rise/set engine rather than the Sun's once-per-day approximation.
+// Phase = elongation (Moon − Sun apparent ecliptic longitude), which encodes both
+// illumination and waxing/waning. Position reuses the shared `DailyArc` mapping,
+// fed by SwiftAA's moonrise / transit / moonset for the observer's day.
 //
-// TODO(SwiftAA): verify the SwiftAA API names below against the vendored version,
-// and compute dayPhase + isAboveHorizon from moonrise/transit/moonset for the
-// observer (RA/Dec → altitude via Adhan's correctedHourAngle, interpolated).
+// Known rough edge: the Moon's rise/set don't always fall in tidy rise<transit<set
+// order within one UT day (its day is ~24h50m), so on awkward days the arc
+// position can be approximate. The phase (the visible face) is always correct.
+// A future refinement could drive position from hour-angle/altitude directly.
 
 #if canImport(SwiftAA)
 import SwiftAA
 
 struct SwiftAALunarEphemeris: CelestialEphemeris {
     func sky(at date: Date, location: ObserverLocation) -> SkyState {
-        let julianDay = JulianDay(date)
-        let moon = Moon(julianDay: julianDay)
-        let sun = Sun(julianDay: julianDay)
+        // SwiftAA uses positively-WESTWARD longitude, so east longitude is negated.
+        let geo = GeographicCoordinates(
+            positivelyWestwardLongitude: Degree(-location.longitude),
+            latitude: Degree(location.latitude)
+        )
 
-        let moonLongitude = moon.eclipticCoordinates.celestialLongitude.value   // degrees
-        let sunLongitude = sun.eclipticCoordinates.celestialLongitude.value     // degrees
-        let phase = MoonPhase(elongationDegrees: moonLongitude - sunLongitude)
+        // Phase — apparent ecliptic longitudes at the instant.
+        let moon = Moon(julianDay: JulianDay(date))
+        let sun = Sun(julianDay: JulianDay(date))
+        let elongation = moon.apparentEclipticCoordinates.celestialLongitude.value
+            - sun.apparentEclipticCoordinates.celestialLongitude.value
+        let phase = MoonPhase(elongationDegrees: elongation)
 
-        // TODO(SwiftAA): real arc position + horizon from moonrise/transit/moonset.
-        return SkyState(dayPhase: 0, isAboveHorizon: false, moonPhase: phase)
+        // Position — moonrise / transit / set for the day, through DailyArc.
+        let today = riseTransitSet(for: date, geo: geo)
+        guard let rise = today.riseTime?.date,
+              let transit = today.transitTime?.date,
+              let set = today.setTime?.date else {
+            // No clean rise/transit/set this day → treat as below the horizon.
+            return SkyState(dayPhase: 0.75, isAboveHorizon: false, moonPhase: phase)
+        }
+        let previousSet = riseTransitSet(for: date.addingTimeInterval(-86_400), geo: geo).setTime?.date
+        let nextRise = riseTransitSet(for: date.addingTimeInterval(86_400), geo: geo).riseTime?.date
+
+        let dayPhase = DailyArc.phase(now: date, previousSet: previousSet,
+                                      rise: rise, transit: transit, set: set,
+                                      nextRise: nextRise)
+        let above = date >= rise && date < set
+        return SkyState(dayPhase: dayPhase, isAboveHorizon: above, moonPhase: phase)
+    }
+
+    private func riseTransitSet(for date: Date, geo: GeographicCoordinates) -> RiseTransitSetTimes {
+        RiseTransitSetTimes(celestialBody: Moon(julianDay: JulianDay(date)),
+                            geographicCoordinates: geo)
     }
 }
 #endif

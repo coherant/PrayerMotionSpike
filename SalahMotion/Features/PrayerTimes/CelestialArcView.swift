@@ -21,13 +21,26 @@ struct CelestialArcView: View {
 
     var body: some View {
         GeometryReader { proxy in
-            TimelineView(.animation(paused: !isActive)) { timeline in
-                let frame = sky.frame(atWallClock: timeline.date)
-                ZStack {
-                    bodyView(.moon, state: frame.moon, in: proxy.size)
-                    bodyView(.sun, state: frame.sun, in: proxy.size)
+            if let interval = sky.refreshInterval {
+                // Realtime: bodies barely move — a coarse tick avoids recomputing
+                // the ephemeris (incl. SwiftAA) every frame.
+                TimelineView(.periodic(from: .now, by: interval)) { timeline in
+                    arc(in: proxy.size, at: timeline.date)
+                }
+            } else {
+                // Demo: smooth animation, paused while the screen isn't active.
+                TimelineView(.animation(paused: !isActive)) { timeline in
+                    arc(in: proxy.size, at: timeline.date)
                 }
             }
+        }
+    }
+
+    private func arc(in size: CGSize, at date: Date) -> some View {
+        let frame = sky.frame(atWallClock: date)
+        return ZStack {
+            bodyView(.moon, state: frame.moon, in: size)
+            bodyView(.sun, state: frame.sun, in: size)
         }
     }
 

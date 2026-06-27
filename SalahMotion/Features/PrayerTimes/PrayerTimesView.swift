@@ -19,13 +19,13 @@ struct PrayerTimesView: View {
 
     private let cardCorner: CGFloat = 24
 
-    // Celestial complication — driven by the engine's coordinate (Melbourne
-    // until the device reports).
+    // Celestial complication — real Sun (Adhan) + real Moon (SwiftAA) at the
+    // current time, driven by the engine's coordinate (Melbourne until the device
+    // reports).
     private var celestialSky: CelestialSky {
         let c = PrayerTimesEngine.shared.coordinate
         let location = ObserverLocation(latitude: c.latitude, longitude: c.longitude)
-        // ⚠️ TEMPORARY: full moon-phase sweep demo. Revert to `.concept(location: location)`.
-        return .moonPhaseDemo(location: location)
+        return .live(location: location)
     }
     // Animate only while this tab is foreground & active.
     private var isCelestialActive: Bool {

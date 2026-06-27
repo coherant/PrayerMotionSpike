@@ -62,22 +62,45 @@ final class AudioManager {
     }
 }
 
-// MARK: - Recitation clips
+// MARK: - Audio clips
 //
-// Resolves a recitation id to a bundled recording, or nil when none is installed (→ TTS
-// fallback). Convention: `recitations/<reciterId>/<P-id>.m4a` (e.g. recitations/bilal/P-7.m4a).
-// Add the `recitations` folder to the app target as a FOLDER REFERENCE so the per-reciter
-// subdirectories are preserved in the bundle. Missing clips are expected — drop files in
-// incrementally and partial sets just work.
-enum RecitationClips {
-    /// Active reciter folder. Defaults until a reciter preference is wired to the picker.
+// Resolves a liturgical id to a bundled recording, or nil when none is installed (→ TTS
+// fallback). Two voices, two folders:
+//   • in-salah recitation:  recitations/<reciterId>/<P-id>.m4a   (e.g. recitations/default/P-7.m4a)
+//   • Muezzin call:          muezzin/<muezzinId>/<C-id>.m4a       (e.g. muezzin/bilal/C-1.m4a)
+// Add each folder to the app target as a FOLDER REFERENCE so the per-voice subdirectories are
+// preserved in the bundle. Missing clips are expected — drop files in incrementally; partial
+// sets just work, and anything absent falls back to TTS.
+enum AudioClips {
+    /// Active reciter folder for in-salah recitation. Defaults until a reciter picker is wired.
     static var reciterId: String = "default"
 
-    static func url(for id: PrayerID, reciterId: String = RecitationClips.reciterId) -> URL? {
-        Bundle.main.url(forResource: id.rawValue,
-                        withExtension: "m4a",
-                        subdirectory: "recitations/\(reciterId)")
+    static func recitation(_ id: PrayerID, reciterId: String = AudioClips.reciterId) -> URL? {
+        clip(id.rawValue, in: "recitations/\(reciterId)")
     }
+
+    static func call(_ id: CallID, muezzinId: String) -> URL? {
+        clip(id.rawValue, in: "muezzin/\(muezzinId)")
+    }
+
+    private static func clip(_ name: String, in subdir: String) -> URL? {
+        Bundle.main.url(forResource: name, withExtension: "m4a", subdirectory: subdir)
+    }
+
+#if DEBUG
+    /// One-shot console report of which recitation/call clips are installed vs missing —
+    /// printed at session start so populating the audio files is a matter of reading the list.
+    static func logCoverage(muezzinId: String) {
+        let recMissing  = PrayerID.allCases.filter { recitation($0) == nil }.map(\.rawValue)
+        let callMissing = CallID.allCases.filter { call($0, muezzinId: muezzinId) == nil }.map(\.rawValue)
+        let recHave  = PrayerID.allCases.count - recMissing.count
+        let callHave = CallID.allCases.count - callMissing.count
+        print("[AudioClips] recitations (\(reciterId)): \(recHave)/\(PrayerID.allCases.count)"
+              + (recMissing.isEmpty ? " ✅ all installed" : " — missing: \(recMissing.joined(separator: ", "))"))
+        print("[AudioClips] muezzin (\(muezzinId)): \(callHave)/\(CallID.allCases.count)"
+              + (callMissing.isEmpty ? " ✅ all installed" : " — missing: \(callMissing.joined(separator: ", "))"))
+    }
+#endif
 }
 
 private final class SpeechFinishDelegate: NSObject, AVSpeechSynthesizerDelegate {

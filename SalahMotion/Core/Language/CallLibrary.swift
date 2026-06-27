@@ -6,7 +6,7 @@ import Foundation
 // binds ONLY to a C- id, never a P-id — the fiqh boundary, enforced by the type system.
 // See docs/guided/CONGREGATIONAL-CONTAINER.md §A and docs/prayers/calls.md.
 
-enum CallID: String {
+enum CallID: String, CaseIterable {
     case c1  = "C-1"    // Adhān
     case c1F = "C-1F"   // Adhān (Fajr — carries aṣ-ṣalātu khayrun mina-n-nawm)
     case c2  = "C-2"    // Iqāma
@@ -82,4 +82,15 @@ enum CallLibrary {
     static func name(_ id: CallID) -> String            { entry(id)?.name ?? "" }
     static func shape(_ id: CallID) -> CallShape        { entry(id)?.shape ?? .call }
     static func count(_ id: CallID) -> Int              { entry(id)?.count ?? 0 }
+
+    // Language-axis text for TTS/display, mirroring `PrayerLibrary.text(_:_:)`: the Turkish
+    // slot is the transliteration (pronunciation), English the meaning, Arabic the script.
+    static func text(_ id: CallID, _ language: Language) -> String {
+        guard let e = entry(id) else { return "" }
+        switch language {
+        case .arabic:  return e.arabic
+        case .turkish: return e.transliteration
+        case .english: return e.english
+        }
+    }
 }

@@ -125,6 +125,9 @@ final class PrayerStateMachine {
 
     func start() {
         guard isAvailable, status == .idle else { return }
+        #if DEBUG
+        AudioClips.logCoverage(muezzinId: UserPreferences.shared.muezzinId)
+        #endif
         audioManager.configure(route: audioRoute)
 #if canImport(UIKit)
         UIApplication.shared.isIdleTimerDisabled = true
@@ -322,19 +325,33 @@ final class PrayerStateMachine {
         }
     }
 
-    /// The text the Muezzin speaks for a container row: the call's transliteration.
+    /// The text the Muezzin speaks/shows for a container row, in the global language
+    /// (Arabic script / transliteration / meaning) — same language axis as the in-salah
+    /// recitation. See CallLibrary.text and master-prayer-state-machine.md.
     private func containerText(_ state: PrayerState) -> String {
-        state.callID.map { CallLibrary.transliteration($0) } ?? ""
+        guard let id = state.callID else { return "" }
+        return CallLibrary.text(id, UserPreferences.shared.language)
     }
 
-    /// Speaks the container call via the current TTS. The calls are short, so the speech runs
-    /// to completion; a "tap to continue" that lands during it is consumed here (returns true →
+    /// Voices the container call: plays the Muezzin's recorded Arabic clip if one is installed
+    /// (awaited to completion — the call is heard in full), otherwise falls back to TTS of the
+    /// language text. A "tap to continue" that lands during it is consumed here (returns true →
     /// caller advances) so it never leaks into the next row.
     @MainActor
     private func speakContainerCall(_ state: PrayerState) async -> Bool {
+        if let id = state.callID {
+            if let url = AudioClips.call(id, muezzinId: UserPreferences.shared.muezzinId),
+               await audioManager.play(url) {
+                if manualAdvanceRequested { manualAdvanceRequested = false; return true }
+                return Task.isCancelled
+            }
+            #if DEBUG
+            print("[AudioClips] ⚠️ call \(id.rawValue) (muezzin=\(UserPreferences.shared.muezzinId)) — TTS fallback")
+            #endif
+        }
         let text = containerText(state)
         guard !text.isEmpty else { return false }
-        await audioManager.speak(text)
+        await audioManager.speak(text, language: UserPreferences.shared.language)
         if manualAdvanceRequested { manualAdvanceRequested = false; return true }
         return Task.isCancelled
     }
@@ -347,8 +364,11 @@ final class PrayerStateMachine {
     /// is a no-op.
     @MainActor
     private func utter(_ line: PrayerLine) async {
-        if let id = line.clipID, let url = RecitationClips.url(for: id), await audioManager.play(url) {
-            return
+        if let id = line.clipID {
+            if let url = AudioClips.recitation(id), await audioManager.play(url) { return }
+            #if DEBUG
+            print("[AudioClips] ⚠️ recitation \(id.rawValue) (reciter=\(AudioClips.reciterId)) — TTS fallback")
+            #endif
         }
         if !line.utterance.isEmpty { await audioManager.speak(line.utterance) }
     }

@@ -23,6 +23,16 @@ struct CelestialSky {
             moon: moon.sky(at: instant, location: location)
         )
     }
+
+    /// View refresh cadence. Demo animates every frame; realtime only needs a
+    /// coarse tick since the real bodies move imperceptibly second-to-second
+    /// (and recomputing the ephemeris at 60fps would be wasteful).
+    var refreshInterval: TimeInterval? {
+        switch clock {
+        case .demo:     return nil   // animate every frame
+        case .realtime: return 60    // once a minute
+        }
+    }
 }
 
 extension CelestialSky {

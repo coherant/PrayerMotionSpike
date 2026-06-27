@@ -146,6 +146,9 @@
 			);
 			mainGroup = AD5C71A42FE586D00022EFD3;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				AD88C6BD2FEFBE9000234B0A /* XCRemoteSwiftPackageReference "SwiftAA" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = AD5C71AE2FE586D00022EFD3 /* Products */;
 			projectDirPath = "";
@@ -462,6 +465,17 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		AD88C6BD2FEFBE9000234B0A /* XCRemoteSwiftPackageReference "SwiftAA" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onekiloparsec/SwiftAA";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
 	};
 	rootObject = AD5C71A52FE586D00022EFD3 /* Project object */;
 }
