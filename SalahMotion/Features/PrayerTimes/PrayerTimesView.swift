@@ -8,11 +8,14 @@ struct PrayerTimesView: View {
     @State private var vm = PrayerTimesViewModel()
     @State private var enabledNotifications: Set<String> = NotificationManager.enabledPrayers()
     @State private var ctaPulsing = false
+    @State private var timeMachine = TimeMachine.shared
 
     // Time-based cross-fade (theme.md §9): tokens + background interpolate between
     // periods over real-time-anchored windows. `now` ticks each second (VM timer),
     // so the fade is continuous.
-    private var blend: ThemeBlend { vm.themeBlend }
+    // "Now" shifted by the time-machine egg (0 normally). Drives theme + celestial.
+    private var displayNow: Date { vm.now.addingTimeInterval(timeMachine.offset) }
+    private var blend: ThemeBlend { DayTheme.blend(at: displayNow) }
     private var prayerTime: PrayerTime { blend.dominant }   // for .phase / labels
     private var theme: PrayerTimeTheme { blend.theme }
     private var accent: Color { theme.accent }
@@ -104,6 +107,10 @@ struct PrayerTimesView: View {
                     lineWidth: 1
                 ))
         )
+        // Hidden egg: long-press the location capsule → straight into the rewind.
+        .onLongPressGesture {
+            timeMachine.play()
+        }
     }
 
     // MARK: - Up-next card
@@ -150,7 +157,10 @@ struct PrayerTimesView: View {
                         startPoint: UnitPoint(x: 0.15, y: 0),
                         endPoint: UnitPoint(x: 0.85, y: 1)
                     ))
-                CelestialArcView(sky: celestialSky, isActive: isCelestialActive)
+                CelestialArcView(sky: celestialSky,
+                                 isActive: isCelestialActive,
+                                 timeOffset: timeMachine.offset,
+                                 isWarping: timeMachine.isRunning)
             }
             .clipShape(RoundedRectangle(cornerRadius: cardCorner))
             .overlay(RoundedRectangle(cornerRadius: cardCorner)

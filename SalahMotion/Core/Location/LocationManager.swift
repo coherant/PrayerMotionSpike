@@ -3,14 +3,21 @@ import CoreLocation
 @Observable
 final class LocationManager: NSObject {
 
+    /// Singleton: SwiftUI re-evaluates `@State` initialisers on every render, so a
+    /// per-view LocationManager would spawn a new CLLocationManager each frame —
+    /// each one auto-requesting location and hammering CLGeocoder past its
+    /// 50-req/min throttle (badly during the 60fps time-machine egg). One instance.
+    static let shared = LocationManager()
+
     private(set) var cityName: String = "Locating…"
     private(set) var coordinate: CLLocationCoordinate2D?
 
     private let manager = CLLocationManager()
     private let geocoder = CLGeocoder()
     private var hasFetched = false
+    private var lastGeocoded: CLLocation?
 
-    override init() {
+    private override init() {
         super.init()
         manager.delegate = self
         manager.desiredAccuracy = kCLLocationAccuracyKilometer
@@ -37,6 +44,10 @@ final class LocationManager: NSObject {
     }
 
     private func reverseGeocode(_ location: CLLocation) {
+        // Only geocode a genuinely new spot — defends CLGeocoder's 50/min throttle
+        // even if location updates ever stream.
+        if let last = lastGeocoded, location.distance(from: last) < 500 { return }
+        lastGeocoded = location
         geocoder.reverseGeocodeLocation(location) { [weak self] placemarks, _ in
             let placemark = placemarks?.first
             let city = placemark?.locality

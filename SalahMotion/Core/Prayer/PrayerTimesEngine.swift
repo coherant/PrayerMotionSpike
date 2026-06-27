@@ -115,4 +115,36 @@ final class PrayerTimesEngine {
 
     /// The absolute instant of `prayer` today, or nil before the first compute.
     func date(for prayer: PrayerTime) -> Date? { times[prayer] }
+
+    /// PURE: times + sunrise for ANY date, WITHOUT mutating engine state or
+    /// rescheduling notifications. Used by DayTheme and the time-machine egg so
+    /// they can read arbitrary days safely (the egg must never touch live state).
+    func computeTimes(for date: Date) -> DayPrayerTimes? {
+        let settings = PrayerCalculationSettings.shared
+        let coords = Coordinates(latitude: coordinate.latitude, longitude: coordinate.longitude)
+        var params = settings.method.params
+        params.madhab = settings.madhab
+        params.adjustments = settings.prayerAdjustments
+
+        var cal = Calendar(identifier: .gregorian)
+        cal.timeZone = timeZone
+        let comps = cal.dateComponents([.year, .month, .day], from: date)
+        guard let pt = PrayerTimes(coordinates: coords, date: comps, calculationParameters: params) else {
+            return nil
+        }
+        var t: [PrayerTime: Date] = [
+            .fajr: pt.fajr, .dhuhr: pt.dhuhr, .asr: pt.asr, .maghrib: pt.maghrib, .isha: pt.isha,
+        ]
+        if settings.fajrRule == .beforeSunrise {
+            let off = settings.offsets[.fajr] ?? 0
+            t[.fajr] = pt.sunrise.addingTimeInterval(TimeInterval(-90 * 60 + off * 60))
+        }
+        return DayPrayerTimes(times: t, sunrise: pt.sunrise)
+    }
+}
+
+/// A day's computed prayer times + sunrise (value type; no side effects).
+struct DayPrayerTimes {
+    let times: [PrayerTime: Date]
+    let sunrise: Date?
 }

@@ -37,12 +37,14 @@ struct ThemeBlend {
 enum DayTheme {
 
     /// The active blend for `now`, from the engine's real prayer/sunrise times.
+    /// Uses the PURE `computeTimes(for:)` so it works for ANY date with no side
+    /// effects — which is what lets the time-machine egg rewind through the week.
     static func blend(at now: Date = Date(), engine: PrayerTimesEngine = .shared) -> ThemeBlend {
-        engine.refreshIfNeeded(now: now)
-        guard let fajr = engine.date(for: .fajr),
-              let sunrise = engine.sunrise,
-              let asr = engine.date(for: .asr),
-              let maghrib = engine.date(for: .maghrib) else {
+        guard let day = engine.computeTimes(for: now),
+              let fajr = day.times[.fajr],
+              let sunrise = day.sunrise,
+              let asr = day.times[.asr],
+              let maghrib = day.times[.maghrib] else {
             return ThemeBlend(from: .isha, to: .isha, t: 0)   // pre-compute fallback
         }
         func shifted(_ d: Date, _ minutes: Double) -> Date { d.addingTimeInterval(minutes * 60) }

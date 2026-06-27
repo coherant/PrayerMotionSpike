@@ -44,9 +44,13 @@ struct ScreenHeader<Leading: View, Trailing: View>: View {
                     .tracking(2.5)
                     .textCase(.uppercase)
                     .foregroundStyle(accent)
+                    .lineLimit(1)                 // never wrap (e.g. "· AFTERNOON")
+                    .minimumScaleFactor(0.7)      // shrink to fit rather than truncate
                 Text(title)
                     .font(Typography.display(26, weight: .medium))
                     .foregroundStyle(ink)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.8)
             }
 
             Spacer(minLength: 0)

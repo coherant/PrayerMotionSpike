@@ -18,10 +18,19 @@ struct CelestialArcView: View {
     /// holds the last correct frame and snaps to `now` on resume (position is a
     /// pure function of time, so there is no state to restore).
     var isActive: Bool
+    /// Seconds added to the wall clock (time-machine egg). 0 = real time.
+    var timeOffset: TimeInterval = 0
+    /// While the egg runs, animate at full frame rate regardless of cadence.
+    var isWarping: Bool = false
 
     var body: some View {
         GeometryReader { proxy in
-            if let interval = sky.refreshInterval {
+            if isWarping {
+                // Time-machine rewind: full-rate so the sky sweeps smoothly.
+                TimelineView(.animation) { timeline in
+                    arc(in: proxy.size, at: timeline.date)
+                }
+            } else if let interval = sky.refreshInterval {
                 // Realtime: bodies barely move — a coarse tick avoids recomputing
                 // the ephemeris (incl. SwiftAA) every frame.
                 TimelineView(.periodic(from: .now, by: interval)) { timeline in
@@ -37,7 +46,7 @@ struct CelestialArcView: View {
     }
 
     private func arc(in size: CGSize, at date: Date) -> some View {
-        let frame = sky.frame(atWallClock: date)
+        let frame = sky.frame(atWallClock: date.addingTimeInterval(timeOffset))
         return ZStack {
             bodyView(.moon, state: frame.moon, in: size)
             bodyView(.sun, state: frame.sun, in: size)
