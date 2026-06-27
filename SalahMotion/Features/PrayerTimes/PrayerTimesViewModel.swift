@@ -5,6 +5,10 @@ final class PrayerTimesViewModel {
 
     private(set) var prayerTime: PrayerTime = .current
     private(set) var now: Date = Date()
+
+    /// Time-based atmospheric cross-fade for the current instant (theme.md §9).
+    /// Recomputes as `now` ticks each second, driving a continuous fade.
+    var themeBlend: ThemeBlend { DayTheme.blend(at: now) }
     let location = LocationManager()
 
     private var minuteTimer: Timer?

@@ -7,17 +7,9 @@ enum PrayerTime: String, CaseIterable, Identifiable {
     case fajr, dhuhr, asr, maghrib, isha
     var id: String { rawValue }
 
-    // Approximate fixed-time mapping — replace with adhan calculation when ready.
-    static var current: PrayerTime {
-        let hour = Calendar.current.component(.hour, from: Date())
-        switch hour {
-        case 4..<6:   return .fajr
-        case 6..<15:  return .dhuhr
-        case 15..<18: return .asr
-        case 18..<20: return .maghrib
-        default:      return .isha
-        }
-    }
+    // The current period from the engine's REAL times (via the day-theme windows),
+    // not a hardcoded clock-hour mapping. See docs/design-reference/theme.md §9.
+    static var current: PrayerTime { DayTheme.currentPeriod }
 
     var displayName: String {
         switch self {
@@ -220,12 +212,17 @@ enum PrayerTime: String, CaseIterable, Identifiable {
     @ViewBuilder
     var backgroundGradient: some View {
         if self == .isha {
-            RadialGradient(
-                stops: theme.gradientStops,
-                center: UnitPoint(x: 0.5, y: 0.42),
-                startRadius: 0,
-                endRadius: 600
-            )
+            // Night sky: radial gradient + fixed starfield (shared with launch).
+            // Any screen showing the Isha theme gets the stars for free.
+            ZStack {
+                RadialGradient(
+                    stops: theme.gradientStops,
+                    center: UnitPoint(x: 0.5, y: 0.42),
+                    startRadius: 0,
+                    endRadius: 600
+                )
+                StarfieldView(count: 55)
+            }
         } else {
             LinearGradient(
                 stops: theme.gradientStops,

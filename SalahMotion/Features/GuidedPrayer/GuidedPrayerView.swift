@@ -1,9 +1,10 @@
 import SwiftUI
 
 struct GuidedPrayerView: View {
-    // Explicit @State so SwiftUI re-renders all screens when prayer changes.
-    // Set in onBegin so the running screen always matches the selected prayer.
-    @State private var prayerTime: PrayerTime = UserPreferences.shared.salatType.prayerTime
+    // Running screen follows clock time (theme.md §9): the current period drives
+    // the in-prayer theme, matching Prayer Times. Subcomponents take the discrete
+    // dominant period; the background cross-fades via DayTheme.blend.
+    private var prayerTime: PrayerTime { DayTheme.currentPeriod }
 
     @State private var session = PrayerStateMachine(sequence: GuidedSequenceGenerator.generate())
     @State private var isSilenced = false
@@ -30,7 +31,6 @@ struct GuidedPrayerView: View {
 
     private var setupView: some View {
         PrayerSetupView(isAvailable: session.isAvailable) { salat, unitIds, lang, guidance, pace, muezzinId in
-            prayerTime = salat.prayerTime   // ← explicit @State update drives all screens
             UserPreferences.shared.salatType       = salat
             UserPreferences.shared.selectedUnitIds = unitIds
             UserPreferences.shared.language        = lang
@@ -70,7 +70,7 @@ struct GuidedPrayerView: View {
             }
 
         return ZStack {
-            prayerTime.backgroundGradient
+            DayTheme.blend().background
             .ignoresSafeArea()
 
             VStack(spacing: 0) {
@@ -165,7 +165,7 @@ struct GuidedPrayerView: View {
 
     private var completeView: some View {
         ZStack {
-            prayerTime.backgroundGradient
+            DayTheme.blend().background
             .ignoresSafeArea()
 
             VStack(spacing: 20) {

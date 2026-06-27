@@ -19,8 +19,8 @@ struct PrayerSetupView: View {
     @State private var sheetOpen  = false
     @State private var wavePhase  = false
 
-    private var theme:   PrayerTimeTheme { salat.prayerTime.theme }
-    private var accent:  Color           { salat.prayerTime.setupAccent }
+    // Fixed chrome palette like Settings — no longer themes by time of day.
+    private var accent:  Color           { SettingsPalette.accent }
     private var muezzin: Muezzin         { Muezzins.all.first { $0.id == muezzinId } ?? Muezzins.all[0] }
 
     private var totalRakats: Int {
@@ -43,20 +43,10 @@ struct PrayerSetupView: View {
 
     var body: some View {
         ZStack {
-            ZStack(alignment: .top) {
-                DesignTokens.setupGround
-                RadialGradient(
-                    colors: [accent.opacity(0.20), .clear],
-                    center: UnitPoint(x: 0.5, y: 0.0),
-                    startRadius: 0,
-                    endRadius: 300
-                )
-                .frame(maxHeight: .infinity, alignment: .top)
-            }
-            .ignoresSafeArea()
+            SettingsPalette.background.ignoresSafeArea()
 
             VStack(spacing: 0) {
-                ScrollBehindScreen(scrim: Color(hex: "#181426")) {
+                ScrollBehindScreen(scrim: Color(hex: "#1a1730")) {
                     header
                 } content: {
                     VStack(alignment: .leading, spacing: 20) {

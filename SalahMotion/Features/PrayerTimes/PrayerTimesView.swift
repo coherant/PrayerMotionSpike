@@ -9,8 +9,12 @@ struct PrayerTimesView: View {
     @State private var enabledNotifications: Set<String> = NotificationManager.enabledPrayers()
     @State private var ctaPulsing = false
 
-    private var prayerTime: PrayerTime { vm.prayerTime }
-    private var theme: PrayerTimeTheme { prayerTime.theme }
+    // Time-based cross-fade (theme.md §9): tokens + background interpolate between
+    // periods over real-time-anchored windows. `now` ticks each second (VM timer),
+    // so the fade is continuous.
+    private var blend: ThemeBlend { vm.themeBlend }
+    private var prayerTime: PrayerTime { blend.dominant }   // for .phase / labels
+    private var theme: PrayerTimeTheme { blend.theme }
     private var accent: Color { theme.accent }
     private var ink: Color { theme.ink }
     private var muted: Color { theme.muted }
@@ -49,7 +53,7 @@ struct PrayerTimesView: View {
         // No .safeAreaPadding / .padding(.bottom,) — those were the divergence that
         // mispositioned the header on device while the simulator looked fine.
         ZStack {
-            prayerTime.backgroundGradient.ignoresSafeArea()
+            blend.background.ignoresSafeArea()
 
             VStack(spacing: 0) {
                 header   // ScreenHeader owns its own 22pt gutter + top padding

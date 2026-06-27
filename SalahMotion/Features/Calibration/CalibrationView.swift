@@ -104,10 +104,8 @@ struct CalibrationView: View {
     @State private var session = PrayerStateMachine(sequence: CalibrationSequenceGenerator.generate(), guidanceLevel: .full, useDefaultThresholds: true)
     @State private var calibrationProfile: UserCalibrationProfile?
     @State private var activeProfile: UserCalibrationProfile? = UserCalibrationProfile.load()
-    @State private var prayerTime: PrayerTime = .current
-    // Restrained setup-wash accent per spec (calibration-ruku.md §4) — NOT the
-    // vivid in-prayer theme.accent. Same family as the Setup screen.
-    private var accent: Color { prayerTime.setupAccent }
+    // Fixed chrome palette like Settings — no longer themes by time of day.
+    private var accent: Color { SettingsPalette.accent }
 
     private var currentStep: CalibrationStep { session.currentState.id.calibrationStep }
 
@@ -143,10 +141,6 @@ struct CalibrationView: View {
             }
         }
         .animation(.easeInOut(duration: 0.35), value: session.status)
-        .onAppear { prayerTime = .current }
-        .onReceive(Timer.publish(every: 60, on: .main, in: .common).autoconnect()) { _ in
-            prayerTime = .current
-        }
         .onChange(of: session.status) {
             if session.status == .complete {
                 let result = CalibrationAnalyzer(samples: session.sessionSamples).analyze()
@@ -161,17 +155,7 @@ struct CalibrationView: View {
     // utility/setup screen — NOT themed by the time-of-day prayer gradient, so
     // the light-on-dark chrome stays legible at every prayer time.
     private var background: some View {
-        ZStack(alignment: .top) {
-            DesignTokens.setupGround
-            RadialGradient(
-                colors: [accent.opacity(0.16), .clear],
-                center: UnitPoint(x: 0.5, y: 0.0),
-                startRadius: 0,
-                endRadius: 300
-            )
-            .frame(maxHeight: .infinity, alignment: .top)
-        }
-        .ignoresSafeArea()
+        SettingsPalette.background.ignoresSafeArea()
     }
 
     // MARK: - Header

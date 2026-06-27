@@ -241,3 +241,51 @@ type PrayerTheme = {
 ```
 Generate selected/hover/glow surfaces from `accent` via an alpha helper
 `rgba(accent, α)` rather than hardcoding tints.
+
+---
+
+## 9. Time-based theme transitions (LOCKED 2026-06-27)
+
+The atmospheric theme no longer snaps between prayers — it **cross-fades** from
+one period's theme to the next over a window anchored to the **real** prayer /
+sunrise times (so it auto-adjusts across season & location). Outside a window the
+theme is the solid period color; inside, every theme token (gradient stops + ink/
+muted/faint/accent/glow/orb) is linearly interpolated `0→1` across the window.
+
+**Inputs:** the engine's actual `Fajr`, `Sunrise`, `Asr`, `Maghrib` instants.
+(Dhuhr and Isha prayer instants are intentionally NOT anchors — the day→night
+feel is driven by sunrise and the Maghrib/sunset window instead.)
+
+### Locked windows
+
+| Transition | Change starts | Change ends |
+|---|---|---|
+| Isha → Fajr | Fajr | Fajr + 15m |
+| Fajr → Dhuhr | Sunrise | Sunrise + 15m |
+| Dhuhr → Asr | Asr − 30m | Asr |
+| Asr → Maghrib | Maghrib − 30m | Maghrib |
+| Maghrib → Isha | Maghrib + 30m | Maghrib + 1h |
+
+Before the first window of the day (midnight → Fajr) the theme is solid **Isha**.
+
+### Worked example — Melbourne, 27 Jun (Fajr 6:03a · Sunrise 7:36a · Asr 2:51p · Maghrib 5:09p)
+
+| Transition | Change starts | Change ends | Duration |
+|---|---|---|---|
+| Isha → Fajr | 6:03a | 6:18a | 15 min |
+| Fajr → Dhuhr | 7:36a | 7:51a | 15 min |
+| Dhuhr → Asr | 2:21p | 2:51p | 30 min |
+| Asr → Maghrib | 4:39p | 5:09p | 30 min |
+| Maghrib → Isha | 5:39p | 6:09p | 30 min |
+
+### Scope
+- **Applies to:** Prayer Times. (Guided Prayer — pending decision on whether it
+  follows clock time or stays locked to the prayed prayer.)
+- **Does NOT apply to:** Calibration & Prayer Setup — these move to a **fixed**
+  palette like Settings (pending palette decision); they no longer theme by
+  time-of-day. (Supersedes the older note that Guided Prayer Setup uses the
+  atmospheric gradient.)
+
+### Edge handling
+If two windows ever overlap (prayers closer than a window at extreme latitudes),
+clamp each window to the midpoint between neighbours so colors never double-blend.

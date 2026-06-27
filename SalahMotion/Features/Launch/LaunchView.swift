@@ -361,60 +361,8 @@ struct LaunchView: View {
     }
 }
 
-// MARK: - Starfield
-
-private struct StarfieldView: View {
-    let isDhuhr: Bool
-    let accent: Color
-
-    private struct Star: Identifiable {
-        let id: Int
-        let x: CGFloat
-        let y: CGFloat
-        let size: CGFloat
-        let opacity: Double
-        let isSparkle: Bool
-    }
-
-    // Generated ONCE and held in @State: SwiftUI re-creates this struct on every
-    // parent render, but State's initialValue is only used the first time the
-    // view's identity appears — so positions are locked and never re-randomize
-    // (no reliance on .equatable(), which didn't reliably stop them animating in).
-    @State private var stars: [Star]
-
-    init(count: Int, isDhuhr: Bool, accent: Color) {
-        self.isDhuhr = isDhuhr
-        self.accent  = accent
-        var rng = SystemRandomNumberGenerator()
-        _stars = State(initialValue: (0..<count).map { i in
-            Star(
-                id: i,
-                x: CGFloat.random(in: 0.05...0.95, using: &rng),
-                y: CGFloat.random(in: 0.04...0.62, using: &rng),
-                size: CGFloat.random(in: 1.2...2.8, using: &rng),
-                opacity: Double.random(in: 0.4...0.9, using: &rng),
-                isSparkle: i < (count / 7)
-            )
-        })
-    }
-
-    var body: some View {
-        GeometryReader { geo in
-            ForEach(stars) { star in
-                Circle()
-                    .fill(isDhuhr
-                          ? Color(hex: "#22323f").opacity(0.6)
-                          : Color(hex: "#f4f1fa").opacity(0.95))
-                    .frame(width: star.size, height: star.size)
-                    .position(
-                        x: star.x * geo.size.width,
-                        y: star.y * geo.size.height
-                    )
-                    .opacity(star.opacity)
-            }
-        }
-    }
-}
+// StarfieldView moved to DesignSystem/Components/StarfieldView.swift (shared with
+// the Isha atmospheric theme).
 
 // MARK: - Preview
 
