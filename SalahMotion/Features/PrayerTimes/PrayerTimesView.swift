@@ -107,16 +107,25 @@ struct PrayerTimesView: View {
                     lineWidth: 1
                 ))
         )
-        // Hidden egg: long-press the location capsule → straight into the rewind.
+        // Hidden egg: long-press the location capsule → straight into the rewind,
+        // with a heavy haptic at the moment it fires (replacing the one the
+        // context menu used to give).
         .onLongPressGesture {
             timeMachine.play()
+        }
+        .sensoryFeedback(trigger: timeMachine.isRunning) { _, isRunning in
+            isRunning ? .impact(weight: .heavy) : nil
         }
     }
 
     // MARK: - Up-next card
 
     private var upNextCard: some View {
-        VStack(spacing: 0) {
+        // Evaluated at displayNow so the card visibly rewinds during the egg
+        // (the prayer list below stays on real time).
+        let up = vm.upNext(at: displayNow)
+        let countdownText = vm.countdown(at: displayNow)
+        return VStack(spacing: 0) {
             HStack(alignment: .top) {
                 VStack(alignment: .leading, spacing: 0) {
                     Text("Up next")
@@ -124,21 +133,25 @@ struct PrayerTimesView: View {
                         .tracking(2.5)
                         .foregroundStyle(neutralText)
                     HStack(alignment: .lastTextBaseline, spacing: 10) {
-                        Text(vm.upNext.prayer.arabic)
+                        Text(up.prayer.arabic)
                             .arabicStyle(size: 34)
                             .foregroundStyle(ink)
-                        Text(vm.upNext.prayer.displayName)
+                            .lineLimit(1)
+                        Text(up.prayer.displayName)
                             .font(Typography.display(26, weight: .medium))
                             .foregroundStyle(muted)
+                            .lineLimit(1)
                     }
                     .padding(.top, 8)
                 }
+                .layoutPriority(1)   // name keeps full size; the countdown yields width
                 Spacer()
                 VStack(alignment: .trailing, spacing: 3) {
-                    Text(vm.countdown)
+                    Text(countdownText)
                         .font(Typography.ui(18, weight: .semibold))
                         .foregroundStyle(accent)
-                    Text(vm.upNext.prayer.displayTime)
+                        .lineLimit(1)
+                    Text(up.prayer.displayTime)
                         .font(Typography.ui(13))
                         .foregroundStyle(isLight ? Color(hex: "#2b3a4a").opacity(0.5) : Color.white.opacity(0.5))
                 }

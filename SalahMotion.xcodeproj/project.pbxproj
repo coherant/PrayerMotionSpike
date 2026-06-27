@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		AD88C7BF2FF0111400234B0A /* SwiftAA in Frameworks */ = {isa = PBXBuildFile; productRef = AD88C7BE2FF0111400234B0A /* SwiftAA */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		AD31F9222FED68C900EF6F5B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -46,6 +50,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD88C7BF2FF0111400234B0A /* SwiftAA in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -113,6 +118,7 @@
 			);
 			name = SalahMotion;
 			packageProductDependencies = (
+				AD88C7BE2FF0111400234B0A /* SwiftAA */,
 			);
 			productName = SalahMotion;
 			productReference = AD5C71AD2FE586D00022EFD3 /* SalahMotion.app */;
@@ -147,7 +153,7 @@
 			mainGroup = AD5C71A42FE586D00022EFD3;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				AD88C6BD2FEFBE9000234B0A /* XCRemoteSwiftPackageReference "SwiftAA" */,
+				AD88C7BD2FF0111400234B0A /* XCRemoteSwiftPackageReference "SwiftAA" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = AD5C71AE2FE586D00022EFD3 /* Products */;
@@ -467,7 +473,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		AD88C6BD2FEFBE9000234B0A /* XCRemoteSwiftPackageReference "SwiftAA" */ = {
+		AD88C7BD2FF0111400234B0A /* XCRemoteSwiftPackageReference "SwiftAA" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/onekiloparsec/SwiftAA";
 			requirement = {
@@ -476,6 +482,14 @@
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		AD88C7BE2FF0111400234B0A /* SwiftAA */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AD88C7BD2FF0111400234B0A /* XCRemoteSwiftPackageReference "SwiftAA" */;
+			productName = SwiftAA;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = AD5C71A52FE586D00022EFD3 /* Project object */;
 }

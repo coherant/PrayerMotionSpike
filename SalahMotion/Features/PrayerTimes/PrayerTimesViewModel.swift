@@ -66,9 +66,13 @@ final class PrayerTimesViewModel {
     /// passed — the stretch between Isha and the next dawn — it wraps to tomorrow's
     /// Fajr. Without the wrap the night counts down to a stale Isha, which after
     /// midnight (engine recomputed for the new day) reads as ~19h away.
-    var upNext: (prayer: PrayerTime, date: Date) {
+    var upNext: (prayer: PrayerTime, date: Date) { upNext(at: now) }
+
+    /// `upNext` evaluated at an arbitrary instant — lets the time-machine egg
+    /// rewind the Up Next card's prayer + countdown without touching the list.
+    func upNext(at moment: Date) -> (prayer: PrayerTime, date: Date) {
         let all = PrayerTime.allCases
-        if let p = all.first(where: { now < $0.scheduledDate.addingTimeInterval(15 * 60) }) {
+        if let p = all.first(where: { moment < $0.scheduledDate.addingTimeInterval(15 * 60) }) {
             return (p, p.scheduledDate)
         }
         return (.fajr, PrayerTime.fajr.scheduledDate.addingTimeInterval(24 * 60 * 60))
@@ -91,8 +95,10 @@ final class PrayerTimesViewModel {
         return "Waiting for \(prayer.displayName)"
     }
 
-    var countdown: String {
-        let interval = upNext.date.timeIntervalSince(now)
+    var countdown: String { countdown(at: now) }
+
+    func countdown(at moment: Date) -> String {
+        let interval = upNext(at: moment).date.timeIntervalSince(moment)
         guard interval > 0 else { return "now" }
         let totalMinutes = Int(interval / 60)
         let hours = totalMinutes / 60
