@@ -76,16 +76,25 @@ generating every prayer-tinted surface from it.
 | light theme? | **YES** (dark text on light bg) |
 
 ### Asr — العصر (dark)
+> **Intent (the painted world):** Asr is the *most chromatic* of the five. The
+> other four render the **sky**; Asr renders what the low, warm afternoon light
+> does to the **world** — peak saturation, everything pops. Deep, saturated azure
+> **holds through the upper sky and the text zone** (so light text stays readable
+> at ~5:1 with no overlay); the warm gold **blooms low, as a horizon glow** in the
+> bottom third. This is both truer to a late-afternoon sky and *more* vibrant than
+> a pale mid-band — the washed haze was the least-saturated stop. Never muted, and
+> never scrimmed: the gradient and the text are made to agree. See §10.
+
 | Token | Value |
 |---|---|
-| background | `linear-gradient(180deg, #2c3f63 0%, #5b5570 42%, #9c7158 74%, #d59a5c 100%)` |
+| background | `linear-gradient(180deg, #14568f 0%, #1763a3 45%, #1f6cab 66%, #dcc189 86%, #ea9c45 100%)` |
 | ink | `#f7ede1` |
 | muted | `#d9b48f` |
 | faint | `#b3906f` |
 | faintest | `#806750` |
-| accent | `#e8b87e` |
-| glow | `rgba(232,184,126,0.85)` |
-| orb light→dark | `#fbeeda` → `#e8b87e` |
+| accent | `#f3b24c` |
+| glow | `rgba(243,178,76,0.85)` |
+| orb light→dark | `#fbeeda` → `#f3b24c` |
 | orb ink | `rgba(60,40,22,0.5)` |
 | light theme? | no |
 
@@ -117,6 +126,26 @@ generating every prayer-tinted surface from it.
 | orb ink | `rgba(22,20,42,0.6)` |
 | light theme? | no |
 
+### Dusk blue hour — (transitional keyframe, NOT a prayer · dark)
+> **Fajr's mirror on the dusk side.** The sky after the sunset fire fades:
+> deep indigo above, dropping through blue-violet to a dusky mauve, with a last
+> warm ember at the horizon — the *blue hour*. Sits between Maghrib and Isha on
+> the day timeline (§10); labels/icons read as Maghrib (still Maghrib's window).
+> Reuses Isha's text ramp (heading into night).
+
+| Token | Value |
+|---|---|
+| background | `linear-gradient(180deg, #1a1836 0%, #36325f 45%, #6a4a6e 75%, #9a5e63 100%)` |
+| ink | `#f4f1fa` |
+| muted | `#a39db6` |
+| faint | `#7d7790` |
+| faintest | `#4f4a63` |
+| accent | `#cf9a86` |
+| glow | `rgba(207,154,134,0.85)` |
+| orb light→dark | `#e8d2dc` → `#cf9a86` |
+| orb ink | `rgba(22,20,42,0.6)` |
+| light theme? | no |
+
 **Neutral helpers per theme** (derive from `light` flag):
 - neutralFill: light → `rgba(36,50,63,0.12)`, dark → `rgba(255,255,255,0.16)`
 - neutralBorder: light → `rgba(36,50,63,0.30)`, dark → `rgba(255,255,255,0.28)`
@@ -135,7 +164,7 @@ in-prayer one. Match per context:
 ### Per-prayer ENTRY screens (standalone "Enter prayer")
 - Fajr: `linear-gradient(180deg, #0d1430 0%, #1c2147 36%, #46324f 64%, #8a5560 84%, #d18d6c 100%)`
 - Dhuhr: `linear-gradient(180deg, #8fb8df 0%, #bcd6ec 42%, #e6eef4 78%, #f4efe6 100%)`
-- Asr: `linear-gradient(180deg, #2c3f63 0%, #5b5570 42%, #9c7158 74%, #d59a5c 100%)`
+- Asr: `linear-gradient(180deg, #14568f 0%, #1763a3 45%, #1f6cab 66%, #dcc189 86%, #ea9c45 100%)`
 - Maghrib: `linear-gradient(180deg, #241640 0%, #6a2c54 36%, #b34440 60%, #db6e3a 80%, #f2a85a 100%)`
 - Isha: `radial-gradient(125% 75% at 50% 8%, #251f40 0%, #16142a 46%, #0d0c18 100%)`
 
@@ -156,7 +185,7 @@ you're building; to unify, pick ONE column (recommend **A — In-Prayer canonica
 |---|---|---|---|
 | Fajr | `#eaa9b2` (rose) | `#e8a07e` (peach) | `#e8a07e` |
 | Dhuhr | `#d99a2a` | `#d6a13a` | `#c08326` (tab) / `#e7b23e` (btn) |
-| Asr | `#e8b87e` | `#e6a85a` | `#ecb877` (tab) / `#e6a85a` (btn) |
+| Asr | `#f3b24c` | `#e6a85a` | `#ecb877` (tab) / `#e6a85a` (btn) |
 | Maghrib | `#f4a86a` | `#f0a05a` | `#f6b079` (tab) / `#f0a05a` (btn) |
 | Isha | `#9a86c7` | `#9a86c7` | `#9a86c7` |
 
@@ -289,3 +318,79 @@ Before the first window of the day (midnight → Fajr) the theme is solid **Isha
 ### Edge handling
 If two windows ever overlap (prayers closer than a window at extreme latitudes),
 clamp each window to the midpoint between neighbours so colors never double-blend.
+
+---
+
+## 10. The day's miracle of light — refactor brief (2026-06-28)
+
+The atmospheric screen is not "five backgrounds." It is the **day's miracle of
+light told in colour** — each prayer a sign (āyah), the transitions carrying the
+most weight. This is the north star for the colour + transition refactor.
+
+### The five signs (the "why" behind each palette)
+- **Maghrib** — the *clearest* sign: in ~30 min the world goes light → dark.
+- **Isha** — total darkness, the time for rest; the stars reveal the unfathomable
+  scale of the universe, and greater still, of its Lord. (This is why the night
+  sky / starfield matters — it is the sign, not decoration.)
+- **Dhuhr** — the sun at its zenith; the peak of the day, the light by which we
+  seek provision.
+- **Fajr** — the mirror of Maghrib: dark → light.
+- **Asr** — the *mysterious* one. Where the others render the **sky**, Asr renders
+  what the low warm light does to the **world**: peak saturation, every plant,
+  flower and surface popping — the world *as painted* by its Lord. Asr is the
+  most chromatic of the five. (Palette: §1 Asr.)
+
+### Objectives
+1. **The two hard transitions must feel like the real sky.** Day→night
+   (Maghrib→Isha) and night→day (Isha→Fajr→Dhuhr) are the emotional core and are
+   currently the weakest — too short, snapped, and skipping the blue/golden hours.
+2. **Drive the transitions off solar/twilight geometry**, not fixed ±minute
+   windows — sunrise and the civil/nautical/astronomical twilight steps — so the
+   ramps are *physically paced*. Fajr ≈ dawn twilight and Isha ≈ dusk twilight
+   already, so the prayer instants are roughly the right boundaries; the gain is
+   adding sunrise + the twilight phases as anchors. (Supersedes the fixed windows
+   in §9 as those are reworked — keep §9 as the record of the prior model until
+   the geometry model lands.)
+3. **Asr = the painted world** (done — §1). Vibrancy over atmosphere.
+
+### The keyframe timeline (IMPLEMENTED — supersedes §9 fixed windows)
+
+The atmospheric theme is a **keyframe timeline anchored to the sun's altitude**,
+not adjacent-prayer blends. Anchors come from `PrayerTimesEngine.twilightAnchors(for:)`
+(pure; built on `SolarTime.timeForSolarAngle`). The clock (`now`) is only the
+cursor reading position along the curve → auto-correct across season & location.
+Between two keyframes every token interpolates; the background cross-fades by
+opacity stack (handles linear↔radial, e.g. dusk→Isha brings the starfield in).
+
+| Anchor (sun angle / event) | Keyframe | Ramp into it |
+|---|---|---|
+| Astronomical dawn (−18°) | Isha | (night holds) |
+| Nautical dawn (−12°) | Fajr | Isha → Fajr — deep-blue first light |
+| Sunrise (0°) | Fajr | Fajr holds — the dawn blue hour |
+| Morning gold (+6°) | Dhuhr | Fajr → Dhuhr — sunrise ignites the day |
+| Asr (instant) | Asr | Dhuhr → Asr — the long afternoon warm |
+| Evening gold (+6°) | Asr | Asr holds — the painted world |
+| Sunset (0°) | Maghrib | Asr → Maghrib — golden hour into fire |
+| Civil dusk (−6°) | Dusk blue hour | Maghrib → dusk blue hour |
+| Nautical dusk (−12°) | Dusk blue hour | the blue hour holds |
+| Astronomical dusk (−18°) | Isha | dusk blue hour → night |
+
+Before the first anchor (after midnight) and after the last, the theme is solid
+**Isha**. Night→day start anchors on **true astronomical dawn (−18°)**, NOT the
+app's Fajr instant (which is overridden to sunrise−90m). Fajr's gradient already
+*is* the dawn blue hour, so only its dusk mirror (the dusk blue-hour keyframe, §1)
+is newly authored.
+
+> Known edge: at high latitude an angle may not occur (no −18° in summer); the
+> accessor returns nil and the theme falls back to solid Isha. To refine later.
+
+### Status
+- [x] Asr palette — luminous golden-hour (§1).
+- [x] Dusk blue-hour keyframe — Fajr's dusk mirror (§1).
+- [x] Asr text contrast — fixed by **re-weighting the gradient** (azure holds
+      through the text zone, gold blooms low) + a filled CTA pill. No overlay/blur.
+- [x] Solar/twilight-geometry transition engine (this section).
+- [x] Night→day ramp (deep-blue first light → dawn blue hour → sunrise ignition).
+- [x] Day→night ramp (golden hour → sunset fire → blue hour → night).
+- [ ] Live tuning pass (colours of the dusk blue hour; ramp durations) on device.
+- [ ] High-latitude fallback (polar day/night).

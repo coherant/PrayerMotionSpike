@@ -8,7 +8,11 @@ import SwiftUI
 struct LaunchView: View {
     let onComplete: () -> Void
 
-    private let prayerTime = PrayerTime.current
+    // Live atmospheric theme (same engine as the app), so the splash shows the
+    // current period — including the new Asr palette and the dusk blue hour —
+    // rather than a stale hardcoded set. Snapshotted once for the ~4s splash.
+    private let blend = DayTheme.blend()
+    private var prayerTime: PrayerTime { blend.dominant }
 
     // Intro animation flags
     @State private var showHorizon    = false
@@ -27,7 +31,7 @@ struct LaunchView: View {
     @State private var showStars    = false
     @State private var lineHeight: CGFloat = 0
 
-    private var theme: PrayerTimeTheme { prayerTime.theme }
+    private var theme: PrayerTimeTheme { blend.theme }
     private var accent: Color { theme.accent }
     private var starCount: Int {
         switch prayerTime {
@@ -122,35 +126,20 @@ struct LaunchView: View {
     // MARK: - Background
 
     private var background: some View {
-        Group {
-            switch prayerTime {
-            case .fajr:
-                RadialGradient(
-                    colors: [Color(hex: "#1c2147"), Color(hex: "#141a36"), Color(hex: "#0c1024")],
-                    center: UnitPoint(x: 0.5, y: 0.28), startRadius: 0, endRadius: 600
-                )
-            case .dhuhr:
-                RadialGradient(
-                    colors: [Color(hex: "#a9cbe8"), Color(hex: "#c9deef"), Color(hex: "#eef2f1")],
-                    center: UnitPoint(x: 0.5, y: 0.24), startRadius: 0, endRadius: 600
-                )
-            case .asr:
-                RadialGradient(
-                    colors: [Color(hex: "#3a4d72"), Color(hex: "#5f5872"), Color(hex: "#8a684f")],
-                    center: UnitPoint(x: 0.5, y: 0.26), startRadius: 0, endRadius: 600
-                )
-            case .maghrib:
-                RadialGradient(
-                    colors: [Color(hex: "#3a1f54"), Color(hex: "#6a2c54"), Color(hex: "#a23f44")],
-                    center: UnitPoint(x: 0.5, y: 0.24), startRadius: 0, endRadius: 600
-                )
-            case .isha:
-                RadialGradient(
-                    colors: [Color(hex: "#251f40"), Color(hex: "#16142a"), Color(hex: "#0b0a14")],
-                    center: UnitPoint(x: 0.5, y: 0.30), startRadius: 0, endRadius: 600
-                )
-            }
-        }
+        // A centred glow built from the LIVE theme: the warm horizon tone glows
+        // from the upper-centre out to the dark sky tone at the edges. Because it
+        // reads from `theme` (the interpolated blend), the splash automatically
+        // shows the new Asr palette, the dusk blue hour, and the cross-fade.
+        RadialGradient(
+            colors: [
+                theme.gradientBottom,
+                Color.lerp(theme.gradientTop, theme.gradientBottom, 0.45),
+                theme.gradientTop,
+            ],
+            center: UnitPoint(x: 0.5, y: 0.28),
+            startRadius: 0,
+            endRadius: 600
+        )
         .ignoresSafeArea()
     }
 
@@ -319,7 +308,7 @@ struct LaunchView: View {
                             colors: [
                                 Color(hex: "#eaa9b2"),
                                 Color(hex: "#d99a2a"),
-                                Color(hex: "#e8b87e"),
+                                Color(hex: "#f3b24c"),
                                 Color(hex: "#f4a86a"),
                                 Color(hex: "#9a86c7"),
                             ],

@@ -75,22 +75,28 @@ enum PrayerTime: String, CaseIterable, Identifiable {
                 orbInk:    Color(hex: "#463008").opacity(0.50)
             )
         case .asr:
+            // The painted world — Asr is the most chromatic of the five. Deep
+            // saturated azure HOLDS through the upper sky and text zone (light text
+            // stays readable ~5:1, no overlay); the warm gold BLOOMS low as a
+            // horizon glow. Truer to a late-afternoon sky and more vibrant than a
+            // pale mid-band. Never muted, never scrimmed. See theme.md §1 (Asr).
             return PrayerTimeTheme(
                 gradientStops: [
-                    .init(color: Color(hex: "#2c3f63"), location: 0.00),
-                    .init(color: Color(hex: "#5b5570"), location: 0.42),
-                    .init(color: Color(hex: "#9c7158"), location: 0.74),
-                    .init(color: Color(hex: "#d59a5c"), location: 1.00),
+                    .init(color: Color(hex: "#14568f"), location: 0.00),
+                    .init(color: Color(hex: "#1763a3"), location: 0.45),
+                    .init(color: Color(hex: "#1f6cab"), location: 0.66),
+                    .init(color: Color(hex: "#dcc189"), location: 0.86),
+                    .init(color: Color(hex: "#ea9c45"), location: 1.00),
                 ],
                 isLight:   false,
                 ink:       Color(hex: "#f7ede1"),
                 muted:     Color(hex: "#d9b48f"),
                 faint:     Color(hex: "#b3906f"),
                 faintest:  Color(hex: "#806750"),
-                accent:    Color(hex: "#e8b87e"),
-                glow:      Color(hex: "#e8b87e").opacity(0.85),
+                accent:    Color(hex: "#f3b24c"),
+                glow:      Color(hex: "#f3b24c").opacity(0.85),
                 orbA:      Color(hex: "#fbeeda"),
-                orbB:      Color(hex: "#e8b87e"),
+                orbB:      Color(hex: "#f3b24c"),
                 orbInk:    Color(hex: "#3c2816").opacity(0.50)
             )
         case .maghrib:

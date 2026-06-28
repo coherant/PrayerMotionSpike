@@ -309,6 +309,9 @@ inset, Sun/Moon colours + glow intensity, body opacity / z-order. (No path track
 ---
 
 ## Related
+- [ambient-sky-birds.md](ambient-sky-birds.md) — distant birds crossing the
+  full-screen sky (a separate ambient layer; reuses the §8 `f(now)` discipline and
+  this Sun's altitude for its day-fade).
 - `SalahMotion/Features/PrayerTimes/PrayerTimesView.swift` — `upNextCard`, `dayRail`.
 - `SalahMotion/DesignSystem/Components/MoonPhaseShape.swift` — phase renderer.
 - `SalahMotion/Core/Prayer/Adhan/Astronomy/` — vendored Meeus solar engine.

@@ -187,6 +187,61 @@ final class PrayerTimesEngine {
         }
         return DayPrayerTimes(times: t, sunrise: pt.sunrise)
     }
+
+    /// PURE: the sun-altitude anchors that drive the atmospheric theme timeline
+    /// (DayTheme §10). Same Meeus astronomy as the prayer times, via
+    /// `SolarTime.timeForSolarAngle`, so colours and times never drift apart.
+    /// Returns nil at latitudes/seasons where an angle never occurs (polar).
+    func twilightAnchors(for date: Date) -> TwilightAnchors? {
+        let coords = Coordinates(latitude: coordinate.latitude, longitude: coordinate.longitude)
+        var cal = Calendar(identifier: .gregorian)
+        cal.timeZone = timeZone
+        let comps = cal.dateComponents([.year, .month, .day], from: date)
+        guard let solar = SolarTime(date: comps, coordinates: coords) else { return nil }
+
+        let utc = Calendar.gregorianUTC
+        func angle(_ degrees: Double, afterTransit: Bool) -> Date? {
+            solar.timeForSolarAngle(Angle(degrees), afterTransit: afterTransit)
+                .flatMap { utc.date(from: $0) }
+        }
+        guard
+            let sunrise          = utc.date(from: solar.sunrise),
+            let sunset           = utc.date(from: solar.sunset),
+            let astronomicalDawn = angle(-18, afterTransit: false),
+            let nauticalDawn     = angle(-12, afterTransit: false),
+            let morningGold      = angle(6,   afterTransit: false),
+            let eveningGold      = angle(6,   afterTransit: true),
+            let civilDusk        = angle(-6,  afterTransit: true),
+            let nauticalDusk     = angle(-12, afterTransit: true),
+            let astronomicalDusk = angle(-18, afterTransit: true)
+        else { return nil }
+
+        return TwilightAnchors(
+            astronomicalDawn: astronomicalDawn,
+            nauticalDawn: nauticalDawn,
+            sunrise: sunrise,
+            morningGold: morningGold,
+            eveningGold: eveningGold,
+            sunset: sunset,
+            civilDusk: civilDusk,
+            nauticalDusk: nauticalDusk,
+            astronomicalDusk: astronomicalDusk
+        )
+    }
+}
+
+/// Sun-altitude anchors for one day (value type; no side effects). Times are
+/// absolute instants. See docs/design-reference/theme.md §10.
+struct TwilightAnchors {
+    let astronomicalDawn: Date  // sun −18° before transit (true dawn)
+    let nauticalDawn: Date      // −12°
+    let sunrise: Date           // 0° (−50′)
+    let morningGold: Date       // +6° after sunrise (golden hour ends → full day)
+    let eveningGold: Date       // +6° before sunset (golden hour begins)
+    let sunset: Date            // 0°
+    let civilDusk: Date         // −6°
+    let nauticalDusk: Date      // −12°
+    let astronomicalDusk: Date  // −18° after transit (full night)
 }
 
 /// A day's computed prayer times + sunrise (value type; no side effects).

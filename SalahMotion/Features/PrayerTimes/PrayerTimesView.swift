@@ -44,6 +44,16 @@ struct PrayerTimesView: View {
         router.selectedTab == .prayerTimes && scenePhase == .active
     }
 
+    // Daylight factor (0…1) for the ambient sky birds, from the REAL sun (vm.now,
+    // not displayNow) so the time-machine egg sweeps the sun/theme but leaves the
+    // birds flying. 1 around solar noon, easing to 0 at the horizon and at night.
+    private var birdDaylight: Double {
+        let phase = celestialSky.sun.sky(at: vm.now, location: celestialSky.location).dayPhase
+        guard phase <= 0.5 else { return 0 }            // night
+        let altitude = sin(.pi * phase / 0.5)           // 0 at horizon, 1 at transit
+        return min(1, max(0, altitude / 0.35))          // full once the sun is well up
+    }
+
     // Neutral colours that adapt to light (Dhuhr) vs dark themes
     private var neutralFill: Color {
         isLight ? Color(hex: "#2b3a4a").opacity(0.12) : Color.white.opacity(0.05)
@@ -62,6 +72,12 @@ struct PrayerTimesView: View {
         // mispositioned the header on device while the simulator looked fine.
         ZStack {
             blend.background.ignoresSafeArea()
+
+            // Ambient sky birds — far back, behind every fixture, glimpsed in the
+            // open sky around the header and between cards. See ambient-sky-birds.md.
+            SkyBirdsView(isActive: isCelestialActive, tint: ink, daylight: birdDaylight,
+                         murmuration: timeMachine.murmurationActive)
+                .ignoresSafeArea()
 
             VStack(spacing: 0) {
                 header   // ScreenHeader owns its own 22pt gutter + top padding
@@ -120,6 +136,10 @@ struct PrayerTimesView: View {
         }
         .sensoryFeedback(trigger: timeMachine.isRunning) { _, isRunning in
             isRunning ? .impact(weight: .heavy) : nil
+        }
+        // Stage 2 (murmuration) gets its own heavy thump as the flock floods in.
+        .sensoryFeedback(trigger: timeMachine.murmurationActive) { _, active in
+            active ? .impact(weight: .heavy) : nil
         }
     }
 
@@ -366,12 +386,16 @@ struct PrayerTimesView: View {
             Text(label)
                 .font(Typography.eyebrow)
                 .tracking(1.5)
-                .foregroundStyle(accent)
+                // Actionable → filled accent pill with dark ink (readable on any
+                // background, incl. Asr's warm horizon glow). Inactive → ghost
+                // outline. Crisp surfaces only, no scrim. See theme.md §1 (Asr).
+                .foregroundStyle(vm.isInPrayerWindow ? Color(hex: "#16142a") : accent)
                 .padding(.horizontal, 20)
                 .padding(.vertical, 8)
                 .background(
                     Capsule()
-                        .strokeBorder(accent.opacity(0.5), lineWidth: 1)
+                        .fill(vm.isInPrayerWindow ? accent : Color.clear)
+                        .overlay(Capsule().strokeBorder(accent.opacity(0.5), lineWidth: 1))
                 )
                 .overlay(
                     Group {

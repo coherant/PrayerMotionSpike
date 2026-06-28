@@ -41,11 +41,18 @@ struct ScreenHeader<Leading: View, Trailing: View>: View {
             VStack(alignment: .leading, spacing: 1) {
                 Text(eyebrow)
                     .font(.system(size: 10.5, weight: .semibold))
-                    .tracking(2.5)
+                    // Tightened 2.5 → 2.0 to buy horizontal room so the longest
+                    // eyebrow ("… · AFTERNOON") fits on one line at full size,
+                    // without scaling the date down (see lineLimit note below).
+                    .tracking(2.0)
                     .textCase(.uppercase)
                     .foregroundStyle(accent)
                     .lineLimit(1)                 // never wrap (e.g. "· AFTERNOON")
-                    .minimumScaleFactor(0.7)      // shrink to fit rather than truncate
+                    // No minimumScaleFactor: scaling-to-fit couples the font size to
+                    // the eyebrow's length, so the leading date PULSED in size as the
+                    // trailing "· PHASE" word changed length during the celestial
+                    // animation/egg. Hold the date at full size; the trailing phase
+                    // label tail-truncates instead.
                 Text(title)
                     .font(Typography.display(26, weight: .medium))
                     .foregroundStyle(ink)
