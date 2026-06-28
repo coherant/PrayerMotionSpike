@@ -34,7 +34,7 @@ enum BirdSkyConfig {
     static let daylightFloor: Double = 0.06
 
     /// The murmuration (egg stage 2).
-    static let murmurationCount = 150
+    static let murmurationCount = 280
     /// Sim bounds extend this fraction beyond the screen on every side, so the
     /// swarm visibly drifts off-screen and back.
     static let simMargin: CGFloat = 0.22
@@ -84,6 +84,11 @@ private struct FlockConfig {
     var maxForce: Double
     var neighborRadius: Double
     var separationRadius: Double
+    /// Topological flocking: when set, a bird orients/coheres to its K NEAREST
+    /// neighbours regardless of distance (Ballerini et al. 2008, measured from real
+    /// starling murmurations) instead of everyone within `neighborRadius`. This is
+    /// what keeps a murmuration cohesive as density changes. nil = metric (ambient).
+    var topologicalK: Int? = nil
     var wSeparation: Double
     var wAlignment: Double
     var wCohesion: Double
@@ -169,6 +174,12 @@ private final class Flock {
         }
 
         let snapshot = group.boids
+        // Scratch for topological mode (K nearest), allocated once per group/frame
+        // and refilled per bird — no per-bird allocation.
+        let topoK = cfg.topologicalK ?? 0
+        var nearDist = [Double](repeating: .infinity, count: topoK)
+        var nearIdx = [Int](repeating: -1, count: topoK)
+
         for i in group.boids.indices {
             let b = snapshot[i]
 
@@ -176,14 +187,39 @@ private final class Flock {
             var avgPos = SIMD3<Double>.zero
             var separation = SIMD3<Double>.zero
             var n = 0
-            for j in snapshot.indices where j != i {
-                let off = snapshot[j].pos - b.pos
-                let dist = simd_length(off)
-                guard dist < cfg.neighborRadius, dist > 1e-6 else { continue }
-                avgVel += snapshot[j].vel
-                avgPos += snapshot[j].pos
-                n += 1
-                if dist < cfg.separationRadius { separation -= off / dist }
+
+            if topoK > 0 {
+                // Topological: keep the K nearest via insertion into a sorted buffer.
+                for s in 0..<topoK { nearDist[s] = .infinity; nearIdx[s] = -1 }
+                for j in snapshot.indices where j != i {
+                    let dist = simd_length(snapshot[j].pos - b.pos)
+                    guard dist > 1e-6, dist < nearDist[topoK - 1] else { continue }
+                    var s = topoK - 1
+                    while s > 0 && nearDist[s - 1] > dist {
+                        nearDist[s] = nearDist[s - 1]; nearIdx[s] = nearIdx[s - 1]; s -= 1
+                    }
+                    nearDist[s] = dist; nearIdx[s] = j
+                }
+                for s in 0..<topoK where nearIdx[s] >= 0 {
+                    let j = nearIdx[s]
+                    avgVel += snapshot[j].vel
+                    avgPos += snapshot[j].pos
+                    n += 1
+                    if nearDist[s] < cfg.separationRadius {
+                        separation -= (snapshot[j].pos - b.pos) / nearDist[s]
+                    }
+                }
+            } else {
+                // Metric: everyone within `neighborRadius` (ambient birds).
+                for j in snapshot.indices where j != i {
+                    let off = snapshot[j].pos - b.pos
+                    let dist = simd_length(off)
+                    guard dist < cfg.neighborRadius, dist > 1e-6 else { continue }
+                    avgVel += snapshot[j].vel
+                    avgPos += snapshot[j].pos
+                    n += 1
+                    if dist < cfg.separationRadius { separation -= off / dist }
+                }
             }
 
             var accel = SIMD3<Double>.zero
@@ -321,12 +357,18 @@ private final class Flock {
         let entryX = fromLeft ? Double(bounds.minX) - 40 : Double(bounds.maxX) + 40
         let inward = safeNormalize(center - SIMD3(entryX, center.y, center.z))
 
+        // Research-tuned. Steering model = Reynolds/Shiffman (desired−velocity,
+        // capped at maxForce). Ratios from Cornell's Hunter Adams: minspeed = ½
+        // maxspeed, protected:visual ≈ 1:5. Neighbours = ~7 nearest (Ballerini,
+        // measured from real starlings). Weights are Shiffman's faithful ratio
+        // (separation 1.5 / alignment 1.0 / cohesion 1.0); near-zero wander.
         let config = FlockConfig(
-            maxSpeed: 95, minSpeed: 35, maxForce: 230,
-            neighborRadius: 64, separationRadius: 18,
-            wSeparation: 2.0, wAlignment: 1.1, wCohesion: 0.9,
-            wWander: 0.4, wGoal: 0.7,
-            wanderJitter: 2.0,
+            maxSpeed: 143, minSpeed: 72, maxForce: 175,   // 1.5× fast; minspeed = ½ max (Cornell 1:2)
+            neighborRadius: 64, separationRadius: 12,     // protected:visual ≈ 1:5 (Cornell)
+            topologicalK: 7,                              // ~7 nearest (Ballerini, real starlings)
+            wSeparation: 1.5, wAlignment: 1.0, wCohesion: 1.0,   // Shiffman's faithful weighting
+            wWander: 0.1, wGoal: 0.7,
+            wanderJitter: 0.4,                            // minimal heading noise (base flocking uses none)
             boundaryMargin: 70, boundaryStrength: 1.4,
             behavior: .contain,
             spanRange: 4...12, baseOpacity: 0.5, respectsDaylight: false)

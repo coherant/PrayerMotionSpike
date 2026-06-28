@@ -26,7 +26,11 @@ enum TimeMachineConfig {
     static var decelerateWeight: Double = 2
 
     /// Egg stage 2: how long the murmuration swirls before it streams off (s).
-    static var murmurationDuration: TimeInterval = 15
+    static var murmurationDuration: TimeInterval = 40
+
+    /// When true, every egg press goes straight to the murmuration, skipping the
+    /// celestial sweep (used while tuning the flock). False = the two-stage egg.
+    static var eggOnlyMurmuration = false
 }
 
 @MainActor
@@ -58,6 +62,10 @@ final class TimeMachine {
 
     func play() {
         guard !isRunning, !murmurationActive else { return }
+        if TimeMachineConfig.eggOnlyMurmuration {   // TEMP: tuning the murmuration
+            playBirds()
+            return
+        }
         switch nextStage {
         case .celestial:
             nextStage = .birds

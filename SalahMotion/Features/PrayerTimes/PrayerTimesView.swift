@@ -9,6 +9,7 @@ struct PrayerTimesView: View {
     @State private var enabledNotifications: Set<String> = NotificationManager.enabledPrayers()
     @State private var ctaPulsing = false
     @State private var timeMachine = TimeMachine.shared
+    @State private var weather = WeatherStore()   // ambient; behind FeatureFlags.weather
 
     // Time-based cross-fade (theme.md §9): tokens + background interpolate between
     // periods over real-time-anchored windows. `now` ticks each second (VM timer),
@@ -43,6 +44,7 @@ struct PrayerTimesView: View {
     private var isCelestialActive: Bool {
         router.selectedTab == .prayerTimes && scenePhase == .active
     }
+
 
     // Daylight factor (0…1) for the ambient sky birds, from the REAL sun (vm.now,
     // not displayNow) so the time-machine egg sweeps the sun/theme but leaves the
@@ -87,11 +89,46 @@ struct PrayerTimesView: View {
                         .padding(.top, 22)
                     prayerList
                         .padding(.top, 22)
+
+                    // Weather — glanceable, bottom-right under the last prayer row,
+                    // themed by the current time of day. Tap the capsule to cycle
+                    // conditions (dev/demo), starting at sunny. See weather/SPEC.md §5.
+                    if FeatureFlags.weather {
+                        HStack {
+                            Spacer()
+                            Button { weather.cycleManual() } label: {
+                                WeatherChip(state: weather.displayState,
+                                            ink: ink, muted: muted, accent: accent)
+                                    .padding(.horizontal, 12)
+                                    .padding(.vertical, 7)
+                                    .background(
+                                        Capsule()
+                                            .fill(neutralFill)
+                                            .overlay(Capsule().strokeBorder(neutralBorder, lineWidth: 1))
+                                    )
+                            }
+                            .buttonStyle(.plain)
+                        }
+                        .padding(.top, 46)   // ≈ 8 mm below the last prayer row
+                    }
+
                     Spacer()
                     ctaButton
                         .padding(.bottom, 32)
                 }
                 .padding(.horizontal, 22)
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background {
+                // Weather effects — painted BEHIND the content as a true backdrop, so
+                // the Metal-backed SpriteView can't composite above the rows. Opacity
+                // halved for subtlety. Driven by the same state the pill cycles.
+                if FeatureFlags.weather {
+                    WeatherLayerView(state: weather.displayState,
+                                     isActive: isCelestialActive, tint: ink)
+                        .opacity(0.5)
+                        .ignoresSafeArea()
+                }
             }
         }
         .onAppear { vm.location.requestLocation() }
