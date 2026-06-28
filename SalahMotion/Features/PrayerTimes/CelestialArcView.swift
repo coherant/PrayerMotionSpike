@@ -14,7 +14,12 @@ import SwiftUI
 struct CelestialArcView: View {
     let sky: CelestialSky
     var geometry = CelestialArcGeometry()
-    /// Gate: tick only while the screen is foreground & active. Paused, the view
+    /// The host's wall clock, ticked once a second by the screen. Drives the
+    /// realtime branch so the ephemeris is evaluated in step with the countdown
+    /// (rather than on a timeline of this view's own). Unused by demo/warp, which
+    /// run their own frame-rate timelines.
+    var now: Date
+    /// Gate: tick only while the screen is foreground & active. Paused, the demo
     /// holds the last correct frame and snaps to `now` on resume (position is a
     /// pure function of time, so there is no state to restore).
     var isActive: Bool
@@ -30,17 +35,16 @@ struct CelestialArcView: View {
                 TimelineView(.animation) { timeline in
                     arc(in: proxy.size, at: timeline.date)
                 }
-            } else if let interval = sky.refreshInterval {
-                // Realtime: bodies barely move — a coarse tick avoids recomputing
-                // the ephemeris (incl. SwiftAA) every frame.
-                TimelineView(.periodic(from: .now, by: interval)) { timeline in
-                    arc(in: proxy.size, at: timeline.date)
-                }
-            } else {
+            } else if sky.isDemo {
                 // Demo: smooth animation, paused while the screen isn't active.
                 TimelineView(.animation(paused: !isActive)) { timeline in
                     arc(in: proxy.size, at: timeline.date)
                 }
+            } else {
+                // Realtime: ride the host's once-a-second tick instead of a private
+                // timeline — one deterministic ephemeris (incl. SwiftAA) evaluation
+                // per second, aligned with the countdown.
+                arc(in: proxy.size, at: now)
             }
         }
     }
@@ -83,5 +87,13 @@ struct CelestialArcView: View {
         }
         .frame(width: radius * 2, height: radius * 2)
         .position(point)
+        // Position is a pure function of (size, time) — it must SNAP, never tween.
+        // Without this, an ambient transaction on first appear (the card's size
+        // resolving, or the device coordinate replacing the Melbourne default and
+        // flipping the hemisphere) catches `.position` and the disc slides in from
+        // the horizon corner. nil-animation scoped to `point` overrides any such
+        // inherited animation; demo/warp motion comes from per-frame recompute, not
+        // implicit tweening, so smoothness is unaffected.
+        .animation(nil, value: point)
     }
 }

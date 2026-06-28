@@ -12,16 +12,21 @@ struct SolarEphemeris: CelestialEphemeris {
     func sky(at date: Date, location: ObserverLocation) -> SkyState {
         let coordinates = Coordinates(latitude: location.latitude, longitude: location.longitude)
 
-        guard let today = events(on: date, coordinates: coordinates) else {
+        // The day is resolved in the LOCATION's timezone so the rise/transit/set
+        // bracket `now` continuously — bracketing by the UTC day made the phase jump
+        // to the horizon at the UTC midnight boundary (mid-morning for Melbourne).
+        var dayCalendar = Calendar(identifier: .gregorian)
+        dayCalendar.timeZone = location.timeZone
+
+        guard let today = events(on: date, coordinates: coordinates, dayCalendar: dayCalendar) else {
             // Polar day/night (no rise/set): treat as below the horizon.
             return SkyState(dayPhase: 0.75, isAboveHorizon: false, moonPhase: nil)
         }
 
-        let calendar = Calendar.gregorianUTC
-        let yesterday = calendar.date(byAdding: .day, value: -1, to: date)
-            .flatMap { events(on: $0, coordinates: coordinates) }
-        let tomorrow = calendar.date(byAdding: .day, value: 1, to: date)
-            .flatMap { events(on: $0, coordinates: coordinates) }
+        let yesterday = dayCalendar.date(byAdding: .day, value: -1, to: date)
+            .flatMap { events(on: $0, coordinates: coordinates, dayCalendar: dayCalendar) }
+        let tomorrow = dayCalendar.date(byAdding: .day, value: 1, to: date)
+            .flatMap { events(on: $0, coordinates: coordinates, dayCalendar: dayCalendar) }
 
         let phase = DailyArc.phase(
             now: date,
@@ -38,13 +43,18 @@ struct SolarEphemeris: CelestialEphemeris {
     // MARK: Adhan bridge
 
     private func events(on date: Date,
-                        coordinates: Coordinates) -> (rise: Date, transit: Date, set: Date)? {
-        let calendar = Calendar.gregorianUTC
-        let components = calendar.dateComponents([.year, .month, .day], from: date)
+                        coordinates: Coordinates,
+                        dayCalendar: Calendar) -> (rise: Date, transit: Date, set: Date)? {
+        // Day components come from the location's calendar (which day are we on);
+        // the resulting event components carry that same Y/M/D with a UTC time-of-
+        // day, so they convert back to absolute instants via the UTC calendar — the
+        // exact convention PrayerTimesEngine uses.
+        let components = dayCalendar.dateComponents([.year, .month, .day], from: date)
+        let utc = Calendar.gregorianUTC
         guard let solar = SolarTime(date: components, coordinates: coordinates),
-              let rise = calendar.date(from: solar.sunrise),
-              let transit = calendar.date(from: solar.transit),
-              let set = calendar.date(from: solar.sunset) else {
+              let rise = utc.date(from: solar.sunrise),
+              let transit = utc.date(from: solar.transit),
+              let set = utc.date(from: solar.sunset) else {
             return nil
         }
         return (rise, transit, set)

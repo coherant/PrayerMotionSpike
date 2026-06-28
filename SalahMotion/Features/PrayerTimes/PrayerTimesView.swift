@@ -30,8 +30,13 @@ struct PrayerTimesView: View {
     // current time, driven by the engine's coordinate (Melbourne until the device
     // reports).
     private var celestialSky: CelestialSky {
-        let c = PrayerTimesEngine.shared.coordinate
-        let location = ObserverLocation(latitude: c.latitude, longitude: c.longitude)
+        let engine = PrayerTimesEngine.shared
+        let c = engine.coordinate
+        // Pass the LOCATION's timezone so the solar arc brackets the day correctly
+        // (a UTC-day boundary mid-morning was snapping the sun to the horizon).
+        let location = ObserverLocation(latitude: c.latitude,
+                                        longitude: c.longitude,
+                                        timeZone: engine.timeZone)
         return .live(location: location)
     }
     // Animate only while this tab is foreground & active.
@@ -171,6 +176,7 @@ struct PrayerTimesView: View {
                         endPoint: UnitPoint(x: 0.85, y: 1)
                     ))
                 CelestialArcView(sky: celestialSky,
+                                 now: vm.now,
                                  isActive: isCelestialActive,
                                  timeOffset: timeMachine.offset,
                                  isWarping: timeMachine.isRunning)

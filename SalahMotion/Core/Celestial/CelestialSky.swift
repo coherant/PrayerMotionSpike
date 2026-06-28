@@ -24,14 +24,14 @@ struct CelestialSky {
         )
     }
 
-    /// View refresh cadence. Demo animates every frame; realtime only needs a
-    /// coarse tick since the real bodies move imperceptibly second-to-second
-    /// (and recomputing the ephemeris at 60fps would be wasteful).
-    var refreshInterval: TimeInterval? {
-        switch clock {
-        case .demo:     return nil   // animate every frame
-        case .realtime: return 60    // once a minute
-        }
+    /// Demo drives its own per-frame animation timeline. Realtime does not: the
+    /// real bodies move imperceptibly second-to-second, so the view recomputes on
+    /// the host's once-a-second app tick instead — the ephemeris (SwiftAA included)
+    /// is then evaluated exactly once per second, in step with the countdown,
+    /// rather than on a free-running timeline of its own.
+    var isDemo: Bool {
+        if case .demo = clock { return true }
+        return false
     }
 }
 

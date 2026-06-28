@@ -41,6 +41,16 @@ final class PrayerTimesEngine {
     private(set) var computedForDay: Date?
 
     private init() {
+        // Seed from the last device location so a cold launch renders the real
+        // place on the FIRST frame — Melbourne stays only as the genuine first-run
+        // fallback. Without this, every launch briefly computes at Melbourne and
+        // then jumps when CoreLocation reports (a visible stutter in the celestial
+        // arc near a horizon crossing, and wrong prayer times for a beat).
+        if let saved = Self.loadSavedLocation() {
+            coordinate = saved.coordinate
+            timeZone = saved.timeZone
+            usingDeviceLocation = true
+        }
         recompute()
     }
 
@@ -50,15 +60,51 @@ final class PrayerTimesEngine {
     func setCoordinate(_ coord: CLLocationCoordinate2D) {
         coordinate = coord
         usingDeviceLocation = true
+        Self.saveLocation(coordinate: coord)
         recompute()
     }
 
     /// Update to the location's timezone (from reverse-geocoding) and recompute,
     /// so times render/schedule at the location's wall-clock time.
     func setTimeZone(_ tz: TimeZone) {
+        Self.saveLocation(timeZone: tz)
         guard tz != timeZone else { return }
         timeZone = tz
         recompute()
+    }
+
+    // MARK: - Last-known-location persistence
+
+    private enum DefaultsKey {
+        static let latitude = "engine.lastLatitude"
+        static let longitude = "engine.lastLongitude"
+        static let timeZone = "engine.lastTimeZoneID"
+    }
+
+    /// The remembered device coordinate + timezone, or nil if never resolved.
+    /// Both must be present — a coordinate without its timezone would render the
+    /// place at the wrong wall-clock time.
+    private static func loadSavedLocation() -> (coordinate: CLLocationCoordinate2D, timeZone: TimeZone)? {
+        let defaults = UserDefaults.standard
+        guard defaults.object(forKey: DefaultsKey.latitude) != nil,
+              let tzID = defaults.string(forKey: DefaultsKey.timeZone),
+              let tz = TimeZone(identifier: tzID) else { return nil }
+        let coord = CLLocationCoordinate2D(
+            latitude: defaults.double(forKey: DefaultsKey.latitude),
+            longitude: defaults.double(forKey: DefaultsKey.longitude))
+        return (coord, tz)
+    }
+
+    private static func saveLocation(coordinate: CLLocationCoordinate2D? = nil,
+                                     timeZone: TimeZone? = nil) {
+        let defaults = UserDefaults.standard
+        if let coordinate {
+            defaults.set(coordinate.latitude, forKey: DefaultsKey.latitude)
+            defaults.set(coordinate.longitude, forKey: DefaultsKey.longitude)
+        }
+        if let timeZone {
+            defaults.set(timeZone.identifier, forKey: DefaultsKey.timeZone)
+        }
     }
 
     /// Recompute if the calendar day has rolled over (call from a periodic timer).
