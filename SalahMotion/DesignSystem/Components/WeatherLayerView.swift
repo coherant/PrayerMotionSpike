@@ -35,7 +35,7 @@ struct WeatherLayerView: View {
                 PrecipitationView(kind: kind, intensity: state.intensity, tint: tint, isActive: isActive)
             }
             if state.condition == .thunderstorm {
-                LightningView(isActive: isActive)
+                LightningView(isActive: isActive, tint: tint)
             }
         }
         .allowsHitTesting(false)   // scenery; never intercept taps
@@ -291,41 +291,181 @@ private struct FogVeil: View {
     }
 }
 
-// MARK: - Lightning (SwiftUI flash)
+// MARK: - Lightning (drawn bolt + ambient flash)
+//
+// Each strike paints a freshly-generated forked bolt over a soft full-screen
+// flash. Two techniques from how games render lightning (Ryan Juckett's "2D
+// lightning"):
+//   • Geometry: midpoint displacement — the start→tip line is recursively
+//     subdivided, each midpoint pushed perpendicular by a halving amount, so
+//     the bolt is self-similar/jagged at every scale, with a few angled forks.
+//   • Glow: NOT a Gaussian blur (which smears a thin line into a grey smudge).
+//     Instead each channel is stroked in several additive (`.plusLighter`)
+//     passes — wide+faint up to a crisp hot core — so light accumulates toward
+//     white and reads as an electric halo.
+// The bolt snaps in at full brightness and decays, like a real discharge.
 
 private struct LightningView: View {
     let isActive: Bool
-    @State private var flash = 0.0
+    var tint: Color = .white
+
+    @State private var flash = 0.0       // bolt-strike flash (sharp, bright)
+    @State private var sheen = 0.0       // distant sheet-lightning glow (soft, no bolt)
+    @State private var boltOpacity = 0.0
+    @State private var bolt = Bolt.random()
+
+    // Additive stroke passes, widest/faintest → narrow hot core. The outermost
+    // halo carries the sky `tint`; the inner passes are white-hot.
+    private static let passes: [(width: CGFloat, opacity: Double, tinted: Bool)] = [
+        (14, 0.07, true), (9, 0.12, false), (5, 0.20, false), (2.6, 0.40, false), (1.4, 0.95, false)
+    ]
 
     var body: some View {
-        Rectangle()
-            .fill(Color.white)
-            .opacity(flash)
-            .ignoresSafeArea()
-            .allowsHitTesting(false)
-            .task(id: isActive) {
-                guard isActive else { return }
-                // Open with a strike so entering a storm reads instantly, then settle
-                // into a randomized cadence.
-                await strike()
-                while !Task.isCancelled {
-                    try? await Task.sleep(for: .seconds(.random(in: 2...6)))
-                    if Task.isCancelled { break }
-                    await strike()
+        ZStack {
+            // Distant sheet lightning — a soft, tinted sky glow with no visible
+            // bolt (the strike is below the horizon). Sits behind the sharp flash.
+            Rectangle()
+                .fill(tint)
+                .opacity(sheen)
+
+            // Ambient sky flash — the room lighting up from a nearby strike.
+            Rectangle()
+                .fill(Color.white)
+                .opacity(flash)
+
+            // The bolt itself, drawn in screen space with additive glow.
+            Canvas { ctx, size in
+                ctx.blendMode = .plusLighter
+                for channel in bolt.channels {
+                    let path = bolt.path(for: channel, in: size)
+                    for pass in Self.passes {
+                        let base = pass.tinted ? tint : .white
+                        ctx.stroke(path, with: .color(base.opacity(pass.opacity * channel.brightness)),
+                                   style: StrokeStyle(lineWidth: pass.width, lineCap: .round, lineJoin: .round))
+                    }
                 }
             }
+            .opacity(boltOpacity)
+        }
+        .ignoresSafeArea()
+        .allowsHitTesting(false)
+        .task(id: isActive) {
+            guard isActive else { return }
+            // Open with a strike so entering a storm reads instantly, then settle
+            // into a randomized cadence.
+            await strike()
+            while !Task.isCancelled {
+                try? await Task.sleep(for: .seconds(.random(in: 4...12)))
+                if Task.isCancelled { break }
+                await strike()
+            }
+        }
+        // Distant sheet flashes run on their own cadence so they layer in
+        // between the bolt strikes rather than replacing them.
+        .task(id: isActive) {
+            guard isActive else { return }
+            while !Task.isCancelled {
+                try? await Task.sleep(for: .seconds(.random(in: 3...9)))
+                if Task.isCancelled { break }
+                await sheetFlash()
+            }
+        }
+    }
+
+    @MainActor private func sheetFlash() async {
+        // Soft bloom up, slow fade — distant and diffuse, no sharp edge.
+        withAnimation(.easeOut(duration: 0.18)) { sheen = .random(in: 0.16...0.30) }
+        try? await Task.sleep(for: .milliseconds(180))
+        withAnimation(.easeInOut(duration: 0.55)) { sheen = 0 }
+        if Bool.random() {   // occasional faint flicker on the way down
+            try? await Task.sleep(for: .milliseconds(200))
+            withAnimation(.easeOut(duration: 0.12)) { sheen = .random(in: 0.10...0.18) }
+            try? await Task.sleep(for: .milliseconds(90))
+            withAnimation(.easeInOut(duration: 0.45)) { sheen = 0 }
+        }
     }
 
     @MainActor private func strike() async {
-        withAnimation(.easeOut(duration: 0.08)) { flash = 0.55 }
+        bolt = .random()
+        // Bolt snaps in instantly, flash blooms a touch behind it.
+        boltOpacity = 1
+        withAnimation(.easeOut(duration: 0.08)) { flash = 0.5 }
         try? await Task.sleep(for: .milliseconds(90))
         withAnimation(.easeIn(duration: 0.25)) { flash = 0 }
+        withAnimation(.easeIn(duration: 0.22)) { boltOpacity = 0 }
         if Bool.random() {   // occasional double-strike
             try? await Task.sleep(for: .milliseconds(120))
-            withAnimation(.easeOut(duration: 0.06)) { flash = 0.4 }
+            bolt = .random()
+            boltOpacity = 1
+            withAnimation(.easeOut(duration: 0.06)) { flash = 0.38 }
             try? await Task.sleep(for: .milliseconds(70))
             withAnimation(.easeIn(duration: 0.30)) { flash = 0 }
+            withAnimation(.easeIn(duration: 0.26)) { boltOpacity = 0 }
         }
+    }
+}
+
+// MARK: - Bolt geometry (midpoint displacement)
+//
+// Normalized (0...1) channels so a single generated bolt scales to any canvas.
+// The main channel runs top→tip; forks branch off mid-bolt at an angle and are
+// dimmer. Built by recursive midpoint displacement (perpendicular push that
+// halves each generation → fractal jaggedness).
+
+private struct Bolt {
+    struct Channel { let points: [CGPoint]; let brightness: Double }
+    let channels: [Channel]   // main channel first, then forks
+
+    func path(for channel: Channel, in size: CGSize) -> Path {
+        var p = Path()
+        p.addLines(channel.points.map { CGPoint(x: $0.x * size.width, y: $0.y * size.height) })
+        return p
+    }
+
+    static func random() -> Bolt {
+        let start = CGPoint(x: .random(in: 0.35...0.65), y: 0)
+        let tip   = CGPoint(x: .random(in: 0.28...0.72), y: .random(in: 0.70...0.90))
+        var forks: [Channel] = []
+        let main = displace(from: start, to: tip, generations: 6, amplitude: 0.10,
+                            brightness: 1, forks: &forks)
+        return Bolt(channels: [Channel(points: main, brightness: 1)] + forks)
+    }
+
+    /// Recursive midpoint displacement. Returns the displaced polyline; appends
+    /// any spawned forks (themselves displaced, dimmer, never re-branching).
+    private static func displace(from start: CGPoint, to end: CGPoint,
+                                 generations: Int, amplitude: Double,
+                                 brightness: Double, forks: inout [Channel]) -> [CGPoint] {
+        var points = [start, end]
+        var amp = amplitude
+        for gen in 0..<generations {
+            var next: [CGPoint] = [points[0]]
+            for i in 0..<(points.count - 1) {
+                let a = points[i], b = points[i + 1]
+                let dx = b.x - a.x, dy = b.y - a.y
+                let len = max(hypot(dx, dy), 0.0001)
+                let nx = -dy / len, ny = dx / len            // unit perpendicular
+                let d = Double.random(in: -amp...amp)
+                let mid = CGPoint(x: (a.x + b.x) / 2 + nx * d,
+                                  y: (a.y + b.y) / 2 + ny * d)
+                next.append(mid)
+                next.append(b)
+
+                // Spawn a fork off this midpoint — only on main channel (brightness
+                // ≈ 1), after a couple of generations, capped to keep it legible.
+                if brightness > 0.9, gen >= 2, forks.count < 5, Double.random(in: 0...1) < 0.25 {
+                    let angle = atan2(dy, dx) + (Bool.random() ? 1 : -1) * Double.random(in: 0.4...0.75)
+                    let bl = len * Double.random(in: 0.5...0.9)
+                    let fEnd = CGPoint(x: mid.x + cos(angle) * bl, y: mid.y + sin(angle) * bl)
+                    let fPts = displace(from: mid, to: fEnd, generations: 3, amplitude: amp * 0.7,
+                                        brightness: brightness * 0.5, forks: &forks)
+                    forks.append(Channel(points: fPts, brightness: 0.55))
+                }
+            }
+            points = next
+            amp *= 0.55   // halve-ish each generation → self-similar detail
+        }
+        return points
     }
 }
 
