@@ -305,8 +305,11 @@ private struct LightningView: View {
             .allowsHitTesting(false)
             .task(id: isActive) {
                 guard isActive else { return }
+                // Open with a strike so entering a storm reads instantly, then settle
+                // into a randomized cadence.
+                await strike()
                 while !Task.isCancelled {
-                    try? await Task.sleep(for: .seconds(.random(in: 4...10)))
+                    try? await Task.sleep(for: .seconds(.random(in: 2...6)))
                     if Task.isCancelled { break }
                     await strike()
                 }
