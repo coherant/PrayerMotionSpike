@@ -93,4 +93,27 @@ enum InstructionLibrary {
     static func text(_ id: InstructionID, _ language: Language = UserPreferences.shared.guidanceLanguage, prayer: String) -> String {
         text(id, language).replacingOccurrences(of: "{prayer}", with: prayer)
     }
+
+    // Reverse map for audio resolution: spoken text → id, per language. Built from the
+    // SAME source as text(_:_:), so any string produced by text(id, lang) maps back to
+    // id (drift-free). Templated text (I-25 after {prayer} substitution) won't round-trip
+    // → nil → TTS, which is correct (it can't be a single recording).
+    private static let reverse: [String: [String: String]] = {   // [langRaw: [text: id]]
+        var map: [String: [String: String]] = [:]
+        for lang in Language.allCases {
+            var m: [String: String] = [:]
+            for id in cache.keys {
+                guard let iid = InstructionID(rawValue: id) else { continue }
+                m[text(iid, lang)] = id
+            }
+            map[lang.rawValue] = m
+        }
+        return map
+    }()
+
+    /// The instruction id whose `text(_, language)` equals `spoken`, if any — lets the
+    /// speaker resolve a recorded guidance clip from already-rendered speech.
+    static func instructionID(matching spoken: String, _ language: Language) -> InstructionID? {
+        reverse[language.rawValue]?[spoken].flatMap(InstructionID.init(rawValue:))
+    }
 }

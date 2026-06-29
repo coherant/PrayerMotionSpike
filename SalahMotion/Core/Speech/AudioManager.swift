@@ -77,6 +77,10 @@ enum AudioClips {
     /// (`UserPreferences.reciterId`; default `muallim-ai` = "Muʿallim AI", معلّم).
     static var reciterId: String { UserPreferences.shared.reciterId }
 
+    /// Active guider id for guidance (I) — one guider for now, so a constant.
+    /// `murshid-ai` = "Murshid AI" (مرشد), the voice that coaches the movements.
+    static let guiderId = "murshid-ai"
+
     static func recitation(_ id: PrayerID,
                            reciterId: String = UserPreferences.shared.reciterId,
                            language: Language = UserPreferences.shared.recitationLanguage) -> URL? {
@@ -88,6 +92,14 @@ enum AudioClips {
 
     static func call(_ id: CallID, muezzinId: String) -> URL? {
         clip("\(muezzinId)-\(id.rawValue)")
+    }
+
+    static func instruction(_ id: InstructionID,
+                            guiderId: String = AudioClips.guiderId,
+                            language: Language = UserPreferences.shared.guidanceLanguage) -> URL? {
+        // Flat key "<guider>-<language>-<I-id>" (e.g. "murshid-ai-en-I-15"). Missing →
+        // nil → the caller's TTS fallback, exactly like recitation.
+        clip("\(guiderId)-\(language.rawValue)-\(id.rawValue)")
     }
 
     // Accept .m4a (the Muʿallim AI set) or .caf. Names are globally unique, so we look in

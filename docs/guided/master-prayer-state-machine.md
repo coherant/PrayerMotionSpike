@@ -202,7 +202,7 @@ Each prayer line in a state carries an optional **clip identity** alongside its 
 
 - `clipID` — the recitation's canonical id (a `P-` id, e.g. `P-7` Al-Fātiḥa, `P-11` Al-Ikhlāṣ).
   Present for Qur'an/prayer recitations; `nil` for coaching cues, niyet, and calibration prompts
-  (those are guidance — TTS only, never a recorded clip).
+  (those are **guidance** — voiced via the separate guidance-audio path below, not `clipID`).
 - `utterance` — the rendered, translated text (used for display, the golden snapshot, and TTS).
 - `duration` — a **pause after** the utterance, not a budget the audio must fit inside.
 
@@ -216,6 +216,16 @@ back to TTS** of `utterance`.
 A missing clip is expected, not an error — so recordings can be dropped in incrementally and
 partial sets work. The await-to-completion contract is what keeps recitation from being
 truncated by the `.pace` pause regardless of clip length.
+
+**Guidance audio (entry / exit / reprompt).** The coaching instructions (`I-` ids) are voiced
+the same way, by the guider **Murshid AI**: at runtime `speakGuidance(text)` recovers the `I-`
+id from the rendered text (via `InstructionLibrary.instructionID(matching:_:)` — a reverse map
+built from the same `InstructionLibrary.text` source, so it is drift-free) and resolves a file
+named **`<guiderId>-<language>-<I-id>.m4a`** (e.g. `murshid-ai-en-I-15.m4a`), played-and-awaited
+else TTS. The id is recovered from text rather than threaded through `PrayerState`, so the
+sequence structure and the golden snapshot are unchanged. Templated guidance (e.g. `I-25`
+"…for {prayer}") won't round-trip after substitution → TTS (it can't be a single recording).
+Guidance language is independent of recitation (`UserPreferences.guidanceLanguage`).
 
 The golden snapshot serialises `clip=<P-id>` only when non-nil, so adding clip identity is a
 behaviour-preserving enrichment of the existing sequence (no timing/structure change).

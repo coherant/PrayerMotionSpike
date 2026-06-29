@@ -385,10 +385,32 @@ final class PrayerStateMachine {
         }
     }
 
+    /// Voices a guidance instruction (entry / exit / reprompt): plays the guider's
+    /// recorded clip if installed (awaited to completion), else TTS of the rendered text.
+    /// The I-id is recovered from the text via InstructionLibrary's reverse map (the text
+    /// was produced by InstructionLibrary.text) — so no id needs threading through the
+    /// sequence. Non-instruction speech (e.g. a transition takbīr) won't match → TTS.
+    @MainActor
+    private func speakGuidance(_ text: String) async {
+        guard !text.isEmpty else { return }
+        let lang = UserPreferences.shared.guidanceLanguage
+        if let id = InstructionLibrary.instructionID(matching: text, lang),
+           let url = AudioClips.instruction(id) {
+            #if DEBUG
+            print("[AudioClips] ▶︎ guidance \(id.rawValue) → \(url.lastPathComponent)")
+            #endif
+            if await audioManager.play(url) { return }
+            #if DEBUG
+            print("[AudioClips] ⚠️ guidance \(id.rawValue) — clip found but failed to play → TTS")
+            #endif
+        }
+        await audioManager.speak(text, language: lang)
+    }
+
     @MainActor
     private func runAutoPhase(_ state: PrayerState) async {
         let pace = UserPreferences.shared.pace
-        if let speech = state.entrySpeech { await audioManager.speak(speech) }
+        if let speech = state.entrySpeech { await speakGuidance(speech) }
         for prayer in state.prayers {
             guard !Task.isCancelled else { return }
             await utter(prayer)
@@ -397,14 +419,14 @@ final class PrayerStateMachine {
             if d > 0 { try? await Task.sleep(for: .seconds(d)) }
         }
         guard !Task.isCancelled else { return }
-        if let speech = state.exitSpeech { await audioManager.speak(speech) }
+        if let speech = state.exitSpeech { await speakGuidance(speech) }
     }
 
     @MainActor
     private func runTimedPhase(_ state: PrayerState) async {
         let pace = UserPreferences.shared.pace
         if guidanceLevel.playsEntryGuidance, let speech = state.entrySpeech {
-            await audioManager.speak(speech)
+            await speakGuidance(speech)
         }
         guard !Task.isCancelled else { return }
         if !state.prayers.isEmpty { AudioServicesPlaySystemSound(1108) }
@@ -426,7 +448,7 @@ final class PrayerStateMachine {
         }
         guard !Task.isCancelled else { return }
         if guidanceLevel.playsPrayers, let speech = state.exitSpeech {
-            await audioManager.speak(speech)
+            await speakGuidance(speech)
         }
     }
 
@@ -442,7 +464,7 @@ final class PrayerStateMachine {
             print(String(format: "[PrayerSM] 📐 Taslīm baseline: %.1f° (%@)", yaw, state.id.rawValue))
         }
         if guidanceLevel.playsEntryGuidance, let speech = state.entrySpeech {
-            await audioManager.speak(speech)
+            await speakGuidance(speech)
         }
         guard !Task.isCancelled else { return }
         await waitForMotion(state)
@@ -465,14 +487,14 @@ final class PrayerStateMachine {
                 }
             }
             guard !Task.isCancelled else { return }
-            if let speech = state.exitSpeech { await audioManager.speak(speech) }
+            if let speech = state.exitSpeech { await speakGuidance(speech) }
         }
     }
 
     @MainActor
     private func runTimedMotionPhase(_ state: PrayerState) async {
         let pace = UserPreferences.shared.pace
-        if let speech = state.entrySpeech { await audioManager.speak(speech) }
+        if let speech = state.entrySpeech { await speakGuidance(speech) }
         guard !Task.isCancelled else { return }
         if !state.prayers.isEmpty { AudioServicesPlaySystemSound(1108) }
 
@@ -513,7 +535,7 @@ final class PrayerStateMachine {
                            let reprompt = state.repromptAudio,
                            motionHoldStart == nil {
                             print("[PrayerSM] ⏰ Reprompt: \(state.id.rawValue)")
-                            await audioManager.speak(reprompt)
+                            await speakGuidance(reprompt)
                             lastRepromptAt = Date()
                         }
                     }
@@ -525,7 +547,7 @@ final class PrayerStateMachine {
         }
 
         guard !Task.isCancelled else { return }
-        if let speech = state.exitSpeech { await audioManager.speak(speech) }
+        if let speech = state.exitSpeech { await speakGuidance(speech) }
     }
 
     // MARK: - Motion waiting
@@ -591,7 +613,7 @@ final class PrayerStateMachine {
                    let reprompt {
                     repromptCount += 1
                     print("[PrayerSM] ⏰ Reprompt \(repromptCount): \(stateID)")
-                    await audioManager.speak(reprompt)
+                    await speakGuidance(reprompt)
                     lastRepromptAt = Date()
                     if let max = maxReprompts, repromptCount >= max {
                         print("[PrayerSM] ⏭ Fallback advance after \(repromptCount): \(stateID)")
