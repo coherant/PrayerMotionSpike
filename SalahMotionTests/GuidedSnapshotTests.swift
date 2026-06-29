@@ -28,6 +28,12 @@ struct GuidedSnapshotTests {
     }
     private func num(_ d: Double) -> String { d == d.rounded() ? String(Int(d)) : String(d) }
     private func q(_ s: String?) -> String { s.map { "\"\($0)\"" } ?? "-" }
+    // Entry/exit/reprompt now carry a clip identity (Utterance) — serialise text + its id.
+    private func u(_ x: Utterance?) -> String {
+        guard let x else { return "-" }
+        let clip = x.idLabel.map { " clip=\($0)" } ?? ""
+        return q(x.text(in: .english)) + clip
+    }
 
     private func serialize(_ name: String, _ states: [PrayerState]) -> String {
         var out = "=== \(name) (\(states.count) states) ===\n"
@@ -40,7 +46,7 @@ struct GuidedSnapshotTests {
             out += " reprompt=\(num(s.repromptInterval)) maxReprompts=\(s.maxReprompts.map(String.init) ?? "-")"
             out += " progressDuringWait=\(s.showProgressDuringWait)\n"
             out += "    label=\(q(s.displayLabel)) ar=\(q(s.arabic)) en=\(q(s.englishMeaning))\n"
-            out += "    entry=\(q(s.entrySpeech)) reprompt=\(q(s.repromptAudio)) exit=\(q(s.exitSpeech))\n"
+            out += "    entry=\(u(s.entrySpeech)) reprompt=\(u(s.repromptAudio)) exit=\(u(s.exitSpeech))\n"
             let prayers = s.prayers.map { line -> String in
                 let clip = line.clipID.map { " clip=\($0.rawValue)" } ?? ""
                 return "\(q(line.utterance))@\(dur(line.duration))\(clip)"

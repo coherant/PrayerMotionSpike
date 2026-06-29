@@ -217,15 +217,25 @@ A missing clip is expected, not an error — so recordings can be dropped in inc
 partial sets work. The await-to-completion contract is what keeps recitation from being
 truncated by the `.pace` pause regardless of clip length.
 
-**Guidance audio (entry / exit / reprompt).** The coaching instructions (`I-` ids) are voiced
-the same way, by the guider **Murshid AI**: at runtime `speakGuidance(text)` recovers the `I-`
-id from the rendered text (via `InstructionLibrary.instructionID(matching:_:)` — a reverse map
-built from the same `InstructionLibrary.text` source, so it is drift-free) and resolves a file
-named **`<guiderId>-<language>-<I-id>.m4a`** (e.g. `murshid-ai-en-I-15.m4a`), played-and-awaited
-else TTS. The id is recovered from text rather than threaded through `PrayerState`, so the
-sequence structure and the golden snapshot are unchanged. Templated guidance (e.g. `I-25`
-"…for {prayer}") won't round-trip after substitution → TTS (it can't be a single recording).
-Guidance language is independent of recitation (`UserPreferences.guidanceLanguage`).
+**Entry / exit / reprompt audio — typed `Utterance`.** These three slots are **not** plain
+strings; each is an **`Utterance`** carrying its identity, so transition lines resolve recorded
+clips just like in-position recitations:
+```
+enum Utterance { case guidance(InstructionID); case recitation(PrayerID); case plain(String) }
+```
+- **`guidance(I-…)`** — the coaching cues (entry) and reprompts, voiced by **Murshid AI** →
+  `murshid-ai-<lang>-<I-id>.m4a`, in `guidanceLanguage`.
+- **`recitation(P-…)`** — the **transition takbīr/tasmīʿ** that sit in `exit` (the `P-0` after
+  each posture, the `P-3` *Samiʿa Allāhu* rising from Ruku), voiced by **Muʿallim AI** →
+  `muallim-ai-<lang>-<P-id>.m4a`, in `recitationLanguage`. *(Calibration exits are `guidance`.)*
+- **`plain`** — raw text, TTS only.
+
+At runtime `utter(_ u: Utterance)` plays the clip for the id (instruction or recitation, each
+in **its own language**), awaited, else TTS — the same play-or-TTS contract as `utter(PrayerLine)`.
+Because the id is explicit (not inferred from text), it is **serialised into the golden snapshot**
+(`entry=… clip=I-1 … exit=… clip=P-3`), so every spoken line — prayer, entry, exit, reprompt —
+is regression-guarded. Templated niyet (`I-25`, in `prayers` not `exit`) stays a clip-less
+`PrayerLine` → TTS, by design.
 
 The golden snapshot serialises `clip=<P-id>` only when non-nil, so adding clip identity is a
 behaviour-preserving enrichment of the existing sequence (no timing/structure change).

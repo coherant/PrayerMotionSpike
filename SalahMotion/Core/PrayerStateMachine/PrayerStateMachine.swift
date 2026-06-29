@@ -385,32 +385,56 @@ final class PrayerStateMachine {
         }
     }
 
-    /// Voices a guidance instruction (entry / exit / reprompt): plays the guider's
-    /// recorded clip if installed (awaited to completion), else TTS of the rendered text.
-    /// The I-id is recovered from the text via InstructionLibrary's reverse map (the text
-    /// was produced by InstructionLibrary.text) — so no id needs threading through the
-    /// sequence. Non-instruction speech (e.g. a transition takbīr) won't match → TTS.
+    /// Voices a non-prayer line (entry / exit / reprompt): plays the recorded clip for its
+    /// id if installed (awaited to completion), else TTS — guidance in the guidance language
+    /// (instruction clip), recitation in the recitation language (recitation clip). Each line
+    /// carries its own identity (Utterance), so there's no text-matching. Mirrors
+    /// `utter(_ line: PrayerLine)` for in-position recitations.
     @MainActor
-    private func speakGuidance(_ text: String) async {
-        guard !text.isEmpty else { return }
-        let lang = UserPreferences.shared.guidanceLanguage
-        if let id = InstructionLibrary.instructionID(matching: text, lang),
-           let url = AudioClips.instruction(id) {
-            #if DEBUG
-            print("[AudioClips] ▶︎ guidance \(id.rawValue) → \(url.lastPathComponent)")
-            #endif
-            if await audioManager.play(url) { return }
-            #if DEBUG
-            print("[AudioClips] ⚠️ guidance \(id.rawValue) — clip found but failed to play → TTS")
-            #endif
+    private func utter(_ u: Utterance) async {
+        switch u {
+        case .guidance(let id):
+            let lang = UserPreferences.shared.guidanceLanguage
+            if let url = AudioClips.instruction(id, language: lang) {
+                #if DEBUG
+                print("[AudioClips] ▶︎ guidance \(id.rawValue) → \(url.lastPathComponent)")
+                #endif
+                if await audioManager.play(url) { return }
+                #if DEBUG
+                print("[AudioClips] ⚠️ guidance \(id.rawValue) — clip found but failed to play → TTS")
+                #endif
+            } else {
+                #if DEBUG
+                print("[AudioClips] ⚠️ guidance \(id.rawValue) (lang=\(lang.rawValue)) — no clip → TTS")
+                #endif
+            }
+            await audioManager.speak(InstructionLibrary.text(id, lang), language: lang)
+        case .recitation(let id):
+            let lang = UserPreferences.shared.recitationLanguage
+            if let url = AudioClips.recitation(id, language: lang) {
+                #if DEBUG
+                print("[AudioClips] ▶︎ recitation \(id.rawValue) → \(url.lastPathComponent)")
+                #endif
+                if await audioManager.play(url) { return }
+                #if DEBUG
+                print("[AudioClips] ⚠️ recitation \(id.rawValue) — clip found but failed to play → TTS")
+                #endif
+            } else {
+                #if DEBUG
+                print("[AudioClips] ⚠️ recitation \(id.rawValue) (lang=\(lang.rawValue)) — no clip → TTS")
+                #endif
+            }
+            await audioManager.speak(PrayerLibrary.text(id, lang), language: lang)
+        case .plain(let s):
+            guard !s.isEmpty else { return }
+            await audioManager.speak(s, language: UserPreferences.shared.guidanceLanguage)
         }
-        await audioManager.speak(text, language: lang)
     }
 
     @MainActor
     private func runAutoPhase(_ state: PrayerState) async {
         let pace = UserPreferences.shared.pace
-        if let speech = state.entrySpeech { await speakGuidance(speech) }
+        if let speech = state.entrySpeech { await utter(speech) }
         for prayer in state.prayers {
             guard !Task.isCancelled else { return }
             await utter(prayer)
@@ -419,14 +443,14 @@ final class PrayerStateMachine {
             if d > 0 { try? await Task.sleep(for: .seconds(d)) }
         }
         guard !Task.isCancelled else { return }
-        if let speech = state.exitSpeech { await speakGuidance(speech) }
+        if let speech = state.exitSpeech { await utter(speech) }
     }
 
     @MainActor
     private func runTimedPhase(_ state: PrayerState) async {
         let pace = UserPreferences.shared.pace
         if guidanceLevel.playsEntryGuidance, let speech = state.entrySpeech {
-            await speakGuidance(speech)
+            await utter(speech)
         }
         guard !Task.isCancelled else { return }
         if !state.prayers.isEmpty { AudioServicesPlaySystemSound(1108) }
@@ -448,7 +472,7 @@ final class PrayerStateMachine {
         }
         guard !Task.isCancelled else { return }
         if guidanceLevel.playsPrayers, let speech = state.exitSpeech {
-            await speakGuidance(speech)
+            await utter(speech)
         }
     }
 
@@ -464,7 +488,7 @@ final class PrayerStateMachine {
             print(String(format: "[PrayerSM] 📐 Taslīm baseline: %.1f° (%@)", yaw, state.id.rawValue))
         }
         if guidanceLevel.playsEntryGuidance, let speech = state.entrySpeech {
-            await speakGuidance(speech)
+            await utter(speech)
         }
         guard !Task.isCancelled else { return }
         await waitForMotion(state)
@@ -487,14 +511,14 @@ final class PrayerStateMachine {
                 }
             }
             guard !Task.isCancelled else { return }
-            if let speech = state.exitSpeech { await speakGuidance(speech) }
+            if let speech = state.exitSpeech { await utter(speech) }
         }
     }
 
     @MainActor
     private func runTimedMotionPhase(_ state: PrayerState) async {
         let pace = UserPreferences.shared.pace
-        if let speech = state.entrySpeech { await speakGuidance(speech) }
+        if let speech = state.entrySpeech { await utter(speech) }
         guard !Task.isCancelled else { return }
         if !state.prayers.isEmpty { AudioServicesPlaySystemSound(1108) }
 
@@ -535,7 +559,7 @@ final class PrayerStateMachine {
                            let reprompt = state.repromptAudio,
                            motionHoldStart == nil {
                             print("[PrayerSM] ⏰ Reprompt: \(state.id.rawValue)")
-                            await speakGuidance(reprompt)
+                            await utter(reprompt)
                             lastRepromptAt = Date()
                         }
                     }
@@ -547,7 +571,7 @@ final class PrayerStateMachine {
         }
 
         guard !Task.isCancelled else { return }
-        if let speech = state.exitSpeech { await speakGuidance(speech) }
+        if let speech = state.exitSpeech { await utter(speech) }
     }
 
     // MARK: - Motion waiting
@@ -569,7 +593,7 @@ final class PrayerStateMachine {
     /// `escapeHatchDelay`.
     @MainActor
     private func confirmMotion(trigger: MotionTrigger?,
-                               reprompt: String?,
+                               reprompt: Utterance?,
                                repromptInterval: Double,
                                maxReprompts: Int?,
                                showProgressDuringWait: Bool,
@@ -613,7 +637,7 @@ final class PrayerStateMachine {
                    let reprompt {
                     repromptCount += 1
                     print("[PrayerSM] ⏰ Reprompt \(repromptCount): \(stateID)")
-                    await speakGuidance(reprompt)
+                    await utter(reprompt)
                     lastRepromptAt = Date()
                     if let max = maxReprompts, repromptCount >= max {
                         print("[PrayerSM] ⏭ Fallback advance after \(repromptCount): \(stateID)")

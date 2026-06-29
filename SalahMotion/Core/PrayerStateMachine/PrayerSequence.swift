@@ -108,6 +108,33 @@ typealias PrayerLine = (clipID: PrayerID?, utterance: String, duration: PrayerDu
 // A clip-less spoken line — coaching cues, niyet, calibration prompts: TTS only, never a clip.
 private func spoken(_ text: String, _ duration: PrayerDuration) -> PrayerLine { (nil, text, duration) }
 
+// A spoken non-prayer line — entry cue (I), transition recitation (P), or reprompt (I) —
+// carrying its identity so the speaker resolves the right recorded clip + language, else
+// TTS. Mirrors how a PrayerLine carries clipID. `plain` is raw text with no clip.
+enum Utterance {
+    case guidance(InstructionID)    // Murshid → guidanceLanguage, instruction clip
+    case recitation(PrayerID)       // Muʿallim → recitationLanguage, recitation clip
+    case plain(String)              // raw text → TTS (guidanceLanguage)
+
+    /// `I-15` / `P-3` / nil — the clip id, for audio resolution and the golden snapshot.
+    var idLabel: String? {
+        switch self {
+        case .guidance(let id):   return id.rawValue
+        case .recitation(let id): return id.rawValue
+        case .plain:              return nil
+        }
+    }
+
+    /// Rendered text in the given language (TTS fallback + snapshot serialisation).
+    func text(in language: Language) -> String {
+        switch self {
+        case .guidance(let id):   return InstructionLibrary.text(id, language)
+        case .recitation(let id): return PrayerLibrary.text(id, language)
+        case .plain(let s):       return s
+        }
+    }
+}
+
 // MARK: - State definition
 
 struct PrayerState {
@@ -117,11 +144,11 @@ struct PrayerState {
     let displayLabel: String
     let arabic: String
     let englishMeaning: String
-    let entrySpeech: String?
+    let entrySpeech: Utterance?
     let prayers: [PrayerLine]
-    let exitSpeech: String?
+    let exitSpeech: Utterance?
     let motionTrigger: MotionTrigger?
-    let repromptAudio: String?
+    let repromptAudio: Utterance?
     let repromptInterval: Double
     let maxReprompts: Int?
     // Calibration sets this false — arc fills only during the hold phase, not motion wait.
@@ -145,11 +172,11 @@ struct PrayerState {
         displayLabel: String,
         arabic: String,
         englishMeaning: String,
-        entrySpeech: String? = nil,
+        entrySpeech: Utterance? = nil,
         prayers: [PrayerLine] = [],
-        exitSpeech: String? = nil,
+        exitSpeech: Utterance? = nil,
         motionTrigger: MotionTrigger? = nil,
-        repromptAudio: String? = nil,
+        repromptAudio: Utterance? = nil,
         repromptInterval: Double = 8,
         maxReprompts: Int? = nil,
         showProgressDuringWait: Bool = true,
@@ -447,16 +474,16 @@ enum GuidedSequenceGenerator {
             ]
             qiyam = .init(id: .r1QiyamFull, rakatNumber: 1, mode: .timed,
                   displayLabel: "Qiyam", arabic: Arabic.qiyam, englishMeaning: Meaning.standing,
-                  entrySpeech: InstructionLibrary.text(.i1),
+                  entrySpeech: .guidance(.i1),
                   prayers: openingPrayers)
         } else {
             qiyam = .init(id: .r1QiyamFull, rakatNumber: 1, mode: .motion,
                   displayLabel: "Qiyam", arabic: Arabic.qiyam, englishMeaning: Meaning.standing,
-                  entrySpeech: InstructionLibrary.text(.i24),
+                  entrySpeech: .guidance(.i24),
                   prayers: [spoken(c.niyetText, .pace), tx.line(.p0, .pace), tx.line(.p7, .pace),
                             tx.line(c.rakat1Surah, .pace), tx.line(.p0, .pace)],
                   motionTrigger: .upright,
-                  repromptAudio: InstructionLibrary.text(.i14),
+                  repromptAudio: .guidance(.i14),
                   repromptInterval: 5)
         }
         return [
@@ -474,10 +501,10 @@ enum GuidedSequenceGenerator {
         [
             .init(id: .r2QiyamFull, rakatNumber: 2, mode: .motion,
                   displayLabel: "Qiyam", arabic: Arabic.qiyam, englishMeaning: Meaning.standing,
-                  entrySpeech: InstructionLibrary.text(.i2),
+                  entrySpeech: .guidance(.i2),
                   prayers: [tx.line(.p7, .pace), tx.line(c.rakat2Surah, .pace), tx.line(.p0, .pace)],
                   motionTrigger: .upright,
-                  repromptAudio: InstructionLibrary.text(.i14),
+                  repromptAudio: .guidance(.i14),
                   repromptInterval: 5),
             ruku(id: .r2Ruku, rakat: 2, tx: tx),
             qiyamAfterRuku(id: .r2QiyamAfterRuku, rakat: 2, tx: tx),
@@ -491,10 +518,10 @@ enum GuidedSequenceGenerator {
     private static func shortTashahhud(tx: Tx) -> [PrayerState] {
         [.init(id: .julusShort, rakatNumber: 2, mode: .motion,
                displayLabel: "Julus", arabic: Arabic.julus, englishMeaning: Meaning.sitting,
-               entrySpeech: InstructionLibrary.text(.i8),
+               entrySpeech: .guidance(.i8),
                prayers: [tx.line(.p8, .pace)],
                motionTrigger: .upright,
-               repromptAudio: InstructionLibrary.text(.i20),
+               repromptAudio: .guidance(.i20),
                repromptInterval: 5)]
     }
 
@@ -509,10 +536,10 @@ enum GuidedSequenceGenerator {
         return [
             .init(id: .r3QiyamFatiha, rakatNumber: 3, mode: .motion,
                   displayLabel: "Qiyam", arabic: Arabic.qiyam, englishMeaning: Meaning.standing,
-                  entrySpeech: InstructionLibrary.text(.i10),
+                  entrySpeech: .guidance(.i10),
                   prayers: qiyamPrayers,
                   motionTrigger: .upright,
-                  repromptAudio: InstructionLibrary.text(.i14),
+                  repromptAudio: .guidance(.i14),
                   repromptInterval: 5),
             ruku(id: .r3Ruku, rakat: 3, tx: tx),
             qiyamAfterRuku(id: .r3QiyamAfterRuku, rakat: 3, tx: tx),
@@ -527,10 +554,10 @@ enum GuidedSequenceGenerator {
         [
             .init(id: .r4QiyamFatiha, rakatNumber: 4, mode: .motion,
                   displayLabel: "Qiyam", arabic: Arabic.qiyam, englishMeaning: Meaning.standing,
-                  entrySpeech: InstructionLibrary.text(.i9),
+                  entrySpeech: .guidance(.i9),
                   prayers: [tx.line(.p7, .pace), tx.line(.p0, .pace)],
                   motionTrigger: .upright,
-                  repromptAudio: InstructionLibrary.text(.i14),
+                  repromptAudio: .guidance(.i14),
                   repromptInterval: 5),
             ruku(id: .r4Ruku, rakat: 4, tx: tx),
             qiyamAfterRuku(id: .r4QiyamAfterRuku, rakat: 4, tx: tx),
@@ -544,10 +571,10 @@ enum GuidedSequenceGenerator {
     private static func fullTashahhud(tx: Tx, rakat: Int) -> [PrayerState] {
         [.init(id: .julusFull, rakatNumber: rakat, mode: .motion,
                displayLabel: "Julus", arabic: Arabic.julus, englishMeaning: Meaning.sitting,
-               entrySpeech: InstructionLibrary.text(.i11),
+               entrySpeech: .guidance(.i11),
                prayers: [tx.line(.p8, .pace), tx.line(.p9, .pace), tx.line(.p10, .pace)],
                motionTrigger: .upright,
-               repromptAudio: InstructionLibrary.text(.i21),
+               repromptAudio: .guidance(.i21),
                repromptInterval: 5)]
     }
 
@@ -558,17 +585,17 @@ enum GuidedSequenceGenerator {
         [
             .init(id: .tasleemRight, rakatNumber: rakat, mode: .motion,
                   displayLabel: "Tasleem", arabic: Arabic.tasleem, englishMeaning: Meaning.salutation,
-                  entrySpeech: InstructionLibrary.text(.i12),
+                  entrySpeech: .guidance(.i12),
                   prayers: [tx.line(.p6, .pace)],
                   motionTrigger: .headTurnRight,
-                  repromptAudio: InstructionLibrary.text(.i22),
+                  repromptAudio: .guidance(.i22),
                   repromptInterval: 5),
             .init(id: .tasleemLeft, rakatNumber: rakat, mode: .motion,
                   displayLabel: "Tasleem", arabic: Arabic.tasleem, englishMeaning: Meaning.salutation,
-                  entrySpeech: InstructionLibrary.text(.i13),
+                  entrySpeech: .guidance(.i13),
                   prayers: [tx.line(.p6, .pace)],
                   motionTrigger: .headTurnLeft,
-                  repromptAudio: InstructionLibrary.text(.i23),
+                  repromptAudio: .guidance(.i23),
                   repromptInterval: 5),
         ]
     }
@@ -578,55 +605,55 @@ enum GuidedSequenceGenerator {
     private static func ruku(id: PrayerStateID, rakat: Int, tx: Tx) -> PrayerState {
         .init(id: id, rakatNumber: rakat, mode: .motion,
               displayLabel: "Ruku", arabic: Arabic.ruku, englishMeaning: Meaning.bowing,
-              entrySpeech: InstructionLibrary.text(.i3),
+              entrySpeech: .guidance(.i3),
               prayers: [tx.line(.p1, .pace), tx.line(.p1, .pace), tx.line(.p1, .pace)],
-              exitSpeech: tx.P3,
+              exitSpeech: .recitation(.p3),
               motionTrigger: .ruku,
-              repromptAudio: InstructionLibrary.text(.i15),
+              repromptAudio: .guidance(.i15),
               repromptInterval: 5)
     }
 
     private static func qiyamAfterRuku(id: PrayerStateID, rakat: Int, tx: Tx) -> PrayerState {
         .init(id: id, rakatNumber: rakat, mode: .motion,
               displayLabel: "Qiyam", arabic: Arabic.qiyam, englishMeaning: Meaning.standing,
-              entrySpeech: InstructionLibrary.text(.i4),
+              entrySpeech: .guidance(.i4),
               prayers: [tx.line(.p4, .pace)],
-              exitSpeech: tx.P0,
+              exitSpeech: .recitation(.p0),
               motionTrigger: .upright,
-              repromptAudio: InstructionLibrary.text(.i16),
+              repromptAudio: .guidance(.i16),
               repromptInterval: 5)
     }
 
     private static func sujoodFirst(id: PrayerStateID, rakat: Int, tx: Tx) -> PrayerState {
         .init(id: id, rakatNumber: rakat, mode: .motion,
               displayLabel: "Sujood", arabic: Arabic.sujood, englishMeaning: Meaning.prostration,
-              entrySpeech: InstructionLibrary.text(.i5),
+              entrySpeech: .guidance(.i5),
               prayers: [tx.line(.p2, .pace), tx.line(.p2, .pace), tx.line(.p2, .pace)],
-              exitSpeech: tx.P0,
+              exitSpeech: .recitation(.p0),
               motionTrigger: .sujood,
-              repromptAudio: InstructionLibrary.text(.i17),
+              repromptAudio: .guidance(.i17),
               repromptInterval: 5)
     }
 
     private static func julusBetween(id: PrayerStateID, rakat: Int, tx: Tx) -> PrayerState {
         .init(id: id, rakatNumber: rakat, mode: .motion,
               displayLabel: "Julus", arabic: Arabic.julus, englishMeaning: Meaning.sitting,
-              entrySpeech: InstructionLibrary.text(.i6),
+              entrySpeech: .guidance(.i6),
               prayers: [tx.line(.p5, .pace), tx.line(.p5, .pace)],
-              exitSpeech: tx.P0,
+              exitSpeech: .recitation(.p0),
               motionTrigger: .upright,
-              repromptAudio: InstructionLibrary.text(.i18),
+              repromptAudio: .guidance(.i18),
               repromptInterval: 5)
     }
 
     private static func sujoodSecond(id: PrayerStateID, rakat: Int, tx: Tx) -> PrayerState {
         .init(id: id, rakatNumber: rakat, mode: .motion,
               displayLabel: "Sujood", arabic: Arabic.sujood, englishMeaning: Meaning.prostration,
-              entrySpeech: InstructionLibrary.text(.i7),
+              entrySpeech: .guidance(.i7),
               prayers: [tx.line(.p2, .pace), tx.line(.p2, .pace), tx.line(.p2, .pace)],
-              exitSpeech: tx.P0,
+              exitSpeech: .recitation(.p0),
               motionTrigger: .sujood,
-              repromptAudio: InstructionLibrary.text(.i19),
+              repromptAudio: .guidance(.i19),
               repromptInterval: 5)
     }
 }
@@ -647,149 +674,149 @@ enum CalibrationSequenceGenerator {
         // Position 1 — timed: announces + holds, no motion wait
         .init(id: .r1QiyamFull, rakatNumber: 1, mode: .timed,
               displayLabel: "Qiyam", arabic: Arabic.qiyam, englishMeaning: Meaning.standing,
-              entrySpeech: InstructionLibrary.text(.i26),
+              entrySpeech: .guidance(.i26),
               prayers: [hold],
-              exitSpeech: InstructionLibrary.text(.i36)),
+              exitSpeech: .guidance(.i36)),
 
         // Position 2
         .init(id: .r1Ruku, rakatNumber: 1, mode: .motion,
               displayLabel: "Ruku", arabic: Arabic.ruku, englishMeaning: Meaning.bowing,
-              entrySpeech: InstructionLibrary.text(.i27),
+              entrySpeech: .guidance(.i27),
               prayers: [hold],
-              exitSpeech: InstructionLibrary.text(.i37),
+              exitSpeech: .guidance(.i37),
               motionTrigger: .ruku,
-              repromptAudio: InstructionLibrary.text(.i46),
+              repromptAudio: .guidance(.i46),
               repromptInterval: 5, maxReprompts: 3, showProgressDuringWait: false),
 
         // Position 3
         .init(id: .r1QiyamAfterRuku, rakatNumber: 1, mode: .motion,
               displayLabel: "Qiyam", arabic: Arabic.qiyam, englishMeaning: Meaning.standing,
-              entrySpeech: InstructionLibrary.text(.i28),
+              entrySpeech: .guidance(.i28),
               prayers: [hold],
-              exitSpeech: InstructionLibrary.text(.i38),
+              exitSpeech: .guidance(.i38),
               motionTrigger: .upright,
-              repromptAudio: InstructionLibrary.text(.i47),
+              repromptAudio: .guidance(.i47),
               repromptInterval: 5, maxReprompts: 3, showProgressDuringWait: false),
 
         // Position 4
         .init(id: .r1SujoodFirst, rakatNumber: 1, mode: .motion,
               displayLabel: "Sujood", arabic: Arabic.sujood, englishMeaning: Meaning.prostration,
-              entrySpeech: InstructionLibrary.text(.i29),
+              entrySpeech: .guidance(.i29),
               prayers: [hold],
-              exitSpeech: InstructionLibrary.text(.i39),
+              exitSpeech: .guidance(.i39),
               motionTrigger: .sujood,
-              repromptAudio: InstructionLibrary.text(.i48),
+              repromptAudio: .guidance(.i48),
               repromptInterval: 5, maxReprompts: 3, showProgressDuringWait: false),
 
         // Position 5
         .init(id: .r1JulusBetween, rakatNumber: 1, mode: .motion,
               displayLabel: "Julus", arabic: Arabic.julus, englishMeaning: Meaning.sitting,
-              entrySpeech: InstructionLibrary.text(.i30),
+              entrySpeech: .guidance(.i30),
               prayers: [hold],
-              exitSpeech: InstructionLibrary.text(.i40),
+              exitSpeech: .guidance(.i40),
               motionTrigger: .upright,
-              repromptAudio: InstructionLibrary.text(.i49),
+              repromptAudio: .guidance(.i49),
               repromptInterval: 5, maxReprompts: 3, showProgressDuringWait: false),
 
         // Position 6
         .init(id: .r1SujoodSecond, rakatNumber: 1, mode: .motion,
               displayLabel: "Sujood", arabic: Arabic.sujood, englishMeaning: Meaning.prostration,
-              entrySpeech: InstructionLibrary.text(.i31),
+              entrySpeech: .guidance(.i31),
               prayers: [hold],
-              exitSpeech: InstructionLibrary.text(.i41),
+              exitSpeech: .guidance(.i41),
               motionTrigger: .sujood,
-              repromptAudio: InstructionLibrary.text(.i48),
+              repromptAudio: .guidance(.i48),
               repromptInterval: 5, maxReprompts: 3, showProgressDuringWait: false),
 
         // Position 7 — Rakat 2
         .init(id: .r2QiyamFull, rakatNumber: 2, mode: .motion,
               displayLabel: "Qiyam", arabic: Arabic.qiyam, englishMeaning: Meaning.standing,
-              entrySpeech: InstructionLibrary.text(.i32),
+              entrySpeech: .guidance(.i32),
               prayers: [hold],
-              exitSpeech: InstructionLibrary.text(.i36),
+              exitSpeech: .guidance(.i36),
               motionTrigger: .upright,
-              repromptAudio: InstructionLibrary.text(.i47),
+              repromptAudio: .guidance(.i47),
               repromptInterval: 5, maxReprompts: 3, showProgressDuringWait: false),
 
         // Position 8
         .init(id: .r2Ruku, rakatNumber: 2, mode: .motion,
               displayLabel: "Ruku", arabic: Arabic.ruku, englishMeaning: Meaning.bowing,
-              entrySpeech: InstructionLibrary.text(.i27),
+              entrySpeech: .guidance(.i27),
               prayers: [hold],
-              exitSpeech: InstructionLibrary.text(.i37),
+              exitSpeech: .guidance(.i37),
               motionTrigger: .ruku,
-              repromptAudio: InstructionLibrary.text(.i46),
+              repromptAudio: .guidance(.i46),
               repromptInterval: 5, maxReprompts: 3, showProgressDuringWait: false),
 
         // Position 9 — yaw baseline captured here for Tasleem detection
         .init(id: .r2QiyamAfterRuku, rakatNumber: 2, mode: .motion,
               displayLabel: "Qiyam", arabic: Arabic.qiyam, englishMeaning: Meaning.standing,
-              entrySpeech: InstructionLibrary.text(.i28),
+              entrySpeech: .guidance(.i28),
               prayers: [hold],
-              exitSpeech: InstructionLibrary.text(.i38),
+              exitSpeech: .guidance(.i38),
               motionTrigger: .upright,
-              repromptAudio: InstructionLibrary.text(.i47),
+              repromptAudio: .guidance(.i47),
               repromptInterval: 5,
               maxReprompts: 3),
 
         // Position 10
         .init(id: .r2SujoodFirst, rakatNumber: 2, mode: .motion,
               displayLabel: "Sujood", arabic: Arabic.sujood, englishMeaning: Meaning.prostration,
-              entrySpeech: InstructionLibrary.text(.i29),
+              entrySpeech: .guidance(.i29),
               prayers: [hold],
-              exitSpeech: InstructionLibrary.text(.i39),
+              exitSpeech: .guidance(.i39),
               motionTrigger: .sujood,
-              repromptAudio: InstructionLibrary.text(.i48),
+              repromptAudio: .guidance(.i48),
               repromptInterval: 5, maxReprompts: 3, showProgressDuringWait: false),
 
         // Position 11
         .init(id: .r2JulusBetween, rakatNumber: 2, mode: .motion,
               displayLabel: "Julus", arabic: Arabic.julus, englishMeaning: Meaning.sitting,
-              entrySpeech: InstructionLibrary.text(.i30),
+              entrySpeech: .guidance(.i30),
               prayers: [hold],
-              exitSpeech: InstructionLibrary.text(.i40),
+              exitSpeech: .guidance(.i40),
               motionTrigger: .upright,
-              repromptAudio: InstructionLibrary.text(.i49),
+              repromptAudio: .guidance(.i49),
               repromptInterval: 5, maxReprompts: 3, showProgressDuringWait: false),
 
         // Position 12
         .init(id: .r2SujoodSecond, rakatNumber: 2, mode: .motion,
               displayLabel: "Sujood", arabic: Arabic.sujood, englishMeaning: Meaning.prostration,
-              entrySpeech: InstructionLibrary.text(.i31),
+              entrySpeech: .guidance(.i31),
               prayers: [hold],
-              exitSpeech: InstructionLibrary.text(.i42),
+              exitSpeech: .guidance(.i42),
               motionTrigger: .sujood,
-              repromptAudio: InstructionLibrary.text(.i48),
+              repromptAudio: .guidance(.i48),
               repromptInterval: 5, maxReprompts: 3, showProgressDuringWait: false),
 
         // Position 13
         .init(id: .julusFull, rakatNumber: 2, mode: .motion,
               displayLabel: "Julus", arabic: Arabic.julus, englishMeaning: Meaning.sitting,
-              entrySpeech: InstructionLibrary.text(.i33),
+              entrySpeech: .guidance(.i33),
               prayers: [hold],
-              exitSpeech: InstructionLibrary.text(.i43),
+              exitSpeech: .guidance(.i43),
               motionTrigger: .upright,
-              repromptAudio: InstructionLibrary.text(.i49),
+              repromptAudio: .guidance(.i49),
               repromptInterval: 5, maxReprompts: 3, showProgressDuringWait: false),
 
         // Position 14
         .init(id: .tasleemRight, rakatNumber: 2, mode: .motion,
               displayLabel: "Tasleem", arabic: Arabic.tasleem, englishMeaning: Meaning.salutation,
-              entrySpeech: InstructionLibrary.text(.i34),
+              entrySpeech: .guidance(.i34),
               prayers: [hold],
-              exitSpeech: InstructionLibrary.text(.i44),
+              exitSpeech: .guidance(.i44),
               motionTrigger: .headTurnRight,
-              repromptAudio: InstructionLibrary.text(.i50),
+              repromptAudio: .guidance(.i50),
               repromptInterval: 5, maxReprompts: 3, showProgressDuringWait: false),
 
         // Position 15
         .init(id: .tasleemLeft, rakatNumber: 2, mode: .motion,
               displayLabel: "Tasleem", arabic: Arabic.tasleem, englishMeaning: Meaning.salutation,
-              entrySpeech: InstructionLibrary.text(.i35),
+              entrySpeech: .guidance(.i35),
               prayers: [hold],
-              exitSpeech: InstructionLibrary.text(.i45),
+              exitSpeech: .guidance(.i45),
               motionTrigger: .headTurnLeft,
-              repromptAudio: InstructionLibrary.text(.i51),
+              repromptAudio: .guidance(.i51),
               repromptInterval: 5, maxReprompts: 3, showProgressDuringWait: false),
     ] }
 }
