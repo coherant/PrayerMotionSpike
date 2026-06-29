@@ -10,6 +10,7 @@ struct PrayerTimesView: View {
     @State private var ctaPulsing = false
     @State private var timeMachine = TimeMachine.shared
     @State private var weather = WeatherStore()   // ambient; behind FeatureFlags.weather
+    private let nature = NatureSettings.shared     // per-layer user toggles (Settings → Nature)
 
     // Time-based cross-fade (theme.md §9): tokens + background interpolate between
     // periods over real-time-anchored windows. `now` ticks each second (VM timer),
@@ -23,7 +24,37 @@ struct PrayerTimesView: View {
     private var ink: Color { theme.ink }
     private var muted: Color { theme.muted }
     private var faint: Color { theme.faint }
+    private var faintest: Color { theme.faintest }
     private var isLight: Bool { theme.isLight }
+
+    // MARK: - Legible text on the light (Dhuhr) theme
+    //
+    // Hierarchy on the four DARK themes is done by lowering opacity (text fades
+    // toward the dark background, staying legible). On the one LIGHT theme that
+    // fails: opacity over a near-white background caps contrast at ~2:1 regardless
+    // of colour (floor = (1−α)·bg). So on light we fade by DARKNESS — solid,
+    // progressively lighter-but-still-dark tokens — and reserve the gold `accent`
+    // for decoration, using a dark warm amber for highlighted *text*.
+
+    /// Highlighted text (countdown, current time, eyebrow). Gold reads on dark; on
+    /// light, gold-on-white is ~1.9:1, so use a dark warm amber instead.
+    private var textAccent: Color { isLight ? Color(hex: "#8f6212") : accent }
+
+    private func nameColor(isCurrent: Bool, isPast: Bool) -> Color {
+        if isCurrent { return ink }
+        if isPast { return isLight ? muted : muted.opacity(0.85) }
+        return faint
+    }
+    private func secondaryColor(isCurrent: Bool, isPast: Bool) -> Color {   // arabic
+        if isCurrent { return muted }
+        if isPast { return isLight ? faint : faint.opacity(0.65) }
+        return isLight ? faintest : faint.opacity(0.55)
+    }
+    private func timeColor(isCurrent: Bool, isPast: Bool) -> Color {
+        if isCurrent { return textAccent }
+        if isPast { return isLight ? faint : faint.opacity(0.65) }
+        return isLight ? faintest : faint.opacity(0.55)
+    }
 
     private let cardCorner: CGFloat = 24
 
@@ -106,7 +137,7 @@ struct PrayerTimesView: View {
         isLight ? Color(hex: "#2b3a4a").opacity(0.20) : Color.white.opacity(0.14)
     }
     private var neutralText: Color {
-        isLight ? Color(hex: "#2b3a4a").opacity(0.55) : Color.white.opacity(0.6)
+        isLight ? Color(hex: "#56697a") : Color.white.opacity(0.6)
     }
 
     var body: some View {
@@ -119,39 +150,41 @@ struct PrayerTimesView: View {
 
             // Aurora — glows over the night sky/starfield, beneath birds & meteors.
             // The egg's stage-4 forces it on demand any time. See aurora.md.
-            AuroraView(isActive: isCelestialActive,
-                       night: timeMachine.auroraActive ? 1 : nightFactor,
-                       forced: timeMachine.auroraActive)
-                .ignoresSafeArea()
+            // Aurora — user-gated via Settings → Nature; the egg's stage-4 forces it on
+            // demand regardless of the toggle.
+            if nature.aurora || timeMachine.auroraActive {
+                AuroraView(isActive: isCelestialActive,
+                           night: timeMachine.auroraActive ? 1 : nightFactor,
+                           forced: timeMachine.auroraActive)
+                    .ignoresSafeArea()
+            }
 
             // Ambient sky birds — far back, behind every fixture, glimpsed in the
             // open sky around the header and between cards. See ambient-sky-birds.md.
-            SkyBirdsView(isActive: isCelestialActive, tint: ink, daylight: birdDaylight,
-                         murmuration: timeMachine.murmurationActive)
-                .ignoresSafeArea()
+            if nature.birds {
+                SkyBirdsView(isActive: isCelestialActive, tint: ink, daylight: birdDaylight,
+                             murmuration: timeMachine.murmurationActive)
+                    .ignoresSafeArea()
+            }
 
-            // Night meteors — the after-dark counterpart to the birds; a rare
-            // shooting star among the stars. See night-meteors.md.
-            // The egg's stage-3 shower forces darkness so it shows on demand any time.
-            NightMeteorsView(isActive: isCelestialActive,
-                             night: timeMachine.meteorShowerActive ? 1 : nightFactor,
-                             tint: ink,
-                             shower: meteorShowerContext)
-                .ignoresSafeArea()
+            // Night meteors ("Asteroids") — the after-dark counterpart to the birds; a
+            // rare shooting star among the stars. See night-meteors.md. User-gated via
+            // Settings → Nature; the egg's stage-3 shower forces it on demand regardless.
+            if nature.asteroids || timeMachine.meteorShowerActive {
+                NightMeteorsView(isActive: isCelestialActive,
+                                 night: timeMachine.meteorShowerActive ? 1 : nightFactor,
+                                 tint: ink,
+                                 shower: meteorShowerContext)
+                    .ignoresSafeArea()
+            }
 
             VStack(spacing: 0) {
                 header   // ScreenHeader owns its own 22pt gutter + top padding
 
                 VStack(spacing: 0) {
-                    upNextCard
-                        .padding(.top, 22)
-                    prayerList
-                        .padding(.top, 22)
-
-                    // Weather — glanceable, bottom-right under the last prayer row,
-                    // themed by the current time of day. Tap the capsule to cycle
-                    // conditions (dev/demo), starting at sunny. See weather/SPEC.md §5.
-                    if FeatureFlags.weather {
+                    // Weather — glanceable pill OUTSIDE the Up Next box, top-right.
+                    // Tap to cycle conditions (dev/demo). See weather/SPEC.md §5.
+                    if FeatureFlags.weather && nature.weather {
                         HStack {
                             Spacer()
                             Button { weather.cycleManual() } label: {
@@ -167,8 +200,12 @@ struct PrayerTimesView: View {
                             }
                             .buttonStyle(.plain)
                         }
-                        .padding(.top, 46)   // ≈ 8 mm below the last prayer row
+                        .padding(.top, 16)
                     }
+                    upNextCard
+                        .padding(.top, (FeatureFlags.weather && nature.weather) ? 10 : 22)
+                    prayerList
+                        .padding(.top, 22)
 
                     Spacer()
                     ctaButton
@@ -181,7 +218,7 @@ struct PrayerTimesView: View {
                 // Weather effects — painted BEHIND the content as a true backdrop, so
                 // the Metal-backed SpriteView can't composite above the rows. Opacity
                 // halved for subtlety. Driven by the same state the pill cycles.
-                if FeatureFlags.weather {
+                if FeatureFlags.weather && nature.weather {
                     WeatherLayerView(state: weather.displayState,
                                      isActive: isCelestialActive, tint: ink)
                         .opacity(0.5)
@@ -198,7 +235,7 @@ struct PrayerTimesView: View {
         ScreenHeader(
             eyebrow: "\(vm.hijriDate) · \(prayerTime.phase)",
             title: vm.gregorianDate,
-            accent: accent,
+            accent: textAccent,
             ink: ink,
             trailing: { locationPill }
         )
@@ -277,11 +314,11 @@ struct PrayerTimesView: View {
                 VStack(alignment: .trailing, spacing: 3) {
                     Text(countdownText)
                         .font(Typography.ui(18, weight: .semibold))
-                        .foregroundStyle(accent)
+                        .foregroundStyle(textAccent)
                         .lineLimit(1)
                     Text(up.prayer.displayTime)
                         .font(Typography.ui(13))
-                        .foregroundStyle(isLight ? Color(hex: "#2b3a4a").opacity(0.5) : Color.white.opacity(0.5))
+                        .foregroundStyle(isLight ? Color(hex: "#5a6d7b") : Color.white.opacity(0.5))
                 }
             }
             dayRail.padding(.top, 18)
@@ -387,29 +424,17 @@ struct PrayerTimesView: View {
             HStack(alignment: .lastTextBaseline, spacing: 9) {
                 Text(prayer.displayName)
                     .font(Typography.ui(16, weight: isCurrent ? .semibold : .regular))
-                    .foregroundStyle(
-                        isCurrent ? ink
-                        : isPast ? muted.opacity(0.85)
-                        : faint
-                    )
+                    .foregroundStyle(nameColor(isCurrent: isCurrent, isPast: isPast))
                 Text(prayer.arabic)
                     .arabicStyle(size: 16)
-                    .foregroundStyle(
-                        isCurrent ? muted
-                        : isPast ? faint.opacity(0.65)
-                        : faint.opacity(0.55)
-                    )
+                    .foregroundStyle(secondaryColor(isCurrent: isCurrent, isPast: isPast))
             }
 
             Spacer()
 
             Text(prayer.displayTime)
                 .font(Typography.ui(15, weight: isCurrent ? .semibold : .regular))
-                .foregroundStyle(
-                    isCurrent ? accent
-                    : isPast ? faint.opacity(0.65)
-                    : faint.opacity(0.55)
-                )
+                .foregroundStyle(timeColor(isCurrent: isCurrent, isPast: isPast))
 
             notificationBell(prayer: prayer)
         }
@@ -436,7 +461,7 @@ struct PrayerTimesView: View {
                     .frame(width: 24, height: 24)
                 Image(systemName: "checkmark")
                     .font(.system(size: 10, weight: .bold))
-                    .foregroundStyle(accent)
+                    .foregroundStyle(textAccent)
             } else if isCurrent {
                 Circle()
                     .strokeBorder(accent, lineWidth: 2)
@@ -471,7 +496,7 @@ struct PrayerTimesView: View {
                     .frame(width: 24, height: 24)
                 Image(systemName: "bell.fill")
                     .font(.system(size: 9, weight: .medium))
-                    .foregroundStyle(on ? accent : faint.opacity(0.5))
+                    .foregroundStyle(on ? textAccent : (isLight ? faintest : faint.opacity(0.5)))
             }
         }
         .buttonStyle(.plain)

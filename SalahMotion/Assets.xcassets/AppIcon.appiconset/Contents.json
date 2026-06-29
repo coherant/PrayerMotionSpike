@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "SalahMotion-Dhuhr-1024.png",
+      "filename" : "SalahMotion-Crescent-1024 1.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"
@@ -13,7 +13,7 @@
           "value" : "dark"
         }
       ],
-      "filename" : "SalahMotion-1024.png",
+      "filename" : "SalahMotion-Crescent-1024.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"

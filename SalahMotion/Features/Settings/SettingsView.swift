@@ -8,6 +8,7 @@ import SwiftUI
 
 struct SettingsView: View {
     @State private var viewModel = SettingsViewModel()
+    @Bindable private var nature = NatureSettings.shared
 
     private let accent = SettingsPalette.accent
     private let navAnim = Animation.easeInOut(duration: 0.28)
@@ -25,6 +26,8 @@ struct SettingsView: View {
                     case .main:     mainScreen
                     case .alerts:   alertsScreen
                     case .advanced: advancedScreen
+                    case .nature:   natureScreen
+                    case .voice:    voiceScreen
                     }
                 }
                 .padding(.horizontal, 22)
@@ -65,6 +68,8 @@ struct SettingsView: View {
         case .main:     return "Preferences"
         case .alerts:   return "Notifications"
         case .advanced: return "Configuration"
+        case .nature:   return "Nature Settings"
+        case .voice:    return "AI Voice"
         }
     }
 
@@ -73,6 +78,8 @@ struct SettingsView: View {
         case .main:     return "Settings"
         case .alerts:   return "Prayer Alerts"
         case .advanced: return "Advanced"
+        case .nature:   return "Nature Animations"
+        case .voice:    return "Guidance Voices"
         }
     }
 
@@ -87,6 +94,14 @@ struct SettingsView: View {
             mainNavRow(icon: "slider.horizontal.3", title: "Advanced",
                        subtitle: "Methods, offsets & language") {
                 withAnimation(navAnim) { viewModel.go(to: .advanced) }
+            }
+            mainNavRow(icon: "bird", title: "Nature Animation",
+                       subtitle: "Birds, asteroids, weather & aurora") {
+                withAnimation(navAnim) { viewModel.go(to: .nature) }
+            }
+            mainNavRow(icon: "waveform", title: "Spoken AI Voice",
+                       subtitle: "Guidance voice") {
+                withAnimation(navAnim) { viewModel.go(to: .voice) }
             }
         }
     }
@@ -288,6 +303,82 @@ struct SettingsView: View {
 
             // Rate
             rateRow
+        }
+    }
+
+    // MARK: - Nature Animation screen
+
+    private var natureScreen: some View {
+        VStack(alignment: .leading, spacing: 24) {
+            VStack(alignment: .leading, spacing: 10) {
+                SettingsSectionLabel(text: "Sky Animations")
+                Text("Ambient effects painted into the prayer-times sky.")
+                    .font(Typography.ui(11.5))
+                    .foregroundStyle(SettingsPalette.faint)
+                VStack(spacing: 6) {
+                    natureToggleRow(title: "Birds",
+                                    subtitle: "Daytime sky birds drifting overhead",
+                                    isOn: $nature.birds)
+                    natureToggleRow(title: "Asteroids",
+                                    subtitle: "Night-time shooting stars",
+                                    isOn: $nature.asteroids)
+                    natureToggleRow(title: "Weather",
+                                    subtitle: weatherAvailable
+                                        ? "Live weather painted into the sky"
+                                        : "Coming soon — unavailable in this build",
+                                    isOn: $nature.weather,
+                                    disabled: !weatherAvailable)
+                    natureToggleRow(title: "Aurora",
+                                    subtitle: "Aurora glow over the night sky",
+                                    isOn: $nature.aurora)
+                }
+            }
+        }
+    }
+
+    /// Weather is additionally gated by the FeatureFlags dev/go-to-market flag.
+    private var weatherAvailable: Bool { FeatureFlags.weather }
+
+    private func natureToggleRow(title: String, subtitle: String,
+                                 isOn: Binding<Bool>, disabled: Bool = false) -> some View {
+        HStack(spacing: 12) {
+            VStack(alignment: .leading, spacing: 2) {
+                Text(title)
+                    .font(Typography.ui(15, weight: .semibold))
+                    .foregroundStyle(SettingsPalette.ink)
+                Text(subtitle)
+                    .font(Typography.ui(11.5))
+                    .foregroundStyle(SettingsPalette.faint)
+            }
+            Spacer()
+            SettingsToggle(isOn: isOn, accent: accent)
+        }
+        .padding(.horizontal, 14)
+        .padding(.vertical, 13)
+        .settingsCard()
+        .opacity(disabled ? 0.5 : 1)
+        .allowsHitTesting(!disabled)
+    }
+
+    // MARK: - Spoken AI Voice screen
+
+    private var voiceScreen: some View {
+        VStack(alignment: .leading, spacing: 24) {
+            VStack(alignment: .leading, spacing: 10) {
+                SettingsSectionLabel(text: "Guidance Voice")
+                Text("The spoken voice that guides you through the prayer.")
+                    .font(Typography.ui(11.5))
+                    .foregroundStyle(SettingsPalette.faint)
+                VStack(spacing: 5) {
+                    ForEach(VoiceGender.allCases) { gender in
+                        SettingsOptionRow(label: gender.displayName,
+                                          selected: viewModel.prefs.guidanceVoice == gender,
+                                          accent: accent) {
+                            viewModel.prefs.guidanceVoice = gender
+                        }
+                    }
+                }
+            }
         }
     }
 

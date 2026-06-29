@@ -24,15 +24,17 @@ infrastructure before wiring.
 Reference mockup: `docs/features/settings/settings.html` (a bundled JS prototype;
 decode the base64-gzip manifest to read the markup).
 
-Three screens, one at a time, switched by `SettingsViewModel.screen`
-(`main` / `alerts` / `advanced`) with a cross-fade:
+Five screens, one at a time, switched by `SettingsViewModel.screen`
+(`main` / `alerts` / `advanced` / `nature` / `voice`) with a cross-fade:
 
-- **Main** — header "PREFERENCES / Settings" + two accent-tinted nav cards
+- **Main** — header "PREFERENCES / Settings" + four accent-tinted nav cards
   (icon tile · title · subtitle · chevron): "Prayer Alerts" → alerts screen,
-  "Advanced" → advanced screen.
+  "Advanced" → advanced screen, "Nature Animation" → nature screen,
+  "Spoken AI Voice" → voice screen.
 - **Prayer Alerts** — header "NOTIFICATIONS / Prayer Alerts", back chevron.
 - **Advanced** — header "CONFIGURATION / Advanced", back chevron.
-- **Muezzin** - header "MUEZZIN" / Muezzin Settings", back chevron.
+- **Nature Animation** — header "NATURE SETTINGS / Nature Animations", back chevron.
+- **Spoken AI Voice** — header "AI VOICE / Guidance Voices", back chevron.
 
 **Theme** (fixed dark palette; see `SettingsPalette`):
 - Background gradient `#1a1730 → #131120 → #100e1b`.
@@ -110,12 +112,22 @@ DESCRIPTION: Prayer time adjustments off the master prayer times table
         --[list-item] Arabic
 -[function] Rate this app **[BUILT]** -> Connects to the apple ratings system (`SKStoreReviewController`)
 
-# Muezzin
--[setting] Langage to display in prayer session
-    - [setting] Arabic
-    - [setting] English
-    - [setting] Turkish
+# Spoken AI Voice
+- [Setting] Spoken voice in guidance _(UI present — not wired)_ — radio (Masculine /
+  Feminine); persists to `UserPreferences.guidanceVoice` but is not yet bound to a
+  concrete TTS voice. Default Masculine.
+    - [setting] Masculine
+    - [setting] Feminine
 
+# Nature Animation
+Prayer times nature animations control. **[BUILT]** — toggles persist to
+`NatureSettings` and gate the matching layer in `PrayerTimesView` (default ON).
+The Time-Machine egg still forces aurora/meteors on demand regardless of the toggle.
+- [Setting] Birds (on/off) **[BUILT]** — gates `SkyBirdsView`.
+- [Setting] Asteroids (on/off) **[BUILT]** — gates `NightMeteorsView` (night meteors).
+- [Setting] Weather (on/off) **[BUILT, gated]** — gates `WeatherLayerView`, ANDed with
+  `FeatureFlags.weather`; the row is disabled while that dev flag is off.
+- [Setting] Aurora (on/off) **[BUILT]** — gates `AuroraView`.
 
 ## Prayer Calculation Method
 DESCRIPTION: Prayer time calculation method **[BUILT]** — bound to `PrayerCalculationSettings.method`
@@ -171,8 +183,12 @@ in `didSet`); the engine recomputes whenever a calculation input changes.
 | Language | `UserPreferences.language` | `selectedPrayerLanguage` |
 | Per-prayer alerts | `NotificationManager` | `notifications.enabledPrayers` |
 | Suhoor reminder | `NotificationManager` | `notifications.suhoorReminder` |
+| Nature: birds | `NatureSettings.birds` | `nature.birds` |
+| Nature: asteroids | `NatureSettings.asteroids` | `nature.asteroids` |
+| Nature: weather | `NatureSettings.weather` | `nature.weather` |
+| Nature: aurora | `NatureSettings.aurora` | `nature.aurora` |
 
-UI-only state (persisted by `SettingsViewModel`, not yet wired to engine/audio):
+UI-only state (persisted but not yet wired to engine/audio):
 
 | Setting | Owner | UserDefaults key |
 | --- | --- | --- |
@@ -180,6 +196,7 @@ UI-only state (persisted by `SettingsViewModel`, not yet wired to engine/audio):
 | Isha rule | `SettingsViewModel.ishaRule` | `settings.ishaRule` |
 | Qiyam in list | `SettingsViewModel.qiyamOn` | `settings.qiyamOn` |
 | Per-prayer reciter | `SettingsViewModel.reciters` | `settings.reciters` |
+| Guidance voice (M/F) | `UserPreferences.guidanceVoice` | `selectedGuidanceVoice` |
 
 ---
 
@@ -187,7 +204,8 @@ UI-only state (persisted by `SettingsViewModel`, not yet wired to engine/audio):
 
 Reached as the 5th tab ("Settings", `gearshape.fill`) in `AppShell`'s `TabView`
 (`AppTab.settings`). Inside, navigation is a self-contained master/detail flow
-driven by `SettingsViewModel.screen` (`main` → `alerts` / `advanced`) with a custom
+driven by `SettingsViewModel.screen` (`main` → `alerts` / `advanced` / `nature` /
+`voice`) with a custom
 themed header and back chevron — not a system `NavigationStack`/`Form`. Controls
 edit in place; deeper detail (per-prayer recitation, per-prayer methods) lives in
 expandable rows within the sub-screens.

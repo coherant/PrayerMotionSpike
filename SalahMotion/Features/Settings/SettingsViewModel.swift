@@ -17,7 +17,7 @@ import Observation
 // selection locally, but do not yet affect the engine/audio. See SPEC for status.
 
 enum SettingsScreen {
-    case main, alerts, advanced
+    case main, alerts, advanced, nature, voice
 }
 
 /// Which Advanced "Prayer Methods" row is expanded (only one at a time).
@@ -64,8 +64,9 @@ struct Reciter: Identifiable, Equatable {
 @Observable
 final class SettingsViewModel {
 
-    let calc  = PrayerCalculationSettings.shared
-    let prefs = UserPreferences.shared
+    let calc   = PrayerCalculationSettings.shared
+    let prefs  = UserPreferences.shared
+    let nature = NatureSettings.shared
 
     // MARK: - Navigation / expansion state
 

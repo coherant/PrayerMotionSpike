@@ -1,6 +1,19 @@
 import Foundation
 import Observation
 
+/// Spoken guidance voice timbre (Murshid → I). SPEC §2 "Spoken AI Voice".
+/// Persisted preference; not yet bound to a concrete TTS voice (UI present — not wired).
+enum VoiceGender: String, CaseIterable, Identifiable {
+    case masculine, feminine
+    var id: String { rawValue }
+    var displayName: String {
+        switch self {
+        case .masculine: return "Masculine"
+        case .feminine:  return "Feminine"
+        }
+    }
+}
+
 @Observable
 final class UserPreferences {
     static let shared = UserPreferences()
@@ -55,6 +68,11 @@ final class UserPreferences {
         didSet { UserDefaults.standard.set(muezzinEnabled, forKey: Keys.muezzinEnabled) }
     }
 
+    /// Spoken guidance voice timbre (Masculine/Feminine). Persisted; TTS binding TBD.
+    var guidanceVoice: VoiceGender {
+        didSet { UserDefaults.standard.set(guidanceVoice.rawValue, forKey: Keys.guidanceVoice) }
+    }
+
     private init() {
         let defaults = UserDefaults.standard
         let legacyLang = defaults.string(forKey: Keys.language)   // migrate old single setting
@@ -67,6 +85,7 @@ final class UserPreferences {
         selectedUnitIds  = Set(defaults.stringArray(forKey: Keys.unitIds) ?? [])
         muezzinId        = defaults.string(forKey: Keys.muezzin) ?? Muezzins.defaultID
         muezzinEnabled   = defaults.object(forKey: Keys.muezzinEnabled) as? Bool ?? false
+        guidanceVoice    = VoiceGender(rawValue: defaults.string(forKey: Keys.guidanceVoice) ?? "") ?? .masculine
     }
 
     private enum Keys {
@@ -80,5 +99,6 @@ final class UserPreferences {
         static let unitIds   = "selectedUnitIds"
         static let muezzin   = "selectedMuezzinId"
         static let muezzinEnabled = "muezzinModeEnabled"
+        static let guidanceVoice  = "selectedGuidanceVoice"
     }
 }

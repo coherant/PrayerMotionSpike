@@ -64,10 +64,13 @@ enum PrayerTime: String, CaseIterable, Identifiable {
                     .init(color: Color(hex: "#f4efe6"), location: 1.00),
                 ],
                 isLight:   true,
+                // Text ramp darkened so each level stays legible on the near-white
+                // background when used at FULL opacity (PrayerTimes fades by darkness,
+                // not opacity, on the light theme — see PrayerTimesView text helpers).
                 ink:       Color(hex: "#22323f"),
-                muted:     Color(hex: "#4f6473"),
-                faint:     Color(hex: "#6f8593"),
-                faintest:  Color(hex: "#9aaeba"),
+                muted:     Color(hex: "#445a68"),
+                faint:     Color(hex: "#5e7382"),
+                faintest:  Color(hex: "#74889a"),
                 accent:    Color(hex: "#d99a2a"),
                 glow:      Color(hex: "#d99a2a").opacity(0.70),
                 orbA:      Color(hex: "#fff6df"),

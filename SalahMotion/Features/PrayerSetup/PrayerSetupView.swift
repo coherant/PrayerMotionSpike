@@ -253,7 +253,7 @@ struct PrayerSetupView: View {
             HStack(spacing: 6) {
                 changePill(languageLabel(language), disabled: !active, action: openLanguage)
                 if let openVoice {
-                    changePill("Voice", disabled: !active, action: openVoice)
+                    changePill(reciter.latinName, disabled: !active, action: openVoice)
                 }
             }
             .padding(.top, 2)
@@ -297,8 +297,8 @@ struct PrayerSetupView: View {
 
     private func languageLabel(_ lang: Language) -> String {
         switch lang {
-        case .arabic:  return "العربية"
-        case .turkish: return "Türkçe"
+        case .arabic:  return "Arabic"
+        case .turkish: return "Turkish"
         case .english: return "English"
         }
     }

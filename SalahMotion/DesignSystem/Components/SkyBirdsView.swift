@@ -484,13 +484,22 @@ struct SkyBirdsView: View {
                 if group.config.respectsDaylight { opacity *= daylight }
                 guard opacity > 0.01 else { continue }
 
-                let heading = atan2(b.vel.y, b.vel.x)
                 let flap = 0.5 + 0.5 * sin(b.flapPhase)
                 let h = span * 0.6
 
+                // The shape is a FRONTAL gull (wings spread horizontally). Ambient
+                // birds fly LEVEL with only a gentle bank from their climb/dive —
+                // `heading + π/2` stood them ~90° upright (wings vertical) for ordinary
+                // horizontal flight. `atan2(vy, |vx|)` keeps them upright (never flipped)
+                // for both travel directions. The dense murmuration keeps the heading
+                // rotation (orientation barely reads at that size).
+                let tilt: Double = group.isMurmuration
+                    ? atan2(b.vel.y, b.vel.x) + .pi / 2
+                    : max(-0.30, min(0.30, atan2(b.vel.y, abs(b.vel.x))))
+
                 var g = ctx
                 g.translateBy(x: x, y: y)
-                g.rotate(by: .radians(heading + .pi / 2))   // point the body along travel
+                g.rotate(by: .radians(tilt))
                 let rect = CGRect(x: -span / 2, y: -h / 2, width: span, height: h)
                 g.stroke(
                     BirdShape(flap: flap).path(in: rect),

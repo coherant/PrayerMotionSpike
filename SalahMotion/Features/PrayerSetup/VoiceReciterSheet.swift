@@ -36,9 +36,6 @@ struct VoiceReciterSheet: View {
                         .foregroundStyle(DesignTokens.ink)
                 }
                 Spacer()
-                Button("Done") { isPresented = false }
-                    .font(Typography.ui(14, weight: .semibold))
-                    .foregroundStyle(accent)
             }
             .padding(.horizontal, 22)
             .padding(.top, 18)
@@ -59,6 +56,7 @@ struct VoiceReciterSheet: View {
         let selected = reciter.id == current
         return Button {
             onSelect(reciter.id)
+            isPresented = false
         } label: {
             HStack(spacing: 12) {
                 VStack(alignment: .leading, spacing: 2) {

@@ -43,9 +43,6 @@ struct VoiceLanguageSheet: View {
                         .foregroundStyle(DesignTokens.ink)
                 }
                 Spacer()
-                Button("Done") { isPresented = false }
-                    .font(Typography.ui(14, weight: .semibold))
-                    .foregroundStyle(accent)
             }
             .padding(.horizontal, 22)
             .padding(.top, 18)
@@ -66,6 +63,7 @@ struct VoiceLanguageSheet: View {
         let selected = lang == current
         return Button {
             onSelect(lang)
+            isPresented = false
         } label: {
             HStack {
                 VStack(alignment: .leading, spacing: 2) {
