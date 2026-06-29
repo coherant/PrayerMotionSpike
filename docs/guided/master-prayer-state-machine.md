@@ -207,7 +207,7 @@ Each prayer line in a state carries an optional **clip identity** alongside its 
 - `duration` — a **pause after** the utterance, not a budget the audio must fit inside.
 
 At runtime the speaker resolves `clipID` → a recorded file named
-**`<reciterId>-<language>-<P-id>.m4a`** (e.g. `sawt-ai-ar-P-7.m4a`) — a reciter can be
+**`<reciterId>-<language>-<P-id>.m4a`** (e.g. `muallim-ai-ar-P-7.m4a`) — a reciter can be
 multilingual, so the selected **Language** picks the track. Files are **flat and uniquely
 named** in `Resources/recitations/`, so the synced-folder bundle resolves them by name (the
 resolver also checks a `recitations/` subfolder); `.m4a` or `.caf` are accepted. If a clip is

@@ -44,22 +44,26 @@ enum InstructionID: String {
 // Source of truth: SalahMotion/Resources/instructions.json
 // Spec: docs/guided/instructions.md
 // Spoken movement guidance (entry / reprompt) for the guided prayer sequence.
-// English-only by design — these are instructions, not prayers (no Language param).
-// To add or edit an instruction, update instructions.json only — no Swift changes needed.
+// Language-aware: English is the canonical base; turkish/arabic fall back to English
+// when a translation is absent. (German is carried in the data for the recording brief
+// but has no `Language` case yet.) To add or edit an instruction, update instructions.json.
 // To add a new ID, add one case to InstructionID above and one entry in instructions.json.
 
 enum InstructionLibrary {
 
     private struct Entry: Decodable {
         let id: String
-        let instruction: String
+        let instruction: String   // English (canonical base)
+        let arabic: String?
+        let turkish: String?
+        let german: String?
     }
 
     private struct Payload: Decodable {
         let instructions: [Entry]
     }
 
-    private static let cache: [String: String] = {
+    private static let cache: [String: Entry] = {
         guard
             let url  = Bundle.main.url(forResource: "instructions", withExtension: "json"),
             let data = try? Data(contentsOf: url),
@@ -68,20 +72,25 @@ enum InstructionLibrary {
             assertionFailure("instructions.json missing or malformed")
             return [:]
         }
-        return Dictionary(uniqueKeysWithValues: payload.instructions.map { ($0.id, $0.instruction) })
+        return Dictionary(uniqueKeysWithValues: payload.instructions.map { ($0.id, $0) })
     }()
 
-    static func text(_ id: InstructionID) -> String {
-        guard let instruction = cache[id.rawValue] else {
+    /// Guidance text in the chosen language (defaults English). tr/ar fall back to
+    /// English when a translation is absent.
+    static func text(_ id: InstructionID, _ language: Language = UserPreferences.shared.guidanceLanguage) -> String {
+        guard let e = cache[id.rawValue] else {
             assertionFailure("Instruction \(id.rawValue) not found in instructions.json")
             return ""
         }
-        return instruction
+        switch language {
+        case .english: return e.instruction
+        case .turkish: return e.turkish ?? e.instruction
+        case .arabic:  return e.arabic ?? e.instruction
+        }
     }
 
-    /// Resolves a templated instruction (e.g. `I-25` "Give your niyet for {prayer}"),
-    /// substituting `prayer` for the `{prayer}` placeholder.
-    static func text(_ id: InstructionID, prayer: String) -> String {
-        text(id).replacingOccurrences(of: "{prayer}", with: prayer)
+    /// Templated instruction (e.g. `I-25` "Give your niyet for {prayer}").
+    static func text(_ id: InstructionID, _ language: Language = UserPreferences.shared.guidanceLanguage, prayer: String) -> String {
+        text(id, language).replacingOccurrences(of: "{prayer}", with: prayer)
     }
 }

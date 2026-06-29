@@ -19,7 +19,7 @@ final class AudioManager {
     }
 
     @MainActor
-    func speak(_ text: String, language: Language = UserPreferences.shared.language) async {
+    func speak(_ text: String, language: Language = UserPreferences.shared.guidanceLanguage) async {
         await withCheckedContinuation { (cont: CheckedContinuation<Void, Never>) in
             isSpeaking = true
             delegate.onFinish = { [weak self] in
@@ -67,20 +67,20 @@ final class AudioManager {
 // Resolves a liturgical id to a bundled recording, or nil when none is installed (→ TTS
 // fallback). Files are FLAT, uniquely-named resources — so synced-folder flattening is a
 // feature, not a problem (no subfolders to preserve, no name collisions):
-//   • in-salah recitation:  "<reciterId>-<language>-<P-id>.m4a"  (e.g. sawt-ai-ar-P-7.m4a)
+//   • in-salah recitation:  "<reciterId>-<language>-<P-id>.m4a"  (e.g. muallim-ai-ar-P-7.m4a)
 //   • Muezzin call:          "<muezzinId>-<C-id>.m4a"            (e.g. bilal-C-1.m4a)
 // Drop the files anywhere under the app's synced Resources; they bundle by name. Either
-// .m4a or .caf is accepted (Ṣawt AI ships as .m4a, AAC). Missing clips are expected —
+// .m4a or .caf is accepted (Muʿallim AI ships as .m4a, AAC). Missing clips are expected —
 // partial sets just work, and anything absent falls back to TTS.
 enum AudioClips {
     /// Active reciter folder for in-salah recitation. Defaults until a reciter picker is wired.
-    /// `sawt-ai` = "Ṣawt AI" — the AI-generated Arabic recitation voice (صوت = "voice").
-    static var reciterId: String = "sawt-ai"
+    /// `muallim-ai` = "Muʿallim AI" — the AI recitation voice (معلّم = "teacher").
+    static var reciterId: String = "muallim-ai"
 
     static func recitation(_ id: PrayerID,
                            reciterId: String = AudioClips.reciterId,
-                           language: Language = UserPreferences.shared.language) -> URL? {
-        // Flat key "<reciter>-<language>-<P-id>" (e.g. "sawt-ai-ar-P-7"). Missing →
+                           language: Language = UserPreferences.shared.recitationLanguage) -> URL? {
+        // Flat key "<reciter>-<language>-<P-id>" (e.g. "muallim-ai-ar-P-7"). Missing →
         // nil → the caller's TTS fallback, so an Arabic-only reciter still works when
         // any language is picked.
         clip("\(reciterId)-\(language.rawValue)-\(id.rawValue)")
@@ -90,7 +90,7 @@ enum AudioClips {
         clip("\(muezzinId)-\(id.rawValue)")
     }
 
-    // Accept .m4a (the Ṣawt AI set) or .caf. Names are globally unique, so we look in
+    // Accept .m4a (the Muʿallim AI set) or .caf. Names are globally unique, so we look in
     // the bundle root AND the likely preserved subfolders — covers both a synced folder
     // that flattens resources and one that keeps the `recitations/` (or `muezzin/`) path.
     private static let clipExtensions = ["m4a", "caf"]

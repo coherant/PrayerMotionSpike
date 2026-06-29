@@ -16,8 +16,8 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 RES  = os.path.join(ROOT, "SalahMotion", "Resources")
 OUT  = os.path.join(ROOT, "docs", "audio-coverage.md")
 
-RECITER = "sawt-ai"          # reciter voice → recitation (P)
-MUEZZIN = "nida-ai"          # muezzin voice → calls (C)   (Nidā' AI)
+RECITER = "muallim-ai"       # reciter voice → recitation (P)   (Muʿallim AI)
+MUEZZIN = "munadi-ai"        # muezzin voice → calls (C)        (Munādī AI)
 LANGS   = ["ar", "en", "tr"] # active recitation languages
 EXTS    = ("m4a", "caf")
 FORMAT  = "AAC `.m4a`, mono, 24 kHz, ~64 kbps"
@@ -74,7 +74,7 @@ for c in calls:
     add(f"- Pronounce: {c.get('transliteration','')}  ")
     add(f"- Meaning: {c.get('english','')}\n")
 
-add("## P — recitation (reciter: `sawt-ai`)\n")
+add(f"## P — recitation (reciter: `{RECITER}`)\n")
 for l in LANGS:
     miss = p_missing[l]
     add(f"- **{l}**: {len(p_ids) - len(miss)}/{len(p_ids)} "

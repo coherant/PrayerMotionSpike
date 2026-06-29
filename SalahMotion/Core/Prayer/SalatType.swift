@@ -183,11 +183,11 @@ struct Muezzin: Identifiable {
 
 enum Muezzins {
     static let all: [Muezzin] = [
-        Muezzin(id: "nida-ai", latinName: "Nidā' AI", arabicName: "نداء", arabicInitial: "ن", style: "AI muezzin · clear, measured"),
+        Muezzin(id: "munadi-ai", latinName: "Munādī AI", arabicName: "منادي", arabicInitial: "م", style: "AI muezzin · clear, measured"),
         Muezzin(id: "bilal",  latinName: "Bilāl",  arabicName: "بلال",   arabicInitial: "ب", style: "Madinah cadence · unhurried"),
         Muezzin(id: "idris",  latinName: "Idrīs",  arabicName: "إدريس",  arabicInitial: "إ", style: "Flowing · melodic"),
         Muezzin(id: "sadiq",  latinName: "Ṣādiq",  arabicName: "صادق",   arabicInitial: "ص", style: "Spacious · minimal"),
         Muezzin(id: "yunus",  latinName: "Yūnus",  arabicName: "يونس",   arabicInitial: "ي", style: "Bright · resonant"),
     ]
-    static let defaultID = "nida-ai"
+    static let defaultID = "munadi-ai"
 }

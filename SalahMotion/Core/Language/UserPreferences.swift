@@ -5,8 +5,19 @@ import Observation
 final class UserPreferences {
     static let shared = UserPreferences()
 
+    // De-conflated language axes: guidance (Murshid → I instructions) and recitation
+    // (Muʿallim → P) are independent. Muezzin calls (C) are Arabic-only, not stored here.
+    var guidanceLanguage: Language {
+        didSet { UserDefaults.standard.set(guidanceLanguage.rawValue, forKey: Keys.guidanceLanguage) }
+    }
+    var recitationLanguage: Language {
+        didSet { UserDefaults.standard.set(recitationLanguage.rawValue, forKey: Keys.recitationLanguage) }
+    }
+    /// Transitional single-language alias (reads recitation; sets BOTH). Lets the
+    /// pre-split UI compile until the setup screen exposes the two pickers (Stage 2).
     var language: Language {
-        didSet { UserDefaults.standard.set(language.rawValue, forKey: Keys.language) }
+        get { recitationLanguage }
+        set { guidanceLanguage = newValue; recitationLanguage = newValue }
     }
 
     var pace: PrayerPace {
@@ -42,7 +53,9 @@ final class UserPreferences {
 
     private init() {
         let defaults = UserDefaults.standard
-        language         = Language(rawValue:      defaults.string(forKey: Keys.language)  ?? "") ?? .english
+        let legacyLang = defaults.string(forKey: Keys.language)   // migrate old single setting
+        guidanceLanguage   = Language(rawValue: defaults.string(forKey: Keys.guidanceLanguage)   ?? legacyLang ?? "") ?? .english
+        recitationLanguage = Language(rawValue: defaults.string(forKey: Keys.recitationLanguage) ?? legacyLang ?? "") ?? .english
         pace             = PrayerPace(rawValue:    defaults.string(forKey: Keys.pace)      ?? "") ?? .medium
         guidanceLevel    = GuidanceLevel(rawValue: defaults.string(forKey: Keys.guidance)  ?? "") ?? .full
         salatType        = SalatType(rawValue:     defaults.string(forKey: Keys.salatType) ?? "") ?? .maghrib
@@ -52,7 +65,9 @@ final class UserPreferences {
     }
 
     private enum Keys {
-        static let language  = "selectedPrayerLanguage"
+        static let language  = "selectedPrayerLanguage"   // legacy — migration source only
+        static let guidanceLanguage   = "selectedGuidanceLanguage"
+        static let recitationLanguage = "selectedRecitationLanguage"
         static let pace      = "selectedPrayerPace"
         static let guidance  = "selectedGuidanceLevel"
         static let salatType = "selectedSalatType"

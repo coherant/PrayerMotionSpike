@@ -325,12 +325,12 @@ final class PrayerStateMachine {
         }
     }
 
-    /// The text the Muezzin speaks/shows for a container row, in the global language
-    /// (Arabic script / transliteration / meaning) — same language axis as the in-salah
-    /// recitation. See CallLibrary.text and master-prayer-state-machine.md.
+    /// The text the Muezzin speaks/shows for a container row — **Arabic** (the adhān /
+    /// iqāma / dhikr are called in Arabic; the Muezzin is Arabic-only, independent of the
+    /// guidance & recitation languages). See CallLibrary.text.
     private func containerText(_ state: PrayerState) -> String {
         guard let id = state.callID else { return "" }
-        return CallLibrary.text(id, UserPreferences.shared.language)
+        return CallLibrary.text(id, .arabic)
     }
 
     /// Voices the container call: plays the Muezzin's recorded Arabic clip if one is installed
@@ -351,7 +351,7 @@ final class PrayerStateMachine {
         }
         let text = containerText(state)
         guard !text.isEmpty else { return false }
-        await audioManager.speak(text, language: UserPreferences.shared.language)
+        await audioManager.speak(text, language: .arabic)
         if manualAdvanceRequested { manualAdvanceRequested = false; return true }
         return Task.isCancelled
     }
@@ -376,11 +376,13 @@ final class PrayerStateMachine {
             } else {
                 #if DEBUG
                 print("[AudioClips] ⚠️ recitation \(id.rawValue) (reciter=\(AudioClips.reciterId), "
-                      + "lang=\(UserPreferences.shared.language.rawValue)) — no clip found → TTS")
+                      + "lang=\(UserPreferences.shared.recitationLanguage.rawValue)) — no clip found → TTS")
                 #endif
             }
         }
-        if !line.utterance.isEmpty { await audioManager.speak(line.utterance) }
+        if !line.utterance.isEmpty {
+            await audioManager.speak(line.utterance, language: UserPreferences.shared.recitationLanguage)
+        }
     }
 
     @MainActor
