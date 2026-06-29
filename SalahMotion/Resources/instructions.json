@@ -1,57 +1,368 @@
 {
   "instructions": [
-    { "id": "I-1",  "instruction": "This is the instructional prayer. You will be guided through all motions. The reciter will give you an instruction to move into a prayer position. When you are in the position, the recitation of the prayer will begin." },
-    { "id": "I-2",  "instruction": "Stand for the second rak'ah" },
-    { "id": "I-3",  "instruction": "Bow forward, hands on knees" },
-    { "id": "I-4",  "instruction": "Rise to standing" },
-    { "id": "I-5",  "instruction": "Prostrate, forehead to ground" },
-    { "id": "I-6",  "instruction": "Sit upright" },
-    { "id": "I-7",  "instruction": "Prostrate again" },
-    { "id": "I-8",  "instruction": "Sit for the short Tashahhud" },
-    { "id": "I-9",  "instruction": "Stand for the fourth rak'ah" },
-    { "id": "I-10", "instruction": "Stand for the third rak'ah" },
-    { "id": "I-11", "instruction": "Sit for Tashahhud" },
-    { "id": "I-12", "instruction": "Turn your head to the right" },
-    { "id": "I-13", "instruction": "Turn your head to the left" },
-    { "id": "I-14", "instruction": "Please stand" },
-    { "id": "I-15", "instruction": "Please bow into Ruku" },
-    { "id": "I-16", "instruction": "Please return to standing" },
-    { "id": "I-17", "instruction": "Please lower into Sujood" },
-    { "id": "I-18", "instruction": "Please sit up" },
-    { "id": "I-19", "instruction": "Please lower into Sujood again" },
-    { "id": "I-20", "instruction": "Please sit" },
-    { "id": "I-21", "instruction": "Please sit for Tashahhud" },
-    { "id": "I-22", "instruction": "Please turn right" },
-    { "id": "I-23", "instruction": "Please turn left" },
-    { "id": "I-24", "instruction": "Stand upright and put your hands by your side." },
-    { "id": "I-25", "instruction": "Give your niyet for {prayer}" },
-
-    { "id": "I-26", "instruction": "Calibration starting. You have fifteen positions to complete. Stand upright — this is Qiyam." },
-    { "id": "I-27", "instruction": "Ruku. Bow forward and place both hands on your knees." },
-    { "id": "I-28", "instruction": "Qiyam. Return to standing upright." },
-    { "id": "I-29", "instruction": "Sujood. Lower into prostration with your forehead touching the ground." },
-    { "id": "I-30", "instruction": "Julus. Sit upright on your knees." },
-    { "id": "I-31", "instruction": "Sujood. Lower into prostration again with your forehead touching the ground." },
-    { "id": "I-32", "instruction": "Qiyam. Stand upright for the second rakat." },
-    { "id": "I-33", "instruction": "Julus. Sit upright for Tashahhud." },
-    { "id": "I-34", "instruction": "Tasleem. Turn your head to the right." },
-    { "id": "I-35", "instruction": "Tasleem. Turn your head to the left." },
-    { "id": "I-36", "instruction": "Get ready to bow into Ruku." },
-    { "id": "I-37", "instruction": "Get ready to stand upright into Qiyam." },
-    { "id": "I-38", "instruction": "Get ready to lower into Sujood." },
-    { "id": "I-39", "instruction": "Get ready to sit upright into Julus." },
-    { "id": "I-40", "instruction": "Get ready to lower into Sujood again." },
-    { "id": "I-41", "instruction": "Get ready to stand upright for the second rakat." },
-    { "id": "I-42", "instruction": "Get ready to sit for Tashahhud." },
-    { "id": "I-43", "instruction": "Get ready to turn your head to the right for Tasleem." },
-    { "id": "I-44", "instruction": "Get ready to turn your head to the left." },
-    { "id": "I-45", "instruction": "Calibration complete. You may move freely." },
-    { "id": "I-46", "instruction": "Bow forward and place both hands on your knees." },
-    { "id": "I-47", "instruction": "Stand upright." },
-    { "id": "I-48", "instruction": "Lower into prostration with your forehead touching the ground." },
-    { "id": "I-49", "instruction": "Sit upright on your knees." },
-    { "id": "I-50", "instruction": "Turn your head to the right." },
-    { "id": "I-51", "instruction": "Turn your head to the left." },
-    { "id": "I-52", "instruction": "Hold this position for five seconds." }
+    {
+      "id": "I-1",
+      "instruction": "This is the instructional prayer. You will be guided through all motions. The reciter will give you an instruction to move into a prayer position. When you are in the position, the recitation of the prayer will begin.",
+      "arabic": "هذه صلاة تعليمية. ستُرشَد خلال جميع الحركات. سيعطيك القارئ تعليمًا للانتقال إلى وضعية الصلاة، وعندما تكون في الوضعية يبدأ تلاوة الصلاة.",
+      "turkish": "Bu, öğretici bir namazdır. Tüm hareketlerde size rehberlik edilecek. Okuyucu, bir namaz pozisyonuna geçmeniz için yönerge verecek; pozisyona geçtiğinizde namazın okunuşu başlayacaktır.",
+      "german": "Dies ist das lehrende Gebet. Sie werden durch alle Bewegungen geführt. Der Rezitator gibt Ihnen eine Anweisung, in eine Gebetshaltung zu wechseln; sobald Sie in der Haltung sind, beginnt die Rezitation."
+    },
+    {
+      "id": "I-2",
+      "instruction": "Stand for the second rak'ah",
+      "arabic": "قم للركعة الثانية",
+      "turkish": "İkinci rekât için ayağa kalkın",
+      "german": "Stehen Sie für die zweite Rakʿa auf"
+    },
+    {
+      "id": "I-3",
+      "instruction": "Bow forward, hands on knees",
+      "arabic": "اركع وضع يديك على ركبتيك",
+      "turkish": "Öne eğilin, eller dizlerin üzerinde",
+      "german": "Beugen Sie sich nach vorn, Hände auf die Knie"
+    },
+    {
+      "id": "I-4",
+      "instruction": "Rise to standing",
+      "arabic": "ارفع إلى القيام",
+      "turkish": "Doğrulup ayağa kalkın",
+      "german": "Richten Sie sich zum Stehen auf"
+    },
+    {
+      "id": "I-5",
+      "instruction": "Prostrate, forehead to ground",
+      "arabic": "اسجد وضع جبهتك على الأرض",
+      "turkish": "Secdeye varın, alın yerde",
+      "german": "Werfen Sie sich nieder, die Stirn auf den Boden"
+    },
+    {
+      "id": "I-6",
+      "instruction": "Sit upright",
+      "arabic": "اجلس معتدلًا",
+      "turkish": "Dik oturun",
+      "german": "Sitzen Sie aufrecht"
+    },
+    {
+      "id": "I-7",
+      "instruction": "Prostrate again",
+      "arabic": "اسجد مرة أخرى",
+      "turkish": "Tekrar secdeye varın",
+      "german": "Werfen Sie sich erneut nieder"
+    },
+    {
+      "id": "I-8",
+      "instruction": "Sit for the short Tashahhud",
+      "arabic": "اجلس للتشهد الأول",
+      "turkish": "Kısa Teşehhüd için oturun",
+      "german": "Sitzen Sie für das kurze Tashahhud"
+    },
+    {
+      "id": "I-9",
+      "instruction": "Stand for the fourth rak'ah",
+      "arabic": "قم للركعة الرابعة",
+      "turkish": "Dördüncü rekât için ayağa kalkın",
+      "german": "Stehen Sie für die vierte Rakʿa auf"
+    },
+    {
+      "id": "I-10",
+      "instruction": "Stand for the third rak'ah",
+      "arabic": "قم للركعة الثالثة",
+      "turkish": "Üçüncü rekât için ayağa kalkın",
+      "german": "Stehen Sie für die dritte Rakʿa auf"
+    },
+    {
+      "id": "I-11",
+      "instruction": "Sit for Tashahhud",
+      "arabic": "اجلس للتشهد",
+      "turkish": "Teşehhüd için oturun",
+      "german": "Sitzen Sie für das Tashahhud"
+    },
+    {
+      "id": "I-12",
+      "instruction": "Turn your head to the right",
+      "arabic": "أدر رأسك إلى اليمين",
+      "turkish": "Başınızı sağa çevirin",
+      "german": "Drehen Sie den Kopf nach rechts"
+    },
+    {
+      "id": "I-13",
+      "instruction": "Turn your head to the left",
+      "arabic": "أدر رأسك إلى اليسار",
+      "turkish": "Başınızı sola çevirin",
+      "german": "Drehen Sie den Kopf nach links"
+    },
+    {
+      "id": "I-14",
+      "instruction": "Please stand",
+      "arabic": "من فضلك قف",
+      "turkish": "Lütfen ayağa kalkın",
+      "german": "Bitte stehen Sie auf"
+    },
+    {
+      "id": "I-15",
+      "instruction": "Please bow into Ruku",
+      "arabic": "من فضلك اركع",
+      "turkish": "Lütfen rükûya eğilin",
+      "german": "Bitte beugen Sie sich in den Rukūʿ"
+    },
+    {
+      "id": "I-16",
+      "instruction": "Please return to standing",
+      "arabic": "من فضلك عُد إلى القيام",
+      "turkish": "Lütfen ayağa dönün",
+      "german": "Bitte kehren Sie zum Stehen zurück"
+    },
+    {
+      "id": "I-17",
+      "instruction": "Please lower into Sujood",
+      "arabic": "من فضلك انزل إلى السجود",
+      "turkish": "Lütfen secdeye inin",
+      "german": "Bitte senken Sie sich in den Sujūd"
+    },
+    {
+      "id": "I-18",
+      "instruction": "Please sit up",
+      "arabic": "من فضلك اجلس",
+      "turkish": "Lütfen doğrulup oturun",
+      "german": "Bitte setzen Sie sich auf"
+    },
+    {
+      "id": "I-19",
+      "instruction": "Please lower into Sujood again",
+      "arabic": "من فضلك انزل إلى السجود مرة أخرى",
+      "turkish": "Lütfen tekrar secdeye inin",
+      "german": "Bitte senken Sie sich erneut in den Sujūd"
+    },
+    {
+      "id": "I-20",
+      "instruction": "Please sit",
+      "arabic": "من فضلك اجلس",
+      "turkish": "Lütfen oturun",
+      "german": "Bitte setzen Sie sich"
+    },
+    {
+      "id": "I-21",
+      "instruction": "Please sit for Tashahhud",
+      "arabic": "من فضلك اجلس للتشهد",
+      "turkish": "Lütfen Teşehhüd için oturun",
+      "german": "Bitte setzen Sie sich für das Tashahhud"
+    },
+    {
+      "id": "I-22",
+      "instruction": "Please turn right",
+      "arabic": "من فضلك أدر إلى اليمين",
+      "turkish": "Lütfen sağa dönün",
+      "german": "Bitte wenden Sie sich nach rechts"
+    },
+    {
+      "id": "I-23",
+      "instruction": "Please turn left",
+      "arabic": "من فضلك أدر إلى اليسار",
+      "turkish": "Lütfen sola dönün",
+      "german": "Bitte wenden Sie sich nach links"
+    },
+    {
+      "id": "I-24",
+      "instruction": "Stand upright and put your hands by your side.",
+      "arabic": "قف معتدلًا وضع يديك بجانبك.",
+      "turkish": "Dik durun ve ellerinizi yanlarınıza koyun.",
+      "german": "Stehen Sie aufrecht und legen Sie die Hände an die Seiten."
+    },
+    {
+      "id": "I-25",
+      "instruction": "Give your niyet for {prayer}",
+      "arabic": "انوِ نيتك لـ {prayer}",
+      "turkish": "{prayer} için niyetinizi edin",
+      "german": "Fassen Sie Ihre Absicht (Niyya) für {prayer}"
+    },
+    {
+      "id": "I-26",
+      "instruction": "Calibration starting. You have fifteen positions to complete. Stand upright — this is Qiyam.",
+      "arabic": "بدء المعايرة. لديك خمس عشرة وضعية لإتمامها. قف معتدلًا — هذا هو القيام.",
+      "turkish": "Kalibrasyon başlıyor. Tamamlamanız gereken on beş pozisyon var. Dik durun — bu Kıyam'dır.",
+      "german": "Die Kalibrierung beginnt. Sie haben fünfzehn Positionen zu absolvieren. Stehen Sie aufrecht — das ist Qiyām."
+    },
+    {
+      "id": "I-27",
+      "instruction": "Ruku. Bow forward and place both hands on your knees.",
+      "arabic": "الركوع. اركع إلى الأمام وضع كلتا يديك على ركبتيك.",
+      "turkish": "Rükû. Öne eğilin ve her iki elinizi dizlerinize koyun.",
+      "german": "Rukūʿ. Beugen Sie sich nach vorn und legen Sie beide Hände auf die Knie."
+    },
+    {
+      "id": "I-28",
+      "instruction": "Qiyam. Return to standing upright.",
+      "arabic": "القيام. عُد إلى الوقوف معتدلًا.",
+      "turkish": "Kıyam. Dik duruşa geri dönün.",
+      "german": "Qiyām. Kehren Sie zum aufrechten Stehen zurück."
+    },
+    {
+      "id": "I-29",
+      "instruction": "Sujood. Lower into prostration with your forehead touching the ground.",
+      "arabic": "السجود. انزل إلى السجود واجعل جبهتك تلامس الأرض.",
+      "turkish": "Secde. Alnınız yere değecek şekilde secdeye inin.",
+      "german": "Sujūd. Senken Sie sich in die Niederwerfung, bis die Stirn den Boden berührt."
+    },
+    {
+      "id": "I-30",
+      "instruction": "Julus. Sit upright on your knees.",
+      "arabic": "الجلوس. اجلس معتدلًا على ركبتيك.",
+      "turkish": "Celse. Dizlerinizin üzerinde dik oturun.",
+      "german": "Julūs. Sitzen Sie aufrecht auf den Knien."
+    },
+    {
+      "id": "I-31",
+      "instruction": "Sujood. Lower into prostration again with your forehead touching the ground.",
+      "arabic": "السجود. انزل إلى السجود مرة أخرى واجعل جبهتك تلامس الأرض.",
+      "turkish": "Secde. Alnınız yere değecek şekilde tekrar secdeye inin.",
+      "german": "Sujūd. Senken Sie sich erneut in die Niederwerfung, bis die Stirn den Boden berührt."
+    },
+    {
+      "id": "I-32",
+      "instruction": "Qiyam. Stand upright for the second rakat.",
+      "arabic": "القيام. قف معتدلًا للركعة الثانية.",
+      "turkish": "Kıyam. İkinci rekât için dik durun.",
+      "german": "Qiyām. Stehen Sie aufrecht für die zweite Rakʿa."
+    },
+    {
+      "id": "I-33",
+      "instruction": "Julus. Sit upright for Tashahhud.",
+      "arabic": "الجلوس. اجلس معتدلًا للتشهد.",
+      "turkish": "Celse. Teşehhüd için dik oturun.",
+      "german": "Julūs. Sitzen Sie aufrecht für das Tashahhud."
+    },
+    {
+      "id": "I-34",
+      "instruction": "Tasleem. Turn your head to the right.",
+      "arabic": "التسليم. أدر رأسك إلى اليمين.",
+      "turkish": "Selâm. Başınızı sağa çevirin.",
+      "german": "Taslīm. Drehen Sie den Kopf nach rechts."
+    },
+    {
+      "id": "I-35",
+      "instruction": "Tasleem. Turn your head to the left.",
+      "arabic": "التسليم. أدر رأسك إلى اليسار.",
+      "turkish": "Selâm. Başınızı sola çevirin.",
+      "german": "Taslīm. Drehen Sie den Kopf nach links."
+    },
+    {
+      "id": "I-36",
+      "instruction": "Get ready to bow into Ruku.",
+      "arabic": "استعد للركوع.",
+      "turkish": "Rükûya eğilmeye hazır olun.",
+      "german": "Machen Sie sich bereit für den Rukūʿ."
+    },
+    {
+      "id": "I-37",
+      "instruction": "Get ready to stand upright into Qiyam.",
+      "arabic": "استعد للوقوف معتدلًا في القيام.",
+      "turkish": "Kıyam için dik durmaya hazır olun.",
+      "german": "Machen Sie sich bereit, aufrecht in den Qiyām zu stehen."
+    },
+    {
+      "id": "I-38",
+      "instruction": "Get ready to lower into Sujood.",
+      "arabic": "استعد للنزول إلى السجود.",
+      "turkish": "Secdeye inmeye hazır olun.",
+      "german": "Machen Sie sich bereit, in den Sujūd zu sinken."
+    },
+    {
+      "id": "I-39",
+      "instruction": "Get ready to sit upright into Julus.",
+      "arabic": "استعد للجلوس معتدلًا في الجلوس.",
+      "turkish": "Celseye dik oturmaya hazır olun.",
+      "german": "Machen Sie sich bereit, aufrecht in den Julūs zu sitzen."
+    },
+    {
+      "id": "I-40",
+      "instruction": "Get ready to lower into Sujood again.",
+      "arabic": "استعد للنزول إلى السجود مرة أخرى.",
+      "turkish": "Tekrar secdeye inmeye hazır olun.",
+      "german": "Machen Sie sich bereit, erneut in den Sujūd zu sinken."
+    },
+    {
+      "id": "I-41",
+      "instruction": "Get ready to stand upright for the second rakat.",
+      "arabic": "استعد للوقوف معتدلًا للركعة الثانية.",
+      "turkish": "İkinci rekât için dik durmaya hazır olun.",
+      "german": "Machen Sie sich bereit, für die zweite Rakʿa aufzustehen."
+    },
+    {
+      "id": "I-42",
+      "instruction": "Get ready to sit for Tashahhud.",
+      "arabic": "استعد للجلوس للتشهد.",
+      "turkish": "Teşehhüd için oturmaya hazır olun.",
+      "german": "Machen Sie sich bereit, für das Tashahhud zu sitzen."
+    },
+    {
+      "id": "I-43",
+      "instruction": "Get ready to turn your head to the right for Tasleem.",
+      "arabic": "استعد لإدارة رأسك إلى اليمين للتسليم.",
+      "turkish": "Selâm için başınızı sağa çevirmeye hazır olun.",
+      "german": "Machen Sie sich bereit, den Kopf für den Taslīm nach rechts zu drehen."
+    },
+    {
+      "id": "I-44",
+      "instruction": "Get ready to turn your head to the left.",
+      "arabic": "استعد لإدارة رأسك إلى اليسار.",
+      "turkish": "Başınızı sola çevirmeye hazır olun.",
+      "german": "Machen Sie sich bereit, den Kopf nach links zu drehen."
+    },
+    {
+      "id": "I-45",
+      "instruction": "Calibration complete. You may move freely.",
+      "arabic": "اكتملت المعايرة. يمكنك التحرك بحرية.",
+      "turkish": "Kalibrasyon tamamlandı. Artık serbestçe hareket edebilirsiniz.",
+      "german": "Kalibrierung abgeschlossen. Sie können sich nun frei bewegen."
+    },
+    {
+      "id": "I-46",
+      "instruction": "Bow forward and place both hands on your knees.",
+      "arabic": "اركع إلى الأمام وضع كلتا يديك على ركبتيك.",
+      "turkish": "Öne eğilin ve her iki elinizi dizlerinize koyun.",
+      "german": "Beugen Sie sich nach vorn und legen Sie beide Hände auf die Knie."
+    },
+    {
+      "id": "I-47",
+      "instruction": "Stand upright.",
+      "arabic": "قف معتدلًا.",
+      "turkish": "Dik durun.",
+      "german": "Stehen Sie aufrecht."
+    },
+    {
+      "id": "I-48",
+      "instruction": "Lower into prostration with your forehead touching the ground.",
+      "arabic": "انزل إلى السجود واجعل جبهتك تلامس الأرض.",
+      "turkish": "Alnınız yere değecek şekilde secdeye inin.",
+      "german": "Senken Sie sich in die Niederwerfung, bis die Stirn den Boden berührt."
+    },
+    {
+      "id": "I-49",
+      "instruction": "Sit upright on your knees.",
+      "arabic": "اجلس معتدلًا على ركبتيك.",
+      "turkish": "Dizlerinizin üzerinde dik oturun.",
+      "german": "Sitzen Sie aufrecht auf den Knien."
+    },
+    {
+      "id": "I-50",
+      "instruction": "Turn your head to the right.",
+      "arabic": "أدر رأسك إلى اليمين.",
+      "turkish": "Başınızı sağa çevirin.",
+      "german": "Drehen Sie den Kopf nach rechts."
+    },
+    {
+      "id": "I-51",
+      "instruction": "Turn your head to the left.",
+      "arabic": "أدر رأسك إلى اليسار.",
+      "turkish": "Başınızı sola çevirin.",
+      "german": "Drehen Sie den Kopf nach links."
+    },
+    {
+      "id": "I-52",
+      "instruction": "Hold this position for five seconds.",
+      "arabic": "ابقَ في هذه الوضعية لمدة خمس ثوانٍ.",
+      "turkish": "Bu pozisyonu beş saniye koruyun.",
+      "german": "Halten Sie diese Position fünf Sekunden lang."
+    }
   ]
 }

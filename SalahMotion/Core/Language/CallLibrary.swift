@@ -9,6 +9,8 @@ import Foundation
 enum CallID: String, CaseIterable {
     case c1  = "C-1"    // Adhān
     case c1F = "C-1F"   // Adhān (Fajr — carries aṣ-ṣalātu khayrun mina-n-nawm)
+    case c1S  = "C-1S"  // Adhān (short — opening takbīr ×2, then each line once)
+    case c1FS = "C-1FS" // Adhān (Fajr, short)
     case c2  = "C-2"    // Iqāma
     case c3  = "C-3"    // Boundary du'ā (= P-23, re-voiced post-salām)
     case c4  = "C-4"    // Istighfār ×3
