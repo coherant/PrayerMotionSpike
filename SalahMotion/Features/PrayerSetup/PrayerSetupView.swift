@@ -210,7 +210,8 @@ struct PrayerSetupView: View {
                           active: guidance.playsPrayers,
                           language: prefs.recitationLanguage,
                           openLanguage: { activeSheet = .reciterLanguage },
-                          openVoice: { activeSheet = .reciterVoice })
+                          openVoice: { activeSheet = .reciterVoice },
+                          voicePillLabel: reciter.latinName)
             }
         }
     }
@@ -221,7 +222,8 @@ struct PrayerSetupView: View {
     private func voiceCard(name: String, arabic: String, tag: String, desc: String,
                            active: Bool, language: Language,
                            openLanguage: @escaping () -> Void,
-                           openVoice: (() -> Void)? = nil) -> some View {
+                           openVoice: (() -> Void)? = nil,
+                           voicePillLabel: String = "Voice") -> some View {
         VStack(alignment: .leading, spacing: 6) {
             HStack(alignment: .firstTextBaseline, spacing: 4) {
                 Text(name).font(Typography.display(20, weight: .semibold)).foregroundStyle(DesignTokens.ink)
@@ -244,12 +246,13 @@ struct PrayerSetupView: View {
                 .lineSpacing(1.4)
                 .fixedSize(horizontal: false, vertical: true)
 
-            // Pills — themed exactly like the hero "Change" pill. Language always; the
-            // reciter card also gets a "Voice" (reciter) picker.
-            VStack(alignment: .leading, spacing: 5) {
+            // Pills — themed like the hero "Change" pill, side by side: Language (left),
+            // and on the reciter card a Voice picker (right) showing the selected reciter,
+            // mirroring how the language pill shows its value.
+            HStack(spacing: 6) {
                 changePill(languageLabel(language), disabled: !active, action: openLanguage)
                 if let openVoice {
-                    changePill("Voice", disabled: !active, action: openVoice)
+                    changePill(voicePillLabel, disabled: !active, action: openVoice)
                 }
             }
             .padding(.top, 2)
