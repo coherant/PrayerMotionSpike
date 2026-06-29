@@ -33,7 +33,9 @@ struct GuidedPrayerView: View {
         PrayerSetupView(isAvailable: session.isAvailable) { salat, unitIds, lang, guidance, pace, muezzinId in
             UserPreferences.shared.salatType       = salat
             UserPreferences.shared.selectedUnitIds = unitIds
-            UserPreferences.shared.language        = lang
+            // Languages are set directly on prefs by the setup screen's two pickers
+            // (guidance + recitation) — don't clobber them here. `lang` is the
+            // recitation language, used only to build the sequence below.
             UserPreferences.shared.guidanceLevel   = guidance
             UserPreferences.shared.pace            = pace
             UserPreferences.shared.muezzinId       = muezzinId

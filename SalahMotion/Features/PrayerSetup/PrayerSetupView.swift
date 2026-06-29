@@ -10,14 +10,17 @@ struct PrayerSetupView: View {
 
     private var salat:     SalatType    { prefs.salatType }
     private var unitIds:   Set<String>  { prefs.selectedUnitIds }
-    private var language:  Language     { prefs.language }
     private var guidance:  GuidanceLevel{ prefs.guidanceLevel }
     private var pace:      PrayerPace   { prefs.pace }
     private var muezzinId: String       { prefs.muezzinId }
 
-    @State private var voice      = "hatif"
-    @State private var sheetOpen  = false
+    @State private var activeSheet: SetupSheet?
     @State private var wavePhase  = false
+
+    private enum SetupSheet: Equatable { case structure, guideLanguage, reciterLanguage }
+    private var dismissBinding: Binding<Bool> {
+        Binding(get: { activeSheet != nil }, set: { if !$0 { activeSheet = nil } })
+    }
 
     // Fixed chrome palette like Settings — no longer themes by time of day.
     private var accent:  Color           { SettingsPalette.accent }
@@ -51,9 +54,8 @@ struct PrayerSetupView: View {
                 } content: {
                     VStack(alignment: .leading, spacing: 20) {
                         heroCard
-                        languageSection
-                        voiceSection
                         guidanceSection
+                        voiceSection
                         paceSection
                         muezzinSection
                     }
@@ -63,35 +65,48 @@ struct PrayerSetupView: View {
                 }
                 startFooter
             }
-            .blur(radius: sheetOpen ? 3 : 0)
-            .animation(.easeOut(duration: 0.25), value: sheetOpen)
+            .blur(radius: activeSheet != nil ? 3 : 0)
+            .animation(.easeOut(duration: 0.25), value: activeSheet)
 
-            if sheetOpen {
+            if let sheet = activeSheet {
                 Color(hex: "#08070f")
                     .opacity(0.62)
                     .ignoresSafeArea()
-                    .onTapGesture { sheetOpen = false }
+                    .onTapGesture { activeSheet = nil }
 
                 VStack(spacing: 0) {
                     Spacer(minLength: 0)
-                    PrayerSetSheet(isPresented: $sheetOpen)
-                        .overlay(alignment: .top) {
-                            Rectangle()
-                                .fill(Color.white.opacity(0.09))
-                                .frame(height: 1)
+                    Group {
+                        switch sheet {
+                        case .structure:
+                            PrayerSetSheet(isPresented: dismissBinding)
+                        case .guideLanguage:
+                            VoiceLanguageSheet(title: "Murshid", arabic: "مرشد",
+                                               current: prefs.guidanceLanguage,
+                                               isPresented: dismissBinding) { prefs.guidanceLanguage = $0 }
+                        case .reciterLanguage:
+                            VoiceLanguageSheet(title: "Muʿallim", arabic: "معلّم",
+                                               current: prefs.recitationLanguage,
+                                               isPresented: dismissBinding) { prefs.recitationLanguage = $0 }
                         }
-                        .clipShape(UnevenRoundedRectangle(
-                            topLeadingRadius: 28,
-                            bottomLeadingRadius: 0,
-                            bottomTrailingRadius: 0,
-                            topTrailingRadius: 28
-                        ))
-                        .shadow(color: .black.opacity(0.55), radius: 27, y: -11)
+                    }
+                    .overlay(alignment: .top) {
+                        Rectangle()
+                            .fill(Color.white.opacity(0.09))
+                            .frame(height: 1)
+                    }
+                    .clipShape(UnevenRoundedRectangle(
+                        topLeadingRadius: 28,
+                        bottomLeadingRadius: 0,
+                        bottomTrailingRadius: 0,
+                        topTrailingRadius: 28
+                    ))
+                    .shadow(color: .black.opacity(0.55), radius: 27, y: -11)
                 }
                 .transition(.move(edge: .bottom))
             }
         }
-        .animation(.spring(response: 0.4, dampingFraction: 0.85), value: sheetOpen)
+        .animation(.spring(response: 0.4, dampingFraction: 0.85), value: activeSheet)
         // Default the shown prayer to the current valid window (engine-backed).
         // Re-snaps each time the setup screen appears; a manual pick via the
         // sheet still overrides for the rest of the visit.
@@ -112,7 +127,7 @@ struct PrayerSetupView: View {
     // MARK: - Hero card
 
     private var heroCard: some View {
-        Button { sheetOpen = true } label: {
+        Button { activeSheet = .structure } label: {
             HStack(alignment: .top) {
                 VStack(alignment: .leading, spacing: 0) {
                     Text("\(salat.periodLabel.uppercased()) · UP NEXT")
@@ -174,141 +189,116 @@ struct PrayerSetupView: View {
         .buttonStyle(.plain)
     }
 
-    // MARK: - Language
-
-    private var languageSection: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            sectionLabel("Language")
-
-            HStack(spacing: 5) {
-                ForEach(Language.allCases) { lang in
-                    languageSegment(lang)
-                }
-            }
-            .padding(5)
-            .background(RoundedRectangle(cornerRadius: 18).fill(Color.white.opacity(0.05)))
-        }
-    }
-
-    private func languageSegment(_ lang: Language) -> some View {
-        let selected = lang == language
-        return Button {
-            prefs.language = lang
-        } label: {
-            VStack(spacing: 3) {
-                Group {
-                    if lang == .arabic {
-                        Text("العربية").font(Typography.arabic(18))
-                    } else {
-                        Text(lang.displayName).font(Typography.ui(15, weight: .semibold))
-                    }
-                }
-                .foregroundStyle(selected ? DesignTokens.ink : DesignTokens.muted)
-
-                Text(lang == .arabic ? "Arabic" : lang == .turkish ? "Turkish" : "Latin")
-                    .font(Typography.ui(10))
-                    .tracking(0.4)
-                    .foregroundStyle(selected ? accent : DesignTokens.faint)
-            }
-            .frame(maxWidth: .infinity)
-            .padding(.vertical, 9)
-            .background(
-                RoundedRectangle(cornerRadius: 14)
-                    .fill(selected ? accent.opacity(0.18) : Color.clear)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 14)
-                            .strokeBorder(selected ? accent.opacity(0.4) : Color.clear, lineWidth: 1)
-                    )
-            )
-        }
-        .buttonStyle(.plain)
-    }
-
-    // MARK: - Voice
+    // MARK: - Voices
 
     private var voiceSection: some View {
         VStack(alignment: .leading, spacing: 10) {
-            sectionLabel("Voice")
+            sectionLabel("Voices")
             HStack(spacing: 10) {
-                voiceCard(id: "hatif",   name: "Hātif",   arabic: "هاتف", tag: "VOICE",
-                          desc: "Guiding voice · natural speech")
-                voiceCard(id: "reciter", name: "Reciter", arabic: "قارئ", tag: "SETTINGS",
-                          desc: "Choose a qārī in Settings")
+                voiceCard(name: "Murshid", arabic: "مرشد", tag: "GUIDE",
+                          desc: "Murshid AI · guides the movements",
+                          active: guidance.playsEntryGuidance,
+                          language: prefs.guidanceLanguage) { activeSheet = .guideLanguage }
+                voiceCard(name: "Muʿallim", arabic: "معلّم", tag: "RECITER",
+                          desc: "Muʿallim AI · recites the prayer",
+                          active: guidance.playsPrayers,
+                          language: prefs.recitationLanguage) { activeSheet = .reciterLanguage }
             }
         }
     }
 
-    private func voiceCard(id: String, name: String, arabic: String, tag: String, desc: String) -> some View {
-        let selected = voice == id
-        return Button { voice = id } label: {
-            VStack(alignment: .leading, spacing: 6) {
-                HStack {
-                    VStack(alignment: .leading, spacing: 0) {
-                        HStack(alignment: .firstTextBaseline, spacing: 4) {
-                            Text(name).font(Typography.display(20, weight: .semibold)).foregroundStyle(DesignTokens.ink)
-                            Text(arabic).font(Typography.arabic(14)).foregroundStyle(selected ? accent : DesignTokens.faint)
-                        }
-                    }
-                    Spacer()
-                    Circle()
-                        .fill(selected ? accent : Color.clear)
-                        .frame(width: 16, height: 16)
-                        .overlay(
-                            Circle().strokeBorder(selected ? Color.clear : Color.white.opacity(0.18), lineWidth: 1.5)
-                        )
-                        .shadow(color: selected ? accent.opacity(0.7) : .clear, radius: 5)
-                }
-
-                Text(tag)
-                    .font(Typography.ui(9.5, weight: .semibold))
-                    .tracking(1)
-                    .textCase(.uppercase)
-                    .foregroundStyle(selected ? accent : DesignTokens.faint)
-                    .padding(.horizontal, 8).padding(.vertical, 2)
-                    .background(
-                        Capsule().fill(selected ? accent.opacity(0.16) : Color.white.opacity(0.05))
-                    )
-
-                Text(desc)
-                    .font(Typography.ui(11.5))
-                    .foregroundStyle(DesignTokens.faint)
-                    .lineSpacing(1.4)
-                    .fixedSize(horizontal: false, vertical: true)
-
-                // Equaliser — shown only on the active voice card
-                if selected {
-                    HStack(alignment: .bottom, spacing: 3) {
-                        ForEach([5, 9, 6, 12, 7, 10, 5, 8, 6].indices, id: \.self) { i in
-                            let h = CGFloat([5, 9, 6, 12, 7, 10, 5, 8, 6][i])
-                            let dur = 0.8 + Double(i % 3) * 0.25
-                            RoundedRectangle(cornerRadius: 2)
-                                .fill(accent.opacity(0.55 + Double(h) / 28.0))
-                                .frame(width: 3, height: h)
-                                .scaleEffect(y: wavePhase ? 1.0 : 0.35, anchor: .bottom)
-                                .animation(
-                                    .easeInOut(duration: dur)
-                                        .repeatForever(autoreverses: true)
-                                        .delay(Double(i) * 0.09),
-                                    value: wavePhase
-                                )
-                        }
-                    }
-                    .frame(height: 14, alignment: .bottom)
-                    .padding(.top, 6)
-                }
+    // A voice is enabled by the chosen guidance level (Murshid → entry guidance,
+    // Muʿallim → prayers); a disabled voice grays out and shrinks. The "Language"
+    // pill is themed like the hero "Change" pill and opens the same custom sheet.
+    private func voiceCard(name: String, arabic: String, tag: String, desc: String,
+                           active: Bool, language: Language,
+                           openLanguage: @escaping () -> Void) -> some View {
+        VStack(alignment: .leading, spacing: 6) {
+            HStack(alignment: .firstTextBaseline, spacing: 4) {
+                Text(name).font(Typography.display(20, weight: .semibold)).foregroundStyle(DesignTokens.ink)
+                Text(arabic).font(Typography.arabic(14)).foregroundStyle(active ? accent : DesignTokens.faint)
             }
-            .padding(13)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .background(
-                RoundedRectangle(cornerRadius: 16)
-                    .fill(selected ? accent.opacity(0.12) : DesignTokens.cardBg)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 16)
-                            .strokeBorder(selected ? accent.opacity(0.45) : DesignTokens.cardBorder, lineWidth: 1)
-                    )
-            )
+
+            Text(tag)
+                .font(Typography.ui(9.5, weight: .semibold))
+                .tracking(1)
+                .textCase(.uppercase)
+                .foregroundStyle(active ? accent : DesignTokens.faint)
+                .padding(.horizontal, 8).padding(.vertical, 2)
+                .background(
+                    Capsule().fill(active ? accent.opacity(0.16) : Color.white.opacity(0.05))
+                )
+
+            Text(desc)
+                .font(Typography.ui(11.5))
+                .foregroundStyle(DesignTokens.faint)
+                .lineSpacing(1.4)
+                .fixedSize(horizontal: false, vertical: true)
+
+            // Language pill — themed exactly like the hero "Change" pill.
+            Button(action: openLanguage) {
+                HStack(spacing: 4) {
+                    Text(languageLabel(language))
+                        .font(Typography.ui(11, weight: .semibold))
+                    Image(systemName: "chevron.down")
+                        .font(.system(size: 11, weight: .medium))
+                }
+                .foregroundStyle(DesignTokens.muted)
+                .padding(.horizontal, 12)
+                .padding(.vertical, 7)
+                .background(
+                    Capsule()
+                        .fill(Color.white.opacity(0.04))
+                        .overlay(Capsule().strokeBorder(Color.white.opacity(0.14), lineWidth: 1))
+                )
+            }
+            .buttonStyle(.plain)
+            .disabled(!active)
+            .padding(.top, 2)
+
+            // Equaliser — shown while the voice is active
+            if active {
+                HStack(alignment: .bottom, spacing: 3) {
+                    ForEach([5, 9, 6, 12, 7, 10, 5, 8, 6].indices, id: \.self) { i in
+                        let h = CGFloat([5, 9, 6, 12, 7, 10, 5, 8, 6][i])
+                        let dur = 0.8 + Double(i % 3) * 0.25
+                        RoundedRectangle(cornerRadius: 2)
+                            .fill(accent.opacity(0.55 + Double(h) / 28.0))
+                            .frame(width: 3, height: h)
+                            .scaleEffect(y: wavePhase ? 1.0 : 0.35, anchor: .bottom)
+                            .animation(
+                                .easeInOut(duration: dur)
+                                    .repeatForever(autoreverses: true)
+                                    .delay(Double(i) * 0.09),
+                                value: wavePhase
+                            )
+                    }
+                }
+                .frame(height: 14, alignment: .bottom)
+                .padding(.top, 6)
+            }
         }
-        .buttonStyle(.plain)
+        .padding(13)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(
+            RoundedRectangle(cornerRadius: 16)
+                .fill(active ? accent.opacity(0.12) : DesignTokens.cardBg)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 16)
+                        .strokeBorder(active ? accent.opacity(0.45) : DesignTokens.cardBorder, lineWidth: 1)
+                )
+        )
+        .opacity(active ? 1 : 0.5)
+        .scaleEffect(active ? 1 : 0.96)
+        .animation(.easeOut(duration: 0.25), value: active)
+    }
+
+    private func languageLabel(_ lang: Language) -> String {
+        switch lang {
+        case .arabic:  return "العربية"
+        case .turkish: return "Türkçe"
+        case .english: return "English"
+        }
     }
 
     // MARK: - Guidance
@@ -555,11 +545,11 @@ struct PrayerSetupView: View {
             Button {
                 prefs.salatType       = salat
                 prefs.selectedUnitIds = unitIds
-                prefs.language        = language
                 prefs.guidanceLevel   = guidance
                 prefs.pace            = pace
                 prefs.muezzinId       = muezzinId
-                onBegin(salat, unitIds, language, guidance, pace, muezzinId)
+                // Languages are already set on prefs by the two pickers above.
+                onBegin(salat, unitIds, prefs.recitationLanguage, guidance, pace, muezzinId)
             } label: {
                 HStack(spacing: 9) {
                     Text("Begin \(salat.displayName)")
