@@ -17,7 +17,7 @@ struct PrayerSetupView: View {
     @State private var activeSheet: SetupSheet?
     @State private var wavePhase  = false
 
-    private enum SetupSheet: Equatable { case structure, guideLanguage, reciterLanguage }
+    private enum SetupSheet: Equatable { case structure, guideLanguage, reciterLanguage, reciterVoice }
     private var dismissBinding: Binding<Bool> {
         Binding(get: { activeSheet != nil }, set: { if !$0 { activeSheet = nil } })
     }
@@ -85,9 +85,12 @@ struct PrayerSetupView: View {
                                                current: prefs.guidanceLanguage,
                                                isPresented: dismissBinding) { prefs.guidanceLanguage = $0 }
                         case .reciterLanguage:
-                            VoiceLanguageSheet(title: "Muʿallim", arabic: "معلّم",
+                            VoiceLanguageSheet(title: reciter.latinName, arabic: reciter.arabicName,
                                                current: prefs.recitationLanguage,
                                                isPresented: dismissBinding) { prefs.recitationLanguage = $0 }
+                        case .reciterVoice:
+                            VoiceReciterSheet(current: prefs.reciterId,
+                                              isPresented: dismissBinding) { prefs.reciterId = $0 }
                         }
                     }
                     .overlay(alignment: .top) {
@@ -191,6 +194,8 @@ struct PrayerSetupView: View {
 
     // MARK: - Voices
 
+    private var reciter: RecitationVoice { RecitationVoices.all.first { $0.id == prefs.reciterId } ?? RecitationVoices.all[0] }
+
     private var voiceSection: some View {
         VStack(alignment: .leading, spacing: 10) {
             sectionLabel("Voices")
@@ -198,11 +203,14 @@ struct PrayerSetupView: View {
                 voiceCard(name: "Murshid", arabic: "مرشد", tag: "GUIDE",
                           desc: "Murshid AI · guides the movements",
                           active: guidance.playsEntryGuidance,
-                          language: prefs.guidanceLanguage) { activeSheet = .guideLanguage }
-                voiceCard(name: "Muʿallim", arabic: "معلّم", tag: "RECITER",
-                          desc: "Muʿallim AI · recites the prayer",
+                          language: prefs.guidanceLanguage,
+                          openLanguage: { activeSheet = .guideLanguage })
+                voiceCard(name: reciter.latinName, arabic: reciter.arabicName, tag: "RECITER",
+                          desc: "Recites the prayer",
                           active: guidance.playsPrayers,
-                          language: prefs.recitationLanguage) { activeSheet = .reciterLanguage }
+                          language: prefs.recitationLanguage,
+                          openLanguage: { activeSheet = .reciterLanguage },
+                          openVoice: { activeSheet = .reciterVoice })
             }
         }
     }
@@ -212,7 +220,8 @@ struct PrayerSetupView: View {
     // pill is themed like the hero "Change" pill and opens the same custom sheet.
     private func voiceCard(name: String, arabic: String, tag: String, desc: String,
                            active: Bool, language: Language,
-                           openLanguage: @escaping () -> Void) -> some View {
+                           openLanguage: @escaping () -> Void,
+                           openVoice: (() -> Void)? = nil) -> some View {
         VStack(alignment: .leading, spacing: 6) {
             HStack(alignment: .firstTextBaseline, spacing: 4) {
                 Text(name).font(Typography.display(20, weight: .semibold)).foregroundStyle(DesignTokens.ink)
@@ -235,25 +244,14 @@ struct PrayerSetupView: View {
                 .lineSpacing(1.4)
                 .fixedSize(horizontal: false, vertical: true)
 
-            // Language pill — themed exactly like the hero "Change" pill.
-            Button(action: openLanguage) {
-                HStack(spacing: 4) {
-                    Text(languageLabel(language))
-                        .font(Typography.ui(11, weight: .semibold))
-                    Image(systemName: "chevron.down")
-                        .font(.system(size: 11, weight: .medium))
+            // Pills — themed exactly like the hero "Change" pill. Language always; the
+            // reciter card also gets a "Voice" (reciter) picker.
+            VStack(alignment: .leading, spacing: 5) {
+                changePill(languageLabel(language), disabled: !active, action: openLanguage)
+                if let openVoice {
+                    changePill("Voice", disabled: !active, action: openVoice)
                 }
-                .foregroundStyle(DesignTokens.muted)
-                .padding(.horizontal, 12)
-                .padding(.vertical, 7)
-                .background(
-                    Capsule()
-                        .fill(Color.white.opacity(0.04))
-                        .overlay(Capsule().strokeBorder(Color.white.opacity(0.14), lineWidth: 1))
-                )
             }
-            .buttonStyle(.plain)
-            .disabled(!active)
             .padding(.top, 2)
 
             // Equaliser — shown while the voice is active
@@ -299,6 +297,26 @@ struct PrayerSetupView: View {
         case .turkish: return "Türkçe"
         case .english: return "English"
         }
+    }
+
+    // The hero "Change"-style dropdown pill, reused for the per-voice Language/Voice pickers.
+    private func changePill(_ label: String, disabled: Bool, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            HStack(spacing: 4) {
+                Text(label).font(Typography.ui(11, weight: .semibold))
+                Image(systemName: "chevron.down").font(.system(size: 11, weight: .medium))
+            }
+            .foregroundStyle(DesignTokens.muted)
+            .padding(.horizontal, 12)
+            .padding(.vertical, 7)
+            .background(
+                Capsule()
+                    .fill(Color.white.opacity(0.04))
+                    .overlay(Capsule().strokeBorder(Color.white.opacity(0.14), lineWidth: 1))
+            )
+        }
+        .buttonStyle(.plain)
+        .disabled(disabled)
     }
 
     // MARK: - Guidance

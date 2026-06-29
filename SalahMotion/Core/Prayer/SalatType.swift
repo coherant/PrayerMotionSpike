@@ -191,3 +191,24 @@ enum Muezzins {
     ]
     static let defaultID = "munadi-ai"
 }
+
+// MARK: - RecitationVoice (Qāri') — voices the recitation (P)
+// Temporary list; Muʿallim AI (the default) is the only one with recordings — others
+// fall back to TTS until imported. Selection lives in UserPreferences.reciterId.
+
+struct RecitationVoice: Identifiable {
+    let id: String
+    let latinName: String
+    let arabicName: String
+    let style: String
+}
+
+enum RecitationVoices {
+    static let all: [RecitationVoice] = [
+        RecitationVoice(id: "muallim-ai", latinName: "Muʿallim AI", arabicName: "معلّم", style: "AI voice · clear, measured"),
+        RecitationVoice(id: "ubayy", latinName: "Ubayy", arabicName: "أبيّ",  style: "Warm · deliberate"),
+        RecitationVoice(id: "zayd",  latinName: "Zayd",  arabicName: "زيد",   style: "Bright · flowing"),
+        RecitationVoice(id: "tamim", latinName: "Tamīm", arabicName: "تميم",  style: "Deep · resonant"),
+    ]
+    static let defaultID = "muallim-ai"
+}

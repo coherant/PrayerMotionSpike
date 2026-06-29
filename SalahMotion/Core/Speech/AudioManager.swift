@@ -73,12 +73,12 @@ final class AudioManager {
 // .m4a or .caf is accepted (Muʿallim AI ships as .m4a, AAC). Missing clips are expected —
 // partial sets just work, and anything absent falls back to TTS.
 enum AudioClips {
-    /// Active reciter folder for in-salah recitation. Defaults until a reciter picker is wired.
-    /// `muallim-ai` = "Muʿallim AI" — the AI recitation voice (معلّم = "teacher").
-    static var reciterId: String = "muallim-ai"
+    /// Active reciter id — driven by the setup screen's Voice picker
+    /// (`UserPreferences.reciterId`; default `muallim-ai` = "Muʿallim AI", معلّم).
+    static var reciterId: String { UserPreferences.shared.reciterId }
 
     static func recitation(_ id: PrayerID,
-                           reciterId: String = AudioClips.reciterId,
+                           reciterId: String = UserPreferences.shared.reciterId,
                            language: Language = UserPreferences.shared.recitationLanguage) -> URL? {
         // Flat key "<reciter>-<language>-<P-id>" (e.g. "muallim-ai-ar-P-7"). Missing →
         // nil → the caller's TTS fallback, so an Arabic-only reciter still works when

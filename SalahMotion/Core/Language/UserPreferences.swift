@@ -13,6 +13,10 @@ final class UserPreferences {
     var recitationLanguage: Language {
         didSet { UserDefaults.standard.set(recitationLanguage.rawValue, forKey: Keys.recitationLanguage) }
     }
+    /// Selected reciter (Muʿallim → recitation P). Default = Muʿallim AI.
+    var reciterId: String {
+        didSet { UserDefaults.standard.set(reciterId, forKey: Keys.reciter) }
+    }
     /// Transitional single-language alias (reads recitation; sets BOTH). Lets the
     /// pre-split UI compile until the setup screen exposes the two pickers (Stage 2).
     var language: Language {
@@ -56,6 +60,7 @@ final class UserPreferences {
         let legacyLang = defaults.string(forKey: Keys.language)   // migrate old single setting
         guidanceLanguage   = Language(rawValue: defaults.string(forKey: Keys.guidanceLanguage)   ?? legacyLang ?? "") ?? .english
         recitationLanguage = Language(rawValue: defaults.string(forKey: Keys.recitationLanguage) ?? legacyLang ?? "") ?? .english
+        reciterId        = defaults.string(forKey: Keys.reciter) ?? RecitationVoices.defaultID
         pace             = PrayerPace(rawValue:    defaults.string(forKey: Keys.pace)      ?? "") ?? .medium
         guidanceLevel    = GuidanceLevel(rawValue: defaults.string(forKey: Keys.guidance)  ?? "") ?? .full
         salatType        = SalatType(rawValue:     defaults.string(forKey: Keys.salatType) ?? "") ?? .maghrib
@@ -68,6 +73,7 @@ final class UserPreferences {
         static let language  = "selectedPrayerLanguage"   // legacy — migration source only
         static let guidanceLanguage   = "selectedGuidanceLanguage"
         static let recitationLanguage = "selectedRecitationLanguage"
+        static let reciter   = "selectedReciterId"
         static let pace      = "selectedPrayerPace"
         static let guidance  = "selectedGuidanceLevel"
         static let salatType = "selectedSalatType"
