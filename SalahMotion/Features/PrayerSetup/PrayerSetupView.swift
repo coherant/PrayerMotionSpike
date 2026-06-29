@@ -307,11 +307,14 @@ struct PrayerSetupView: View {
     private func changePill(_ label: String, disabled: Bool, action: @escaping () -> Void) -> some View {
         Button(action: action) {
             HStack(spacing: 4) {
-                Text(label).font(Typography.ui(11, weight: .semibold))
+                Text(label)
+                    .font(Typography.ui(11, weight: .semibold))
+                    .lineLimit(1)              // never wrap → pill height stays fixed
+                    .minimumScaleFactor(0.75)  // shrink to fit a narrow card instead of wrapping
                 Image(systemName: "chevron.down").font(.system(size: 11, weight: .medium))
             }
             .foregroundStyle(DesignTokens.muted)
-            .padding(.horizontal, 12)
+            .padding(.horizontal, 10)
             .padding(.vertical, 7)
             .background(
                 Capsule()
