@@ -49,7 +49,8 @@ struct GuidedSnapshotTests {
             out += "    entry=\(u(s.entrySpeech)) reprompt=\(u(s.repromptAudio)) exit=\(u(s.exitSpeech))\n"
             let prayers = s.prayers.map { line -> String in
                 let clip = line.clipID.map { " clip=\($0.rawValue)" } ?? ""
-                return "\(q(line.utterance))@\(dur(line.duration))\(clip)"
+                let key  = line.audioKey.map { " key=\($0)" } ?? ""
+                return "\(q(line.utterance))@\(dur(line.duration))\(clip)\(key)"
             }.joined(separator: ", ")
             out += "    prayers=[\(prayers)]\n"
         }
@@ -57,6 +58,10 @@ struct GuidedSnapshotTests {
     }
 
     private func fullSnapshot() -> String {
+        // Pin both language axes so baked instruction text (niyet + opening cue — resolved via
+        // InstructionLibrary in guidanceLanguage) is deterministic, matching the .english recitation.
+        UserPreferences.shared.guidanceLanguage = .english
+        UserPreferences.shared.recitationLanguage = .english
         var parts: [String] = []
         for salat in SalatType.allCases {
             // Full observance: every unit selected, so the snapshot is independent of the

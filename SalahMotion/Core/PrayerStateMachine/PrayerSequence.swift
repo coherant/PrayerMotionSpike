@@ -103,10 +103,14 @@ enum PrayerDuration {
 // nil = guidance/TTS-only), the rendered text (display + TTS + golden snapshot), and the
 // post-utterance pause. `clipID` lets the runner play a recorded recitation when one is
 // installed, falling back to TTS otherwise. See master-prayer-state-machine.md.
-typealias PrayerLine = (clipID: PrayerID?, utterance: String, duration: PrayerDuration)
+typealias PrayerLine = (clipID: PrayerID?, audioKey: String?, utterance: String, duration: PrayerDuration)
 
-// A clip-less spoken line — coaching cues, niyet, calibration prompts: TTS only, never a clip.
-private func spoken(_ text: String, _ duration: PrayerDuration) -> PrayerLine { (nil, text, duration) }
+// A clip-less spoken line — plain prompt, TTS only, never a clip.
+private func spoken(_ text: String, _ duration: PrayerDuration) -> PrayerLine { (nil, nil, text, duration) }
+
+// A guidance line voiced by the guider (Murshid): plays murshid-ai-<lang>-<key> if installed,
+// else TTS. `key` is an instruction id ("I-24") or a niyet variant ("fajr-fard-I-25").
+private func guided(_ key: String, _ text: String, _ duration: PrayerDuration) -> PrayerLine { (nil, key, text, duration) }
 
 // A spoken non-prayer line — entry cue (I), transition recitation (P), or reprompt (I) —
 // carrying its identity so the speaker resolves the right recorded clip + language, else
@@ -332,6 +336,7 @@ enum GuidedSequenceGenerator {
         let (s1, s2) = surahs(for: unit)
         return Content(
             niyetText: InstructionLibrary.text(.i25, prayer: niyetName(for: unit, salat: salat)),
+            niyetKey: niyetKey(for: unit, salat: salat),
             hasOpeningCue: !isWitr,
             rakat1Surah: s1,
             rakat2Surah: s2
@@ -345,6 +350,16 @@ enum GuidedSequenceGenerator {
         case .fard:                       return "the Farḍ of \(salat.displayName)"
         case .sunnahBefore, .sunnahAfter: return "the Sunnah of \(salat.displayName)"
         case .witr:                       return "Witr"
+        }
+    }
+
+    // Audio key for the per-prayer niyet clip: murshid-ai-<lang>-<key>-I-25.m4a.
+    // salat + role (sunnahBefore/After share one); witr standalone → 11 variants.
+    private static func niyetKey(for unit: PrayerUnit, salat: SalatType) -> String {
+        switch unit.kind {
+        case .fard:                       return "\(salat.rawValue)-fard"
+        case .sunnahBefore, .sunnahAfter: return "\(salat.rawValue)-sunnah"
+        case .witr:                       return "witr"
         }
     }
 
@@ -413,7 +428,7 @@ enum GuidedSequenceGenerator {
 
         // A recitation line: carries the clip identity (for recorded audio) + rendered text.
         func line(_ id: PrayerID, _ duration: PrayerDuration) -> PrayerLine {
-            (id, PrayerLibrary.text(id, language), duration)
+            (id, nil, PrayerLibrary.text(id, language), duration)
         }
 
         init(language: Language) {
@@ -449,6 +464,7 @@ enum GuidedSequenceGenerator {
 
     private struct Content {
         let niyetText: String
+        let niyetKey: String
         let hasOpeningCue: Bool
         let rakat1Surah: PrayerID
         let rakat2Surah: PrayerID
@@ -464,9 +480,9 @@ enum GuidedSequenceGenerator {
         let qiyam: PrayerState
         if isFirst {
             var openingPrayers: [PrayerLine] = []
-            if c.hasOpeningCue { openingPrayers.append(spoken(InstructionLibrary.text(.i24), .fixed(5.0))) }
+            if c.hasOpeningCue { openingPrayers.append(guided("I-24", InstructionLibrary.text(.i24), .fixed(5.0))) }
             openingPrayers += [
-                spoken(c.niyetText,        .fixed(5.0)),
+                guided("\(c.niyetKey)-I-25", c.niyetText, .fixed(5.0)),
                 tx.line(.p0,               .fixed(3.0)),
                 tx.line(.p7,               .fixed(2.0)),
                 tx.line(c.rakat1Surah,     .fixed(2.0)),
@@ -480,7 +496,7 @@ enum GuidedSequenceGenerator {
             qiyam = .init(id: .r1QiyamFull, rakatNumber: 1, mode: .motion,
                   displayLabel: "Qiyam", arabic: Arabic.qiyam, englishMeaning: Meaning.standing,
                   entrySpeech: .guidance(.i24),
-                  prayers: [spoken(c.niyetText, .pace), tx.line(.p0, .pace), tx.line(.p7, .pace),
+                  prayers: [guided("\(c.niyetKey)-I-25", c.niyetText, .pace), tx.line(.p0, .pace), tx.line(.p7, .pace),
                             tx.line(c.rakat1Surah, .pace), tx.line(.p0, .pace)],
                   motionTrigger: .upright,
                   repromptAudio: .guidance(.i14),
@@ -668,7 +684,7 @@ enum CalibrationSequenceGenerator {
 
     private static func masterSequence() -> [PrayerState] {
         // Every position holds the same — "Hold this position for five seconds." (I-52).
-        let hold = spoken(InstructionLibrary.text(.i52), .fixed(5.0))
+        let hold = guided("I-52", InstructionLibrary.text(.i52), .fixed(5.0))
         return [
 
         // Position 1 — timed: announces + holds, no motion wait

@@ -94,12 +94,18 @@ enum AudioClips {
         clip("\(muezzinId)-\(id.rawValue)")
     }
 
+    /// Guidance audio by raw key — the clip basename after `<guider>-<lang>-`. The key is an
+    /// instruction id ("I-24") or a niyet variant ("fajr-fard-I-25") → murshid-ai-en-… ; missing
+    /// → nil → the caller's TTS fallback, exactly like recitation.
+    static func guidance(_ key: String,
+                         guiderId: String = AudioClips.guiderId,
+                         language: Language = UserPreferences.shared.guidanceLanguage) -> URL? {
+        clip("\(guiderId)-\(language.rawValue)-\(key)")
+    }
+
     static func instruction(_ id: InstructionID,
-                            guiderId: String = AudioClips.guiderId,
                             language: Language = UserPreferences.shared.guidanceLanguage) -> URL? {
-        // Flat key "<guider>-<language>-<I-id>" (e.g. "murshid-ai-en-I-15"). Missing →
-        // nil → the caller's TTS fallback, exactly like recitation.
-        clip("\(guiderId)-\(language.rawValue)-\(id.rawValue)")
+        guidance(id.rawValue, language: language)
     }
 
     // Accept .m4a (the Muʿallim AI set) or .caf. Names are globally unique, so we look in

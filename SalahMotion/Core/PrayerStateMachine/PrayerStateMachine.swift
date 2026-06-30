@@ -379,9 +379,26 @@ final class PrayerStateMachine {
                       + "lang=\(UserPreferences.shared.recitationLanguage.rawValue)) — no clip found → TTS")
                 #endif
             }
+        } else if let key = line.audioKey {
+            let lang = UserPreferences.shared.guidanceLanguage
+            if let url = AudioClips.guidance(key, language: lang) {
+                #if DEBUG
+                print("[AudioClips] ▶︎ guidance \(key) → \(url.lastPathComponent)")
+                #endif
+                if await audioManager.play(url) { return }
+                #if DEBUG
+                print("[AudioClips] ⚠️ guidance \(key) — clip found but failed to play → TTS")
+                #endif
+            } else {
+                #if DEBUG
+                print("[AudioClips] ⚠️ guidance \(key) (lang=\(lang.rawValue)) — no clip found → TTS")
+                #endif
+            }
         }
         if !line.utterance.isEmpty {
-            await audioManager.speak(line.utterance, language: UserPreferences.shared.recitationLanguage)
+            let ttsLang = line.audioKey != nil ? UserPreferences.shared.guidanceLanguage
+                                               : UserPreferences.shared.recitationLanguage
+            await audioManager.speak(line.utterance, language: ttsLang)
         }
     }
 
