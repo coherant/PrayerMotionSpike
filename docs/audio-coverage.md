@@ -2,7 +2,7 @@
 
 > **GENERATED** by `scripts/generate_audio_coverage.py` — do not edit by hand.
 > Edit the master files (`calls.json`, `instructions.json`, `prayers.json`) and re-run.
-> Snapshot: **2026-06-29**
+> Snapshot: **2026-07-01**
 
 ## Conventions
 - **Recitation (P):** `muallim-ai-<lang>-<P-id>.m4a` — languages: ar, en, tr
@@ -15,27 +15,27 @@
 | Family | ids | recorded | outstanding |
 |---|---|---|---|
 | P — recitation | 24 (×3 = 72) | 72 | 0 |
-| C — Muezzin calls | 14 | 0 | 14 |
-| I — guidance | 52 (×3 = 156) | 0 | 156 |
+| C — Muezzin calls | 14 | 14 | 0 |
+| I — guidance | 52 (×3 = 156) | 156 | 0 |
 
 ## C — Muezzin calls (record in Arabic → `munadi-ai-<id>.m4a`)
 
 | id | name | file | recorded? |
 |---|---|---|---|
-| C-1 | Adhān | `munadi-ai-C-1.m4a` | ❌ |
-| C-1F | Adhān (Fajr) | `munadi-ai-C-1F.m4a` | ❌ |
-| C-1S | Adhān (short) | `munadi-ai-C-1S.m4a` | ❌ |
-| C-1FS | Adhān (Fajr, short) | `munadi-ai-C-1FS.m4a` | ❌ |
-| C-2 | Iqāma | `munadi-ai-C-2.m4a` | ❌ |
-| C-3 | Boundary du'ā | `munadi-ai-C-3.m4a` | ❌ |
-| C-4 | Istighfār | `munadi-ai-C-4.m4a` | ❌ |
-| C-5 | Āyat al-Kursī | `munadi-ai-C-5.m4a` | ❌ |
-| C-6 | Tasbīḥ | `munadi-ai-C-6.m4a` | ❌ |
-| C-7 | Taḥmīd | `munadi-ai-C-7.m4a` | ❌ |
-| C-8 | Takbīr | `munadi-ai-C-8.m4a` | ❌ |
-| C-9 | Tahlīl | `munadi-ai-C-9.m4a` | ❌ |
-| C-10 | Ṣalawāt | `munadi-ai-C-10.m4a` | ❌ |
-| C-11 | Closing du'ā | `munadi-ai-C-11.m4a` | ❌ |
+| C-1 | Adhān | `munadi-ai-C-1.m4a` | ✅ |
+| C-1F | Adhān (Fajr) | `munadi-ai-C-1F.m4a` | ✅ |
+| C-1S | Adhān (short) | `munadi-ai-C-1S.m4a` | ✅ |
+| C-1FS | Adhān (Fajr, short) | `munadi-ai-C-1FS.m4a` | ✅ |
+| C-2 | Iqāma | `munadi-ai-C-2.m4a` | ✅ |
+| C-3 | Boundary du'ā | `munadi-ai-C-3.m4a` | ✅ |
+| C-4 | Istighfār | `munadi-ai-C-4.m4a` | ✅ |
+| C-5 | Āyat al-Kursī | `munadi-ai-C-5.m4a` | ✅ |
+| C-6 | Tasbīḥ | `munadi-ai-C-6.m4a` | ✅ |
+| C-7 | Taḥmīd | `munadi-ai-C-7.m4a` | ✅ |
+| C-8 | Takbīr | `munadi-ai-C-8.m4a` | ✅ |
+| C-9 | Tahlīl | `munadi-ai-C-9.m4a` | ✅ |
+| C-10 | Ṣalawāt | `munadi-ai-C-10.m4a` | ✅ |
+| C-11 | Closing du'ā | `munadi-ai-C-11.m4a` | ✅ |
 
 ### Text to record (Arabic) — with transliteration & meaning
 
@@ -119,9 +119,9 @@
 
 ## I — guidance (record per language → `murshid-ai-<lang>-<I-id>.m4a`)
 
-- **ar**: 0/52 — missing: I-1, I-2, I-3, I-4, I-5, I-6, I-7, I-8, I-9, I-10, I-11, I-12, I-13, I-14, I-15, I-16, I-17, I-18, I-19, I-20, I-21, I-22, I-23, I-24, I-25, I-26, I-27, I-28, I-29, I-30, I-31, I-32, I-33, I-34, I-35, I-36, I-37, I-38, I-39, I-40, I-41, I-42, I-43, I-44, I-45, I-46, I-47, I-48, I-49, I-50, I-51, I-52
-- **en**: 0/52 — missing: I-1, I-2, I-3, I-4, I-5, I-6, I-7, I-8, I-9, I-10, I-11, I-12, I-13, I-14, I-15, I-16, I-17, I-18, I-19, I-20, I-21, I-22, I-23, I-24, I-25, I-26, I-27, I-28, I-29, I-30, I-31, I-32, I-33, I-34, I-35, I-36, I-37, I-38, I-39, I-40, I-41, I-42, I-43, I-44, I-45, I-46, I-47, I-48, I-49, I-50, I-51, I-52
-- **tr**: 0/52 — missing: I-1, I-2, I-3, I-4, I-5, I-6, I-7, I-8, I-9, I-10, I-11, I-12, I-13, I-14, I-15, I-16, I-17, I-18, I-19, I-20, I-21, I-22, I-23, I-24, I-25, I-26, I-27, I-28, I-29, I-30, I-31, I-32, I-33, I-34, I-35, I-36, I-37, I-38, I-39, I-40, I-41, I-42, I-43, I-44, I-45, I-46, I-47, I-48, I-49, I-50, I-51, I-52
+- **ar**: 52/52 ✅
+- **en**: 52/52 ✅
+- **tr**: 52/52 ✅
 
 > Parked (text only, not a supported `Language`): German.
 
