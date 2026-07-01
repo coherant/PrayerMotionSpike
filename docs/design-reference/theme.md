@@ -319,6 +319,29 @@ Before the first window of the day (midnight → Fajr) the theme is solid **Isha
 If two windows ever overlap (prayers closer than a window at extreme latitudes),
 clamp each window to the midpoint between neighbours so colors never double-blend.
 
+### Legibility ink correction (mid-transition) — 2026-06-30
+
+The two transitions that cross the **light↔dark** boundary (Fajr→Dhuhr and
+Dhuhr→Asr — Dhuhr is the only `isLight` theme) have an unreadable mid-window:
+straight-line ink interpolation passes through neutral grey at the same moment
+the background passes through its own mid-tone, collapsing contrast to ~1:1.
+
+For these two windows ONLY, the **primary ink** follows a piecewise-linear curve
+through hand-tuned control points instead of the plain endpoint lerp. Every other
+token (gradient stops, muted/faint/accent/glow/orb) still interpolates linearly,
+and all other transitions are unchanged. Control points (by window progress `t`,
+ink hex); unlisted `t` values interpolate linearly between neighbours and the
+theme endpoints (`t=0` / `t=1` are the period inks):
+
+| Window | t=0.4 | t=0.5 | t=0.6 |
+|---|---|---|---|
+| Fajr → Dhuhr | *(lerp)* | `#d9d6da` | `#cecbcf` |
+| Dhuhr → Asr  | `#4d575f` | `#ebebed` | *(lerp)* |
+
+Note: the curve is deliberately non-monotonic (it brightens at the mid-window to
+sit legibly on the mid-tone sky, then resumes toward the period ink). The
+backgrounds are intentionally left untouched.
+
 ---
 
 ## 10. The day's miracle of light — refactor brief (2026-06-28)

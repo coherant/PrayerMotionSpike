@@ -59,8 +59,41 @@ struct ThemeBlend {
     /// The period to use for discrete labels/icons (.phase, .arabic, …).
     var dominant: PrayerTime { (t < 0.5 ? from : to).label }
 
-    /// Interpolated token colours (ink/muted/accent/glow/orb …).
-    var theme: PrayerTimeTheme { PrayerTimeTheme.lerp(from.theme, to.theme, t) }
+    /// Interpolated token colours (ink/muted/accent/glow/orb …). The two
+    /// light↔dark crossings (Fajr→Dhuhr, Dhuhr→Asr) override the PRIMARY ink with
+    /// a tuned piecewise curve so text stays legible through the mid-window grey
+    /// collapse — see theme.md §9 "Legibility ink correction".
+    var theme: PrayerTimeTheme {
+        let base = PrayerTimeTheme.lerp(from.theme, to.theme, t)
+        guard let ink = Self.legibilityInk(fromID: from.id, toID: to.id, t: t) else { return base }
+        return base.replacingInk(ink)
+    }
+
+    /// Hand-tuned primary-ink control points for the light↔dark transitions.
+    /// `nil` for any other transition → caller keeps the plain lerp.
+    private static func legibilityInk(fromID: String, toID: String, t: Double) -> Color? {
+        let stops: [(Double, String)]
+        switch (fromID, toID) {
+        case ("fajr", "dhuhr"):
+            stops = [(0.0, "#f7eef0"), (0.2, "#ccc8cd"), (0.4, "#a2a3a9"),
+                     (0.5, "#d9d6da"), (0.6, "#cecbcf"), (0.8, "#4d5862"), (1.0, "#22323f")]
+        case ("dhuhr", "asr"):
+            stops = [(0.0, "#22323f"), (0.2, "#4d575f"), (0.4, "#4d575f"),
+                     (0.5, "#ebebed"), (0.6, "#a2a2a0"), (0.8, "#ccc8c1"), (1.0, "#f7ede1")]
+        default:
+            return nil
+        }
+        let clamped = min(max(t, 0), 1)
+        for i in 1..<stops.count {
+            let (t0, h0) = stops[i - 1], (t1, h1) = stops[i]
+            if clamped <= t1 {
+                let span = t1 - t0
+                let f = span > 0 ? (clamped - t0) / span : 0
+                return .lerp(Color(hex: h0), Color(hex: h1), f)
+            }
+        }
+        return Color(hex: stops.last!.1)
+    }
 
     /// Full-bleed background. A solid gradient when not transitioning; during a
     /// transition the `to` keyframe cross-fades in over the `from` keyframe
@@ -162,6 +195,15 @@ extension PrayerTimeTheme {
 // MARK: - Interpolation
 
 extension PrayerTimeTheme {
+    /// Copy with only the primary `ink` swapped (legibility correction).
+    func replacingInk(_ newInk: Color) -> PrayerTimeTheme {
+        PrayerTimeTheme(
+            gradientStops: gradientStops, isLight: isLight,
+            ink: newInk, muted: muted, faint: faint, faintest: faintest,
+            accent: accent, glow: glow, orbA: orbA, orbB: orbB, orbInk: orbInk
+        )
+    }
+
     static func lerp(_ a: PrayerTimeTheme, _ b: PrayerTimeTheme, _ t: Double) -> PrayerTimeTheme {
         if t <= 0 { return a }
         if t >= 1 { return b }
