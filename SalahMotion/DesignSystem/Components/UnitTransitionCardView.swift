@@ -1,4 +1,5 @@
 import SwiftUI
+import SalahMotionCore
 
 /// Brief "{from} complete — Begin {to}" card shown for ~2s at a unit boundary,
 /// while PrayerStateMachine.unitTransition is non-nil. See docs/guided/observances.md §4.

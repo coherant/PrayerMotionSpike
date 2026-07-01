@@ -1,4 +1,5 @@
 import SwiftUI
+import SalahMotionCore
 
 struct GuidedPrayerView: View {
     // Running screen follows clock time (theme.md §9): the current period drives

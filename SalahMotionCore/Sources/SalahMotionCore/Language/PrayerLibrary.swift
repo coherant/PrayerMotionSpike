@@ -2,7 +2,7 @@ import Foundation
 
 // MARK: - Prayer ID
 
-enum PrayerID: String, CaseIterable {
+public enum PrayerID: String, CaseIterable {
     case p0  = "P-0"
     case p1  = "P-1"
     case p2  = "P-2"
@@ -34,7 +34,7 @@ enum PrayerID: String, CaseIterable {
 // To add or edit a prayer, update prayers.json only — no Swift changes needed.
 // To add a new ID, add one case to PrayerID above and one entry in prayers.json.
 
-enum PrayerLibrary {
+public enum PrayerLibrary {
 
     private struct Entry: Decodable {
         let id: String
@@ -60,7 +60,7 @@ enum PrayerLibrary {
         return Dictionary(uniqueKeysWithValues: payload.prayers.map { ($0.id, $0) })
     }()
 
-    static func text(_ id: PrayerID, _ language: Language) -> String {
+    public static func text(_ id: PrayerID, _ language: Language) -> String {
         guard let entry = cache[id.rawValue] else {
             assertionFailure("Prayer \(id.rawValue) not found in prayers.json")
             return ""

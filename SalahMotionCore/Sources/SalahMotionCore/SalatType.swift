@@ -3,24 +3,24 @@ import Foundation
 // MARK: - Prayer unit (one selectable block within a session)
 // Source: docs/features/prayer-setup/SPEC.md §4 & §5
 
-struct PrayerUnit: Identifiable {
-    enum Kind {
+public struct PrayerUnit: Identifiable {
+    public enum Kind {
         case fard
         case sunnahBefore(emphasised: Bool)
         case sunnahAfter(emphasised: Bool)
         case witr
     }
 
-    let id: String
-    let kind: Kind
-    let rakats: Int
+    public let id: String
+    public let kind: Kind
+    public let rakats: Int
 
-    var isObligatory: Bool {
+    public var isObligatory: Bool {
         if case .fard = kind { return true }
         return false
     }
 
-    var displayName: String {
+    public var displayName: String {
         switch kind {
         case .fard:                       return "Farḍ"
         case .sunnahBefore, .sunnahAfter: return "Sunnah"
@@ -28,7 +28,7 @@ struct PrayerUnit: Identifiable {
         }
     }
 
-    var arabicName: String {
+    public var arabicName: String {
         switch kind {
         case .fard:                       return "فرض"
         case .sunnahBefore, .sunnahAfter: return "سنة"
@@ -36,7 +36,7 @@ struct PrayerUnit: Identifiable {
         }
     }
 
-    var tagText: String {
+    public var tagText: String {
         switch kind {
         case .fard:
             return "Obligatory"
@@ -52,16 +52,16 @@ struct PrayerUnit: Identifiable {
 
 // MARK: - Salat type
 
-enum SalatType: String, CaseIterable, Identifiable {
+public enum SalatType: String, CaseIterable, Identifiable {
     case fajr    = "fajr"
     case dhuhr   = "dhuhr"
     case asr     = "asr"
     case maghrib = "maghrib"
     case isha    = "isha"
 
-    var id: String { rawValue }
+    public var id: String { rawValue }
 
-    var displayName: String {
+    public var displayName: String {
         switch self {
         case .fajr:    return "Fajr"
         case .dhuhr:   return "Dhuhr"
@@ -72,7 +72,7 @@ enum SalatType: String, CaseIterable, Identifiable {
     }
 
     // Exact spellings from SPEC.md §6
-    var arabicName: String {
+    public var arabicName: String {
         switch self {
         case .fajr:    return "الفجر"
         case .dhuhr:   return "الظهر"
@@ -82,7 +82,7 @@ enum SalatType: String, CaseIterable, Identifiable {
         }
     }
 
-    var periodLabel: String {
+    public var periodLabel: String {
         switch self {
         case .fajr:    return "Before sunrise"
         case .dhuhr:   return "Midday"
@@ -92,50 +92,14 @@ enum SalatType: String, CaseIterable, Identifiable {
         }
     }
 
-    var prayerTime: PrayerTime {
-        switch self {
-        case .fajr:    return .fajr
-        case .dhuhr:   return .dhuhr
-        case .asr:     return .asr
-        case .maghrib: return .maghrib
-        case .isha:    return .isha
-        }
-    }
-
-    /// The prayer whose *valid window* contains `now`, from real engine times.
-    /// Windows: Fajr `[fajr, sunrise)` · Dhuhr `[dhuhr, asr)` · Asr `[asr, maghrib)` ·
-    /// Maghrib `[maghrib, isha)` · Isha `[isha, next fajr)`.
-    /// Special cases: Isha stays valid all night until 1 s before Fajr; the gap
-    /// between sunrise (end of Fajr's time) and Dhuhr resolves to Dhuhr.
-    /// Falls back to `.maghrib` only before the engine's first computation.
-    static func current(now: Date = Date()) -> SalatType {
-        let engine = PrayerTimesEngine.shared
-        engine.refreshIfNeeded(now: now)   // ensure today's times across a day rollover
-
-        guard
-            let fajr    = engine.date(for: .fajr),
-            let dhuhr   = engine.date(for: .dhuhr),
-            let asr     = engine.date(for: .asr),
-            let maghrib = engine.date(for: .maghrib),
-            let isha    = engine.date(for: .isha)
-        else {
-            return .maghrib
-        }
-        let sunrise = engine.sunrise ?? dhuhr
-
-        // Night — after today's Isha, or before today's Fajr (Isha extends to Fajr).
-        if now >= isha || now < fajr { return .isha }
-        // Fajr's valid time ends at sunrise.
-        if now < sunrise  { return .fajr }
-        // Sunrise→Dhuhr gap and the Dhuhr window both show Dhuhr.
-        if now < asr      { return .dhuhr }
-        if now < maghrib  { return .asr }
-        return .maghrib
-    }
+    // `prayerTime` (bridge to the PrayerTime enum) and `current(now:)` both live
+    // app-side in SalatType+PrayerTimes.swift — they depend on the prayer-times /
+    // adhan domain (PrayerTime, PrayerTimesEngine), which is not part of the
+    // guided-engine core.
 
     // All units for this prayer in display order.
     // Farḍ is always first; sunnah before farḍ appears before it; witr last.
-    var units: [PrayerUnit] {
+    public var units: [PrayerUnit] {
         switch self {
         case .fajr:
             return [
@@ -168,47 +132,47 @@ enum SalatType: String, CaseIterable, Identifiable {
         }
     }
 
-    var fardRakats: Int { units.first(where: \.isObligatory)?.rakats ?? 0 }
+    public var fardRakats: Int { units.first(where: \.isObligatory)?.rakats ?? 0 }
 }
 
 // MARK: - Muezzin
 
-struct Muezzin: Identifiable {
-    let id: String
-    let latinName: String
-    let arabicName: String
-    let arabicInitial: String
-    let style: String
+public struct Muezzin: Identifiable {
+    public let id: String
+    public let latinName: String
+    public let arabicName: String
+    public let arabicInitial: String
+    public let style: String
 }
 
-enum Muezzins {
-    static let all: [Muezzin] = [
+public enum Muezzins {
+    public static let all: [Muezzin] = [
         Muezzin(id: "munadi-ai", latinName: "Munādī AI", arabicName: "منادي", arabicInitial: "م", style: "AI muezzin · clear, measured"),
         Muezzin(id: "bilal",  latinName: "Bilāl",  arabicName: "بلال",   arabicInitial: "ب", style: "Madinah cadence · unhurried"),
         Muezzin(id: "idris",  latinName: "Idrīs",  arabicName: "إدريس",  arabicInitial: "إ", style: "Flowing · melodic"),
         Muezzin(id: "sadiq",  latinName: "Ṣādiq",  arabicName: "صادق",   arabicInitial: "ص", style: "Spacious · minimal"),
         Muezzin(id: "yunus",  latinName: "Yūnus",  arabicName: "يونس",   arabicInitial: "ي", style: "Bright · resonant"),
     ]
-    static let defaultID = "munadi-ai"
+    public static let defaultID = "munadi-ai"
 }
 
 // MARK: - RecitationVoice (Qāri') — voices the recitation (P)
 // Temporary list; Muʿallim AI (the default) is the only one with recordings — others
 // fall back to TTS until imported. Selection lives in UserPreferences.reciterId.
 
-struct RecitationVoice: Identifiable {
-    let id: String
-    let latinName: String
-    let arabicName: String
-    let style: String
+public struct RecitationVoice: Identifiable {
+    public let id: String
+    public let latinName: String
+    public let arabicName: String
+    public let style: String
 }
 
-enum RecitationVoices {
-    static let all: [RecitationVoice] = [
+public enum RecitationVoices {
+    public static let all: [RecitationVoice] = [
         RecitationVoice(id: "muallim-ai", latinName: "Muʿallim AI", arabicName: "معلّم", style: "AI voice · clear, measured"),
         RecitationVoice(id: "ubayy", latinName: "Ubayy", arabicName: "أبيّ",  style: "Warm · deliberate"),
         RecitationVoice(id: "zayd",  latinName: "Zayd",  arabicName: "زيد",   style: "Bright · flowing"),
         RecitationVoice(id: "tamim", latinName: "Tamīm", arabicName: "تميم",  style: "Deep · resonant"),
     ]
-    static let defaultID = "muallim-ai"
+    public static let defaultID = "muallim-ai"
 }

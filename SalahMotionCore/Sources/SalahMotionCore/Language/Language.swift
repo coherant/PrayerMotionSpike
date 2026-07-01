@@ -1,13 +1,13 @@
 import Foundation
 
-enum Language: String, CaseIterable, Identifiable {
+public enum Language: String, CaseIterable, Identifiable {
     case english = "en"
     case turkish = "tr"
     case arabic  = "ar"
 
-    var id: String { rawValue }
+    public var id: String { rawValue }
 
-    var displayName: String {
+    public var displayName: String {
         switch self {
         case .arabic:  return "عربي"
         case .turkish: return "Türkçe"
@@ -16,7 +16,7 @@ enum Language: String, CaseIterable, Identifiable {
     }
 
     /// BCP-47 code passed to AVSpeechSynthesisVoice
-    var voiceCode: String {
+    public var voiceCode: String {
         switch self {
         case .arabic:  return "ar-SA"
         case .turkish: return "tr-TR"

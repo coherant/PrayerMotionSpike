@@ -1,4 +1,5 @@
 import SwiftUI
+import SalahMotionCore
 
 struct PrayerSetSheet: View {
     @Binding var isPresented: Bool

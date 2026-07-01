@@ -8,6 +8,7 @@
 //
 
 import Testing
+import SalahMotionCore
 import Foundation
 @testable import SalahMotion
 

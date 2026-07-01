@@ -6,7 +6,7 @@ import Foundation
 // binds ONLY to a C- id, never a P-id — the fiqh boundary, enforced by the type system.
 // See docs/guided/CONGREGATIONAL-CONTAINER.md §A and docs/prayers/calls.md.
 
-enum CallID: String, CaseIterable {
+public enum CallID: String, CaseIterable {
     case c1  = "C-1"    // Adhān
     case c1F = "C-1F"   // Adhān (Fajr — carries aṣ-ṣalātu khayrun mina-n-nawm)
     case c1S  = "C-1S"  // Adhān (short — opening takbīr ×2, then each line once)
@@ -25,7 +25,7 @@ enum CallID: String, CaseIterable {
 
 // The Muezzin act each call performs — drives container placement (see the generator)
 // and, later, the listen/count phase choice.
-enum CallShape: String, Decodable {
+public enum CallShape: String, Decodable {
     case call       // adhān / iqāma — listen, auto-paced
     case boundary   // post-salām du'ā after the farḍ
     case dhikr      // post-salah remembrance (some counted)
@@ -40,9 +40,9 @@ enum CallShape: String, Decodable {
 // `verify: true` entries carry Arabic still pending the user's review before voice-binding
 // (Stage 3). Nothing here is spoken in Stage 2 — it is content/display data only.
 
-enum CallLibrary {
+public enum CallLibrary {
 
-    struct Entry: Decodable {
+    public struct Entry: Decodable {
         let id: String
         let name: String
         let shape: CallShape
@@ -78,16 +78,16 @@ enum CallLibrary {
     }
 
     // The Muezzin voices Arabic; transliteration + meaning are for the follower's display.
-    static func arabic(_ id: CallID) -> String          { entry(id)?.arabic ?? "" }
-    static func transliteration(_ id: CallID) -> String { entry(id)?.transliteration ?? "" }
-    static func meaning(_ id: CallID) -> String         { entry(id)?.english ?? "" }
-    static func name(_ id: CallID) -> String            { entry(id)?.name ?? "" }
-    static func shape(_ id: CallID) -> CallShape        { entry(id)?.shape ?? .call }
-    static func count(_ id: CallID) -> Int              { entry(id)?.count ?? 0 }
+    public static func arabic(_ id: CallID) -> String          { entry(id)?.arabic ?? "" }
+    public static func transliteration(_ id: CallID) -> String { entry(id)?.transliteration ?? "" }
+    public static func meaning(_ id: CallID) -> String         { entry(id)?.english ?? "" }
+    public static func name(_ id: CallID) -> String            { entry(id)?.name ?? "" }
+    public static func shape(_ id: CallID) -> CallShape        { entry(id)?.shape ?? .call }
+    public static func count(_ id: CallID) -> Int              { entry(id)?.count ?? 0 }
 
     // Language-axis text for TTS/display, mirroring `PrayerLibrary.text(_:_:)`: the Turkish
     // slot is the transliteration (pronunciation), English the meaning, Arabic the script.
-    static func text(_ id: CallID, _ language: Language) -> String {
+    public static func text(_ id: CallID, _ language: Language) -> String {
         guard let e = entry(id) else { return "" }
         switch language {
         case .arabic:  return e.arabic

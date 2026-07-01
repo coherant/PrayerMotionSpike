@@ -1,4 +1,5 @@
 import SwiftUI
+import SalahMotionCore
 
 @main
 struct SalahMotionApp: App {

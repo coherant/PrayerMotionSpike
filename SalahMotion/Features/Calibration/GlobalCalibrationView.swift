@@ -1,4 +1,5 @@
 import SwiftUI
+import SalahMotionCore
 
 struct GlobalCalibrationView: View {
     @State private var participantName: String = ""

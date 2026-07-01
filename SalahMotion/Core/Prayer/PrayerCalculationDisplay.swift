@@ -1,4 +1,5 @@
 import Foundation
+import SalahMotionCore
 
 // MARK: - UI display names for the Adhan calculation enums
 //

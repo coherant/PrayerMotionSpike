@@ -1,6 +1,6 @@
 // MARK: - Phase mode
 
-enum PhaseMode: String {
+public enum PhaseMode: String {
     case auto         // speak entry, play prayers, speak exit, advance immediately
     case timed        // speak entry, play prayers with durations, speak exit
     case motion       // wait for confirmed motion, speak entry, play prayers with durations, speak exit
@@ -14,14 +14,14 @@ enum PhaseMode: String {
 
 // MARK: - Motion triggers
 
-enum MotionTrigger: CustomStringConvertible {
+public enum MotionTrigger: CustomStringConvertible {
     case ruku
     case sujood
     case upright       // standing or sitting — disambiguated by sequence position
     case headTurnRight
     case headTurnLeft
 
-    var description: String {
+    public var description: String {
         switch self {
         case .ruku:          return "ruku"
         case .sujood:        return "sujood"
@@ -36,7 +36,7 @@ enum MotionTrigger: CustomStringConvertible {
 // Convention from docs/guided/rakats.md: rakat{N}_{position}
 // Supports up to 4 rakats (Dhuhr / Asr / Isha).
 
-enum PrayerStateID: String {
+public enum PrayerStateID: String {
     // Rakat 1 — RAKAT_FULL
     case r1QiyamFull
     case r1Ruku
@@ -86,11 +86,11 @@ enum PrayerStateID: String {
 
 // MARK: - Prayer duration
 
-enum PrayerDuration {
+public enum PrayerDuration {
     case pace           // use UserPreferences.shared.pace.pauseDuration
     case fixed(Double)  // always this many seconds
 
-    func seconds(pace: PrayerPace) -> Double {
+    public func seconds(pace: PrayerPace) -> Double {
         switch self {
         case .pace:         return pace.pauseDuration
         case .fixed(let d): return d
@@ -103,7 +103,7 @@ enum PrayerDuration {
 // nil = guidance/TTS-only), the rendered text (display + TTS + golden snapshot), and the
 // post-utterance pause. `clipID` lets the runner play a recorded recitation when one is
 // installed, falling back to TTS otherwise. See master-prayer-state-machine.md.
-typealias PrayerLine = (clipID: PrayerID?, audioKey: String?, utterance: String, duration: PrayerDuration)
+public typealias PrayerLine = (clipID: PrayerID?, audioKey: String?, utterance: String, duration: PrayerDuration)
 
 // A clip-less spoken line — plain prompt, TTS only, never a clip.
 private func spoken(_ text: String, _ duration: PrayerDuration) -> PrayerLine { (nil, nil, text, duration) }
@@ -115,13 +115,13 @@ private func guided(_ key: String, _ text: String, _ duration: PrayerDuration) -
 // A spoken non-prayer line — entry cue (I), transition recitation (P), or reprompt (I) —
 // carrying its identity so the speaker resolves the right recorded clip + language, else
 // TTS. Mirrors how a PrayerLine carries clipID. `plain` is raw text with no clip.
-enum Utterance {
+public enum Utterance {
     case guidance(InstructionID)    // Murshid → guidanceLanguage, instruction clip
     case recitation(PrayerID)       // Muʿallim → recitationLanguage, recitation clip
     case plain(String)              // raw text → TTS (guidanceLanguage)
 
     /// `I-15` / `P-3` / nil — the clip id, for audio resolution and the golden snapshot.
-    var idLabel: String? {
+    public var idLabel: String? {
         switch self {
         case .guidance(let id):   return id.rawValue
         case .recitation(let id): return id.rawValue
@@ -130,7 +130,7 @@ enum Utterance {
     }
 
     /// Rendered text in the given language (TTS fallback + snapshot serialisation).
-    func text(in language: Language) -> String {
+    public func text(in language: Language) -> String {
         switch self {
         case .guidance(let id):   return InstructionLibrary.text(id, language)
         case .recitation(let id): return PrayerLibrary.text(id, language)
@@ -141,35 +141,35 @@ enum Utterance {
 
 // MARK: - State definition
 
-struct PrayerState {
-    let id: PrayerStateID
-    let rakatNumber: Int
-    let mode: PhaseMode
-    let displayLabel: String
-    let arabic: String
-    let englishMeaning: String
-    let entrySpeech: Utterance?
-    let prayers: [PrayerLine]
-    let exitSpeech: Utterance?
-    let motionTrigger: MotionTrigger?
-    let repromptAudio: Utterance?
-    let repromptInterval: Double
-    let maxReprompts: Int?
+public struct PrayerState {
+    public let id: PrayerStateID
+    public let rakatNumber: Int
+    public let mode: PhaseMode
+    public let displayLabel: String
+    public let arabic: String
+    public let englishMeaning: String
+    public let entrySpeech: Utterance?
+    public let prayers: [PrayerLine]
+    public let exitSpeech: Utterance?
+    public let motionTrigger: MotionTrigger?
+    public let repromptAudio: Utterance?
+    public let repromptInterval: Double
+    public let maxReprompts: Int?
     // Calibration sets this false — arc fills only during the hold phase, not motion wait.
     // Guided leaves it true (default) — arc fills during reprompt countdown as before.
-    let showProgressDuringWait: Bool
+    public let showProgressDuringWait: Bool
     // Unit identity within the observance — stamped by GuidedSequenceGenerator.generate.
     // Single-unit sequences (calibration, witr standalone) leave the defaults.
-    var unitIndex: Int
-    var unitLabel: String
+    public var unitIndex: Int
+    public var unitLabel: String
     // Container (Muezzin) rows only — the C- call this row voices. Nil for in-salah rows.
     // The fiqh boundary in the type system: a container row carries a C- id, never a P-id.
-    let callID: CallID?
+    public let callID: CallID?
 
     // A Muezzin frame row (listen/count), not an in-salah posture. Exempt from Silent Mode.
-    var isContainer: Bool { mode == .listen || mode == .count }
+    public var isContainer: Bool { mode == .listen || mode == .count }
 
-    init(
+    public init(
         id: PrayerStateID,
         rakatNumber: Int,
         mode: PhaseMode,
@@ -211,19 +211,19 @@ struct PrayerState {
 // MARK: - Arabic / English constants
 
 private enum Arabic {
-    static let qiyam   = "قِيَام"
-    static let ruku    = "رُكُوع"
-    static let sujood  = "سُجُود"
-    static let julus   = "جُلُوس"
-    static let tasleem = "تَسْلِيم"
+    public static let qiyam   = "قِيَام"
+    public static let ruku    = "رُكُوع"
+    public static let sujood  = "سُجُود"
+    public static let julus   = "جُلُوس"
+    public static let tasleem = "تَسْلِيم"
 }
 
 private enum Meaning {
-    static let standing    = "Standing"
-    static let bowing      = "Bowing"
-    static let prostration = "Prostration"
-    static let sitting     = "Sitting"
-    static let salutation  = "Salutation"
+    public static let standing    = "Standing"
+    public static let bowing      = "Bowing"
+    public static let prostration = "Prostration"
+    public static let sitting     = "Sitting"
+    public static let salutation  = "Salutation"
 }
 
 // MARK: - Guided sequence
@@ -240,11 +240,11 @@ private enum Meaning {
 // layer that *chains* those units is parked (docs/guided/observance-considerations.md).
 // See also the "Unit identity" section of docs/guided/master-prayer-state-machine.md.
 
-enum GuidedSequenceGenerator {
+public enum GuidedSequenceGenerator {
 
     // MARK: Public API
 
-    static func generate(
+    public static func generate(
         salat: SalatType = UserPreferences.shared.salatType,
         language: Language = UserPreferences.shared.language,
         unitIds: Set<String> = UserPreferences.shared.selectedUnitIds,
@@ -319,7 +319,7 @@ enum GuidedSequenceGenerator {
     // generate(): farḍ is always force-included, so generate() can never emit Witr in
     // isolation. This is also the only coverage of the cue-less timed opener (Witr's
     // hasOpeningCue == false). Keep it. Currently exercised by the snapshot test.
-    static func witrSequence(language: Language = UserPreferences.shared.language) -> [PrayerState] {
+    public static func witrSequence(language: Language = UserPreferences.shared.language) -> [PrayerState] {
         let tx = Tx(language: language)
         let unit = PrayerUnit(id: "isha_witr", kind: .witr, rakats: 3)
         let states = generateUnit(unit, content: content(for: .isha, unit: unit, tx: tx), tx: tx,
@@ -678,9 +678,9 @@ enum GuidedSequenceGenerator {
 // Source: docs/calibration/master-prayer-state-machine.md
 //         docs/calibration/prayers-for-each-state-in-state-machine.md
 
-enum CalibrationSequenceGenerator {
+public enum CalibrationSequenceGenerator {
 
-    static func generate() -> [PrayerState] { masterSequence() }
+    public static func generate() -> [PrayerState] { masterSequence() }
 
     private static func masterSequence() -> [PrayerState] {
         // Every position holds the same — "Hold this position for five seconds." (I-52).

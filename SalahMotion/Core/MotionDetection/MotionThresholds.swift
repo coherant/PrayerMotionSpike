@@ -1,4 +1,5 @@
 import Foundation
+import SalahMotionCore
 
 // MARK: - Validated sensor behaviour (from real recording sessions)
 //

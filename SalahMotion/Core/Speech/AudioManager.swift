@@ -1,4 +1,5 @@
 import AVFoundation
+import SalahMotionCore
 
 @Observable
 final class AudioManager {

@@ -1,4 +1,5 @@
 import SwiftUI
+import SalahMotionCore
 import Combine
 
 // MARK: - Calibration step (8 posture types across the 15-state sequence)

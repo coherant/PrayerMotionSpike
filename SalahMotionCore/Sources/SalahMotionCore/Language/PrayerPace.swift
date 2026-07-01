@@ -1,13 +1,13 @@
 import Foundation
 
-enum PrayerPace: String, CaseIterable, Identifiable, Equatable {
+public enum PrayerPace: String, CaseIterable, Identifiable, Equatable {
     case slow   = "slow"
     case medium = "medium"
     case fast   = "fast"
 
-    var id: String { rawValue }
+    public var id: String { rawValue }
 
-    var displayName: String {
+    public var displayName: String {
         switch self {
         case .slow:   return "Slow"
         case .medium: return "Medium"
@@ -16,7 +16,7 @@ enum PrayerPace: String, CaseIterable, Identifiable, Equatable {
     }
 
     /// Pause in seconds between prayer utterances in .motion phases
-    var pauseDuration: Double {
+    public var pauseDuration: Double {
         switch self {
         case .slow:   return 4.0
         case .medium: return 2.5

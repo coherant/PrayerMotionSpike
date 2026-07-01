@@ -1,4 +1,5 @@
 import SwiftUI
+import SalahMotionCore
 
 // MARK: - Settings screen
 // Source of truth: docs/features/settings/SPEC.md + docs/features/settings/settings.html

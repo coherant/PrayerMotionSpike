@@ -11,7 +11,7 @@ import PackageDescription
 // UserPreferences) requires them.
 let package = Package(
     name: "SalahMotionCore",
-    platforms: [.iOS(.v17), .watchOS(.v10)],
+    platforms: [.iOS(.v17), .watchOS(.v10), .macOS(.v14)],
     products: [
         .library(name: "SalahMotionCore", targets: ["SalahMotionCore"])
     ],

@@ -1,4 +1,5 @@
 import Foundation
+import SalahMotionCore
 import AudioToolbox
 #if canImport(UIKit)
 import UIKit

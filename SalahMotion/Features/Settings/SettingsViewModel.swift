@@ -1,4 +1,5 @@
 import Foundation
+import SalahMotionCore
 import StoreKit
 import UIKit
 import Observation

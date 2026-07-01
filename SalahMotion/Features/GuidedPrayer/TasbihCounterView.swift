@@ -13,6 +13,7 @@
 //
 
 import SwiftUI
+import SalahMotionCore
 
 struct TasbihCounterView: View {
     let remaining: Int

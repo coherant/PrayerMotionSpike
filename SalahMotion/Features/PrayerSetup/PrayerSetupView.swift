@@ -1,4 +1,5 @@
 import SwiftUI
+import SalahMotionCore
 
 struct PrayerSetupView: View {
     let isAvailable: Bool

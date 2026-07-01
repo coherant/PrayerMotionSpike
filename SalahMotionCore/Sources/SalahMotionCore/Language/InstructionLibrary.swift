@@ -2,7 +2,7 @@ import Foundation
 
 // MARK: - Instruction ID
 
-enum InstructionID: String {
+public enum InstructionID: String {
     case i1  = "I-1"
     case i2  = "I-2"
     case i3  = "I-3"
@@ -49,7 +49,7 @@ enum InstructionID: String {
 // but has no `Language` case yet.) To add or edit an instruction, update instructions.json.
 // To add a new ID, add one case to InstructionID above and one entry in instructions.json.
 
-enum InstructionLibrary {
+public enum InstructionLibrary {
 
     private struct Entry: Decodable {
         let id: String
@@ -77,7 +77,7 @@ enum InstructionLibrary {
 
     /// Guidance text in the chosen language (defaults English). tr/ar fall back to
     /// English when a translation is absent.
-    static func text(_ id: InstructionID, _ language: Language = UserPreferences.shared.guidanceLanguage) -> String {
+    public static func text(_ id: InstructionID, _ language: Language = UserPreferences.shared.guidanceLanguage) -> String {
         guard let e = cache[id.rawValue] else {
             assertionFailure("Instruction \(id.rawValue) not found in instructions.json")
             return ""
@@ -90,7 +90,7 @@ enum InstructionLibrary {
     }
 
     /// Templated instruction (e.g. `I-25` "Give your niyet for {prayer}").
-    static func text(_ id: InstructionID, _ language: Language = UserPreferences.shared.guidanceLanguage, prayer: String) -> String {
+    public static func text(_ id: InstructionID, _ language: Language = UserPreferences.shared.guidanceLanguage, prayer: String) -> String {
         text(id, language).replacingOccurrences(of: "{prayer}", with: prayer)
     }
 }
