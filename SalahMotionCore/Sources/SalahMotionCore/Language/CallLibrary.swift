@@ -59,7 +59,7 @@ public enum CallLibrary {
 
     private static let cache: [String: Entry] = {
         guard
-            let url  = Bundle.main.url(forResource: "calls", withExtension: "json"),
+            let url  = Bundle.module.url(forResource: "calls", withExtension: "json"),
             let data = try? Data(contentsOf: url),
             let payload = try? JSONDecoder().decode(Payload.self, from: data)
         else {

@@ -16,6 +16,6 @@ let package = Package(
         .library(name: "SalahMotionCore", targets: ["SalahMotionCore"])
     ],
     targets: [
-        .target(name: "SalahMotionCore")
+        .target(name: "SalahMotionCore", resources: [.process("Resources")])
     ]
 )
