@@ -169,6 +169,19 @@ public struct PrayerState {
     // A Muezzin frame row (listen/count), not an in-salah posture. Exempt from Silent Mode.
     public var isContainer: Bool { mode == .listen || mode == .count }
 
+    /// The body posture this state represents — used by a posture-reporting source (wrist) so
+    /// the machine can require *standing* vs *sitting* rather than the coarse `.upright`. Nil
+    /// for opening/container rows that aren't a held posture. Note: taslīm states are seated,
+    /// but their head-turn trigger is handled by movement, not posture matching.
+    public var expectedPosture: DetectedPosture? {
+        let s = id.rawValue.lowercased()
+        if s.contains("qiyam")  { return .standing }
+        if s.contains("ruku")   { return .bowing }
+        if s.contains("sujood") || s.contains("sujud") { return .prostration }
+        if s.contains("julus")  || s.contains("jalsa") || s.contains("tasleem") { return .sitting }
+        return nil
+    }
+
     public init(
         id: PrayerStateID,
         rakatNumber: Int,

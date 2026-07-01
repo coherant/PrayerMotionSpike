@@ -2,32 +2,41 @@ import Foundation
 import CoreMotion
 import SalahMotionCore
 
-// The watch shell's MotionSource (Stage 4b): wrist CMMotionManager driving PrayerStateMachine.
-// Unlike the iPhone's AirPods source (which hands raw pitch/roll/yaw to the machine's head-
-// calibrated thresholds), the wrist runs its OWN detection — classify() v2 on gravityZ, which
-// the spike showed cleanly separates the postures where wrist pitch/roll couldn't — and reports
-// `currentTrigger` so the machine trusts it directly (see MotionSource.currentTrigger).
+// The watch shell's MotionSource (Stage 4b/v3): wrist CMMotionManager driving
+// PrayerStateMachine. Reports a full posture (classify() v3 on gravityZ + gravityX) so the
+// machine matches it against each state's expected posture — meaning stand-up from sujūd
+// gates on *standing*, not merely leaving the floor. Two axes because gravityZ alone can't
+// split the two close pairs on a real wrist: Sujūd↔Jalsa and Takbīr↔Qiyām separate on gravityX.
+//
+// Calibration (second wrist, guided-capture 2026-07-01):
+//   gz:  Ruku +0.42 | Qiyam -0.11 | Jalsa -0.58 | Sujud -0.65 | Takbir -0.13
+//   gx:  Ruku +0.89 | Qiyam +0.52 | Jalsa +0.70 | Sujud +0.52 | Takbir -0.75
+// Still few wrists — treat as tunable, not final.
 @Observable
 final class WristMotionSource: MotionSource {
     private let cm = CMMotionManager()
     private let queue = OperationQueue()
 
+    // --- classify() v3 thresholds (tunable) ---
+    private static let bowingGz: Double   =  0.15   // gz above → Rukūʿ
+    private static let standingGz: Double = -0.35   // gz above (and below bowing) → standing
+    private static let sujudGx: Double    =  0.61   // gz below standing: gx below → Sujūd, else Jalsa
+    private static let takbirGx: Double   =  0.0    // gz in standing band but gx below → Takbīr (display only)
+
     private(set) var smoothedPitch: Double = 0
     private(set) var smoothedRoll:  Double = 0
     private(set) var smoothedYaw:   Double = 0
-    private(set) var currentTrigger: MotionTrigger? = nil
-    /// Display-friendly posture label for the UI ("Qiyam"/"Ruku"/…), nil until first sample.
-    private(set) var postureLabel: String? = nil
-    /// Live gravityZ — the value classify() thresholds on. Exposed for on-wrist calibration
-    /// (read each posture's gz, then personalise the thresholds).
+    private(set) var currentPosture: DetectedPosture? = nil
+    private(set) var postureLabel: String? = nil     // 5-way incl. Takbīr, for the UI
     private(set) var gravityZ: Double = 0
+    private(set) var gravityX: Double = 0
+    var reportsPosture: Bool { true }
 
-    // Movement latch — stands in for the taslīm head turns. A gyro pulse above threshold
-    // (the du'ā-raise after the final sitting) keeps `isMoving` true past the machine's
-    // ~1.5s hold window, so one deliberate movement carries through the taslīm to complete.
+    // Movement latch — stands in for the taslīm head turns (the du'ā-raise after the final
+    // sitting). A gyro pulse keeps isMoving true past the machine's ~1.5s hold window.
     private var lastMovementAt: Date = .distantPast
-    private let moveThreshold: Double = 0.8   // rad/s (matches the guided-capture "moving" gate)
-    private let movementLatch: Double = 3.0   // > holdWindow (1.5s)
+    private let moveThreshold: Double = 0.8   // rad/s
+    private let movementLatch: Double = 3.0
     var isMoving: Bool { Date().timeIntervalSince(lastMovementAt) < movementLatch }
 
     var isAvailable: Bool { cm.isDeviceMotionAvailable }
@@ -41,6 +50,7 @@ final class WristMotionSource: MotionSource {
             let r = motion.attitude.roll  * 180 / .pi
             let y = motion.attitude.yaw   * 180 / .pi
             let gz = motion.gravity.z
+            let gx = motion.gravity.x
             let rot = motion.rotationRate
             let gyroMag = (rot.x * rot.x + rot.y * rot.y + rot.z * rot.z).squareRoot()
             Task { @MainActor [weak self] in
@@ -48,9 +58,10 @@ final class WristMotionSource: MotionSource {
                 self.smoothedPitch = p
                 self.smoothedRoll  = r
                 self.smoothedYaw   = y
-                self.gravityZ       = gz
-                self.currentTrigger = Self.trigger(forGravityZ: gz)
-                self.postureLabel   = Self.posture(forGravityZ: gz)
+                self.gravityZ = gz
+                self.gravityX = gx
+                self.currentPosture = Self.posture(gz: gz, gx: gx)
+                self.postureLabel   = Self.label(gz: gz, gx: gx)
                 if gyroMag > self.moveThreshold { self.lastMovementAt = Date() }
                 onRawSample?(p, r, y)
             }
@@ -59,21 +70,18 @@ final class WristMotionSource: MotionSource {
 
     func stop() { cm.stopDeviceMotionUpdates() }
 
-    // classify() v2 — derived from guided capture (docs/features/watch/REFACTOR-PLAN.md Stage 2).
-    // gravityZ: Ruku +0.50 | Qiyam -0.11 | Jalsa -0.56 | Sujud -0.66. The machine waits on
-    // transitions, so Qiyam and Jalsa (both "upright") collapse to .upright; posture is
-    // disambiguated by sequence position inside the machine.
-    // NOTE: single-user / settled-holds thresholds — pending cross-user validation.
-    static func trigger(forGravityZ gz: Double) -> MotionTrigger? {
-        if gz >  0.20 { return .ruku }
-        if gz < -0.61 { return .sujood }   // Sujud
-        return .upright                    // Qiyam / Jalsa
+    // 2D classify → the posture the machine gates on. Takbīr shares Qiyām's gz, so it maps to
+    // .standing (harmless — the opening doesn't gate on posture); it's split out only for display.
+    static func posture(gz: Double, gx: Double) -> DetectedPosture {
+        if gz > bowingGz   { return .bowing }        // Rukūʿ
+        if gz > standingGz { return .standing }      // Qiyām (and Takbīr)
+        return gx < sujudGx ? .prostration : .sitting // Sujūd (low gx) vs Jalsa (high gx)
     }
 
-    static func posture(forGravityZ gz: Double) -> String {
-        if gz >  0.20 { return "Ruku" }
-        if gz < -0.61 { return "Sujud" }
-        if gz < -0.35 { return "Jalsa" }
-        return "Qiyam"
+    static func label(gz: Double, gx: Double) -> String {
+        if gz > bowingGz   { return "Ruku" }
+        if gx < takbirGx   { return "Takbir" }        // hands to ears — distinctive negative gx
+        if gz > standingGz { return "Qiyam" }
+        return gx < sujudGx ? "Sujud" : "Jalsa"
     }
 }

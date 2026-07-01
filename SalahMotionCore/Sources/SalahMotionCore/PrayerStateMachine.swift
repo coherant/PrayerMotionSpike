@@ -143,14 +143,22 @@ public final class PrayerStateMachine {
     /// transitions (wrist), trust it; otherwise fall back to threshold detection on the raw
     /// pitch/roll/yaw stream (AirPods). Behavior-preserving for the iPhone: HeadphoneMotionDetector
     /// returns `currentTrigger == nil`, so this is exactly `thresholds.isSatisfied(...)` as before.
-    private func satisfies(_ trigger: MotionTrigger) -> Bool {
-        if let detected = detector.currentTrigger {
-            // Self-detecting source (wrist). It can't sense the taslīm head turns, so a
-            // deliberate movement — the natural du'ā-raise after the final sitting — stands
-            // in for them; every other trigger matches the detected posture.
-            if trigger == .headTurnRight || trigger == .headTurnLeft { return detector.isMoving }
-            return detected == trigger
+    private func satisfies(_ trigger: MotionTrigger, target: DetectedPosture?) -> Bool {
+        // Taslīm head turns: no source can report them as a posture — a wrist stands in with
+        // the du'ā-raise movement; a head source detects the yaw via thresholds.
+        if trigger == .headTurnRight || trigger == .headTurnLeft {
+            if detector.reportsPosture || detector.currentTrigger != nil { return detector.isMoving }
+            return thresholds.isSatisfied(trigger, pitch: pitch, roll: roll, yaw: yaw,
+                                          yawBaseline: qiyamYawBaseline)
         }
+        // Posture-reporting source (wrist): require the ACTUAL target posture — so standing up
+        // from sujūd gates on *standing*, not on merely leaving the floor to sitting height.
+        if detector.reportsPosture, let posture = detector.currentPosture, let target {
+            return posture == target
+        }
+        // Coarse self-detecting source: match the posture-transition trigger.
+        if let detected = detector.currentTrigger { return detected == trigger }
+        // Head geometry (AirPods): threshold detection on the raw pitch/roll/yaw stream.
         return thresholds.isSatisfied(trigger, pitch: pitch, roll: roll, yaw: yaw,
                                       yawBaseline: qiyamYawBaseline)
     }
@@ -234,8 +242,10 @@ public final class PrayerStateMachine {
         if isLast {
             // Final taslīm — the prayer is complete; brief close, then end.
             await timedSilentDwell(state)
-        } else if nextTrigger == .upright && isSeatedUpright(state) {
-            // Invisible sit→stand (middle tashahhud → next rakʿah, or unit boundary).
+        } else if nextTrigger == .upright && isSeatedUpright(state) && !detector.reportsPosture {
+            // Invisible sit→stand (middle tashahhud → next rakʿah, or unit boundary) — only
+            // for head geometry, which can't see it. A wrist source CAN, so it falls through
+            // to confirmMotion and waits for the actual standing posture.
             await timedSilentDwell(state)
         } else {
             // Taslīm baseline (Silent): here the departure trigger *is* the first turn, so the
@@ -248,6 +258,7 @@ public final class PrayerStateMachine {
             }
             // Visible departure — wait, indefinitely, for the worshipper to move on.
             await confirmMotion(trigger: nextTrigger,
+                                target: isLast ? nil : states[index + 1].expectedPosture,
                                 reprompt: nil,
                                 repromptInterval: state.repromptInterval,
                                 maxReprompts: nil,
@@ -452,7 +463,7 @@ public final class PrayerStateMachine {
                     if elapsed >= phaseDuration { break }
 
                     if let trigger = state.motionTrigger {
-                        if satisfies(trigger) {
+                        if satisfies(trigger, target: state.expectedPosture) {
                             if motionHoldStart == nil {
                                 motionHoldStart = Date()
                                 print(String(format: "[PrayerSM] ◌ Motion: %@ p:%.1f° r:%.1f°",
@@ -491,6 +502,7 @@ public final class PrayerStateMachine {
     @MainActor
     private func waitForMotion(_ state: PrayerState) async {
         await confirmMotion(trigger: state.motionTrigger,
+                            target: state.expectedPosture,
                             reprompt: state.repromptAudio,
                             repromptInterval: state.repromptInterval,
                             maxReprompts: state.maxReprompts,
@@ -505,6 +517,7 @@ public final class PrayerStateMachine {
     /// `escapeHatchDelay`.
     @MainActor
     private func confirmMotion(trigger: MotionTrigger?,
+                               target: DetectedPosture? = nil,
                                reprompt: Utterance?,
                                repromptInterval: Double,
                                maxReprompts: Int?,
@@ -535,7 +548,7 @@ public final class PrayerStateMachine {
                 confirmProgress = showProgressDuringWait ? min(elapsed / repromptInterval, 1.0) : 0
             }
 
-            if satisfies(trigger) {
+            if satisfies(trigger, target: target) {
                 if holdStart == nil { holdStart = Date() }
                 if Date().timeIntervalSince(holdStart!) >= holdWindow {
                     print(String(format: "[PrayerSM] ✓ Motion confirmed: %@", stateID))
