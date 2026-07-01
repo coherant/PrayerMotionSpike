@@ -284,6 +284,16 @@ telemetry, not by planning.*
 - **Stage 1 ✅** (`9cf26ef` XcodeGen migration, `ee88b74` `SalahMotionWatch`
   target). Both behavior-preserving: iPhone app builds, watch app builds
   (watchOS 26.5 sim), golden snapshot byte-identical green throughout.
-- **Next → Stage 2** (in the `WatchMotionSpike` repo): capture wrist telemetry,
-  derive `PrayerPosition.classify()`, run the wrist/head/fused ablation. Nothing
-  in *this* repo changes during Stage 2.
+- **Stage 2 ✅** (in the `WatchMotionSpike` repo): wrist telemetry captured;
+  `classify()` v2 derived — **`gravityZ` separates all four postures 100%** across
+  sessions (Euler pitch/roll couldn't; altimeter was drift-dominated bust). Wrist-only
+  baseline validated; AirPods fusion demoted to optional. (Takbīr + cross-user
+  validation parked.)
+- **Stage 3 ✅ COMPLETE** (`03b99c0`→`81b4609`): `SalahMotionCore` extracted (pure —
+  Foundation + Observation only, zero platform frameworks). Both seams cut:
+  **`MotionSource`** (IN) and **`GuidanceEvent`/`GuidanceRenderer`** (OUT, Option A);
+  `PrayerStateMachine` moved into the core; the iPhone app is now a shell injecting
+  `HeadphoneMotionDetector` + `AudioGuidanceRenderer`. Both nets green: `[PrayerState]`
+  snapshot byte-identical throughout; new `GuidanceEvent` runtime snapshot added (3c).
+- **Next → Stage 4:** point `SalahMotionWatch` at the core — wrist `MotionSource`
+  (using `classify()` v2) + haptic `GuidanceRenderer`; standalone wrist-only salah.
