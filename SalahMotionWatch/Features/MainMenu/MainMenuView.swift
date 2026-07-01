@@ -10,25 +10,30 @@ struct MainMenuView: View {
     var body: some View {
         ScrollView {
             LazyVStack(spacing: 5) {
-                card(title: "Prayer Times",  icon: "clock")                { PrayerTimesWatchView() }
-                card(title: "Guided Prayer",  icon: "figure.mind.and.body") { GuidedPrayerWatchView() }
-                card(title: "Calibration",    icon: "scope")                { CalibrationWatchView() }
+                card(title: "Prayer Times",  icon: { symbol("clock") }) { PrayerTimesWatchView() }
+                card(title: "Guided Prayer",  icon: { PrayerBeadsIcon(color: theme.ink).frame(width: 26, height: 26) }) { GuidedPrayerWatchView() }
+                card(title: "Calibration",    icon: { symbol("scope") }) { CalibrationWatchView() }
             }
             .padding(.horizontal, 8)
             .padding(.vertical, 4)
         }
     }
 
-    private func card<D: View>(title: String, icon: String,
-                               @ViewBuilder destination: @escaping () -> D) -> some View {
+    private func symbol(_ name: String) -> some View {
+        Image(systemName: name)
+            .font(.system(size: 22, weight: .medium))
+            .foregroundStyle(theme.ink)
+    }
+
+    private func card<Icon: View, D: View>(title: String, @ViewBuilder icon: () -> Icon,
+                                           @ViewBuilder destination: @escaping () -> D) -> some View {
         NavigationLink(destination: destination) {
             ZStack {
                 RoundedRectangle(cornerRadius: 22, style: .continuous)
                     .fill(theme.top)
                 VStack(alignment: .leading, spacing: 0) {
-                    Image(systemName: icon)
-                        .font(.system(size: 22, weight: .medium))
-                        .foregroundStyle(theme.ink)
+                    icon()
+                        .frame(height: 26, alignment: .leading)
                     Spacer(minLength: 8)
                     Text(title)
                         .font(.system(size: 17, weight: .semibold))
@@ -71,6 +76,51 @@ enum DayThemes {
         case 13..<17: return asr
         case 17..<19: return maghrib
         default:      return isha
+        }
+    }
+}
+
+// Islamic prayer beads (misbaḥa / tasbīḥ): a loop of beads with the leader bead + tassel.
+// Drawn as a vector since there's no SF Symbol for it.
+struct PrayerBeadsIcon: View {
+    var color: Color
+
+    var body: some View {
+        Canvas { ctx, size in
+            let w = size.width, h = size.height
+            let cx = w * 0.5
+            let ringCY = h * 0.34
+            let rx = w * 0.30, ry = h * 0.26
+            let beadR = w * 0.058
+            let count = 13
+
+            // The loop of beads.
+            for i in 0..<count {
+                let a = Double(i) / Double(count) * 2 * .pi + .pi / 2   // start at the bottom
+                let x = cx + rx * CGFloat(cos(a))
+                let y = ringCY + ry * CGFloat(sin(a))
+                ctx.fill(Path(ellipseIn: CGRect(x: x - beadR, y: y - beadR,
+                                                width: beadR * 2, height: beadR * 2)),
+                         with: .color(color))
+            }
+
+            // Leader bead (imāme) below the loop.
+            let imR = beadR * 1.3
+            let imCY = ringCY + ry + imR * 1.3
+            ctx.fill(Path(ellipseIn: CGRect(x: cx - imR, y: imCY - imR,
+                                            width: imR * 2, height: imR * 2)),
+                     with: .color(color))
+
+            // Tassel threads.
+            var tassel = Path()
+            let ty0 = imCY + imR * 0.7
+            let tLen = h * 0.17
+            for dx in [-imR * 0.55, 0, imR * 0.55] {
+                tassel.move(to: CGPoint(x: cx + dx, y: ty0))
+                tassel.addLine(to: CGPoint(x: cx + dx * 1.5, y: ty0 + tLen))
+            }
+            ctx.stroke(tassel, with: .color(color),
+                       style: StrokeStyle(lineWidth: max(1, w * 0.03), lineCap: .round))
         }
     }
 }
