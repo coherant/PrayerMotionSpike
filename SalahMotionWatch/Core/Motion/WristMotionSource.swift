@@ -18,6 +18,9 @@ final class WristMotionSource: MotionSource {
     private(set) var currentTrigger: MotionTrigger? = nil
     /// Display-friendly posture label for the UI ("Qiyam"/"Ruku"/…), nil until first sample.
     private(set) var postureLabel: String? = nil
+    /// Live gravityZ — the value classify() thresholds on. Exposed for on-wrist calibration
+    /// (read each posture's gz, then personalise the thresholds).
+    private(set) var gravityZ: Double = 0
 
     // Movement latch — stands in for the taslīm head turns. A gyro pulse above threshold
     // (the du'ā-raise after the final sitting) keeps `isMoving` true past the machine's
@@ -45,6 +48,7 @@ final class WristMotionSource: MotionSource {
                 self.smoothedPitch = p
                 self.smoothedRoll  = r
                 self.smoothedYaw   = y
+                self.gravityZ       = gz
                 self.currentTrigger = Self.trigger(forGravityZ: gz)
                 self.postureLabel   = Self.posture(forGravityZ: gz)
                 if gyroMag > self.moveThreshold { self.lastMovementAt = Date() }

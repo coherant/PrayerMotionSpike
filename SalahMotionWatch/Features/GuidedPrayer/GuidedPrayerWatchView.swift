@@ -62,7 +62,8 @@ struct GuidedPrayerWatchView: View {
                     Text(s.currentState.arabic).font(.caption)
                 }
                 if let posture = motion.postureLabel {
-                    Text("wrist: \(posture)").font(.caption2).foregroundStyle(.secondary)
+                    Text("wrist: \(posture)  gz \(motion.gravityZ, specifier: "%.2f")")
+                        .font(.caption2).foregroundStyle(.secondary)
                 }
                 // Hands-free advance. Double Tap (finger pinch, Series 9 / Ultra 2+) triggers
                 // this; a screen tap is the universal fallback. For the taslīm — which the wrist
