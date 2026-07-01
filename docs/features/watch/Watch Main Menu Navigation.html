@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SalahMotion Watch · Main Menu Navigation · Celestial Frost</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Manrope:wght@400;500;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<style>
+@keyframes celestialGlow { 0%,100%{opacity:.68;transform:scale(.94)} 50%{opacity:1;transform:scale(1.06)} }
+@keyframes pulseLive     { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(.75)} }
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0 }
+html,body { background:#060810; overflow-x:hidden }
+:root {
+  --ink:#f4f1fa; --muted:#a39db6; --faint:#7d7790; --accent:#9a86c7;
+  --ra18:rgba(154,134,199,.18); --ra25:rgba(154,134,199,.25);
+  --ra30:rgba(154,134,199,.30); --ra40:rgba(154,134,199,.40); --ra50:rgba(154,134,199,.50);
+  --watch-bg:radial-gradient(115% 60% at 50% 42%,#201b3a 0%,#141224 50%,#0b0a14 100%);
+}
+.prayer-nav {
+  position:sticky; top:0; z-index:200; width:100%;
+  background:rgba(6,8,16,.94); -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px);
+  border-bottom:.5px solid rgba(255,255,255,.06);
+  padding:10px 16px; display:flex; gap:6px; align-items:center;
+}
+.prayer-btn {
+  background:rgba(255,255,255,.05); border:.5px solid rgba(255,255,255,.10);
+  border-radius:6px; padding:5px 10px; color:rgba(255,255,255,.4);
+  font-family:Manrope,sans-serif; font-size:10px; font-weight:600;
+  letter-spacing:.5px; cursor:pointer;
+  transition:background .2s,color .2s,border-color .2s;
+}
+.prayer-btn.active { background:var(--accent); border-color:var(--accent); color:rgba(0,0,0,.68) }
+.canvas-wrap { position:relative; width:820px; height:790px; margin:0 auto }
+.cond-sun,.cond-maghrib-sun { display:none }
+
+/* reusable watch shell */
+.watch-shell {
+  position:absolute;
+  width:230px; height:276px; border-radius:56px;
+  background:linear-gradient(145deg,#3e3e40,#2a2a2c 48%,#1a1a1c);
+  padding:15px;
+  box-shadow:0 0 0 .5px rgba(255,255,255,.08),0 2px 0 1.5px rgba(0,0,0,.5),0 28px 56px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.05);
+}
+.watch-crown  { position:absolute;right:-5px;top:50%;transform:translateY(-50%);width:5px;height:50px;background:linear-gradient(to right,#2e2e30,#4c4c50,#2e2e30);border-radius:0 3px 3px 0;box-shadow:2px 0 4px rgba(0,0,0,.45); }
+.watch-action { position:absolute;left:-4px;top:30%;transform:translateY(-50%);width:4px;height:26px;background:linear-gradient(180deg,#c04200,#ff6600);border-radius:2px 0 0 2px;box-shadow:-1px 0 3px rgba(0,0,0,.4); }
+.watch-side   { position:absolute;left:-4px;top:56%;transform:translateY(-50%);width:4px;height:20px;background:linear-gradient(to right,#2e2e30,#4c4c50);border-radius:2px 0 0 2px; }
+.watch-screen { width:200px; height:246px; border-radius:42px; overflow:hidden; background:var(--watch-bg); position:relative; }
+.watch-glow   { position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:215px;height:215px;border-radius:50%;background:radial-gradient(circle,var(--ra40) 0%,transparent 60%);pointer-events:none;z-index:0;animation:celestialGlow 4s ease-in-out infinite; }
+.watch-frost  { position:absolute;inset:0;-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);background:rgba(4,4,14,.20);border-radius:42px;z-index:2;display:flex;flex-direction:column; }
+.status-bar   { display:flex;justify-content:space-between;align-items:center;padding:14px 18px 0;flex:none; }
+</style>
+</head>
+<body>
+
+<nav class="prayer-nav">
+  <span style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.2);flex:none;margin-right:4px;">Prayer</span>
+  <button class="prayer-btn" data-prayer="fajr"    onclick="setTheme(this.dataset.prayer)">Fajr</button>
+  <button class="prayer-btn" data-prayer="dhuhr"   onclick="setTheme(this.dataset.prayer)">Dhuhr</button>
+  <button class="prayer-btn" data-prayer="asr"     onclick="setTheme(this.dataset.prayer)">Asr</button>
+  <button class="prayer-btn" data-prayer="maghrib" onclick="setTheme(this.dataset.prayer)">Maghrib</button>
+  <button class="prayer-btn active" data-prayer="isha" onclick="setTheme(this.dataset.prayer)">Isha</button>
+</nav>
+
+<div class="canvas-wrap">
+
+<!-- ── HEADER ─────────────────────────────────────────────────────── -->
+<div style="position:absolute;left:55px;top:24px;">
+  <div style="font-family:Manrope,sans-serif;font-size:8px;letter-spacing:3px;text-transform:uppercase;color:#2a4258;font-weight:700;margin-bottom:7px;">SalahMotion · Watch · App Navigation · Celestial Frost</div>
+  <div style="font-family:'Cormorant Garamond',serif;font-size:29px;font-weight:500;color:#d0dce8;line-height:1;">Main Menu</div>
+  <div style="font-family:Manrope,sans-serif;font-size:10px;color:#3a5570;margin-top:5px;line-height:1.5;">Crown scrolls to item · tap to enter · Digital Crown returns home</div>
+</div>
+
+<!-- ── ROW LABELS ─────────────────────────────────────────────────── -->
+<div style="position:absolute;left:16px;top:218px;writing-mode:vertical-rl;transform:rotate(180deg);font-family:Manrope,sans-serif;font-size:7.5px;letter-spacing:2px;text-transform:uppercase;color:#2a4258;font-weight:600;">Home</div>
+<div style="position:absolute;left:16px;top:610px;writing-mode:vertical-rl;transform:rotate(180deg);font-family:Manrope,sans-serif;font-size:7.5px;letter-spacing:2px;text-transform:uppercase;color:#2a4258;font-weight:600;">Destinations</div>
+
+<!-- ── HOME WATCH LABEL ───────────────────────────────────────────── -->
+<div style="position:absolute;left:305px;top:88px;width:230px;text-align:center;font-family:Manrope,sans-serif;font-size:7.5px;letter-spacing:1.8px;text-transform:uppercase;color:#2a4258;font-weight:600;">App Launch · Home</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     HOME / MAIN MENU WATCH  (center x = 420)
+     ═══════════════════════════════════════════════════════════════ -->
+<div class="watch-shell" style="left:305px;top:105px;">
+  <div class="watch-crown"></div>
+  <div class="watch-action"></div>
+  <div class="watch-side"></div>
+  <div class="watch-screen">
+    <div class="watch-glow"></div>
+    <!-- Moon -->
+    <div class="cond-moon"><div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:1;"><svg width="92" height="92" viewBox="0 0 74 74"><defs><mask id="cm-hm"><rect width="74" height="74" fill="white"></rect><circle cx="47" cy="32" r="31" fill="black"></circle></mask><radialGradient id="cg-hm" cx="34%" cy="28%" r="72%"><stop offset="0%" stop-color="#fff"></stop><stop offset="44%" style="stop-color:var(--accent)"></stop><stop offset="100%" style="stop-color:var(--muted)"></stop></radialGradient></defs><circle cx="35" cy="37" r="29" style="fill:var(--ra18)" mask="url(#cm-hm)"></circle><circle cx="35" cy="37" r="29" fill="url(#cg-hm)" mask="url(#cm-hm)"></circle><ellipse cx="23" cy="25" rx="7" ry="5" fill="rgba(255,255,255,.20)" mask="url(#cm-hm)"></ellipse></svg></div></div>
+    <!-- Sun -->
+    <div class="cond-sun"><div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:1;"><svg width="92" height="92" viewBox="0 0 74 74"><defs><radialGradient id="sg-hm" cx="38%" cy="32%" r="68%"><stop offset="0%" stop-color="#fff"></stop><stop offset="28%" stop-color="#fffce4"></stop><stop offset="62%" style="stop-color:var(--accent)"></stop><stop offset="100%" style="stop-color:var(--muted)"></stop></radialGradient></defs><circle cx="37" cy="37" r="29" style="fill:var(--ra25)"></circle><circle cx="37" cy="37" r="24" fill="url(#sg-hm)"></circle><ellipse cx="27" cy="26" rx="7" ry="5" fill="rgba(255,255,255,.22)"></ellipse></svg></div></div>
+    <!-- Maghrib sun -->
+    <div class="cond-maghrib-sun"><div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:1;"><svg width="96" height="96" viewBox="0 0 78 78"><defs><radialGradient id="ms-hm" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#fff"></stop><stop offset="35%" stop-color="#ffe4a0"></stop><stop offset="68%" style="stop-color:var(--accent)"></stop><stop offset="100%" style="stop-color:var(--muted)"></stop></radialGradient></defs><circle cx="39" cy="39" r="34" style="fill:var(--ra30)"></circle><circle cx="39" cy="39" r="28" fill="url(#ms-hm)"></circle></svg></div></div>
+    <!-- Stars -->
+    <div class="cond-stars"><div style="position:absolute;top:17px;left:17px;width:5px;height:5px;border-radius:50%;background:#f0ecff;box-shadow:0 0 4px 2px rgba(220,210,255,.55);z-index:1;"></div><div style="position:absolute;top:11px;right:21px;width:4px;height:4px;border-radius:50%;background:#e2d8f8;box-shadow:0 0 3px 1px rgba(210,195,255,.48);z-index:1;"></div></div>
+
+    <!-- ── FROSTED: MAIN MENU CONTENT ── -->
+    <div class="watch-frost">
+      <div class="status-bar">
+        <span style="font-family:Manrope,sans-serif;font-size:13px;font-weight:700;color:var(--ink);letter-spacing:-.3px;">9:41</span>
+        <svg width="16" height="8" viewBox="0 0 16 8" fill="none"><rect x=".5" y=".5" width="13" height="7" rx="2" style="stroke:var(--muted)" stroke-width=".8" fill="none"></rect><rect x="14" y="2" width="1.5" height="4" rx=".75" style="fill:var(--muted)"></rect><rect x="1.5" y="1.5" width="7" height="5" rx="1" style="fill:var(--accent)"></rect></svg>
+      </div>
+      <!-- App context -->
+      <div style="flex:none;padding:5px 18px 0;display:flex;align-items:center;gap:6px;">
+        <div style="font-family:Manrope,sans-serif;font-size:7px;letter-spacing:2px;text-transform:uppercase;color:var(--faint);font-weight:600;">SalahMotion</div>
+        <div style="width:3px;height:3px;border-radius:50%;background:var(--faint);opacity:.5;flex:none;"></div>
+        <div style="font-family:Manrope,sans-serif;font-size:9px;color:var(--muted);"><span class="dyn-name">Isha</span> · <span class="dyn-time">8:24 PM</span></div>
+      </div>
+      <!-- Divider -->
+      <div style="flex:none;height:.5px;background:rgba(255,255,255,.08);margin:7px 14px;"></div>
+      <!-- Menu items -->
+      <div style="flex:1;display:flex;flex-direction:column;padding:0 11px;gap:5px;overflow:hidden;">
+
+        <!-- Prayer Times -->
+        <div style="display:flex;align-items:center;gap:9px;padding:10px 10px;border-radius:12px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.06);">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="color:var(--muted);flex:none;">
+            <circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.3"></circle>
+            <path d="M8 4.5v3.5l2.2 1.3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+          <div style="flex:1;min-width:0;">
+            <div style="font-family:Manrope,sans-serif;font-size:12px;font-weight:600;color:var(--muted);">Prayer Times</div>
+            <div style="font-family:Manrope,sans-serif;font-size:8px;color:var(--faint);margin-top:1px;">Schedule &amp; windows</div>
+          </div>
+          <svg width="6" height="10" viewBox="0 0 6 10" fill="none" style="flex:none;"><path d="M1 1.5l3.5 3.5L1 8.5" stroke="var(--faint)" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        </div>
+
+        <!-- Guided Prayer — SELECTED -->
+        <div style="display:flex;align-items:center;gap:9px;padding:10px 10px;border-radius:12px;background:var(--ra18);border:1px solid var(--ra30);">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="color:var(--accent);flex:none;">
+            <circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.3"></circle>
+            <circle cx="8" cy="8" r="6.5" fill="currentColor" opacity=".1"></circle>
+            <path d="M6.5 5.5l5 2.5-5 2.5V5.5Z" fill="currentColor"></path>
+          </svg>
+          <div style="flex:1;min-width:0;">
+            <div style="font-family:Manrope,sans-serif;font-size:12px;font-weight:700;color:var(--ink);">Guided Prayer</div>
+            <div style="font-family:Manrope,sans-serif;font-size:8px;color:var(--faint);margin-top:1px;">Begin a session</div>
+          </div>
+          <svg width="6" height="10" viewBox="0 0 6 10" fill="none" style="flex:none;"><path d="M1 1.5l3.5 3.5L1 8.5" stroke="var(--accent)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        </div>
+
+        <!-- Calibration -->
+        <div style="display:flex;align-items:center;gap:9px;padding:10px 10px;border-radius:12px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.06);">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="color:var(--muted);flex:none;">
+            <circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.3"></circle>
+            <circle cx="8" cy="8" r="2.4" stroke="currentColor" stroke-width="1"></circle>
+            <line x1="8" y1="1" x2="8" y2="3.5" stroke="currentColor" stroke-width="1" stroke-linecap="round"></line>
+            <line x1="8" y1="12.5" x2="8" y2="15" stroke="currentColor" stroke-width="1" stroke-linecap="round"></line>
+            <line x1="1" y1="8" x2="3.5" y2="8" stroke="currentColor" stroke-width="1" stroke-linecap="round"></line>
+            <line x1="12.5" y1="8" x2="15" y2="8" stroke="currentColor" stroke-width="1" stroke-linecap="round"></line>
+          </svg>
+          <div style="flex:1;min-width:0;">
+            <div style="font-family:Manrope,sans-serif;font-size:12px;font-weight:600;color:var(--muted);">Calibration</div>
+            <div style="font-family:Manrope,sans-serif;font-size:8px;color:var(--faint);margin-top:1px;">Posture &amp; positions</div>
+          </div>
+          <svg width="6" height="10" viewBox="0 0 6 10" fill="none" style="flex:none;"><path d="M1 1.5l3.5 3.5L1 8.5" stroke="var(--faint)" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        </div>
+
+      </div>
+      <div style="flex:none;height:14px;"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     NAV FLOW ARROWS
+     home watch: left:305 top:105 → bezel bottom y=381, center x=420
+     destinations: top=450 → tops at y=450
+     branch point: y=416, arrowheads at y=447
+     ═══════════════════════════════════════════════════════════════ -->
+<svg style="position:absolute;left:0;top:0;width:820px;height:790px;pointer-events:none;overflow:visible;" viewBox="0 0 820 790">
+  <!-- Trunk down from home -->
+  <line x1="420" y1="381" x2="420" y2="416" stroke="#2a4258" stroke-width="1.2"/>
+  <!-- Horizontal branch bar -->
+  <line x1="170" y1="416" x2="670" y2="416" stroke="#2a4258" stroke-width="1.2"/>
+  <!-- Left drop → Prayer Times center 170 -->
+  <line x1="170" y1="416" x2="170" y2="447" stroke="#2a4258" stroke-width="1.2"/>
+  <!-- Center drop → Guided Prayer center 420 -->
+  <line x1="420" y1="416" x2="420" y2="447" stroke="#2a4258" stroke-width="1.2"/>
+  <!-- Right drop → Calibration center 670 -->
+  <line x1="670" y1="416" x2="670" y2="447" stroke="#2a4258" stroke-width="1.2"/>
+  <!-- Arrowhead chevrons -->
+  <path d="M167 443 L170 448 L173 443" stroke="#2a4258" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M417 443 L420 448 L423 443" stroke="#2a4258" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M667 443 L670 448 L673 443" stroke="#2a4258" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+
+<!-- ── DESTINATION COLUMN LABELS ─────────────────────────────────── -->
+<div style="position:absolute;left:55px;top:428px;width:230px;text-align:center;font-family:Manrope,sans-serif;font-size:7.5px;letter-spacing:1.8px;text-transform:uppercase;color:#2a4258;font-weight:600;">Prayer Times</div>
+<div style="position:absolute;left:305px;top:428px;width:230px;text-align:center;font-family:Manrope,sans-serif;font-size:7.5px;letter-spacing:1.8px;text-transform:uppercase;color:#2a4258;font-weight:600;">Guided Prayer</div>
+<div style="position:absolute;left:555px;top:428px;width:230px;text-align:center;font-family:Manrope,sans-serif;font-size:7.5px;letter-spacing:1.8px;text-transform:uppercase;color:#2a4258;font-weight:600;">Calibration</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     DESTINATION 1 · PRAYER TIMES  (left:55, center x=170)
+     ═══════════════════════════════════════════════════════════════ -->
+<div class="watch-shell" style="left:55px;top:443px;">
+  <div class="watch-crown"></div>
+  <div class="watch-action"></div>
+  <div class="watch-side"></div>
+  <div class="watch-screen">
+    <div class="watch-glow"></div>
+    <div class="cond-moon"><div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:1;"><svg width="92" height="92" viewBox="0 0 74 74"><defs><mask id="cm-pt"><rect width="74" height="74" fill="white"></rect><circle cx="47" cy="32" r="31" fill="black"></circle></mask><radialGradient id="cg-pt" cx="34%" cy="28%" r="72%"><stop offset="0%" stop-color="#fff"></stop><stop offset="44%" style="stop-color:var(--accent)"></stop><stop offset="100%" style="stop-color:var(--muted)"></stop></radialGradient></defs><circle cx="35" cy="37" r="29" style="fill:var(--ra18)" mask="url(#cm-pt)"></circle><circle cx="35" cy="37" r="29" fill="url(#cg-pt)" mask="url(#cm-pt)"></circle><ellipse cx="23" cy="25" rx="7" ry="5" fill="rgba(255,255,255,.20)" mask="url(#cm-pt)"></ellipse></svg></div></div>
+    <div class="cond-sun"><div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:1;"><svg width="92" height="92" viewBox="0 0 74 74"><defs><radialGradient id="sg-pt" cx="38%" cy="32%" r="68%"><stop offset="0%" stop-color="#fff"></stop><stop offset="28%" stop-color="#fffce4"></stop><stop offset="62%" style="stop-color:var(--accent)"></stop><stop offset="100%" style="stop-color:var(--muted)"></stop></radialGradient></defs><circle cx="37" cy="37" r="29" style="fill:var(--ra25)"></circle><circle cx="37" cy="37" r="24" fill="url(#sg-pt)"></circle><ellipse cx="27" cy="26" rx="7" ry="5" fill="rgba(255,255,255,.22)"></ellipse></svg></div></div>
+    <div class="cond-maghrib-sun"><div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:1;"><svg width="96" height="96" viewBox="0 0 78 78"><defs><radialGradient id="ms-pt" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#fff"></stop><stop offset="35%" stop-color="#ffe4a0"></stop><stop offset="68%" style="stop-color:var(--accent)"></stop><stop offset="100%" style="stop-color:var(--muted)"></stop></radialGradient></defs><circle cx="39" cy="39" r="34" style="fill:var(--ra30)"></circle><circle cx="39" cy="39" r="28" fill="url(#ms-pt)"></circle></svg></div></div>
+    <div class="cond-stars"><div style="position:absolute;top:17px;left:17px;width:5px;height:5px;border-radius:50%;background:#f0ecff;box-shadow:0 0 4px 2px rgba(220,210,255,.55);z-index:1;"></div><div style="position:absolute;top:11px;right:21px;width:4px;height:4px;border-radius:50%;background:#e2d8f8;box-shadow:0 0 3px 1px rgba(210,195,255,.48);z-index:1;"></div></div>
+    <div class="watch-frost">
+      <div class="status-bar">
+        <span style="font-family:Manrope,sans-serif;font-size:13px;font-weight:700;color:var(--ink);letter-spacing:-.3px;">9:41</span>
+        <svg width="16" height="8" viewBox="0 0 16 8" fill="none"><rect x=".5" y=".5" width="13" height="7" rx="2" style="stroke:var(--muted)" stroke-width=".8" fill="none"></rect><rect x="14" y="2" width="1.5" height="4" rx=".75" style="fill:var(--muted)"></rect><rect x="1.5" y="1.5" width="7" height="5" rx="1" style="fill:var(--accent)"></rect></svg>
+      </div>
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 16px;gap:3px;">
+        <div style="font-family:Manrope,sans-serif;font-size:7.5px;letter-spacing:2px;text-transform:uppercase;color:var(--faint);font-weight:600;">Next Prayer</div>
+        <div class="dyn-name" style="font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:500;color:var(--ink);line-height:1;margin-top:2px;">Isha</div>
+        <div class="dyn-ar" style="font-family:'Amiri',serif;font-size:14px;color:var(--muted);direction:rtl;">العشاء</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:500;color:var(--ink);line-height:1;margin-top:8px;">2h 14m</div>
+      </div>
+      <div style="flex:none;padding:0 0 14px;display:flex;align-items:center;justify-content:center;gap:6px;">
+        <svg width="9" height="9" viewBox="0 0 9 9" fill="none"><circle cx="4.5" cy="4.5" r="3.5" style="stroke:var(--faint)" stroke-width=".7"></circle><path d="M4.5 2L4.5 7" style="stroke:var(--faint)" stroke-width=".7"></path><path d="M4.5 2L3 3.8M4.5 2L6 3.8" style="stroke:var(--accent)" stroke-width=".9" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        <span style="font-family:Manrope,sans-serif;font-size:8px;color:var(--faint);letter-spacing:.5px;">until · <span class="dyn-time">8:24 PM</span></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     DESTINATION 2 · GUIDED PRAYER  (left:305, center x=420)
+     ═══════════════════════════════════════════════════════════════ -->
+<div class="watch-shell" style="left:305px;top:443px;">
+  <div class="watch-crown"></div>
+  <div class="watch-action"></div>
+  <div class="watch-side"></div>
+  <div class="watch-screen">
+    <div class="watch-glow"></div>
+    <div class="cond-moon"><div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:1;"><svg width="92" height="92" viewBox="0 0 74 74"><defs><mask id="cm-gp"><rect width="74" height="74" fill="white"></rect><circle cx="47" cy="32" r="31" fill="black"></circle></mask><radialGradient id="cg-gp" cx="34%" cy="28%" r="72%"><stop offset="0%" stop-color="#fff"></stop><stop offset="44%" style="stop-color:var(--accent)"></stop><stop offset="100%" style="stop-color:var(--muted)"></stop></radialGradient></defs><circle cx="35" cy="37" r="29" style="fill:var(--ra18)" mask="url(#cm-gp)"></circle><circle cx="35" cy="37" r="29" fill="url(#cg-gp)" mask="url(#cm-gp)"></circle><ellipse cx="23" cy="25" rx="7" ry="5" fill="rgba(255,255,255,.20)" mask="url(#cm-gp)"></ellipse></svg></div></div>
+    <div class="cond-sun"><div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:1;"><svg width="92" height="92" viewBox="0 0 74 74"><defs><radialGradient id="sg-gp" cx="38%" cy="32%" r="68%"><stop offset="0%" stop-color="#fff"></stop><stop offset="28%" stop-color="#fffce4"></stop><stop offset="62%" style="stop-color:var(--accent)"></stop><stop offset="100%" style="stop-color:var(--muted)"></stop></radialGradient></defs><circle cx="37" cy="37" r="29" style="fill:var(--ra25)"></circle><circle cx="37" cy="37" r="24" fill="url(#sg-gp)"></circle><ellipse cx="27" cy="26" rx="7" ry="5" fill="rgba(255,255,255,.22)"></ellipse></svg></div></div>
+    <div class="cond-maghrib-sun"><div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:1;"><svg width="96" height="96" viewBox="0 0 78 78"><defs><radialGradient id="ms-gp" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#fff"></stop><stop offset="35%" stop-color="#ffe4a0"></stop><stop offset="68%" style="stop-color:var(--accent)"></stop><stop offset="100%" style="stop-color:var(--muted)"></stop></radialGradient></defs><circle cx="39" cy="39" r="34" style="fill:var(--ra30)"></circle><circle cx="39" cy="39" r="28" fill="url(#ms-gp)"></circle></svg></div></div>
+    <div class="cond-stars"><div style="position:absolute;top:17px;left:17px;width:5px;height:5px;border-radius:50%;background:#f0ecff;box-shadow:0 0 4px 2px rgba(220,210,255,.55);z-index:1;"></div><div style="position:absolute;top:11px;right:21px;width:4px;height:4px;border-radius:50%;background:#e2d8f8;box-shadow:0 0 3px 1px rgba(210,195,255,.48);z-index:1;"></div></div>
+    <div class="watch-frost">
+      <div class="status-bar">
+        <span style="font-family:Manrope,sans-serif;font-size:13px;font-weight:700;color:var(--ink);letter-spacing:-.3px;">9:41</span>
+        <svg width="16" height="8" viewBox="0 0 16 8" fill="none"><rect x=".5" y=".5" width="13" height="7" rx="2" style="stroke:var(--muted)" stroke-width=".8" fill="none"></rect><rect x="14" y="2" width="1.5" height="4" rx=".75" style="fill:var(--muted)"></rect><rect x="1.5" y="1.5" width="7" height="5" rx="1" style="fill:var(--accent)"></rect></svg>
+      </div>
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 16px;gap:0;">
+        <div style="font-family:Manrope,sans-serif;font-size:7px;letter-spacing:2.5px;text-transform:uppercase;color:var(--faint);font-weight:600;">Set up</div>
+        <div class="dyn-name" style="font-family:'Cormorant Garamond',serif;font-size:42px;font-weight:500;color:var(--ink);line-height:1;margin-top:4px;">Isha</div>
+        <div class="dyn-ar" style="font-family:'Amiri',serif;font-size:15px;color:var(--muted);direction:rtl;margin-top:3px;">العشاء</div>
+        <div style="font-family:Manrope,sans-serif;font-size:9px;color:var(--faint);margin-top:7px;"><span class="dyn-time">8:24 PM</span> · <span class="dyn-rakah">4</span> rakʿahs</div>
+        <div style="display:flex;align-items:center;gap:4px;margin-top:9px;">
+          <span style="font-family:Manrope,sans-serif;font-size:10px;color:var(--faint);">↑↓</span>
+          <span style="font-family:Manrope,sans-serif;font-size:7px;color:var(--faint);letter-spacing:.4px;">Crown to change</span>
+        </div>
+      </div>
+      <div style="flex:none;padding:0 16px 14px;">
+        <div style="background:var(--accent);border-radius:10px;height:28px;display:flex;align-items:center;justify-content:center;gap:5px;">
+          <span style="font-family:Manrope,sans-serif;font-size:8.5px;font-weight:700;color:rgba(0,0,0,.62);letter-spacing:.5px;">CONFIRM PRAYER</span>
+          <svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1.5 3.5h4M3.5 1.5l2 2-2 2" stroke="rgba(0,0,0,.5)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     DESTINATION 3 · CALIBRATION  (left:555, center x=670)
+     ═══════════════════════════════════════════════════════════════ -->
+<div class="watch-shell" style="left:555px;top:443px;">
+  <div class="watch-crown"></div>
+  <div class="watch-action"></div>
+  <div class="watch-side"></div>
+  <div class="watch-screen">
+    <div class="watch-glow"></div>
+    <div class="cond-moon"><div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:1;"><svg width="92" height="92" viewBox="0 0 74 74"><defs><mask id="cm-ca"><rect width="74" height="74" fill="white"></rect><circle cx="47" cy="32" r="31" fill="black"></circle></mask><radialGradient id="cg-ca" cx="34%" cy="28%" r="72%"><stop offset="0%" stop-color="#fff"></stop><stop offset="44%" style="stop-color:var(--accent)"></stop><stop offset="100%" style="stop-color:var(--muted)"></stop></radialGradient></defs><circle cx="35" cy="37" r="29" style="fill:var(--ra18)" mask="url(#cm-ca)"></circle><circle cx="35" cy="37" r="29" fill="url(#cg-ca)" mask="url(#cm-ca)"></circle><ellipse cx="23" cy="25" rx="7" ry="5" fill="rgba(255,255,255,.20)" mask="url(#cm-ca)"></ellipse></svg></div></div>
+    <div class="cond-sun"><div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:1;"><svg width="92" height="92" viewBox="0 0 74 74"><defs><radialGradient id="sg-ca" cx="38%" cy="32%" r="68%"><stop offset="0%" stop-color="#fff"></stop><stop offset="28%" stop-color="#fffce4"></stop><stop offset="62%" style="stop-color:var(--accent)"></stop><stop offset="100%" style="stop-color:var(--muted)"></stop></radialGradient></defs><circle cx="37" cy="37" r="29" style="fill:var(--ra25)"></circle><circle cx="37" cy="37" r="24" fill="url(#sg-ca)"></circle><ellipse cx="27" cy="26" rx="7" ry="5" fill="rgba(255,255,255,.22)"></ellipse></svg></div></div>
+    <div class="cond-maghrib-sun"><div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:1;"><svg width="96" height="96" viewBox="0 0 78 78"><defs><radialGradient id="ms-ca" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#fff"></stop><stop offset="35%" stop-color="#ffe4a0"></stop><stop offset="68%" style="stop-color:var(--accent)"></stop><stop offset="100%" style="stop-color:var(--muted)"></stop></radialGradient></defs><circle cx="39" cy="39" r="34" style="fill:var(--ra30)"></circle><circle cx="39" cy="39" r="28" fill="url(#ms-ca)"></circle></svg></div></div>
+    <div class="cond-stars"><div style="position:absolute;top:17px;left:17px;width:5px;height:5px;border-radius:50%;background:#f0ecff;box-shadow:0 0 4px 2px rgba(220,210,255,.55);z-index:1;"></div><div style="position:absolute;top:11px;right:21px;width:4px;height:4px;border-radius:50%;background:#e2d8f8;box-shadow:0 0 3px 1px rgba(210,195,255,.48);z-index:1;"></div></div>
+    <div class="watch-frost">
+      <div class="status-bar">
+        <span style="font-family:Manrope,sans-serif;font-size:13px;font-weight:700;color:var(--ink);letter-spacing:-.3px;">9:41</span>
+        <svg width="16" height="8" viewBox="0 0 16 8" fill="none"><rect x=".5" y=".5" width="13" height="7" rx="2" style="stroke:var(--muted)" stroke-width=".8" fill="none"></rect><rect x="14" y="2" width="1.5" height="4" rx=".75" style="fill:var(--muted)"></rect><rect x="1.5" y="1.5" width="7" height="5" rx="1" style="fill:var(--accent)"></rect></svg>
+      </div>
+      <div style="flex:none;padding:5px 16px 0;font-family:Manrope,sans-serif;font-size:7px;letter-spacing:2.5px;text-transform:uppercase;color:var(--faint);font-weight:600;">Calibration</div>
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 18px;gap:0;">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:500;color:var(--ink);line-height:1;">Qiyam</div>
+        <div style="font-family:'Amiri',serif;font-size:16px;color:var(--muted);direction:rtl;margin-top:3px;">القيام</div>
+        <div style="margin-top:11px;">
+          <svg width="30" height="50" viewBox="0 0 30 50" fill="none">
+            <circle cx="15" cy="7" r="5.5" style="stroke:var(--accent)" stroke-width="1.6"></circle>
+            <line x1="15" y1="12.5" x2="15" y2="33" style="stroke:var(--accent)" stroke-width="1.6" stroke-linecap="round"></line>
+            <line x1="6" y1="21" x2="24" y2="21" style="stroke:var(--accent)" stroke-width="1.6" stroke-linecap="round"></line>
+            <line x1="15" y1="33" x2="8" y2="47" style="stroke:var(--accent)" stroke-width="1.6" stroke-linecap="round"></line>
+            <line x1="15" y1="33" x2="22" y2="47" style="stroke:var(--accent)" stroke-width="1.6" stroke-linecap="round"></line>
+          </svg>
+        </div>
+        <div style="font-family:Manrope,sans-serif;font-size:8px;color:var(--faint);margin-top:7px;text-align:center;line-height:1.4;">Stand upright · face qibla</div>
+      </div>
+      <div style="flex:none;padding:0 14px 14px;">
+        <div style="background:var(--accent);border-radius:10px;height:26px;display:flex;align-items:center;justify-content:center;gap:4px;">
+          <svg width="6" height="8" viewBox="0 0 6 8" fill="none"><path d="M1 1l4 3-4 3V1z" fill="rgba(0,0,0,.6)"></path></svg>
+          <span style="font-family:Manrope,sans-serif;font-size:7.5px;font-weight:700;color:rgba(0,0,0,.62);letter-spacing:.5px;">BEGIN CALIBRATION</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── ANNOTATIONS ─────────────────────────────────────────────────── -->
+<div style="position:absolute;left:55px;top:729px;width:230px;font-family:Manrope,sans-serif;font-size:8px;color:#2a4258;text-align:center;line-height:1.6;">Prayer countdown · Qibla compass · window status</div>
+<div style="position:absolute;left:305px;top:729px;width:230px;font-family:Manrope,sans-serif;font-size:8px;color:#2a4258;text-align:center;line-height:1.6;">→ 3-screen setup flow (guidance · muezzin)</div>
+<div style="position:absolute;left:555px;top:729px;width:230px;font-family:Manrope,sans-serif;font-size:8px;color:#2a4258;text-align:center;line-height:1.6;">Qiyam · Ruku · Sujud · 3-position sequence</div>
+
+<!-- ── FOOTER ──────────────────────────────────────────────────────── -->
+<div style="position:absolute;left:55px;top:762px;font-family:Manrope,sans-serif;font-size:8px;color:#1e3040;letter-spacing:1px;">Apple Watch Ultra 3 · 49mm · Celestial Frost bleeds through all screens · accent shifts with prayer time</div>
+
+</div>
+
+<script>
+const T = {
+  fajr:    { ink:'#f7eef0', muted:'#d8a9b4', faint:'#b78996', accent:'#eaa9b2', ra18:'rgba(234,169,178,.18)', ra25:'rgba(234,169,178,.25)', ra30:'rgba(234,169,178,.30)', ra40:'rgba(234,169,178,.40)', ra50:'rgba(234,169,178,.50)', bg:'linear-gradient(180deg,#0d1430 0%,#1c2147 36%,#46324f 64%,#8a5560 84%,#d18d6c 100%)',    name:'Fajr',    ar:'الفجر',  time:'4:52 AM',  rakah:'2', moon:1, sun:0, magh:0, stars:1 },
+  dhuhr:   { ink:'#22323f', muted:'#4f6473', faint:'#6f8593', accent:'#d99a2a', ra18:'rgba(217,154,42,.18)',  ra25:'rgba(217,154,42,.25)',  ra30:'rgba(217,154,42,.30)',  ra40:'rgba(217,154,42,.40)',  ra50:'rgba(217,154,42,.50)',  bg:'linear-gradient(180deg,#8fb8df 0%,#bcd6ec 42%,#e6eef4 78%,#f4efe6 100%)',                            name:'Dhuhr',   ar:'الظهر',  time:'12:21 PM', rakah:'4', moon:0, sun:1, magh:0, stars:0 },
+  asr:     { ink:'#f7ede1', muted:'#d9b48f', faint:'#b3906f', accent:'#e8b87e', ra18:'rgba(232,184,126,.18)', ra25:'rgba(232,184,126,.25)', ra30:'rgba(232,184,126,.30)', ra40:'rgba(232,184,126,.40)', ra50:'rgba(232,184,126,.50)', bg:'linear-gradient(180deg,#2c3f63 0%,#5b5570 42%,#9c7158 74%,#d59a5c 100%)',                            name:'Asr',     ar:'العصر',  time:'3:47 PM',  rakah:'4', moon:0, sun:1, magh:0, stars:0 },
+  maghrib: { ink:'#fbeede', muted:'#e6b095', faint:'#bd8771', accent:'#f4a86a', ra18:'rgba(244,168,106,.18)', ra25:'rgba(244,168,106,.25)', ra30:'rgba(244,168,106,.30)', ra40:'rgba(244,168,106,.40)', ra50:'rgba(244,168,106,.50)', bg:'linear-gradient(180deg,#241640 0%,#6a2c54 36%,#b34440 60%,#db6e3a 80%,#f2a85a 100%)',              name:'Maghrib', ar:'المغرب', time:'6:58 PM',  rakah:'3', moon:0, sun:0, magh:1, stars:0 },
+  isha:    { ink:'#f4f1fa', muted:'#a39db6', faint:'#7d7790', accent:'#9a86c7', ra18:'rgba(154,134,199,.18)', ra25:'rgba(154,134,199,.25)', ra30:'rgba(154,134,199,.30)', ra40:'rgba(154,134,199,.40)', ra50:'rgba(154,134,199,.50)', bg:'radial-gradient(115% 60% at 50% 42%,#201b3a 0%,#141224 50%,#0b0a14 100%)',                         name:'Isha',    ar:'العشاء', time:'8:24 PM',  rakah:'4', moon:1, sun:0, magh:0, stars:1 }
+};
+const R = document.documentElement.style;
+function setTheme(p) {
+  const t = T[p];
+  ['ink','muted','faint','accent','ra18','ra25','ra30','ra40','ra50'].forEach(k => R.setProperty('--' + k, t[k]));
+  R.setProperty('--watch-bg', t.bg);
+  document.querySelectorAll('.dyn-name').forEach(e => e.textContent = t.name);
+  document.querySelectorAll('.dyn-ar').forEach(e => e.textContent = t.ar);
+  document.querySelectorAll('.dyn-time').forEach(e => e.textContent = t.time);
+  document.querySelectorAll('.dyn-rakah').forEach(e => e.textContent = t.rakah);
+  document.querySelectorAll('.cond-moon').forEach(e => e.style.display = t.moon ? 'block' : 'none');
+  document.querySelectorAll('.cond-sun').forEach(e => e.style.display = t.sun ? 'block' : 'none');
+  document.querySelectorAll('.cond-maghrib-sun').forEach(e => e.style.display = t.magh ? 'block' : 'none');
+  document.querySelectorAll('.cond-stars').forEach(e => e.style.display = t.stars ? 'block' : 'none');
+  document.querySelectorAll('.prayer-btn').forEach(b => b.classList.toggle('active', b.dataset.prayer === p));
+}
+setTheme('isha');
+</script>
+</body>
+</html>
