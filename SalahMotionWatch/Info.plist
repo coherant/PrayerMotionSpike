@@ -26,5 +26,7 @@
 	<string>SalahMotion records a workout session to keep the wrist motion sensors alive during prayer.</string>
 	<key>WKApplication</key>
 	<true/>
+	<key>WKWatchOnly</key>
+	<true/>
 </dict>
 </plist>

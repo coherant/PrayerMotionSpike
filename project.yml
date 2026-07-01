@@ -76,6 +76,10 @@ targets:
       properties:
         CFBundleDisplayName: SalahMotion
         WKApplication: true
+        # Standalone watch-only app (paid standalone feature — no iPhone companion).
+        # Without this, watchOS rejects install: it demands either WKWatchOnly=TRUE
+        # or a valid WKCompanionAppBundleIdentifier.
+        WKWatchOnly: true
         NSHealthShareUsageDescription: "SalahMotion uses HealthKit to keep the motion sensors active during a prayer session."
         NSHealthUpdateUsageDescription: "SalahMotion records a workout session to keep the wrist motion sensors alive during prayer."
     settings:
