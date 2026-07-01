@@ -31,6 +31,7 @@
 		10906533B1062224DD589EEA /* Astronomical.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E23B8750171D22CFF934547 /* Astronomical.swift */; };
 		10F06E0A93BC4302FE9ADAEE /* murshid-ai-ar-I-10.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CC40DF571B95600BE17E1027 /* murshid-ai-ar-I-10.m4a */; };
 		1167B7C4CE71E62A3A06F646 /* murshid-ai-en-I-18.m4a in Resources */ = {isa = PBXBuildFile; fileRef = E4E64D83220C97220AA594E7 /* murshid-ai-en-I-18.m4a */; };
+		13013841FEB15BAD0C4EBFA6 /* GuidedPrayerWatchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1549E1B1CDD4E1FCF3DD61E6 /* GuidedPrayerWatchView.swift */; };
 		136CDC7BABDCBB60E0B5445A /* murshid-ai-tr-dhuhr-fard-I-25.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 6562349D36F67FBBBC839E7C /* murshid-ai-tr-dhuhr-fard-I-25.m4a */; };
 		147C7CA3F753CFFEEBC7D0F2 /* murshid-ai-ar-I-40.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5566E153826A5464138DC992 /* murshid-ai-ar-I-40.m4a */; };
 		148A7E4BE5F73CECB6EBF91C /* murshid-ai-en-I-5.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 6006F38E6C4F7D519EE4F4DF /* murshid-ai-en-I-5.m4a */; };
@@ -457,6 +458,7 @@
 		14C7F910A4409DCF913DC28B /* muallim-ai-ar-P-16.m4a */ = {isa = PBXFileReference; path = "muallim-ai-ar-P-16.m4a"; sourceTree = "<group>"; };
 		14F357D929AF9157B4BC7251 /* HighLatitudeRule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighLatitudeRule.swift; sourceTree = "<group>"; };
 		1503C100C4DF742FA9BCBB14 /* CachedWeatherProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CachedWeatherProvider.swift; sourceTree = "<group>"; };
+		1549E1B1CDD4E1FCF3DD61E6 /* GuidedPrayerWatchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuidedPrayerWatchView.swift; sourceTree = "<group>"; };
 		16886C745CE5F4BF3EF244AA /* SolarTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolarTime.swift; sourceTree = "<group>"; };
 		16A27CF2A5562254DCB65DB7 /* murshid-ai-en-fajr-sunnah-I-25.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-fajr-sunnah-I-25.m4a"; sourceTree = "<group>"; };
 		1A6ADF4D4C20FFE494D47097 /* muallim-ai-en-P-12.m4a */ = {isa = PBXFileReference; path = "muallim-ai-en-P-12.m4a"; sourceTree = "<group>"; };
@@ -866,6 +868,7 @@
 		09EF651DE4F6C8E4604CDB96 /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				7AC134E1CBAFC61270F0FFF5 /* GuidedPrayer */,
 				38B87E8A40291DEAB039773D /* StateMachine */,
 				49F3BBC24FE269BE8411BC80 /* WorkoutSession */,
 			);
@@ -1149,6 +1152,14 @@
 				742C487D647A3E7D335E9921 /* WeatherTests.swift */,
 			);
 			path = SalahMotionTests;
+			sourceTree = "<group>";
+		};
+		7AC134E1CBAFC61270F0FFF5 /* GuidedPrayer */ = {
+			isa = PBXGroup;
+			children = (
+				1549E1B1CDD4E1FCF3DD61E6 /* GuidedPrayerWatchView.swift */,
+			);
+			path = GuidedPrayer;
 			sourceTree = "<group>";
 		};
 		7D67EC4A8EA12ED83445290F /* Extensions */ = {
@@ -2184,6 +2195,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				13013841FEB15BAD0C4EBFA6 /* GuidedPrayerWatchView.swift in Sources */,
 				B8CDEFB0F572AE07087DC4B2 /* MotionManager.swift in Sources */,
 				F7E37A9219EBD135660905F4 /* MotionSample.swift in Sources */,
 				C0F49F6B4082D89D0E03E47B /* PositionReading.swift in Sources */,

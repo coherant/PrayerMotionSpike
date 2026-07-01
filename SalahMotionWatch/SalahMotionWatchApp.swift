@@ -1,12 +1,10 @@
 import SwiftUI
 
-// Standalone watchOS app. Stage 1 of the watch-core-extraction arc
-// (docs/features/watch/REFACTOR-PLAN.md): the product motion + session parts
-// lifted out of the WatchMotionSpike repo, standing ALONGSIDE the iPhone app —
-// it does NOT touch SalahMotionCore yet (that seam is Stage 3/4). The spike's
-// capture/export tooling (MotionLogger, MotionStreamer, ExportManager, Relay)
-// and its telemetry screens (TelemetryView, PositionLabView) were deliberately
-// left behind in the spike.
+// Standalone watchOS app. Stage 4 (docs/features/watch/REFACTOR-PLAN.md): the app now
+// runs SalahMotionCore — "Guided Prayer" drives a PrayerStateMachine from the wrist
+// (WristMotionSource) and renders it on the watch (WatchGuidanceRenderer), phone-free.
+// The remaining screens (Session, State Machine) are spike-derived motion scaffolding,
+// kept for now for on-wrist inspection.
 @main
 struct SalahMotionWatchApp: App {
     @State private var motionManager = MotionManager()
@@ -16,6 +14,7 @@ struct SalahMotionWatchApp: App {
         WindowGroup {
             NavigationStack {
                 List {
+                    NavigationLink("Guided Prayer") { GuidedPrayerWatchView() }
                     NavigationLink("Session") { WorkoutSessionView() }
                     NavigationLink("State Machine") { StateMachineView() }
                 }
