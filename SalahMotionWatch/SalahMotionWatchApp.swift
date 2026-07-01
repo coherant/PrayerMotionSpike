@@ -1,27 +1,21 @@
 import SwiftUI
 
-// Standalone watchOS app. Stage 4 (docs/features/watch/REFACTOR-PLAN.md): the app now
-// runs SalahMotionCore — "Guided Prayer" drives a PrayerStateMachine from the wrist
-// (WristMotionSource) and renders it on the watch (WatchGuidanceRenderer), phone-free.
-// The remaining screens (Session, State Machine) are spike-derived motion scaffolding,
-// kept for now for on-wrist inspection.
+// Standalone watchOS app running SalahMotionCore. "Guided Prayer" drives a
+// PrayerStateMachine from the wrist (WristMotionSource) and renders it on the watch
+// (WatchGuidanceRenderer), phone-free. Prayer Times and Calibration are placeholders
+// for now (docs/features/watch/REFACTOR-PLAN.md).
 @main
 struct SalahMotionWatchApp: App {
-    @State private var motionManager = MotionManager()
-    @State private var sessionManager = WorkoutSessionManager()
-
     var body: some Scene {
         WindowGroup {
             NavigationStack {
                 List {
                     NavigationLink("Guided Prayer") { GuidedPrayerWatchView() }
-                    NavigationLink("Session") { WorkoutSessionView() }
-                    NavigationLink("State Machine") { StateMachineView() }
+                    NavigationLink("Prayer Times") { PrayerTimesWatchView() }
+                    NavigationLink("Calibration") { CalibrationWatchView() }
                 }
                 .navigationTitle("SalahMotion")
             }
-            .environment(motionManager)
-            .environment(sessionManager)
         }
     }
 }
