@@ -9,12 +9,7 @@ struct SalahMotionWatchApp: App {
     var body: some Scene {
         WindowGroup {
             NavigationStack {
-                List {
-                    NavigationLink("Guided Prayer") { GuidedPrayerWatchView() }
-                    NavigationLink("Prayer Times") { PrayerTimesWatchView() }
-                    NavigationLink("Calibration") { CalibrationWatchView() }
-                }
-                .navigationTitle("SalahMotion")
+                MainMenuView()
             }
         }
     }

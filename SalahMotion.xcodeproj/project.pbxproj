@@ -102,6 +102,7 @@
 		36302C30A3E659174819D829 /* muallim-ai-tr-P-14.m4a in Resources */ = {isa = PBXBuildFile; fileRef = E9799BF126D84F407A3666C4 /* muallim-ai-tr-P-14.m4a */; };
 		378D526733BE89B81E50B275 /* murshid-ai-ar-I-23.m4a in Resources */ = {isa = PBXBuildFile; fileRef = FD41F193A8BC8B2C5C90F237 /* murshid-ai-ar-I-23.m4a */; };
 		37E709EF9107BD4A81F7B67A /* guided-sequences.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3253483916BF8F00B2D9B11F /* guided-sequences.txt */; };
+		381BE9BBD2D23C44BD564D88 /* MainMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2FEFBFB4CD7AD3C919AE2CB /* MainMenuView.swift */; };
 		3843F9D26D5E2241047D45A6 /* murshid-ai-ar-I-12.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 93AF4C58266770B8D584EEF9 /* murshid-ai-ar-I-12.m4a */; };
 		38D9B2895B7DE94449046B72 /* murshid-ai-ar-asr-sunnah-I-25.m4a in Resources */ = {isa = PBXBuildFile; fileRef = B123789B36C45CF09F95574B /* murshid-ai-ar-asr-sunnah-I-25.m4a */; };
 		38EDD1253DA17F897AE35D62 /* muallim-ai-en-P-19.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5742FD1544A0BAE401816E59 /* muallim-ai-en-P-19.m4a */; };
@@ -683,6 +684,7 @@
 		B123789B36C45CF09F95574B /* murshid-ai-ar-asr-sunnah-I-25.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-asr-sunnah-I-25.m4a"; sourceTree = "<group>"; };
 		B224E591222919A39B375714 /* AppShell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppShell.swift; sourceTree = "<group>"; };
 		B280B51A11FBE6612FEBAECE /* murshid-ai-ar-I-21.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-21.m4a"; sourceTree = "<group>"; };
+		B2FEFBFB4CD7AD3C919AE2CB /* MainMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuView.swift; sourceTree = "<group>"; };
 		B3F1837323F52EED208A2ED6 /* SolarCoordinates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolarCoordinates.swift; sourceTree = "<group>"; };
 		B4FEE71BDDDCA20E1D8A3905 /* NatureSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NatureSettings.swift; sourceTree = "<group>"; };
 		B50DA6DA97A56F96607FA918 /* murshid-ai-tr-I-28.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-I-28.m4a"; sourceTree = "<group>"; };
@@ -862,6 +864,7 @@
 			children = (
 				F32BE03E77316D11C8CD7131 /* Calibration */,
 				7AC134E1CBAFC61270F0FFF5 /* GuidedPrayer */,
+				86C183565A91D88F426B425F /* MainMenu */,
 				5D9BE38B4AA39CB4752E9DE8 /* PrayerTimes */,
 			);
 			path = Features;
@@ -1142,6 +1145,14 @@
 				DD6F253CF3AD4B0ADD04A0AA /* MathUtilities.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		86C183565A91D88F426B425F /* MainMenu */ = {
+			isa = PBXGroup;
+			children = (
+				B2FEFBFB4CD7AD3C919AE2CB /* MainMenuView.swift */,
+			);
+			path = MainMenu;
 			sourceTree = "<group>";
 		};
 		87726C4EB863F56AD7488095 /* Guidance */ = {
@@ -2178,6 +2189,7 @@
 			files = (
 				1B23D79CF592302AD4345AD0 /* CalibrationWatchView.swift in Sources */,
 				13013841FEB15BAD0C4EBFA6 /* GuidedPrayerWatchView.swift in Sources */,
+				381BE9BBD2D23C44BD564D88 /* MainMenuView.swift in Sources */,
 				9E838F4BBEC94EA2C8B029AC /* PrayerTimesWatchView.swift in Sources */,
 				9C17B2E51745494F97DA5404 /* SalahMotionWatchApp.swift in Sources */,
 				57AF8372F00A586AE9FB1C0A /* WatchGuidanceRenderer.swift in Sources */,
