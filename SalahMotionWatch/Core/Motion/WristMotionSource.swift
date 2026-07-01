@@ -20,7 +20,10 @@ final class WristMotionSource: MotionSource {
     // --- classify() v3 thresholds (tunable) ---
     private static let bowingGz: Double   =  0.15   // gz above → Rukūʿ
     private static let standingGz: Double = -0.35   // gz above (and below bowing) → standing
-    private static let sujudGx: Double    =  0.61   // gz below standing: gx below → Sujūd, else Jalsa
+    // gz below standing: gx below → Sujūd, else Jalsa. Set to 0.65 — the clean gap between
+    // Sujūd's gx range [0.48,0.61] and Jalsa's [0.68,0.74]. Was 0.61 (Sujūd's upper edge),
+    // which clipped the settled 2nd sujūd to "sitting" so it never fired.
+    private static let sujudGx: Double    =  0.65
     private static let takbirGx: Double   =  0.0    // gz in standing band but gx below → Takbīr (display only)
 
     private(set) var smoothedPitch: Double = 0
