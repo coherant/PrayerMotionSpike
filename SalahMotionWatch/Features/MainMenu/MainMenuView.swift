@@ -1,35 +1,38 @@
 import SwiftUI
 
 // Main menu — vertical card list (Mindfulness-style): full-width rounded cards, one per
-// feature, with the watchOS carousel depth effect on scroll. Solid card colours are the
-// iOS theme "top" colours (SalahMotion/DesignSystem/Tokens/PrayerTime.swift + DayTheme.swift).
+// feature, with the watchOS carousel depth effect on scroll. All cards share the day's
+// ACTIVE theme (approximated by clock hour until prayer-times reach the watch), using the
+// iOS theme's top + ink colours (SalahMotion/DesignSystem/Tokens/PrayerTime.swift).
 struct MainMenuView: View {
+    private let theme = DayThemes.active
+
     var body: some View {
         ScrollView {
-            LazyVStack(spacing: 10) {
-                card(title: "Prayer Times",  icon: "clock",                color: Theme.asr)     { PrayerTimesWatchView() }
-                card(title: "Guided Prayer",  icon: "figure.mind.and.body", color: Theme.maghrib) { GuidedPrayerWatchView() }
-                card(title: "Calibration",    icon: "scope",                color: Theme.fajr)    { CalibrationWatchView() }
+            LazyVStack(spacing: 5) {
+                card(title: "Prayer Times",  icon: "clock")                { PrayerTimesWatchView() }
+                card(title: "Guided Prayer",  icon: "figure.mind.and.body") { GuidedPrayerWatchView() }
+                card(title: "Calibration",    icon: "scope")                { CalibrationWatchView() }
             }
             .padding(.horizontal, 8)
             .padding(.vertical, 4)
         }
     }
 
-    private func card<D: View>(title: String, icon: String, color: Color,
+    private func card<D: View>(title: String, icon: String,
                                @ViewBuilder destination: @escaping () -> D) -> some View {
         NavigationLink(destination: destination) {
             ZStack {
                 RoundedRectangle(cornerRadius: 22, style: .continuous)
-                    .fill(color)
+                    .fill(theme.top)
                 VStack(alignment: .leading, spacing: 0) {
                     Image(systemName: icon)
                         .font(.system(size: 22, weight: .medium))
-                        .foregroundStyle(.white)
+                        .foregroundStyle(theme.ink)
                     Spacer(minLength: 8)
                     Text(title)
                         .font(.system(size: 17, weight: .semibold))
-                        .foregroundStyle(.white)
+                        .foregroundStyle(theme.ink)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(15)
@@ -46,14 +49,30 @@ struct MainMenuView: View {
     }
 }
 
-// The iOS theme "top" colours (deep sky of each prayer's hour).
-enum Theme {
-    static let fajr    = Color(hex: "#0d1430")   // deep midnight navy (dawn blue hour)
-    static let dhuhr   = Color(hex: "#8fb8df")   // soft daytime sky blue
-    static let asr     = Color(hex: "#14568f")   // deep saturated azure
-    static let maghrib = Color(hex: "#241640")   // dark indigo-purple
-    static let isha    = Color(hex: "#201b3a")   // dark violet
-    static let dusk    = Color(hex: "#1a1836")   // deep indigo (dusk blue hour)
+// The iOS prayer themes — top (deep sky of the hour) + ink (legible text on it).
+struct DayTheme {
+    let top: Color
+    let ink: Color
+}
+
+enum DayThemes {
+    static let fajr    = DayTheme(top: Color(hex: "#0d1430"), ink: Color(hex: "#f7eef0"))
+    static let dhuhr   = DayTheme(top: Color(hex: "#8fb8df"), ink: Color(hex: "#22323f"))
+    static let asr     = DayTheme(top: Color(hex: "#14568f"), ink: Color(hex: "#f7ede1"))
+    static let maghrib = DayTheme(top: Color(hex: "#241640"), ink: Color(hex: "#fbeede"))
+    static let isha    = DayTheme(top: Color(hex: "#201b3a"), ink: Color(hex: "#f4f1fa"))
+
+    // Approximate the active theme by clock hour. Exact per-prayer selection needs
+    // prayer-times on the watch (a later arc) — this is a stand-in until then.
+    static var active: DayTheme {
+        switch Calendar.current.component(.hour, from: Date()) {
+        case 5..<7:   return fajr
+        case 7..<13:  return dhuhr
+        case 13..<17: return asr
+        case 17..<19: return maghrib
+        default:      return isha
+        }
+    }
 }
 
 extension Color {
