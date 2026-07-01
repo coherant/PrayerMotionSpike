@@ -141,8 +141,19 @@ canonical. **`PrayerPosition` stays out of the core.**
   Status below.)
 - **Exit:** plan red-penned and agreed; snapshot confirmed green at baseline.
 
-### Stage 1 — Consolidate + XcodeGen migration
-*Behavior-preserving. Snapshot must stay byte-identical.*
+### Stage 1 — Consolidate + XcodeGen migration ✅ DONE
+*Behavior-preserving. Snapshot stayed byte-identical.*
+- **1a (`9cf26ef`):** `.xcodeproj` → `project.yml` (xcodegen 2.45.4). Faithful —
+  iOS 26.5, Swift 5.0, `MainActor` isolation, generated Info.plist, SwiftAA 3.0.1,
+  test-host wiring all preserved; app builds; snapshot byte-identical green.
+- **1b (`ee88b74`):** new single-target watchOS app `SalahMotionWatch`. Copied the
+  product parts from the spike (`MotionManager`, `WorkoutSessionManager`, the
+  `Shared` vocab, `StateMachineView` + `WorkoutSessionView`); trimmed app entry;
+  **left the capture/export tooling** (`MotionLogger`, `MotionStreamer`,
+  `ExportManager`, Relay, `PositionLabView`, `TelemetryView`) in the spike. Watch
+  builds green (watchOS 26.5 sim); iPhone snapshot byte-identical; watch does not
+  touch the core yet.
+- **Original stage notes (for reference):**
 - Migrate this repo `.xcodeproj` → `project.yml` (XcodeGen): iPhone app target +
   `SalahMotionTests` + a new **`SalahMotionWatch`** watchOS app target. Green
   build of the iPhone app + green snapshot **first**, before adding watch code —
@@ -267,7 +278,12 @@ telemetry, not by planning.*
 ## Status
 
 - Branch `watch-core-extraction` cut off `main` @ `ecb4f8c`. No code moved.
-- **Stage 0 — in progress.** This plan drafted for red-pen. **Golden snapshot
-  baseline GREEN** @ `ecb4f8c`: `GuidedSnapshotTests/guidedSequencesMatchSnapshot()`
-  passed (iOS Simulator, iPhone 17 Pro Max). This is the byte-for-byte reference
+- **Stage 0 ✅** (`95d3e62`). Plan red-penned + agreed (four resolutions above).
+  **Golden snapshot baseline GREEN** @ `ecb4f8c` — the byte-for-byte reference
   Stages 1 and 3 must reproduce.
+- **Stage 1 ✅** (`9cf26ef` XcodeGen migration, `ee88b74` `SalahMotionWatch`
+  target). Both behavior-preserving: iPhone app builds, watch app builds
+  (watchOS 26.5 sim), golden snapshot byte-identical green throughout.
+- **Next → Stage 2** (in the `WatchMotionSpike` repo): capture wrist telemetry,
+  derive `PrayerPosition.classify()`, run the wrist/head/fused ablation. Nothing
+  in *this* repo changes during Stage 2.
