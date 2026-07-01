@@ -41,14 +41,29 @@ struct GuidedPrayerWatchView: View {
                 Text("Silent").tag(GuidanceLevel.silent)
             }
             .pickerStyle(.navigationLink)
+
+            // Takbīr to begin — raising the hands to the ears (takbīratul-iḥrām) starts the
+            // prayer, the way it actually opens. Unique to the wrist.
+            VStack(spacing: 3) {
+                Text("🙌").font(.title3).opacity(motion.isTakbir ? 1 : 0.45)
+                Text(motion.isTakbir ? "Hold…" : "Takbīr to begin")
+                    .font(.caption2)
+                    .foregroundStyle(motion.isTakbir ? .green : .secondary)
+            }
+            .padding(.top, 2)
+
             Button("Begin \(prayer.displayName)") { begin() }
-                .buttonStyle(.borderedProminent)
+                .buttonStyle(.bordered)
                 .disabled(!motion.isAvailable)
             if !motion.isAvailable {
                 Text("Motion unavailable").font(.caption2).foregroundStyle(.secondary)
             }
         }
         .padding(.horizontal, 8)
+        .task { motion.start() }                        // classify on idle so we can catch takbīr
+        .onChange(of: motion.takbirHeld) { _, held in
+            if held, session == nil { begin() }         // opening gesture starts the prayer
+        }
     }
 
     private func running(_ s: PrayerStateMachine) -> some View {

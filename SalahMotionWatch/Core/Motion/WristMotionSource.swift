@@ -42,10 +42,20 @@ final class WristMotionSource: MotionSource {
     private let movementLatch: Double = 3.0
     var isMoving: Bool { Date().timeIntervalSince(lastMovementAt) < movementLatch }
 
+    // Takbīr (hands to ears — the opening) is unique to the wrist: negative gravityX while
+    // roughly upright. Held briefly so it's a deliberate takbīratul-iḥrām, not a stray motion.
+    // Used to START the prayer on the watch (see GuidedPrayerWatchView).
+    var isTakbir: Bool { gravityX < Self.takbirGx && gravityZ > Self.standingGz }
+    private var takbirStart: Date?
+    private let takbirHold: Double = 0.6
+    private(set) var takbirHeld: Bool = false
+
     var isAvailable: Bool { cm.isDeviceMotionAvailable }
 
     func start(onRawSample: (@MainActor @Sendable (Double, Double, Double) -> Void)? = nil) {
         guard cm.isDeviceMotionAvailable else { return }
+        cm.stopDeviceMotionUpdates()   // safe re-start: the source runs on the idle screen (takbīr
+                                       // detection), then PSM.start() re-attaches with its sample callback
         cm.deviceMotionUpdateInterval = 1.0 / 50.0
         cm.startDeviceMotionUpdates(to: queue) { [weak self] motion, _ in
             guard let motion else { return }
@@ -66,6 +76,14 @@ final class WristMotionSource: MotionSource {
                 self.currentPosture = Self.posture(gz: gz, gx: gx)
                 self.postureLabel   = Self.label(gz: gz, gx: gx)
                 if gyroMag > self.moveThreshold { self.lastMovementAt = Date() }
+                // Held-takbīr detection (to start the prayer).
+                if self.isTakbir {
+                    if self.takbirStart == nil { self.takbirStart = Date() }
+                    if Date().timeIntervalSince(self.takbirStart!) >= self.takbirHold { self.takbirHeld = true }
+                } else {
+                    self.takbirStart = nil
+                    self.takbirHeld = false
+                }
                 onRawSample?(p, r, y)
             }
         }
