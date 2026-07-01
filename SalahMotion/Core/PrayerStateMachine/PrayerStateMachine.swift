@@ -45,7 +45,7 @@ final class PrayerStateMachine {
     private(set) var yaw:   Double = 0
 
     private let audioManager   = AudioManager()
-    private let detector       = HeadphoneMotionDetector()
+    private let detector: MotionSource   // IN seam — injected (iPhone = HeadphoneMotionDetector)
     private var thresholds: MotionThresholds
 
     private var qiyamYawBaseline: Double? = nil
@@ -116,12 +116,14 @@ final class PrayerStateMachine {
          guidanceLevel: GuidanceLevel = UserPreferences.shared.guidanceLevel,
          participantName: String = "",
          audioRoute: AudioRoute = .headphones,
-         useDefaultThresholds: Bool = false) {
+         useDefaultThresholds: Bool = false,
+         motionSource: MotionSource = HeadphoneMotionDetector()) {
         states = sequence
         self.guidanceLevel = guidanceLevel
         self.participantName = participantName
         self.audioRoute = audioRoute
         self.thresholds = MotionThresholds(profile: useDefaultThresholds ? nil : UserCalibrationProfile.load())
+        self.detector = motionSource
     }
 
     func start() {

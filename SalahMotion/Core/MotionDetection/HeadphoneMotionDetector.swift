@@ -1,7 +1,10 @@
 import CoreMotion
+import SalahMotionCore
 
+// The iPhone shell's MotionSource: AirPods head motion. Already matched the seam
+// shape (isAvailable / smoothedPitch/Roll/Yaw / start(onRawSample:) / stop).
 @Observable
-final class HeadphoneMotionDetector {
+final class HeadphoneMotionDetector: MotionSource {
     private(set) var smoothedPitch: Double = 0
     private(set) var smoothedRoll:  Double = 0
     private(set) var smoothedYaw:   Double = 0
