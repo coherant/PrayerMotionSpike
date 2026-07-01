@@ -73,6 +73,7 @@
 		27C381A456FC2187A0E49279 /* SolarEphemeris.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A83A4D3250E1F0C6486869D /* SolarEphemeris.swift */; };
 		27EADD9F0761DCCEA2623523 /* SalahMotionApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E2BD2813863721D6D20C3D8 /* SalahMotionApp.swift */; };
 		27F9CDDF1BC43D7E19541FFB /* WeatherConditionMappingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EEAD9DE98D4F63B0E024BE /* WeatherConditionMappingTests.swift */; };
+		27FE4E24A8E49ADDADCC0A84 /* AudioGuidanceRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7948A8B6C4EF66CAA50F598B /* AudioGuidanceRenderer.swift */; };
 		2A6EB1152D658561579EE738 /* Madhab.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC655FCA78A5124D16697C08 /* Madhab.swift */; };
 		2AB450465B0D358495352657 /* muallim-ai-tr-P-3.m4a in Resources */ = {isa = PBXBuildFile; fileRef = BF660881D8B787969A2C02AC /* muallim-ai-tr-P-3.m4a */; };
 		2C5AFDFA9B0CF084C8864667 /* murshid-ai-en-I-23.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 1D642BA023DCFA0344343B18 /* murshid-ai-en-I-23.m4a */; };
@@ -610,6 +611,7 @@
 		77842A0B322C93C8E9774BD7 /* CelestialEphemeris.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CelestialEphemeris.swift; sourceTree = "<group>"; };
 		77F7D84AF224348FEA82F500 /* PositionReading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionReading.swift; sourceTree = "<group>"; };
 		78E6FCCCF5EADC29DF9BD42D /* muallim-ai-tr-P-0.m4a */ = {isa = PBXFileReference; path = "muallim-ai-tr-P-0.m4a"; sourceTree = "<group>"; };
+		7948A8B6C4EF66CAA50F598B /* AudioGuidanceRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioGuidanceRenderer.swift; sourceTree = "<group>"; };
 		7A06BD2DCC5BE48FD72EBFD1 /* murshid-ai-tr-asr-fard-I-25.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-asr-fard-I-25.m4a"; sourceTree = "<group>"; };
 		7AFD421E98EC4EA9AA7580AB /* muallim-ai-tr-P-7.m4a */ = {isa = PBXFileReference; path = "muallim-ai-tr-P-7.m4a"; sourceTree = "<group>"; };
 		7B354BCF32CA2E0A5A681990 /* muallim-ai-ar-P-18.m4a */ = {isa = PBXFileReference; path = "muallim-ai-ar-P-18.m4a"; sourceTree = "<group>"; };
@@ -921,6 +923,7 @@
 		1741AD668BF6EEA2E0733711 /* Speech */ = {
 			isa = PBXGroup;
 			children = (
+				7948A8B6C4EF66CAA50F598B /* AudioGuidanceRenderer.swift */,
 				3B0FEAA4EE4C7B3D8881F201 /* AudioManager.swift */,
 			);
 			path = Speech;
@@ -2070,6 +2073,7 @@
 				7235DB3B5D60A3A619777237 /* Angle.swift in Sources */,
 				991A17886BDAA4C098C84091 /* AppShell.swift in Sources */,
 				10906533B1062224DD589EEA /* Astronomical.swift in Sources */,
+				27FE4E24A8E49ADDADCC0A84 /* AudioGuidanceRenderer.swift in Sources */,
 				D5997DE5E8BA50836CAC05C3 /* AudioManager.swift in Sources */,
 				3CA562AA6C1171171D79F0AA /* AudioPulseView.swift in Sources */,
 				76BB2FCB7878811099ACCCD9 /* Aurora.metal in Sources */,

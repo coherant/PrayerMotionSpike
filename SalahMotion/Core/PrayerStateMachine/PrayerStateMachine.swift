@@ -1,17 +1,8 @@
 import Foundation
 import SalahMotionCore
-import AudioToolbox
 #if canImport(UIKit)
 import UIKit
 #endif
-
-// MARK: - Audio route (source: docs/global-configurations.md)
-
-enum AudioRoute {
-    case speakerOnly  // forces built-in speaker even when AirPods connected
-    case headphones   // routes to AirPods if connected, speaker otherwise (default)
-    case auto         // iOS decides — same as headphones in practice
-}
 
 // MARK: - Session sample
 
@@ -44,8 +35,8 @@ final class PrayerStateMachine {
     private(set) var roll:  Double = 0
     private(set) var yaw:   Double = 0
 
-    private let audioManager   = AudioManager()
-    private let detector: MotionSource   // IN seam — injected (iPhone = HeadphoneMotionDetector)
+    private let renderer: GuidanceRenderer   // OUT seam — injected (iPhone = AudioGuidanceRenderer)
+    private let detector: MotionSource       // IN seam  — injected (iPhone = HeadphoneMotionDetector)
     private var thresholds: MotionThresholds
 
     private var qiyamYawBaseline: Double? = nil
@@ -53,14 +44,13 @@ final class PrayerStateMachine {
     private(set) var sessionSamples: [SessionSample] = []
     private var sessionStartDate: Date?
     private let participantName: String
-    private let audioRoute: AudioRoute
     private let holdWindow: Double = 1.5
     /// Interim dwell for a container `.listen` row until Stage 3 binds the Muezzin's voice
     /// (then the dwell becomes the recitation's own length). Tap advances early regardless.
     private let containerListenHold: Double = 4.0
 
     var isAvailable: Bool  { detector.isAvailable }
-    var isSpeaking: Bool   { audioManager.isSpeaking }
+    var isSpeaking: Bool   { renderer.isSpeaking }
     var currentState: PrayerState { states[currentStateIndex] }
     var currentRakat: Int  { currentState.rakatNumber }
     // Rakat numbering resets per unit, so totalRakat is the current unit's rakat count.
@@ -115,15 +105,17 @@ final class PrayerStateMachine {
     init(sequence: [PrayerState] = GuidedSequenceGenerator.generate(),
          guidanceLevel: GuidanceLevel = UserPreferences.shared.guidanceLevel,
          participantName: String = "",
-         audioRoute: AudioRoute = .headphones,
          useDefaultThresholds: Bool = false,
-         motionSource: MotionSource = HeadphoneMotionDetector()) {
+         motionSource: MotionSource = HeadphoneMotionDetector(),
+         renderer: GuidanceRenderer? = nil) {
         states = sequence
         self.guidanceLevel = guidanceLevel
         self.participantName = participantName
-        self.audioRoute = audioRoute
         self.thresholds = MotionThresholds(profile: useDefaultThresholds ? nil : UserCalibrationProfile.load())
         self.detector = motionSource
+        // Default to the iPhone audio renderer; constructed here (MainActor init) rather
+        // than as a default argument, which is evaluated in a nonisolated context.
+        self.renderer = renderer ?? AudioGuidanceRenderer()
     }
 
     func start() {
@@ -131,7 +123,6 @@ final class PrayerStateMachine {
         #if DEBUG
         AudioClips.logCoverage(muezzinId: UserPreferences.shared.muezzinId)
         #endif
-        audioManager.configure(route: audioRoute)
 #if canImport(UIKit)
         UIApplication.shared.isIdleTimerDisabled = true
 #endif
@@ -152,7 +143,7 @@ final class PrayerStateMachine {
         unitTransition = nil
         escapeHatchVisible = false
         tasbihRemaining = nil
-        audioManager.stop()
+        renderer.stop()
         detector.stop()
 #if canImport(UIKit)
         UIApplication.shared.isIdleTimerDisabled = false
@@ -298,7 +289,7 @@ final class PrayerStateMachine {
         escapeHatchVisible = true
         defer { escapeHatchVisible = false }
         if await speakContainerCall(state) { return }   // false = no text → dwell below
-        guard !containerText(state).isEmpty else {
+        guard let id = state.callID, !CallLibrary.text(id, .arabic).isEmpty else {
             let start = Date()
             while !Task.isCancelled {
                 if manualAdvanceRequested { manualAdvanceRequested = false; return }
@@ -328,127 +319,30 @@ final class PrayerStateMachine {
         }
     }
 
-    /// The text the Muezzin speaks/shows for a container row — **Arabic** (the adhān /
-    /// iqāma / dhikr are called in Arabic; the Muezzin is Arabic-only, independent of the
-    /// guidance & recitation languages). See CallLibrary.text.
-    private func containerText(_ state: PrayerState) -> String {
-        guard let id = state.callID else { return "" }
-        return CallLibrary.text(id, .arabic)
-    }
-
-    /// Voices the container call: plays the Muezzin's recorded Arabic clip if one is installed
-    /// (awaited to completion — the call is heard in full), otherwise falls back to TTS of the
-    /// language text. A "tap to continue" that lands during it is consumed here (returns true →
-    /// caller advances) so it never leaks into the next row.
+    /// Voices the container call via the renderer (awaited to completion). A "tap to
+    /// continue" that lands during it is consumed here (returns true → caller advances)
+    /// so it never leaks into the next row.
     @MainActor
     private func speakContainerCall(_ state: PrayerState) async -> Bool {
-        if let id = state.callID {
-            if let url = AudioClips.call(id, muezzinId: UserPreferences.shared.muezzinId),
-               await audioManager.play(url) {
-                if manualAdvanceRequested { manualAdvanceRequested = false; return true }
-                return Task.isCancelled
-            }
-            #if DEBUG
-            print("[AudioClips] ⚠️ call \(id.rawValue) (muezzin=\(UserPreferences.shared.muezzinId)) — TTS fallback")
-            #endif
-        }
-        let text = containerText(state)
-        guard !text.isEmpty else { return false }
-        await audioManager.speak(text, language: .arabic)
+        guard let id = state.callID else { return false }
+        await renderer.render(.call(id))
         if manualAdvanceRequested { manualAdvanceRequested = false; return true }
         return Task.isCancelled
     }
 
     // MARK: - Phase runners
 
-    /// Voices one prayer line: plays its recorded recitation clip if installed (awaited to
-    /// completion — the teacher leads, never truncated), otherwise falls back to TTS of the
-    /// rendered text. A missing clip is expected (recordings land incrementally); empty text
-    /// is a no-op.
+    /// Voices one prayer line via the OUT seam — the renderer resolves clip vs TTS and
+    /// language, and returns when the line has been heard in full (guided timing).
     @MainActor
     private func utter(_ line: PrayerLine) async {
-        if let id = line.clipID {
-            if let url = AudioClips.recitation(id) {
-                #if DEBUG
-                print("[AudioClips] ▶︎ recitation \(id.rawValue) → \(url.lastPathComponent)")
-                #endif
-                if await audioManager.play(url) { return }
-                #if DEBUG
-                print("[AudioClips] ⚠️ recitation \(id.rawValue) — clip found but failed to play → TTS")
-                #endif
-            } else {
-                #if DEBUG
-                print("[AudioClips] ⚠️ recitation \(id.rawValue) (reciter=\(AudioClips.reciterId), "
-                      + "lang=\(UserPreferences.shared.recitationLanguage.rawValue)) — no clip found → TTS")
-                #endif
-            }
-        } else if let key = line.audioKey {
-            let lang = UserPreferences.shared.guidanceLanguage
-            if let url = AudioClips.guidance(key, language: lang) {
-                #if DEBUG
-                print("[AudioClips] ▶︎ guidance \(key) → \(url.lastPathComponent)")
-                #endif
-                if await audioManager.play(url) { return }
-                #if DEBUG
-                print("[AudioClips] ⚠️ guidance \(key) — clip found but failed to play → TTS")
-                #endif
-            } else {
-                #if DEBUG
-                print("[AudioClips] ⚠️ guidance \(key) (lang=\(lang.rawValue)) — no clip found → TTS")
-                #endif
-            }
-        }
-        if !line.utterance.isEmpty {
-            let ttsLang = line.audioKey != nil ? UserPreferences.shared.guidanceLanguage
-                                               : UserPreferences.shared.recitationLanguage
-            await audioManager.speak(line.utterance, language: ttsLang)
-        }
+        await renderer.render(.line(line))
     }
 
-    /// Voices a non-prayer line (entry / exit / reprompt): plays the recorded clip for its
-    /// id if installed (awaited to completion), else TTS — guidance in the guidance language
-    /// (instruction clip), recitation in the recitation language (recitation clip). Each line
-    /// carries its own identity (Utterance), so there's no text-matching. Mirrors
-    /// `utter(_ line: PrayerLine)` for in-position recitations.
+    /// Voices a non-prayer line (entry / exit / reprompt) via the OUT seam.
     @MainActor
     private func utter(_ u: Utterance) async {
-        switch u {
-        case .guidance(let id):
-            let lang = UserPreferences.shared.guidanceLanguage
-            if let url = AudioClips.instruction(id, language: lang) {
-                #if DEBUG
-                print("[AudioClips] ▶︎ guidance \(id.rawValue) → \(url.lastPathComponent)")
-                #endif
-                if await audioManager.play(url) { return }
-                #if DEBUG
-                print("[AudioClips] ⚠️ guidance \(id.rawValue) — clip found but failed to play → TTS")
-                #endif
-            } else {
-                #if DEBUG
-                print("[AudioClips] ⚠️ guidance \(id.rawValue) (lang=\(lang.rawValue)) — no clip → TTS")
-                #endif
-            }
-            await audioManager.speak(InstructionLibrary.text(id, lang), language: lang)
-        case .recitation(let id):
-            let lang = UserPreferences.shared.recitationLanguage
-            if let url = AudioClips.recitation(id, language: lang) {
-                #if DEBUG
-                print("[AudioClips] ▶︎ recitation \(id.rawValue) → \(url.lastPathComponent)")
-                #endif
-                if await audioManager.play(url) { return }
-                #if DEBUG
-                print("[AudioClips] ⚠️ recitation \(id.rawValue) — clip found but failed to play → TTS")
-                #endif
-            } else {
-                #if DEBUG
-                print("[AudioClips] ⚠️ recitation \(id.rawValue) (lang=\(lang.rawValue)) — no clip → TTS")
-                #endif
-            }
-            await audioManager.speak(PrayerLibrary.text(id, lang), language: lang)
-        case .plain(let s):
-            guard !s.isEmpty else { return }
-            await audioManager.speak(s, language: UserPreferences.shared.guidanceLanguage)
-        }
+        await renderer.render(.utterance(u))
     }
 
     @MainActor
@@ -473,7 +367,7 @@ final class PrayerStateMachine {
             await utter(speech)
         }
         guard !Task.isCancelled else { return }
-        if !state.prayers.isEmpty { AudioServicesPlaySystemSound(1108) }
+        if !state.prayers.isEmpty { await renderer.render(.cue) }
         if guidanceLevel.playsPrayers {
             for prayer in state.prayers {
                 guard !Task.isCancelled else { return }
@@ -540,7 +434,7 @@ final class PrayerStateMachine {
         let pace = UserPreferences.shared.pace
         if let speech = state.entrySpeech { await utter(speech) }
         guard !Task.isCancelled else { return }
-        if !state.prayers.isEmpty { AudioServicesPlaySystemSound(1108) }
+        if !state.prayers.isEmpty { await renderer.render(.cue) }
 
         var motionHoldStart: Date? = nil
         var lastRepromptAt = Date()
