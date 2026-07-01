@@ -142,6 +142,7 @@ struct CalibrationView: View {
             }
         }
         .animation(.easeInOut(duration: 0.35), value: session.status)
+        .keepScreenAwake(session.status == .running)
         .onChange(of: session.status) {
             if session.status == .complete {
                 let result = CalibrationAnalyzer(samples: session.sessionSamples).analyze()

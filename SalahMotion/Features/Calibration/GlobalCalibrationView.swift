@@ -19,6 +19,7 @@ struct GlobalCalibrationView: View {
             }
             .padding()
             .animation(.default, value: session.status)
+            .keepScreenAwake(session.status == .running)
             .navigationTitle("Calibration")
             .sheet(item: $shareURL) { ShareSheet(url: $0) }
             .onAppear { loadSessionFiles() }

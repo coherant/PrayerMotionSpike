@@ -1,8 +1,5 @@
 import Foundation
 import SalahMotionCore
-#if canImport(UIKit)
-import UIKit
-#endif
 
 // MARK: - Session sample
 
@@ -120,12 +117,6 @@ final class PrayerStateMachine {
 
     func start() {
         guard isAvailable, status == .idle else { return }
-        #if DEBUG
-        AudioClips.logCoverage(muezzinId: UserPreferences.shared.muezzinId)
-        #endif
-#if canImport(UIKit)
-        UIApplication.shared.isIdleTimerDisabled = true
-#endif
         sessionSamples = []
         visitedStates  = []
         unitTransition = nil
@@ -145,9 +136,6 @@ final class PrayerStateMachine {
         tasbihRemaining = nil
         renderer.stop()
         detector.stop()
-#if canImport(UIKit)
-        UIApplication.shared.isIdleTimerDisabled = false
-#endif
         status = .cancelled
     }
 
@@ -210,9 +198,6 @@ final class PrayerStateMachine {
         }
 
         detector.stop()
-#if canImport(UIKit)
-        UIApplication.shared.isIdleTimerDisabled = false
-#endif
         if !Task.isCancelled {
             saveSession()
             status = .complete

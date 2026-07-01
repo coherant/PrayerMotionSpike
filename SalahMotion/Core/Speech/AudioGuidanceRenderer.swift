@@ -20,6 +20,9 @@ final class AudioGuidanceRenderer: GuidanceRenderer {
 
     init(route: AudioRoute = .headphones) {
         audioManager.configure(route: route)
+        #if DEBUG
+        AudioClips.logCoverage(muezzinId: UserPreferences.shared.muezzinId)
+        #endif
     }
 
     var isSpeaking: Bool { audioManager.isSpeaking }

@@ -21,6 +21,7 @@ struct GuidedPrayerView: View {
             }
         }
         .animation(.easeInOut(duration: 0.3), value: session.status)
+        .keepScreenAwake(session.status == .running)
         .sheet(item: $shareURL) { ShareSheet(url: $0) }
         .onAppear { loadSessionFiles() }
         .onChange(of: session.status) {
