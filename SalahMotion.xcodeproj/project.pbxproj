@@ -18,7 +18,6 @@
 		07F5D4D49485AC107F1C92F1 /* murshid-ai-en-I-7.m4a in Resources */ = {isa = PBXBuildFile; fileRef = B66498484E43350888F0B99F /* murshid-ai-en-I-7.m4a */; };
 		08063166784879C8E9C78A55 /* munadi-ai-C-4.m4a in Resources */ = {isa = PBXBuildFile; fileRef = C57F12F089B716CD7CFCFEAB /* munadi-ai-C-4.m4a */; };
 		08107136B3F6D99340F43545 /* murshid-ai-ar-I-26.m4a in Resources */ = {isa = PBXBuildFile; fileRef = D6F235B18E57951A42456D59 /* murshid-ai-ar-I-26.m4a */; };
-		0947316BC2C509CB5FC33B3A /* UserCalibrationProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB5324340DEF3BF959460447 /* UserCalibrationProfile.swift */; };
 		098EB2FE0739E1A81D2F9FFF /* murshid-ai-ar-I-38.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 97D2F9FFDDADEC8AE40BB8CF /* murshid-ai-ar-I-38.m4a */; };
 		0A5082598ACD351FF44F9656 /* muallim-ai-en-P-16.m4a in Resources */ = {isa = PBXBuildFile; fileRef = B83821797AEAEF524222BABD /* muallim-ai-en-P-16.m4a */; };
 		0A909C1F14B62901ABDCE0D7 /* murshid-ai-ar-I-29.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 901B9E93287A101098DCC86C /* murshid-ai-ar-I-29.m4a */; };
@@ -111,6 +110,7 @@
 		3D903C035A0BBB0964AFE85D /* murshid-ai-en-I-25.m4a in Resources */ = {isa = PBXBuildFile; fileRef = EC0D7070F5B18ED24ABE7C33 /* murshid-ai-en-I-25.m4a */; };
 		3DBFCB4D1635E66281861445 /* murshid-ai-ar-I-19.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 0E96C28373C72ABDA6F5F570 /* murshid-ai-ar-I-19.m4a */; };
 		3DF42E72C35E189226EE6637 /* murshid-ai-tr-fajr-sunnah-I-25.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5AE9F2C9A4223C8E23B1E898 /* murshid-ai-tr-fajr-sunnah-I-25.m4a */; };
+		3E5BCCDB4CCA39728C6E5E88 /* PrayerStateMachine+iPhone.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9973529D0B7462831AAB72D /* PrayerStateMachine+iPhone.swift */; };
 		3EB943C3C8977EDF3D3DA949 /* munadi-ai-C-8.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 31856DA9740893D7E0174A8D /* munadi-ai-C-8.m4a */; };
 		3EC03D4CCDFC8ED29FA74B0A /* ObserverLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EF39297015CFB42AE060FB5 /* ObserverLocation.swift */; };
 		3F75B0F54EFE438D349020E4 /* muallim-ai-ar-P-2.m4a in Resources */ = {isa = PBXBuildFile; fileRef = E5DD32DC2173602F38AFE655 /* muallim-ai-ar-P-2.m4a */; };
@@ -122,12 +122,10 @@
 		41DF0F00DDD75ABC7962FA54 /* Coordinates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304EEC9E9C6222550BAFDED8 /* Coordinates.swift */; };
 		4386CF9217C559381D3BC0F6 /* CormorantGaramond-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A621CEE4E63EBBA5FF632D80 /* CormorantGaramond-SemiBold.ttf */; };
 		449DBF30F221C633DFD70D02 /* NatureSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FEE71BDDDCA20E1D8A3905 /* NatureSettings.swift */; };
-		4664F575F8FC67E9902708A8 /* SensorReadings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A0720A73C594D56F26F7F49 /* SensorReadings.swift */; };
 		467576510070706DAA325D82 /* HeadphoneMotionDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A41968B198EA6F9273ADA9 /* HeadphoneMotionDetector.swift */; };
 		471A0DB36F72E443D4DC37B2 /* murshid-ai-ar-I-35.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 4A335FBB61CF2B943DDE3544 /* murshid-ai-ar-I-35.m4a */; };
 		48C6AFDFC6CA87D20071B028 /* murshid-ai-tr-I-40.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 03AFDE3F8DCE46010AA774ED /* murshid-ai-tr-I-40.m4a */; };
 		49ED5101AE6635BAE402D002 /* murshid-ai-en-I-6.m4a in Resources */ = {isa = PBXBuildFile; fileRef = BEC6C2508724303BC6CF3FA8 /* murshid-ai-en-I-6.m4a */; };
-		4AF02013896201355219B035 /* PrayerStateMachine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A4599A46C3826C461B227B /* PrayerStateMachine.swift */; };
 		4B1C6937BB1EA7BA5C79C0B3 /* DesignTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BDB156C2585DE2639DEEF3C /* DesignTokens.swift */; };
 		4B3C7569DCFF8794F2A09F26 /* munadi-ai-C-2.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5D1632C0CF9DBB918DEEEB1D /* munadi-ai-C-2.m4a */; };
 		4BC0A28DADDB0BC58A70EF69 /* murshid-ai-tr-I-25.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 55A35BF90645F9C41EFB61A1 /* murshid-ai-tr-I-25.m4a */; };
@@ -187,7 +185,6 @@
 		7A9BB462A628932297D74713 /* Prayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A529B28CA6FB1FF9942AD824 /* Prayer.swift */; };
 		7AA740C8D0F2CB02D77768D2 /* murshid-ai-en-I-11.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5049DA7BEE50F931AF8237C2 /* murshid-ai-en-I-11.m4a */; };
 		7B087E3F890F10C78222D9EA /* muallim-ai-ar-P-5.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 04F436728B257ABA5CBB516A /* muallim-ai-ar-P-5.m4a */; };
-		7C2418EF22D79FE2FD010F48 /* CalibrationAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBF2E5EEA2D46288F9DE41B /* CalibrationAnalyzer.swift */; };
 		7C4EADD16653D5549C09637D /* muallim-ai-ar-P-15.m4a in Resources */ = {isa = PBXBuildFile; fileRef = F06FA3FDB487D6864445CD0F /* muallim-ai-ar-P-15.m4a */; };
 		7DE9097F361964D594ECD2C1 /* murshid-ai-tr-witr-I-25.m4a in Resources */ = {isa = PBXBuildFile; fileRef = C61E8966C438A5FA6C239E60 /* murshid-ai-tr-witr-I-25.m4a */; };
 		7EE37E2A97DA038280CACB15 /* murshid-ai-tr-fajr-fard-I-25.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 3277906B101872544D026666 /* murshid-ai-tr-fajr-fard-I-25.m4a */; };
@@ -268,7 +265,6 @@
 		A9DA20247178DD9F34320A65 /* SalahMotionCore in Frameworks */ = {isa = PBXBuildFile; productRef = 351D3F1DD3A56AB6FE5AC5F0 /* SalahMotionCore */; };
 		A9EF42E233EB59BAA0CFA8EB /* murshid-ai-en-I-1.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 34636CB14D04DA8A95318A8E /* murshid-ai-en-I-1.m4a */; };
 		AA47A08D38A0DC05129B90C0 /* muallim-ai-en-P-9.m4a in Resources */ = {isa = PBXBuildFile; fileRef = F6263227BC12776BF16D2AC4 /* muallim-ai-en-P-9.m4a */; };
-		AA6198E474DA1D69720FE958 /* MotionThresholds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6127BD0F9F5C8E4B7E33B6D9 /* MotionThresholds.swift */; };
 		AA6D919E00AF634DB54D56FC /* muallim-ai-en-P-21.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 8EC78AC692B7F82F8D140DB4 /* muallim-ai-en-P-21.m4a */; };
 		AAE55086BDC4C4E35D594E49 /* UnitTransitionCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D082D0224C14127DB11E53 /* UnitTransitionCardView.swift */; };
 		AB31CE153DD5E5B1A47A94F5 /* murshid-ai-en-I-4.m4a in Resources */ = {isa = PBXBuildFile; fileRef = E37A01467E4DAFB5EE3AC8E6 /* murshid-ai-en-I-4.m4a */; };
@@ -572,12 +568,10 @@
 		6006F38E6C4F7D519EE4F4DF /* murshid-ai-en-I-5.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-I-5.m4a"; sourceTree = "<group>"; };
 		60CEF51F7DBE9D2D33BB69F5 /* munadi-ai-C-1.m4a */ = {isa = PBXFileReference; path = "munadi-ai-C-1.m4a"; sourceTree = "<group>"; };
 		61036B84F8F3A96246D77D92 /* PrayerTimesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrayerTimesViewModel.swift; sourceTree = "<group>"; };
-		6127BD0F9F5C8E4B7E33B6D9 /* MotionThresholds.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionThresholds.swift; sourceTree = "<group>"; };
 		6224864767D3D556DA5B2FA2 /* SettingsComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsComponents.swift; sourceTree = "<group>"; };
 		62AC5871C81B934007AC0165 /* murshid-ai-tr-I-22.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-I-22.m4a"; sourceTree = "<group>"; };
 		630765C98387BD292E8F1A03 /* murshid-ai-ar-I-34.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-34.m4a"; sourceTree = "<group>"; };
 		638E352FB040E4A886AE8066 /* murshid-ai-tr-I-21.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-I-21.m4a"; sourceTree = "<group>"; };
-		63A4599A46C3826C461B227B /* PrayerStateMachine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrayerStateMachine.swift; sourceTree = "<group>"; };
 		63EEBB97DE6BA5B7B5DE852A /* muallim-ai-tr-P-21.m4a */ = {isa = PBXFileReference; path = "muallim-ai-tr-P-21.m4a"; sourceTree = "<group>"; };
 		6441463FC9101E3DBA25F3A0 /* murshid-ai-ar-I-46.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-46.m4a"; sourceTree = "<group>"; };
 		6443909C60533C7FFC5589DE /* murshid-ai-en-witr-I-25.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-witr-I-25.m4a"; sourceTree = "<group>"; };
@@ -652,7 +646,6 @@
 		99B6122E0D28FA6E5B65CF77 /* murshid-ai-en-I-19.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-I-19.m4a"; sourceTree = "<group>"; };
 		99DC9F05FF8DDC0CA826FE79 /* murshid-ai-tr-I-5.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-I-5.m4a"; sourceTree = "<group>"; };
 		99F3D0110956FC5934D15130 /* muallim-ai-en-P-1.m4a */ = {isa = PBXFileReference; path = "muallim-ai-en-P-1.m4a"; sourceTree = "<group>"; };
-		9A0720A73C594D56F26F7F49 /* SensorReadings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorReadings.swift; sourceTree = "<group>"; };
 		9A0BD00F4FC23C8F9FDFB379 /* murshid-ai-ar-I-43.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-43.m4a"; sourceTree = "<group>"; };
 		9A44A20E0D87EDFB1B637329 /* murshid-ai-en-I-8.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-I-8.m4a"; sourceTree = "<group>"; };
 		9B573F97EF6F4F14CB17FDB8 /* PrayerTimesEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrayerTimesEngine.swift; sourceTree = "<group>"; };
@@ -702,7 +695,6 @@
 		B7D646917D7D81D31371F085 /* Minute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Minute.swift; sourceTree = "<group>"; };
 		B83821797AEAEF524222BABD /* muallim-ai-en-P-16.m4a */ = {isa = PBXFileReference; path = "muallim-ai-en-P-16.m4a"; sourceTree = "<group>"; };
 		BA57B0A234EE66F8BDEAAA11 /* Qibla.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Qibla.swift; sourceTree = "<group>"; };
-		BB5324340DEF3BF959460447 /* UserCalibrationProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCalibrationProfile.swift; sourceTree = "<group>"; };
 		BB9584589BA85437655D70FA /* murshid-ai-en-isha-sunnah-I-25.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-isha-sunnah-I-25.m4a"; sourceTree = "<group>"; };
 		BBFAD78AC1D0AC1B644E1DBE /* muallim-ai-en-P-18.m4a */ = {isa = PBXFileReference; path = "muallim-ai-en-P-18.m4a"; sourceTree = "<group>"; };
 		BCD1BA28EFF5A61E4219074D /* WorkoutSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutSessionManager.swift; sourceTree = "<group>"; };
@@ -714,7 +706,6 @@
 		BF099FB8D76CB38ECAF9D910 /* murshid-ai-en-I-17.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-I-17.m4a"; sourceTree = "<group>"; };
 		BF0D52420D895748387416B0 /* murshid-ai-ar-dhuhr-sunnah-I-25.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-dhuhr-sunnah-I-25.m4a"; sourceTree = "<group>"; };
 		BF660881D8B787969A2C02AC /* muallim-ai-tr-P-3.m4a */ = {isa = PBXFileReference; path = "muallim-ai-tr-P-3.m4a"; sourceTree = "<group>"; };
-		BFBF2E5EEA2D46288F9DE41B /* CalibrationAnalyzer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalibrationAnalyzer.swift; sourceTree = "<group>"; };
 		BFFF84E6348578979CA5188C /* murshid-ai-tr-I-42.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-I-42.m4a"; sourceTree = "<group>"; };
 		C255D9C509325ACC2D54AB8D /* CelestialClock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CelestialClock.swift; sourceTree = "<group>"; };
 		C2A73DC7AB2DEB86789C611D /* murshid-ai-tr-I-33.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-I-33.m4a"; sourceTree = "<group>"; };
@@ -785,6 +776,7 @@
 		E81EF0D85D78FFB48980D89C /* VENDORED.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = VENDORED.md; sourceTree = "<group>"; };
 		E9277CF6A489FF883FCB32D8 /* murshid-ai-tr-I-11.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-I-11.m4a"; sourceTree = "<group>"; };
 		E9799BF126D84F407A3666C4 /* muallim-ai-tr-P-14.m4a */ = {isa = PBXFileReference; path = "muallim-ai-tr-P-14.m4a"; sourceTree = "<group>"; };
+		E9973529D0B7462831AAB72D /* PrayerStateMachine+iPhone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PrayerStateMachine+iPhone.swift"; sourceTree = "<group>"; };
 		EA7FDF29C8E890BE9058569D /* murshid-ai-en-I-44.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-I-44.m4a"; sourceTree = "<group>"; };
 		EAB640AD727D7E3422265E80 /* murshid-ai-en-I-24.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-I-24.m4a"; sourceTree = "<group>"; };
 		EB20D9535DA492681D35A4BD /* PrayerTimesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrayerTimesView.swift; sourceTree = "<group>"; };
@@ -1105,8 +1097,6 @@
 			isa = PBXGroup;
 			children = (
 				32A41968B198EA6F9273ADA9 /* HeadphoneMotionDetector.swift */,
-				6127BD0F9F5C8E4B7E33B6D9 /* MotionThresholds.swift */,
-				9A0720A73C594D56F26F7F49 /* SensorReadings.swift */,
 			);
 			path = MotionDetection;
 			sourceTree = "<group>";
@@ -1279,9 +1269,7 @@
 		C490B077C2912F086C706B1F /* PrayerStateMachine */ = {
 			isa = PBXGroup;
 			children = (
-				BFBF2E5EEA2D46288F9DE41B /* CalibrationAnalyzer.swift */,
-				63A4599A46C3826C461B227B /* PrayerStateMachine.swift */,
-				BB5324340DEF3BF959460447 /* UserCalibrationProfile.swift */,
+				E9973529D0B7462831AAB72D /* PrayerStateMachine+iPhone.swift */,
 			);
 			path = PrayerStateMachine;
 			sourceTree = "<group>";
@@ -2084,7 +2072,6 @@
 				264216A01F8EBCC1DE87C206 /* CachedWeatherProvider.swift in Sources */,
 				E36B4358AF2E8EF614EE04E0 /* CalculationMethod.swift in Sources */,
 				328EE172F659FAD22AC99BAD /* CalculationParameters.swift in Sources */,
-				7C2418EF22D79FE2FD010F48 /* CalibrationAnalyzer.swift in Sources */,
 				E0DB1588CCD2A3AD3D6B3078 /* CalibrationView.swift in Sources */,
 				BE55E8A85111B3400C582988 /* CelestialArcGeometry.swift in Sources */,
 				F4B9491C892ED3A0602DE57D /* CelestialArcView.swift in Sources */,
@@ -2115,7 +2102,6 @@
 				7A11B1E52C06F5DCD9311A5F /* Minute.swift in Sources */,
 				1F2BB6779705EA186BDC41EA /* MoonPhase.swift in Sources */,
 				C4FAD614A1F621E3792F317B /* MoonPhaseShape.swift in Sources */,
-				AA6198E474DA1D69720FE958 /* MotionThresholds.swift in Sources */,
 				449DBF30F221C633DFD70D02 /* NatureSettings.swift in Sources */,
 				A52A9359A5E62EABB4D4D25A /* NightMeteorsView.swift in Sources */,
 				D84E971F667C187D3154ECA4 /* NotificationManager.swift in Sources */,
@@ -2128,7 +2114,7 @@
 				74B0ED71D1A82B1450BB1FB5 /* PrayerCalculationSettings.swift in Sources */,
 				551FFBB47A66150027E2FB56 /* PrayerSetSheet.swift in Sources */,
 				86D96B47FB6AB3BB904D1758 /* PrayerSetupView.swift in Sources */,
-				4AF02013896201355219B035 /* PrayerStateMachine.swift in Sources */,
+				3E5BCCDB4CCA39728C6E5E88 /* PrayerStateMachine+iPhone.swift in Sources */,
 				F7D93A9BA0A237E9FD0A32F3 /* PrayerTime.swift in Sources */,
 				CF7821DA7279106B2CE601D4 /* PrayerTimes.swift in Sources */,
 				DB01B1ED9335BC8624F32D7C /* PrayerTimesEngine.swift in Sources */,
@@ -2141,7 +2127,6 @@
 				3FFAA16B55C909C384306C23 /* SalatType+PrayerTimes.swift in Sources */,
 				F9EA6E3D1FC75E199B159438 /* ScreenHeader.swift in Sources */,
 				75EBB301B2F862ADCD4BBD51 /* ScrollBehindScreen.swift in Sources */,
-				4664F575F8FC67E9902708A8 /* SensorReadings.swift in Sources */,
 				C98FC11193C065E67A07250B /* SettingsComponents.swift in Sources */,
 				C9B1DB32FC0015D64529AB8B /* SettingsView.swift in Sources */,
 				AF4270683DDB5009F9AEF452 /* SettingsViewModel.swift in Sources */,
@@ -2158,7 +2143,6 @@
 				E593FD470EEDAE92367038BA /* TimeMachine.swift in Sources */,
 				E6DB267BD66F16B948E5F89C /* Typography.swift in Sources */,
 				AAE55086BDC4C4E35D594E49 /* UnitTransitionCardView.swift in Sources */,
-				0947316BC2C509CB5FC33B3A /* UserCalibrationProfile.swift in Sources */,
 				1B812A05CB2FD9D574E55CF3 /* VoiceLanguageSheet.swift in Sources */,
 				7FE9D5D5B8079130DAF99B93 /* VoiceReciterSheet.swift in Sources */,
 				4E8AA0FFE7E2C5ABA01C8ACB /* WeatherCache.swift in Sources */,

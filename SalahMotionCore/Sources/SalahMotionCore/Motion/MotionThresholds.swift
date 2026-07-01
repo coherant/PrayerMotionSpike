@@ -1,5 +1,4 @@
 import Foundation
-import SalahMotionCore
 
 // MARK: - Validated sensor behaviour (from real recording sessions)
 //
@@ -24,10 +23,10 @@ import SalahMotionCore
 //           sujoods, so the heading hasn't drifted). The 30° offset default has not yet
 //           been validated with real data — tune after first live Tasleem test.
 
-struct MotionThresholds {
-    let profile: UserCalibrationProfile?
+public struct MotionThresholds {
+    public let profile: UserCalibrationProfile?
 
-    func isSatisfied(
+    public func isSatisfied(
         _ trigger: MotionTrigger,
         pitch: Double,
         roll: Double,
@@ -58,7 +57,7 @@ struct MotionThresholds {
         }
     }
 
-    func angularDistance(_ a: Double, _ b: Double) -> Double {
+    public func angularDistance(_ a: Double, _ b: Double) -> Double {
         let diff = abs(a - b).truncatingRemainder(dividingBy: 360)
         return min(diff, 360 - diff)
     }

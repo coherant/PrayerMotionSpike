@@ -1,36 +1,36 @@
 import Foundation
-import SalahMotionCore
 
 // MARK: - Session sample
 
-struct SessionSample {
-    let timestamp: Double
-    let stateID: String
-    let pitch: Double
-    let roll: Double
-    let yaw: Double
+public struct SessionSample {
+    public let timestamp: Double
+    public let stateID: String
+    public let pitch: Double
+    public let roll: Double
+    public let yaw: Double
 }
 
 // MARK: - State Machine
 
+@MainActor
 @Observable
-final class PrayerStateMachine {
+public final class PrayerStateMachine {
 
-    enum Status: Equatable { case idle, running, complete, cancelled }
+    public enum Status: Equatable { case idle, running, complete, cancelled }
 
-    struct UnitTransition: Equatable { let from: String; let to: String }
+    public struct UnitTransition: Equatable { public let from: String; public let to: String }
 
-    private(set) var status: Status = .idle
+    public private(set) var status: Status = .idle
     // Non-nil only while the ~2s unit-boundary card is showing (observance with >1 unit).
-    private(set) var unitTransition: UnitTransition? = nil
+    public private(set) var unitTransition: UnitTransition? = nil
     private let unitTransitionHold: Double = 2.0
-    private(set) var currentStateIndex: Int = 0
-    private(set) var states: [PrayerState]
-    private(set) var visitedStates: [PrayerState] = []
-    private(set) var confirmProgress: Double = 0
-    private(set) var pitch: Double = 0
-    private(set) var roll:  Double = 0
-    private(set) var yaw:   Double = 0
+    public private(set) var currentStateIndex: Int = 0
+    public private(set) var states: [PrayerState]
+    public private(set) var visitedStates: [PrayerState] = []
+    public private(set) var confirmProgress: Double = 0
+    public private(set) var pitch: Double = 0
+    public private(set) var roll:  Double = 0
+    public private(set) var yaw:   Double = 0
 
     private let renderer: GuidanceRenderer   // OUT seam — injected (iPhone = AudioGuidanceRenderer)
     private let detector: MotionSource       // IN seam  — injected (iPhone = HeadphoneMotionDetector)
@@ -38,7 +38,7 @@ final class PrayerStateMachine {
 
     private var qiyamYawBaseline: Double? = nil
     private var sessionTask: Task<Void, Never>?
-    private(set) var sessionSamples: [SessionSample] = []
+    public private(set) var sessionSamples: [SessionSample] = []
     private var sessionStartDate: Date?
     private let participantName: String
     private let holdWindow: Double = 1.5
@@ -46,21 +46,21 @@ final class PrayerStateMachine {
     /// (then the dwell becomes the recitation's own length). Tap advances early regardless.
     private let containerListenHold: Double = 4.0
 
-    var isAvailable: Bool  { detector.isAvailable }
-    var isSpeaking: Bool   { renderer.isSpeaking }
-    var currentState: PrayerState { states[currentStateIndex] }
-    var currentRakat: Int  { currentState.rakatNumber }
+    public var isAvailable: Bool  { detector.isAvailable }
+    public var isSpeaking: Bool   { renderer.isSpeaking }
+    public var currentState: PrayerState { states[currentStateIndex] }
+    public var currentRakat: Int  { currentState.rakatNumber }
     // Rakat numbering resets per unit, so totalRakat is the current unit's rakat count.
-    var totalRakat: Int {
+    public var totalRakat: Int {
         states.filter { $0.unitIndex == currentState.unitIndex }.map(\.rakatNumber).max() ?? 1
     }
 
     // Unit identity (observance chaining)
-    var currentUnitIndex: Int  { currentState.unitIndex }
-    var currentUnitLabel: String { currentState.unitLabel }
-    var unitCount: Int { (states.map(\.unitIndex).max() ?? 0) + 1 }
+    public var currentUnitIndex: Int  { currentState.unitIndex }
+    public var currentUnitLabel: String { currentState.unitLabel }
+    public var unitCount: Int { (states.map(\.unitIndex).max() ?? 0) + 1 }
 
-    private(set) var guidanceLevel: GuidanceLevel
+    public private(set) var guidanceLevel: GuidanceLevel
 
     // MARK: - Silent Mode (the body is the clock — docs/guided/CONGREGATIONAL-CONTAINER.md §3)
     // The voice is withdrawn; advancement is purely the worshipper's own movement, patient
@@ -71,17 +71,17 @@ final class PrayerStateMachine {
     /// "Tap to continue" escape hatch appears.
     private let escapeHatchDelay: Double = 60
     /// UI binds this to show/hide the "Tap to continue" control (silent mode only).
-    private(set) var escapeHatchVisible: Bool = false
+    public private(set) var escapeHatchVisible: Bool = false
     /// Set by the UI tap; consumed by the wait loop to advance to the next posture.
     private var manualAdvanceRequested = false
-    func requestManualAdvance() { manualAdvanceRequested = true }
+    public func requestManualAdvance() { manualAdvanceRequested = true }
 
     // MARK: - Tasbīḥ counter (container `.count` rows — CONGREGATIONAL-CONTAINER.md §4)
     /// Non-nil only during a `.count` dhikr phase: the number of repetitions still remaining.
     /// The UI renders the counter and calls `tapTasbih()` once per dhikr; the runner advances
     /// when it reaches 0. Reset to nil between phases.
-    private(set) var tasbihRemaining: Int? = nil
-    func tapTasbih() {
+    public private(set) var tasbihRemaining: Int? = nil
+    public func tapTasbih() {
         guard let remaining = tasbihRemaining, remaining > 0 else { return }
         tasbihRemaining = remaining - 1
     }
@@ -99,23 +99,21 @@ final class PrayerStateMachine {
         }
     }
 
-    init(sequence: [PrayerState] = GuidedSequenceGenerator.generate(),
+    public init(sequence: [PrayerState] = GuidedSequenceGenerator.generate(),
          guidanceLevel: GuidanceLevel = UserPreferences.shared.guidanceLevel,
          participantName: String = "",
          useDefaultThresholds: Bool = false,
-         motionSource: MotionSource = HeadphoneMotionDetector(),
-         renderer: GuidanceRenderer? = nil) {
+         motionSource: MotionSource,
+         renderer: GuidanceRenderer) {
         states = sequence
         self.guidanceLevel = guidanceLevel
         self.participantName = participantName
         self.thresholds = MotionThresholds(profile: useDefaultThresholds ? nil : UserCalibrationProfile.load())
         self.detector = motionSource
-        // Default to the iPhone audio renderer; constructed here (MainActor init) rather
-        // than as a default argument, which is evaluated in a nonisolated context.
-        self.renderer = renderer ?? AudioGuidanceRenderer()
+        self.renderer = renderer
     }
 
-    func start() {
+    public func start() {
         guard isAvailable, status == .idle else { return }
         sessionSamples = []
         visitedStates  = []
@@ -129,7 +127,7 @@ final class PrayerStateMachine {
         sessionTask = Task { [weak self] in await self?.runStateMachine() }
     }
 
-    func cancel() {
+    public func cancel() {
         sessionTask?.cancel()
         unitTransition = nil
         escapeHatchVisible = false

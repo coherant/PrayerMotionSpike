@@ -15,7 +15,7 @@ final class HeadphoneMotionDetector: MotionSource {
     private let queue = OperationQueue()
     private var readings = SensorReadings()
 
-    func start(onRawSample: (@Sendable (Double, Double, Double) -> Void)? = nil) {
+    func start(onRawSample: (@MainActor @Sendable (Double, Double, Double) -> Void)? = nil) {
         manager.startDeviceMotionUpdates(to: queue) { [weak self] motion, _ in
             guard let motion else { return }
             let p = motion.attitude.pitch * 180 / .pi

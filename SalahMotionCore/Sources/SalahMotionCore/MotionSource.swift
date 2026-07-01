@@ -11,7 +11,8 @@ public protocol MotionSource: AnyObject {
     var smoothedPitch: Double { get }
     var smoothedRoll: Double { get }
     var smoothedYaw: Double { get }
-    /// Begin updates. `onRawSample` fires per raw sample with (pitch, roll, yaw) in degrees.
-    func start(onRawSample: (@Sendable (Double, Double, Double) -> Void)?)
+    /// Begin updates. `onRawSample` fires per raw sample with (pitch, roll, yaw) in degrees,
+    /// delivered on the main actor (so the machine can update its @Observable state directly).
+    func start(onRawSample: (@MainActor @Sendable (Double, Double, Double) -> Void)?)
     func stop()
 }

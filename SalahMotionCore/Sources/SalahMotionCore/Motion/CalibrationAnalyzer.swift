@@ -1,14 +1,14 @@
 import Foundation
 
-struct CalibrationAnalyzer {
+public struct CalibrationAnalyzer {
     private let samples: [SessionSample]
     private let transitionDrop: Double = 1.5
 
-    init(samples: [SessionSample]) {
+    public init(samples: [SessionSample]) {
         self.samples = samples
     }
 
-    func analyze() -> UserCalibrationProfile? {
+    public func analyze() -> UserCalibrationProfile? {
         let grouped = Dictionary(grouping: samples, by: { $0.stateID })
 
         func steady(for id: String) -> [SessionSample] {
