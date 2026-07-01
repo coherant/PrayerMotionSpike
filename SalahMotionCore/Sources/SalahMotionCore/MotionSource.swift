@@ -15,4 +15,14 @@ public protocol MotionSource: AnyObject {
     /// delivered on the main actor (so the machine can update its @Observable state directly).
     func start(onRawSample: (@MainActor @Sendable (Double, Double, Double) -> Void)?)
     func stop()
+
+    /// The posture transition this source currently detects, if it runs its own detection
+    /// (e.g. the wrist, via classify() on gravityZ). `nil` → the machine falls back to its own
+    /// pitch/roll/yaw threshold detection (e.g. AirPods / head geometry). Default `nil`, so a
+    /// raw-stream source needs no change.
+    var currentTrigger: MotionTrigger? { get }
+}
+
+public extension MotionSource {
+    var currentTrigger: MotionTrigger? { nil }
 }

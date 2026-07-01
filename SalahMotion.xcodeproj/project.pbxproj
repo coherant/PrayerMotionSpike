@@ -342,6 +342,7 @@
 		DB01B1ED9335BC8624F32D7C /* PrayerTimesEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B573F97EF6F4F14CB17FDB8 /* PrayerTimesEngine.swift */; };
 		DBB35A98372C1A1CC83A4C8C /* murshid-ai-ar-I-42.m4a in Resources */ = {isa = PBXBuildFile; fileRef = FAE2EBCD50BB9854DF51A133 /* murshid-ai-ar-I-42.m4a */; };
 		DCE922213B9487D318AC6A7E /* munadi-ai-C-7.m4a in Resources */ = {isa = PBXBuildFile; fileRef = E482934AF348F25E7BDC13A2 /* munadi-ai-C-7.m4a */; };
+		DE20F99E79127714C83C6B3B /* WristMotionSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3860B25CBC92F144A4C05986 /* WristMotionSource.swift */; };
 		DE9B003379967F07D2A58DF8 /* muallim-ai-tr-P-23.m4a in Resources */ = {isa = PBXBuildFile; fileRef = D98628EDDBA50E76EFA0F4EA /* muallim-ai-tr-P-23.m4a */; };
 		DF76C32CD29F698185309422 /* murshid-ai-en-I-28.m4a in Resources */ = {isa = PBXBuildFile; fileRef = FE9C805E14B730B2664071C0 /* murshid-ai-en-I-28.m4a */; };
 		DFF9C5D7A41765BCEB555923 /* murshid-ai-tr-I-28.m4a in Resources */ = {isa = PBXBuildFile; fileRef = B50DA6DA97A56F96607FA918 /* murshid-ai-tr-I-28.m4a */; };
@@ -512,6 +513,7 @@
 		37873779F0AAEA632A65BE05 /* muallim-ai-tr-P-11.m4a */ = {isa = PBXFileReference; path = "muallim-ai-tr-P-11.m4a"; sourceTree = "<group>"; };
 		37D9818D7A9CAEDDED1E4508 /* murshid-ai-ar-I-6.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-6.m4a"; sourceTree = "<group>"; };
 		384791B63E2356B07FBEB5CD /* murshid-ai-en-dhuhr-sunnah-I-25.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-dhuhr-sunnah-I-25.m4a"; sourceTree = "<group>"; };
+		3860B25CBC92F144A4C05986 /* WristMotionSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WristMotionSource.swift; sourceTree = "<group>"; };
 		3A3002CDB51A096C058E234F /* CelestialBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CelestialBody.swift; sourceTree = "<group>"; };
 		3A65510F4E8EBD1667505B7D /* murshid-ai-en-I-47.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-I-47.m4a"; sourceTree = "<group>"; };
 		3A7BB9CBECBA3DD5AA9C027C /* muallim-ai-en-P-20.m4a */ = {isa = PBXFileReference; path = "muallim-ai-en-P-20.m4a"; sourceTree = "<group>"; };
@@ -1620,6 +1622,7 @@
 			isa = PBXGroup;
 			children = (
 				65C1D61ACD1138DC8B5965FD /* MotionManager.swift */,
+				3860B25CBC92F144A4C05986 /* WristMotionSource.swift */,
 			);
 			path = Motion;
 			sourceTree = "<group>";
@@ -2190,6 +2193,7 @@
 				57AF8372F00A586AE9FB1C0A /* WatchGuidanceRenderer.swift in Sources */,
 				D5C4336103100CDBED9519CA /* WorkoutSessionManager.swift in Sources */,
 				27B8A5F6A4638BBEA3906F86 /* WorkoutSessionView.swift in Sources */,
+				DE20F99E79127714C83C6B3B /* WristMotionSource.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

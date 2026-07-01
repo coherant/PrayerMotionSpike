@@ -139,6 +139,16 @@ public final class PrayerStateMachine {
 
     // MARK: - Motion updates
 
+    /// Whether the current motion satisfies `trigger`. If the source detects its own posture
+    /// transitions (wrist), trust it; otherwise fall back to threshold detection on the raw
+    /// pitch/roll/yaw stream (AirPods). Behavior-preserving for the iPhone: HeadphoneMotionDetector
+    /// returns `currentTrigger == nil`, so this is exactly `thresholds.isSatisfied(...)` as before.
+    private func satisfies(_ trigger: MotionTrigger) -> Bool {
+        if let detected = detector.currentTrigger { return detected == trigger }
+        return thresholds.isSatisfied(trigger, pitch: pitch, roll: roll, yaw: yaw,
+                                      yawBaseline: qiyamYawBaseline)
+    }
+
     private func startMotionUpdates() {
         detector.start { [weak self] p, r, y in
             guard let self else { return }
@@ -436,8 +446,7 @@ public final class PrayerStateMachine {
                     if elapsed >= phaseDuration { break }
 
                     if let trigger = state.motionTrigger {
-                        if thresholds.isSatisfied(trigger, pitch: pitch, roll: roll, yaw: yaw,
-                                                  yawBaseline: qiyamYawBaseline) {
+                        if satisfies(trigger) {
                             if motionHoldStart == nil {
                                 motionHoldStart = Date()
                                 print(String(format: "[PrayerSM] ◌ Motion: %@ p:%.1f° r:%.1f°",
@@ -520,8 +529,7 @@ public final class PrayerStateMachine {
                 confirmProgress = showProgressDuringWait ? min(elapsed / repromptInterval, 1.0) : 0
             }
 
-            if thresholds.isSatisfied(trigger, pitch: pitch, roll: roll, yaw: yaw,
-                                      yawBaseline: qiyamYawBaseline) {
+            if satisfies(trigger) {
                 if holdStart == nil { holdStart = Date() }
                 if Date().timeIntervalSince(holdStart!) >= holdWindow {
                     print(String(format: "[PrayerSM] ✓ Motion confirmed: %@", stateID))
