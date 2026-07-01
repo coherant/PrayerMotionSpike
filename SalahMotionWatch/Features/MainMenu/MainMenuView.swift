@@ -1,28 +1,27 @@
 import SwiftUI
 
-// Main menu — a simple vertical card list (the Mindfulness-app layout pattern: full-width
-// rounded cards, Crown-scroll, tap to enter). One card per watch feature. Cards use the
-// iPhone app's top gradient (Fajr dawn, for now — the app's gradient is prayer-time-based;
-// per-prayer theming on the watch is a later arc).
+// Main menu — vertical card list (Mindfulness-style): full-width rounded cards, one per
+// feature, with the watchOS carousel depth effect on scroll. Solid card colours are the
+// iOS theme "top" colours (SalahMotion/DesignSystem/Tokens/PrayerTime.swift + DayTheme.swift).
 struct MainMenuView: View {
     var body: some View {
         ScrollView {
-            VStack(spacing: 10) {
-                card(title: "Prayer Times", icon: "clock") { PrayerTimesWatchView() }
-                card(title: "Guided Prayer", icon: "figure.mind.and.body") { GuidedPrayerWatchView() }
-                card(title: "Calibration", icon: "scope") { CalibrationWatchView() }
+            LazyVStack(spacing: 10) {
+                card(title: "Prayer Times",  icon: "clock",                color: Theme.asr)     { PrayerTimesWatchView() }
+                card(title: "Guided Prayer",  icon: "figure.mind.and.body", color: Theme.maghrib) { GuidedPrayerWatchView() }
+                card(title: "Calibration",    icon: "scope",                color: Theme.fajr)    { CalibrationWatchView() }
             }
             .padding(.horizontal, 8)
             .padding(.vertical, 4)
         }
     }
 
-    private func card<D: View>(title: String, icon: String,
+    private func card<D: View>(title: String, icon: String, color: Color,
                                @ViewBuilder destination: @escaping () -> D) -> some View {
         NavigationLink(destination: destination) {
             ZStack {
                 RoundedRectangle(cornerRadius: 22, style: .continuous)
-                    .fill(Self.cardGradient)
+                    .fill(color)
                 VStack(alignment: .leading, spacing: 0) {
                     Image(systemName: icon)
                         .font(.system(size: 22, weight: .medium))
@@ -38,19 +37,23 @@ struct MainMenuView: View {
             .frame(height: 112)
         }
         .buttonStyle(.plain)
+        // watchOS carousel depth: cards recede + fade as they scroll to the edges.
+        .scrollTransition { content, phase in
+            content
+                .scaleEffect(phase.isIdentity ? 1 : 0.86)
+                .opacity(phase.isIdentity ? 1 : 0.45)
+        }
     }
+}
 
-    // The iPhone app's top gradient (SalahMotion/DesignSystem/Tokens/PrayerTime.swift — Fajr).
-    private static let cardGradient = LinearGradient(
-        stops: [
-            .init(color: Color(hex: "#0d1430"), location: 0.00),
-            .init(color: Color(hex: "#1c2147"), location: 0.36),
-            .init(color: Color(hex: "#46324f"), location: 0.64),
-            .init(color: Color(hex: "#8a5560"), location: 0.84),
-            .init(color: Color(hex: "#d18d6c"), location: 1.00),
-        ],
-        startPoint: .top, endPoint: .bottom
-    )
+// The iOS theme "top" colours (deep sky of each prayer's hour).
+enum Theme {
+    static let fajr    = Color(hex: "#0d1430")   // deep midnight navy (dawn blue hour)
+    static let dhuhr   = Color(hex: "#8fb8df")   // soft daytime sky blue
+    static let asr     = Color(hex: "#14568f")   // deep saturated azure
+    static let maghrib = Color(hex: "#241640")   // dark indigo-purple
+    static let isha    = Color(hex: "#201b3a")   // dark violet
+    static let dusk    = Color(hex: "#1a1836")   // deep indigo (dusk blue hour)
 }
 
 extension Color {
