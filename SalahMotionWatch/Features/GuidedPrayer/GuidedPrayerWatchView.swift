@@ -56,10 +56,15 @@ struct GuidedPrayerWatchView: View {
                 if let posture = motion.postureLabel {
                     Text("wrist: \(posture)").font(.caption2).foregroundStyle(.secondary)
                 }
-                if s.escapeHatchVisible {
-                    Button("Tap to continue") { s.requestManualAdvance() }
-                        .buttonStyle(.bordered)
+                // Hands-free advance. Double Tap (finger pinch, Series 9 / Ultra 2+) triggers
+                // this; a screen tap is the universal fallback. For the taslīm — which the wrist
+                // can't sense — this and the du'ā-raise movement close the prayer.
+                Button { s.requestManualAdvance() } label: {
+                    Label(s.escapeHatchVisible ? "Tap to continue" : "Salām / Advance",
+                          systemImage: "checkmark.circle")
                 }
+                .buttonStyle(.bordered)
+                .doubleTapPrimary()
                 Button("End", role: .destructive) { s.cancel() }
                     .font(.caption)
             }
@@ -84,5 +89,14 @@ struct GuidedPrayerWatchView: View {
         )
         session = s
         s.start()
+    }
+}
+
+private extension View {
+    /// Bind Apple Watch Double Tap (finger pinch) to this control's action, where available
+    /// (watchOS 11+, Series 9 / Ultra 2+). No-op elsewhere — screen tap still works.
+    @ViewBuilder func doubleTapPrimary() -> some View {
+        if #available(watchOS 11.0, *) { self.handGestureShortcut(.primaryAction) }
+        else { self }
     }
 }

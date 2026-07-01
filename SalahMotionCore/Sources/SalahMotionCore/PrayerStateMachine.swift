@@ -144,7 +144,13 @@ public final class PrayerStateMachine {
     /// pitch/roll/yaw stream (AirPods). Behavior-preserving for the iPhone: HeadphoneMotionDetector
     /// returns `currentTrigger == nil`, so this is exactly `thresholds.isSatisfied(...)` as before.
     private func satisfies(_ trigger: MotionTrigger) -> Bool {
-        if let detected = detector.currentTrigger { return detected == trigger }
+        if let detected = detector.currentTrigger {
+            // Self-detecting source (wrist). It can't sense the taslīm head turns, so a
+            // deliberate movement — the natural du'ā-raise after the final sitting — stands
+            // in for them; every other trigger matches the detected posture.
+            if trigger == .headTurnRight || trigger == .headTurnLeft { return detector.isMoving }
+            return detected == trigger
+        }
         return thresholds.isSatisfied(trigger, pitch: pitch, roll: roll, yaw: yaw,
                                       yawBaseline: qiyamYawBaseline)
     }

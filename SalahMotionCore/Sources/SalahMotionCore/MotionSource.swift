@@ -21,8 +21,14 @@ public protocol MotionSource: AnyObject {
     /// pitch/roll/yaw threshold detection (e.g. AirPods / head geometry). Default `nil`, so a
     /// raw-stream source needs no change.
     var currentTrigger: MotionTrigger? { get }
+
+    /// True when the wrist is in deliberate motion (not a settled hold). Used to stand in for
+    /// the taslīm head turns, which a wrist source can't sense: the natural du'ā-raise after
+    /// the final sitting registers as movement and closes the prayer. Default `false`.
+    var isMoving: Bool { get }
 }
 
 public extension MotionSource {
     var currentTrigger: MotionTrigger? { nil }
+    var isMoving: Bool { false }
 }

@@ -19,6 +19,14 @@ final class WristMotionSource: MotionSource {
     /// Display-friendly posture label for the UI ("Qiyam"/"Ruku"/…), nil until first sample.
     private(set) var postureLabel: String? = nil
 
+    // Movement latch — stands in for the taslīm head turns. A gyro pulse above threshold
+    // (the du'ā-raise after the final sitting) keeps `isMoving` true past the machine's
+    // ~1.5s hold window, so one deliberate movement carries through the taslīm to complete.
+    private var lastMovementAt: Date = .distantPast
+    private let moveThreshold: Double = 0.8   // rad/s (matches the guided-capture "moving" gate)
+    private let movementLatch: Double = 3.0   // > holdWindow (1.5s)
+    var isMoving: Bool { Date().timeIntervalSince(lastMovementAt) < movementLatch }
+
     var isAvailable: Bool { cm.isDeviceMotionAvailable }
 
     func start(onRawSample: (@MainActor @Sendable (Double, Double, Double) -> Void)? = nil) {
@@ -30,6 +38,8 @@ final class WristMotionSource: MotionSource {
             let r = motion.attitude.roll  * 180 / .pi
             let y = motion.attitude.yaw   * 180 / .pi
             let gz = motion.gravity.z
+            let rot = motion.rotationRate
+            let gyroMag = (rot.x * rot.x + rot.y * rot.y + rot.z * rot.z).squareRoot()
             Task { @MainActor [weak self] in
                 guard let self else { return }
                 self.smoothedPitch = p
@@ -37,6 +47,7 @@ final class WristMotionSource: MotionSource {
                 self.smoothedYaw   = y
                 self.currentTrigger = Self.trigger(forGravityZ: gz)
                 self.postureLabel   = Self.posture(forGravityZ: gz)
+                if gyroMag > self.moveThreshold { self.lastMovementAt = Date() }
                 onRawSample?(p, r, y)
             }
         }
