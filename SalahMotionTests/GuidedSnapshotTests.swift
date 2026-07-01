@@ -40,10 +40,11 @@ struct GuidedSnapshotTests {
         var out = "=== \(name) (\(states.count) states) ===\n"
         for (i, s) in states.enumerated() {
             let trig = s.motionTrigger.map { "\($0)" } ?? "-"
+            let posture = s.expectedPosture.map { "\($0)" } ?? "-"   // v3: the posture the wrist gates on
             out += "[\(i)] \(s.id.rawValue) r\(s.rakatNumber) \(s.mode.rawValue)"
             out += " unit=\(s.unitIndex):\(q(s.unitLabel))"
             if let callID = s.callID { out += " call=\(callID.rawValue)" }  // container rows only
-            out += " trigger=\(trig)"
+            out += " trigger=\(trig) posture=\(posture)"
             out += " reprompt=\(num(s.repromptInterval)) maxReprompts=\(s.maxReprompts.map(String.init) ?? "-")"
             out += " progressDuringWait=\(s.showProgressDuringWait)\n"
             out += "    label=\(q(s.displayLabel)) ar=\(q(s.arabic)) en=\(q(s.englishMeaning))\n"
