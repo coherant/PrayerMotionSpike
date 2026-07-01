@@ -9,6 +9,10 @@ struct GuidedPrayerWatchView: View {
     @State private var motion = WristMotionSource()
     @State private var session: PrayerStateMachine?
     @State private var level: GuidanceLevel = .full
+    // Which prayer to practice. The watch can't yet auto-detect the *current* prayer
+    // (that needs prayer-times on the wrist — the B4 arc), so default to the user's
+    // selected prayer and let them pick.
+    @State private var prayer: SalatType = UserPreferences.shared.salatType
 
     var body: some View {
         Group {
@@ -27,13 +31,17 @@ struct GuidedPrayerWatchView: View {
 
     private var idle: some View {
         VStack(spacing: 10) {
-            Text("Wrist-guided Witr").font(.headline)
+            Text("Practice · Farḍ").font(.headline)
+            Picker("Prayer", selection: $prayer) {
+                ForEach(SalatType.allCases) { p in Text(p.displayName).tag(p) }
+            }
+            .pickerStyle(.navigationLink)
             Picker("Mode", selection: $level) {
                 Text("Guided").tag(GuidanceLevel.full)
                 Text("Silent").tag(GuidanceLevel.silent)
             }
             .pickerStyle(.navigationLink)
-            Button("Begin") { begin() }
+            Button("Begin \(prayer.displayName)") { begin() }
                 .buttonStyle(.borderedProminent)
                 .disabled(!motion.isAvailable)
             if !motion.isAvailable {
@@ -81,8 +89,10 @@ struct GuidedPrayerWatchView: View {
     }
 
     private func begin() {
+        // Farḍ only: unitIds: [] → the obligatory unit is always included, sunnah/witr excluded.
+        // container: false → a focused practice, no Muezzin frame.
         let s = PrayerStateMachine(
-            sequence: GuidedSequenceGenerator.witrSequence(language: UserPreferences.shared.recitationLanguage),
+            sequence: GuidedSequenceGenerator.generate(salat: prayer, unitIds: [], container: false),
             guidanceLevel: level,
             motionSource: motion,
             renderer: WatchGuidanceRenderer()
