@@ -267,6 +267,7 @@
 		A925DA0C12B90EBCCE2E0DF8 /* WeatherKitProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DAF86F3F7CCE7D92F8E38F8 /* WeatherKitProvider.swift */; };
 		A93D232DDBF3EE7EDD56DB77 /* SalatType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395D458BAC31CFA0FF27F45C /* SalatType.swift */; };
 		A9A1203582352CB20D7B9672 /* murshid-ai-en-dhuhr-fard-I-25.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5E253736DD868019F381C52B /* murshid-ai-en-dhuhr-fard-I-25.m4a */; };
+		A9DA20247178DD9F34320A65 /* SalahMotionCore in Frameworks */ = {isa = PBXBuildFile; productRef = 351D3F1DD3A56AB6FE5AC5F0 /* SalahMotionCore */; };
 		A9EF42E233EB59BAA0CFA8EB /* murshid-ai-en-I-1.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 34636CB14D04DA8A95318A8E /* murshid-ai-en-I-1.m4a */; };
 		AA47A08D38A0DC05129B90C0 /* muallim-ai-en-P-9.m4a in Resources */ = {isa = PBXBuildFile; fileRef = F6263227BC12776BF16D2AC4 /* muallim-ai-en-P-9.m4a */; };
 		AA6198E474DA1D69720FE958 /* MotionThresholds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6127BD0F9F5C8E4B7E33B6D9 /* MotionThresholds.swift */; };
@@ -302,6 +303,7 @@
 		BA13E8331B1DAC1D4E0F6E15 /* murshid-ai-ar-I-41.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 514B1F650C493F073B7641C1 /* murshid-ai-ar-I-41.m4a */; };
 		BA8B5E486E99AE40B50D0B0E /* Shafaq.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87131AFBEBA5D69DD8C748F4 /* Shafaq.swift */; };
 		BAE318AD521DFF1B8575B02D /* murshid-ai-en-I-52.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 6AD1F2F8A26D62691AA4B3AE /* murshid-ai-en-I-52.m4a */; };
+		BAECD0CFB7C201EAD4097A0A /* SalahMotionCore in Frameworks */ = {isa = PBXBuildFile; productRef = 0F99BD7230282EEA50285674 /* SalahMotionCore */; };
 		BC99551660DB2213AD49783C /* muallim-ai-en-P-6.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 42A6A63ADB284BF4605823DE /* muallim-ai-en-P-6.m4a */; };
 		BCA9582CF2E2C0F7E03FD68F /* GuidanceLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE314A332EE4486AC115B424 /* GuidanceLevel.swift */; };
 		BE55E8A85111B3400C582988 /* CelestialArcGeometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45437722277344DD08E869C4 /* CelestialArcGeometry.swift */; };
@@ -831,6 +833,7 @@
 		F8A30955D20706826838C849 /* muallim-ai-en-P-3.m4a */ = {isa = PBXFileReference; path = "muallim-ai-en-P-3.m4a"; sourceTree = "<group>"; };
 		FAE2EBCD50BB9854DF51A133 /* murshid-ai-ar-I-42.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-42.m4a"; sourceTree = "<group>"; };
 		FC5771EBA251B6A83FFAA9E9 /* CelestialDomainTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CelestialDomainTests.swift; sourceTree = "<group>"; };
+		FCA2DAA41350E53D817873BE /* SalahMotionCore */ = {isa = PBXFileReference; lastKnownFileType = folder; name = SalahMotionCore; path = SalahMotionCore; sourceTree = SOURCE_ROOT; };
 		FCDE87C1679650E34B9D0625 /* murshid-ai-ar-I-48.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-48.m4a"; sourceTree = "<group>"; };
 		FD0E1C7AD4878EB0CF49BBAA /* murshid-ai-tr-I-24.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-I-24.m4a"; sourceTree = "<group>"; };
 		FD41F193A8BC8B2C5C90F237 /* murshid-ai-ar-I-23.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-23.m4a"; sourceTree = "<group>"; };
@@ -852,6 +855,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				65DCA61CCA225C7F92FC91E2 /* SwiftAA in Frameworks */,
+				A9DA20247178DD9F34320A65 /* SalahMotionCore in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		91E2294C57F9765191EDAEF5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BAECD0CFB7C201EAD4097A0A /* SalahMotionCore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -952,6 +964,7 @@
 		240204487B9F97A6B85BB3A7 = {
 			isa = PBXGroup;
 			children = (
+				B8733DF49A506ABB6887AEA7 /* Packages */,
 				35EEFB0C648B19129FA2990B /* SalahMotion */,
 				71B25ED59F07529ACE4C72A6 /* SalahMotionTests */,
 				126948C4E4DFE2160F0613F9 /* SalahMotionWatch */,
@@ -1270,6 +1283,14 @@
 				456B308902050BCE4E66FE3B /* VoiceReciterSheet.swift */,
 			);
 			path = PrayerSetup;
+			sourceTree = "<group>";
+		};
+		B8733DF49A506ABB6887AEA7 /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				FCA2DAA41350E53D817873BE /* SalahMotionCore */,
+			);
+			name = Packages;
 			sourceTree = "<group>";
 		};
 		C1F5A9518C3E24DCA2DE937C /* __Snapshots__ */ = {
@@ -1662,6 +1683,7 @@
 			buildConfigurationList = 0C65180096F01B4442D4EC50 /* Build configuration list for PBXNativeTarget "SalahMotionWatch" */;
 			buildPhases = (
 				8F8F108A2B0BA1848548C86D /* Sources */,
+				91E2294C57F9765191EDAEF5 /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1669,6 +1691,7 @@
 			);
 			name = SalahMotionWatch;
 			packageProductDependencies = (
+				0F99BD7230282EEA50285674 /* SalahMotionCore */,
 			);
 			productName = SalahMotionWatch;
 			productReference = FF1311A80CCE6F722EA03659 /* SalahMotionWatch.app */;
@@ -1689,6 +1712,7 @@
 			name = SalahMotion;
 			packageProductDependencies = (
 				40C64203C910802009037C35 /* SwiftAA */,
+				351D3F1DD3A56AB6FE5AC5F0 /* SalahMotionCore */,
 			);
 			productName = SalahMotion;
 			productReference = 3B559744BE56422D0BE16432 /* SalahMotion.app */;
@@ -1747,6 +1771,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				5FED23F3A5012739E15FA355 /* XCRemoteSwiftPackageReference "SwiftAA" */,
+				AE72660C9A047D5D0B0008E0 /* XCLocalSwiftPackageReference "SalahMotionCore" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 1C4B0FC52CD51B4CCF962C6A /* Products */;
@@ -2509,6 +2534,13 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCLocalSwiftPackageReference section */
+		AE72660C9A047D5D0B0008E0 /* XCLocalSwiftPackageReference "SalahMotionCore" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = SalahMotionCore;
+		};
+/* End XCLocalSwiftPackageReference section */
+
 /* Begin XCRemoteSwiftPackageReference section */
 		5FED23F3A5012739E15FA355 /* XCRemoteSwiftPackageReference "SwiftAA" */ = {
 			isa = XCRemoteSwiftPackageReference;
@@ -2521,6 +2553,14 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		0F99BD7230282EEA50285674 /* SalahMotionCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SalahMotionCore;
+		};
+		351D3F1DD3A56AB6FE5AC5F0 /* SalahMotionCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SalahMotionCore;
+		};
 		40C64203C910802009037C35 /* SwiftAA */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 5FED23F3A5012739E15FA355 /* XCRemoteSwiftPackageReference "SwiftAA" */;

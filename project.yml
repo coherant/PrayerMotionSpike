@@ -33,6 +33,8 @@ packages:
   SwiftAA:
     url: https://github.com/onekiloparsec/SwiftAA
     exactVersion: 3.0.1
+  SalahMotionCore:
+    path: SalahMotionCore
 
 targets:
 
@@ -45,6 +47,7 @@ targets:
           - "**/.DS_Store"
     dependencies:
       - package: SwiftAA
+      - package: SalahMotionCore
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: Xienta.SalahMotion
@@ -71,6 +74,8 @@ targets:
       - path: SalahMotionWatch
         excludes:
           - "**/.DS_Store"
+    dependencies:
+      - package: SalahMotionCore
     info:
       path: SalahMotionWatch/Info.plist
       properties:
