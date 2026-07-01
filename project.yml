@@ -60,6 +60,28 @@ targets:
         INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone: UIInterfaceOrientationPortrait
         INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad: "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
 
+  # Standalone watchOS app (single target — no companion). Stage 1b: product
+  # motion/session parts brought over from the WatchMotionSpike repo; does not
+  # depend on SalahMotionCore yet.
+  SalahMotionWatch:
+    type: application
+    platform: watchOS
+    deploymentTarget: "10.0"
+    sources:
+      - path: SalahMotionWatch
+        excludes:
+          - "**/.DS_Store"
+    info:
+      path: SalahMotionWatch/Info.plist
+      properties:
+        CFBundleDisplayName: SalahMotion
+        WKApplication: true
+        NSHealthShareUsageDescription: "SalahMotion uses HealthKit to keep the motion sensors active during a prayer session."
+        NSHealthUpdateUsageDescription: "SalahMotion records a workout session to keep the wrist motion sensors alive during prayer."
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: Xienta.SalahMotionWatch
+
   SalahMotionTests:
     type: bundle.unit-test
     platform: iOS
@@ -87,6 +109,18 @@ schemes:
       config: Debug
       targets:
         - SalahMotionTests
+    profile:
+      config: Release
+    analyze:
+      config: Debug
+    archive:
+      config: Release
+  SalahMotionWatch:
+    build:
+      targets:
+        SalahMotionWatch: all
+    run:
+      config: Debug
     profile:
       config: Release
     analyze:

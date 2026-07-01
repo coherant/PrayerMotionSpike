@@ -12,6 +12,7 @@
 		009CD770C16DA7C2755B5C4D /* muallim-ai-en-P-1.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 99F3D0110956FC5934D15130 /* muallim-ai-en-P-1.m4a */; };
 		02C26CD9069449F31E841A3C /* muallim-ai-tr-P-20.m4a in Resources */ = {isa = PBXBuildFile; fileRef = EEA0E716F84608433B14FCE0 /* muallim-ai-tr-P-20.m4a */; };
 		032586E982AB93E1796F2D34 /* murshid-ai-ar-isha-fard-I-25.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 7E75A8CA32FCD84BA0EA99B3 /* murshid-ai-ar-isha-fard-I-25.m4a */; };
+		04CBE1E6CE5633E8C51EB1FA /* StateMachineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25670611FC4322084F6A98B0 /* StateMachineView.swift */; };
 		06E69F2C5FF3FCED43B814CD /* murshid-ai-tr-dhuhr-sunnah-I-25.m4a in Resources */ = {isa = PBXBuildFile; fileRef = E3EEDF18C54298F6B4F9B7D6 /* murshid-ai-tr-dhuhr-sunnah-I-25.m4a */; };
 		0773A7AFE1EF76FB0F82B512 /* muallim-ai-en-P-3.m4a in Resources */ = {isa = PBXBuildFile; fileRef = F8A30955D20706826838C849 /* muallim-ai-en-P-3.m4a */; };
 		07F5D4D49485AC107F1C92F1 /* murshid-ai-en-I-7.m4a in Resources */ = {isa = PBXBuildFile; fileRef = B66498484E43350888F0B99F /* murshid-ai-en-I-7.m4a */; };
@@ -69,6 +70,7 @@
 		26A2480520976DB25AF07EDC /* muallim-ai-tr-P-22.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 8DB597E57B3137D10D776477 /* muallim-ai-tr-P-22.m4a */; };
 		26DB69EF6BB18F073C16C192 /* muallim-ai-en-P-22.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 2012FCAB337FA5923229D212 /* muallim-ai-en-P-22.m4a */; };
 		277A2C8F75DC872C2F1BB564 /* murshid-ai-ar-I-32.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9DC575FB498A6AC51CED50B6 /* murshid-ai-ar-I-32.m4a */; };
+		27B8A5F6A4638BBEA3906F86 /* WorkoutSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D066A029E80784F248A3B68 /* WorkoutSessionView.swift */; };
 		27C381A456FC2187A0E49279 /* SolarEphemeris.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A83A4D3250E1F0C6486869D /* SolarEphemeris.swift */; };
 		27EADD9F0761DCCEA2623523 /* SalahMotionApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E2BD2813863721D6D20C3D8 /* SalahMotionApp.swift */; };
 		27F9CDDF1BC43D7E19541FFB /* WeatherConditionMappingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EEAD9DE98D4F63B0E024BE /* WeatherConditionMappingTests.swift */; };
@@ -241,6 +243,7 @@
 		9A5651F93AF3BC9347AB68E7 /* murshid-ai-tr-maghrib-fard-I-25.m4a in Resources */ = {isa = PBXBuildFile; fileRef = ED5EE50203D9C5C15AED35F6 /* murshid-ai-tr-maghrib-fard-I-25.m4a */; };
 		9AB9F340977323D42DEBA543 /* PrayerAdjustment.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD6B75D1E31557B85EB1E0B5 /* PrayerAdjustment.swift */; };
 		9B4D5AB77EAF15DB0F1E0C72 /* WeatherCondition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F2628F5D4F297A2737BFCE /* WeatherCondition.swift */; };
+		9C17B2E51745494F97DA5404 /* SalahMotionWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28898591A4E2CC4D865318AB /* SalahMotionWatchApp.swift */; };
 		9EC498B0BD18F6CC84298764 /* murshid-ai-tr-I-32.m4a in Resources */ = {isa = PBXBuildFile; fileRef = E74BC1CEDC95591732E0BCBA /* murshid-ai-tr-I-32.m4a */; };
 		9F4E573FD7AD512115312FF3 /* murshid-ai-en-witr-I-25.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 6443909C60533C7FFC5589DE /* murshid-ai-en-witr-I-25.m4a */; };
 		9FA00650F0A480B9434402FF /* murshid-ai-ar-I-13.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 4047F38121A2EECAA606D5D1 /* murshid-ai-ar-I-13.m4a */; };
@@ -289,6 +292,7 @@
 		B70D9AAC48A316856D37E702 /* muallim-ai-en-P-2.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 94DD5AE0C72407AFEA34257A /* muallim-ai-en-P-2.m4a */; };
 		B73F4EC11EF576806D6577BB /* murshid-ai-en-I-39.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 060F2535B046CD6E2875D0B0 /* murshid-ai-en-I-39.m4a */; };
 		B83FB803F4ED6D57BB2D5D04 /* murshid-ai-ar-fajr-fard-I-25.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 4F630D8AB9939B52D39C0622 /* murshid-ai-ar-fajr-fard-I-25.m4a */; };
+		B8CDEFB0F572AE07087DC4B2 /* MotionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65C1D61ACD1138DC8B5965FD /* MotionManager.swift */; };
 		B908E694C63B1C4BB9058C2E /* murshid-ai-en-I-15.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 91E64F0A3F8CE12FCCEA3521 /* murshid-ai-en-I-15.m4a */; };
 		B9130F87B119402E1F0036EC /* murshid-ai-ar-I-14.m4a in Resources */ = {isa = PBXBuildFile; fileRef = C3142B4482208ADAE1982570 /* murshid-ai-ar-I-14.m4a */; };
 		B94909971C48DBA1D9403512 /* murshid-ai-ar-I-37.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 327CFC0857FBB265DAB4A1DE /* murshid-ai-ar-I-37.m4a */; };
@@ -305,6 +309,7 @@
 		BFE077FF79D19F6FB01681CA /* murshid-ai-en-fajr-fard-I-25.m4a in Resources */ = {isa = PBXBuildFile; fileRef = AF9F4E52C6D5931EB7180271 /* murshid-ai-en-fajr-fard-I-25.m4a */; };
 		C00528BBF01CF3F5B9F57B73 /* murshid-ai-en-I-2.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 0B031B68C337CCDE31EB74B4 /* murshid-ai-en-I-2.m4a */; };
 		C0E46DC4D34295039E157B93 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C0E2580EA8C8CF97E347AA /* LocationManager.swift */; };
+		C0F49F6B4082D89D0E03E47B /* PositionReading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F7D84AF224348FEA82F500 /* PositionReading.swift */; };
 		C1282E542990722C3185C624 /* murshid-ai-en-I-32.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 8144885C2E6862C95A844186 /* murshid-ai-en-I-32.m4a */; };
 		C136EA1A473787DBE8FF1488 /* murshid-ai-en-fajr-sunnah-I-25.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 16A27CF2A5562254DCB65DB7 /* murshid-ai-en-fajr-sunnah-I-25.m4a */; };
 		C306F6B47047FCEC573B509C /* GuidedPrayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E7599F9C2BA99C8F7B4D1FE /* GuidedPrayerView.swift */; };
@@ -327,6 +332,7 @@
 		D5395284DCAD2932F15E65AF /* murshid-ai-tr-I-36.m4a in Resources */ = {isa = PBXBuildFile; fileRef = DEB2AFEDB06038BCE61F8BD6 /* murshid-ai-tr-I-36.m4a */; };
 		D5997DE5E8BA50836CAC05C3 /* AudioManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0FEAA4EE4C7B3D8881F201 /* AudioManager.swift */; };
 		D5AABC26178B3DD8F7F81215 /* murshid-ai-en-I-16.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 46D7189292ADFDE7F7E49CA5 /* murshid-ai-en-I-16.m4a */; };
+		D5C4336103100CDBED9519CA /* WorkoutSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD1BA28EFF5A61E4219074D /* WorkoutSessionManager.swift */; };
 		D5EADFB3C69259965A655FCA /* PrayerSequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = E362609B9ACC474C4596A7EC /* PrayerSequence.swift */; };
 		D6BEE91507D93AF048361D74 /* audio-manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = 6AB09AE42C517B4A9EBBC707 /* audio-manifest.json */; };
 		D7FBF2EA2BA6CE21D09D47BE /* murshid-ai-tr-I-48.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 203D2D24E6099FB9A7364BD8 /* murshid-ai-tr-I-48.m4a */; };
@@ -390,10 +396,12 @@
 		F6D4914A0422D6096015AB9C /* murshid-ai-tr-I-10.m4a in Resources */ = {isa = PBXBuildFile; fileRef = F60DE1FBD211B146A768FF10 /* murshid-ai-tr-I-10.m4a */; };
 		F778A36639C05115DC0240EC /* muallim-ai-en-P-17.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 8BA2BF20DDBD0191DF6578D8 /* muallim-ai-en-P-17.m4a */; };
 		F7D93A9BA0A237E9FD0A32F3 /* PrayerTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200E60C82C33600972AC1BC4 /* PrayerTime.swift */; };
+		F7E37A9219EBD135660905F4 /* MotionSample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2025815F42DD4F5B6D06198B /* MotionSample.swift */; };
 		F86A9A4D53B62F184FFE420F /* GuidedSnapshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 924C0B994C491510879B7126 /* GuidedSnapshotTests.swift */; };
 		F8A8463142ECADFA208D9102 /* murshid-ai-tr-I-19.m4a in Resources */ = {isa = PBXBuildFile; fileRef = B7B9E72846A5B4894AFB0718 /* murshid-ai-tr-I-19.m4a */; };
 		F9EA6E3D1FC75E199B159438 /* ScreenHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3B4EEC62E5A1C4EE9A8C84 /* ScreenHeader.swift */; };
 		FA6E1A2B718F00C7D5F2BFEA /* PrayerPace.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9221E1BD009673F5B047CF7 /* PrayerPace.swift */; };
+		FA88BE1BEAC62C3C2A500E9E /* PrayerPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2BF5A922E350C12A29CBD8 /* PrayerPosition.swift */; };
 		FAF23F153E7DB03292ECBA7D /* WeatherLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD3515CF4E8CA02059BA4FB /* WeatherLayerView.swift */; };
 		FB226F9C32D41ECEF2DE6426 /* murshid-ai-ar-I-24.m4a in Resources */ = {isa = PBXBuildFile; fileRef = EBB0ABE593C6EA47949A8A53 /* murshid-ai-ar-I-24.m4a */; };
 		FB2C7817DBEB79282880062D /* CelestialClock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C255D9C509325ACC2D54AB8D /* CelestialClock.swift */; };
@@ -472,16 +480,19 @@
 		1FDD63ADB00E0A97AAC9246D /* PrayerCalculationDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrayerCalculationDisplay.swift; sourceTree = "<group>"; };
 		200E60C82C33600972AC1BC4 /* PrayerTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrayerTime.swift; sourceTree = "<group>"; };
 		2012FCAB337FA5923229D212 /* muallim-ai-en-P-22.m4a */ = {isa = PBXFileReference; path = "muallim-ai-en-P-22.m4a"; sourceTree = "<group>"; };
+		2025815F42DD4F5B6D06198B /* MotionSample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionSample.swift; sourceTree = "<group>"; };
 		203D2D24E6099FB9A7364BD8 /* murshid-ai-tr-I-48.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-I-48.m4a"; sourceTree = "<group>"; };
 		209231CF5408A567C82BBCF5 /* muallim-ai-tr-P-17.m4a */ = {isa = PBXFileReference; path = "muallim-ai-tr-P-17.m4a"; sourceTree = "<group>"; };
 		216AED27E5541464D3EAF0E8 /* murshid-ai-en-I-10.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-I-10.m4a"; sourceTree = "<group>"; };
 		239955D7DE38D81547AE0A9E /* murshid-ai-ar-I-16.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-16.m4a"; sourceTree = "<group>"; };
 		23B0AAD054DBB9E42E44C940 /* SkyState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkyState.swift; sourceTree = "<group>"; };
 		24E4F267AD454BFBEE81C57F /* PositionTrackerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionTrackerView.swift; sourceTree = "<group>"; };
+		25670611FC4322084F6A98B0 /* StateMachineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateMachineView.swift; sourceTree = "<group>"; };
 		273467ED9D826B433F79B243 /* murshid-ai-ar-I-31.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-31.m4a"; sourceTree = "<group>"; };
 		27C3FAA42189426AD099BA95 /* murshid-ai-ar-I-25.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-25.m4a"; sourceTree = "<group>"; };
 		281A94530B455D536990E62B /* murshid-ai-tr-I-38.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-I-38.m4a"; sourceTree = "<group>"; };
 		28246FB783F939857A7058AD /* muallim-ai-tr-P-19.m4a */ = {isa = PBXFileReference; path = "muallim-ai-tr-P-19.m4a"; sourceTree = "<group>"; };
+		28898591A4E2CC4D865318AB /* SalahMotionWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalahMotionWatchApp.swift; sourceTree = "<group>"; };
 		28C70D26221EADCE9800A76E /* murshid-ai-en-I-21.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-I-21.m4a"; sourceTree = "<group>"; };
 		29935E7B050D7877EE25C28F /* muallim-ai-ar-P-7.m4a */ = {isa = PBXFileReference; path = "muallim-ai-ar-P-7.m4a"; sourceTree = "<group>"; };
 		299FD432A769A34851AA5A66 /* murshid-ai-ar-I-39.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-39.m4a"; sourceTree = "<group>"; };
@@ -540,6 +551,7 @@
 		4A335FBB61CF2B943DDE3544 /* murshid-ai-ar-I-35.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-35.m4a"; sourceTree = "<group>"; };
 		4C86ABAF544FBFC9DBCE93BC /* muallim-ai-tr-P-12.m4a */ = {isa = PBXFileReference; path = "muallim-ai-tr-P-12.m4a"; sourceTree = "<group>"; };
 		4C9F959DF29DFC34755AA943 /* muallim-ai-tr-P-9.m4a */ = {isa = PBXFileReference; path = "muallim-ai-tr-P-9.m4a"; sourceTree = "<group>"; };
+		4D066A029E80784F248A3B68 /* WorkoutSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutSessionView.swift; sourceTree = "<group>"; };
 		4D6E0038200F023165CCA9E5 /* murshid-ai-tr-I-41.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-I-41.m4a"; sourceTree = "<group>"; };
 		4EF39297015CFB42AE060FB5 /* ObserverLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObserverLocation.swift; sourceTree = "<group>"; };
 		4F630D8AB9939B52D39C0622 /* murshid-ai-ar-fajr-fard-I-25.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-fajr-fard-I-25.m4a"; sourceTree = "<group>"; };
@@ -577,6 +589,7 @@
 		6441463FC9101E3DBA25F3A0 /* murshid-ai-ar-I-46.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-46.m4a"; sourceTree = "<group>"; };
 		6443909C60533C7FFC5589DE /* murshid-ai-en-witr-I-25.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-witr-I-25.m4a"; sourceTree = "<group>"; };
 		6562349D36F67FBBBC839E7C /* murshid-ai-tr-dhuhr-fard-I-25.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-dhuhr-fard-I-25.m4a"; sourceTree = "<group>"; };
+		65C1D61ACD1138DC8B5965FD /* MotionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionManager.swift; sourceTree = "<group>"; };
 		65C3D239685993BD37583DCD /* SalahMotionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalahMotionTests.swift; sourceTree = "<group>"; };
 		6663836E1FCF716A5BFED4DC /* murshid-ai-tr-I-15.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-I-15.m4a"; sourceTree = "<group>"; };
 		666884A682398E0B016FA542 /* murshid-ai-ar-I-11.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-11.m4a"; sourceTree = "<group>"; };
@@ -605,6 +618,7 @@
 		753AE463047A9F77E2CFB117 /* CallLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallLibrary.swift; sourceTree = "<group>"; };
 		767C2A3F78F79ED77724C518 /* CalibrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalibrationView.swift; sourceTree = "<group>"; };
 		77842A0B322C93C8E9774BD7 /* CelestialEphemeris.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CelestialEphemeris.swift; sourceTree = "<group>"; };
+		77F7D84AF224348FEA82F500 /* PositionReading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionReading.swift; sourceTree = "<group>"; };
 		78E6FCCCF5EADC29DF9BD42D /* muallim-ai-tr-P-0.m4a */ = {isa = PBXFileReference; path = "muallim-ai-tr-P-0.m4a"; sourceTree = "<group>"; };
 		7A06BD2DCC5BE48FD72EBFD1 /* murshid-ai-tr-asr-fard-I-25.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-asr-fard-I-25.m4a"; sourceTree = "<group>"; };
 		7AFD421E98EC4EA9AA7580AB /* muallim-ai-tr-P-7.m4a */ = {isa = PBXFileReference; path = "muallim-ai-tr-P-7.m4a"; sourceTree = "<group>"; };
@@ -650,6 +664,7 @@
 		9A44A20E0D87EDFB1B637329 /* murshid-ai-en-I-8.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-I-8.m4a"; sourceTree = "<group>"; };
 		9B573F97EF6F4F14CB17FDB8 /* PrayerTimesEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrayerTimesEngine.swift; sourceTree = "<group>"; };
 		9BA1B44535D78BA295AA4913 /* muallim-ai-ar-P-6.m4a */ = {isa = PBXFileReference; path = "muallim-ai-ar-P-6.m4a"; sourceTree = "<group>"; };
+		9BBD00D9BD5EFAB606B28570 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		9DA4A5977A80F9CBCB4C0CAA /* muallim-ai-ar-P-23.m4a */ = {isa = PBXFileReference; path = "muallim-ai-ar-P-23.m4a"; sourceTree = "<group>"; };
 		9DAF86F3F7CCE7D92F8E38F8 /* WeatherKitProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherKitProvider.swift; sourceTree = "<group>"; };
 		9DC34FE5E7F0D0CC5C6AAD6C /* murshid-ai-en-I-26.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-I-26.m4a"; sourceTree = "<group>"; };
@@ -698,6 +713,7 @@
 		BB5324340DEF3BF959460447 /* UserCalibrationProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCalibrationProfile.swift; sourceTree = "<group>"; };
 		BB9584589BA85437655D70FA /* murshid-ai-en-isha-sunnah-I-25.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-isha-sunnah-I-25.m4a"; sourceTree = "<group>"; };
 		BBFAD78AC1D0AC1B644E1DBE /* muallim-ai-en-P-18.m4a */ = {isa = PBXFileReference; path = "muallim-ai-en-P-18.m4a"; sourceTree = "<group>"; };
+		BCD1BA28EFF5A61E4219074D /* WorkoutSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutSessionManager.swift; sourceTree = "<group>"; };
 		BD03A0A728C27CF4099186CB /* muallim-ai-tr-P-8.m4a */ = {isa = PBXFileReference; path = "muallim-ai-tr-P-8.m4a"; sourceTree = "<group>"; };
 		BE3D0C8DF4376512CCFE3F77 /* murshid-ai-ar-I-45.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-45.m4a"; sourceTree = "<group>"; };
 		BE541FF46303194740DC82ED /* LunarEphemeris.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LunarEphemeris.swift; sourceTree = "<group>"; };
@@ -786,6 +802,7 @@
 		EC0D7070F5B18ED24ABE7C33 /* murshid-ai-en-I-25.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-I-25.m4a"; sourceTree = "<group>"; };
 		ED1150C0D49D1CC1994EB5E6 /* murshid-ai-tr-I-4.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-I-4.m4a"; sourceTree = "<group>"; };
 		ED1F5D831AB79F6899BAFC62 /* instructions.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = instructions.json; sourceTree = "<group>"; };
+		ED2BF5A922E350C12A29CBD8 /* PrayerPosition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrayerPosition.swift; sourceTree = "<group>"; };
 		ED5EE50203D9C5C15AED35F6 /* murshid-ai-tr-maghrib-fard-I-25.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-maghrib-fard-I-25.m4a"; sourceTree = "<group>"; };
 		EEA0E716F84608433B14FCE0 /* muallim-ai-tr-P-20.m4a */ = {isa = PBXFileReference; path = "muallim-ai-tr-P-20.m4a"; sourceTree = "<group>"; };
 		EEFB49E4A5FE3919772ED382 /* SunnahTimes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SunnahTimes.swift; sourceTree = "<group>"; };
@@ -822,6 +839,7 @@
 		FE314A332EE4486AC115B424 /* GuidanceLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuidanceLevel.swift; sourceTree = "<group>"; };
 		FE4676B1EDA27DB229123E3B /* LaunchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchView.swift; sourceTree = "<group>"; };
 		FE9C805E14B730B2664071C0 /* murshid-ai-en-I-28.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-I-28.m4a"; sourceTree = "<group>"; };
+		FF1311A80CCE6F722EA03659 /* SalahMotionWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SalahMotionWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF5555F6CA34F9527B673405 /* murshid-ai-ar-I-20.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-20.m4a"; sourceTree = "<group>"; };
 		FF5AF5846B97CA03FE9BDBA8 /* murshid-ai-ar-I-15.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-15.m4a"; sourceTree = "<group>"; };
 		FF7EDB1D386EEA14D59F354D /* SkyBirdsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkyBirdsView.swift; sourceTree = "<group>"; };
@@ -851,6 +869,15 @@
 			path = Tokens;
 			sourceTree = "<group>";
 		};
+		09EF651DE4F6C8E4604CDB96 /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				38B87E8A40291DEAB039773D /* StateMachine */,
+				49F3BBC24FE269BE8411BC80 /* WorkoutSession */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
 		0A2712A1B9563342161870ED /* PrayerTimes */ = {
 			isa = PBXGroup;
 			children = (
@@ -872,6 +899,18 @@
 				A8941C5A297C8D4C6B53AFD1 /* TimeMachine.swift */,
 			);
 			path = Prayer;
+			sourceTree = "<group>";
+		};
+		126948C4E4DFE2160F0613F9 /* SalahMotionWatch */ = {
+			isa = PBXGroup;
+			children = (
+				40B3F2F809BDB1F911966298 /* Core */,
+				09EF651DE4F6C8E4604CDB96 /* Features */,
+				3F9167CCD9EF5C28F10F39FD /* Shared */,
+				9BBD00D9BD5EFAB606B28570 /* Info.plist */,
+				28898591A4E2CC4D865318AB /* SalahMotionWatchApp.swift */,
+			);
+			path = SalahMotionWatch;
 			sourceTree = "<group>";
 		};
 		12B591AD3542E4DFA02DFB11 /* Calibration */ = {
@@ -896,6 +935,7 @@
 			children = (
 				3B559744BE56422D0BE16432 /* SalahMotion.app */,
 				0C606E2A9589FE0A833967B8 /* SalahMotionTests.xctest */,
+				FF1311A80CCE6F722EA03659 /* SalahMotionWatch.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -914,6 +954,7 @@
 			children = (
 				35EEFB0C648B19129FA2990B /* SalahMotion */,
 				71B25ED59F07529ACE4C72A6 /* SalahMotionTests */,
+				126948C4E4DFE2160F0613F9 /* SalahMotionWatch */,
 				1C4B0FC52CD51B4CCF962C6A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -980,6 +1021,14 @@
 			path = SalahMotion;
 			sourceTree = "<group>";
 		};
+		38B87E8A40291DEAB039773D /* StateMachine */ = {
+			isa = PBXGroup;
+			children = (
+				25670611FC4322084F6A98B0 /* StateMachineView.swift */,
+			);
+			path = StateMachine;
+			sourceTree = "<group>";
+		};
 		3984E135DE8D4616D35A224D /* DesignSystem */ = {
 			isa = PBXGroup;
 			children = (
@@ -1005,6 +1054,25 @@
 			path = Weather;
 			sourceTree = "<group>";
 		};
+		3F9167CCD9EF5C28F10F39FD /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				2025815F42DD4F5B6D06198B /* MotionSample.swift */,
+				77F7D84AF224348FEA82F500 /* PositionReading.swift */,
+				ED2BF5A922E350C12A29CBD8 /* PrayerPosition.swift */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		40B3F2F809BDB1F911966298 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				F4AC03632864F2DA70DF8319 /* Motion */,
+				EA14244D2F3538237F522514 /* Session */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
 		431B24983C8604C90476EA91 /* App */ = {
 			isa = PBXGroup;
 			children = (
@@ -1014,6 +1082,14 @@
 				9E2BD2813863721D6D20C3D8 /* SalahMotionApp.swift */,
 			);
 			path = App;
+			sourceTree = "<group>";
+		};
+		49F3BBC24FE269BE8411BC80 /* WorkoutSession */ = {
+			isa = PBXGroup;
+			children = (
+				4D066A029E80784F248A3B68 /* WorkoutSessionView.swift */,
+			);
+			path = WorkoutSession;
 			sourceTree = "<group>";
 		};
 		5404EA26898058FAD8E1D899 /* App */ = {
@@ -1522,6 +1598,14 @@
 			path = Astronomy;
 			sourceTree = "<group>";
 		};
+		EA14244D2F3538237F522514 /* Session */ = {
+			isa = PBXGroup;
+			children = (
+				BCD1BA28EFF5A61E4219074D /* WorkoutSessionManager.swift */,
+			);
+			path = Session;
+			sourceTree = "<group>";
+		};
 		F02A5BB9EAF710E15FCD4CEF /* Adhan */ = {
 			isa = PBXGroup;
 			children = (
@@ -1536,6 +1620,14 @@
 				E81EF0D85D78FFB48980D89C /* VENDORED.md */,
 			);
 			path = Adhan;
+			sourceTree = "<group>";
+		};
+		F4AC03632864F2DA70DF8319 /* Motion */ = {
+			isa = PBXGroup;
+			children = (
+				65C1D61ACD1138DC8B5965FD /* MotionManager.swift */,
+			);
+			path = Motion;
 			sourceTree = "<group>";
 		};
 		F7E10B3D94794D62725D35FD /* Narration */ = {
@@ -1565,6 +1657,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		065924238FC0BDC2B74CFE8D /* SalahMotionWatch */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0C65180096F01B4442D4EC50 /* Build configuration list for PBXNativeTarget "SalahMotionWatch" */;
+			buildPhases = (
+				8F8F108A2B0BA1848548C86D /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SalahMotionWatch;
+			packageProductDependencies = (
+			);
+			productName = SalahMotionWatch;
+			productReference = FF1311A80CCE6F722EA03659 /* SalahMotionWatch.app */;
+			productType = "com.apple.product-type.application";
+		};
 		16931AC30F014C4F987AA6CC /* SalahMotion */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = F87FC01A0AD38F25EFB46D82 /* Build configuration list for PBXNativeTarget "SalahMotion" */;
@@ -1613,6 +1722,10 @@
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
+					065924238FC0BDC2B74CFE8D = {
+						DevelopmentTeam = UGGK9A63KZ;
+						ProvisioningStyle = Automatic;
+					};
 					16931AC30F014C4F987AA6CC = {
 						DevelopmentTeam = UGGK9A63KZ;
 						ProvisioningStyle = Automatic;
@@ -1642,6 +1755,7 @@
 			targets = (
 				16931AC30F014C4F987AA6CC /* SalahMotion */,
 				591941E02D534C00ECC1F7D9 /* SalahMotionTests */,
+				065924238FC0BDC2B74CFE8D /* SalahMotionWatch */,
 			);
 		};
 /* End PBXProject section */
@@ -2079,6 +2193,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		8F8F108A2B0BA1848548C86D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B8CDEFB0F572AE07087DC4B2 /* MotionManager.swift in Sources */,
+				F7E37A9219EBD135660905F4 /* MotionSample.swift in Sources */,
+				C0F49F6B4082D89D0E03E47B /* PositionReading.swift in Sources */,
+				FA88BE1BEAC62C3C2A500E9E /* PrayerPosition.swift in Sources */,
+				9C17B2E51745494F97DA5404 /* SalahMotionWatchApp.swift in Sources */,
+				04CBE1E6CE5633E8C51EB1FA /* StateMachineView.swift in Sources */,
+				D5C4336103100CDBED9519CA /* WorkoutSessionManager.swift in Sources */,
+				27B8A5F6A4638BBEA3906F86 /* WorkoutSessionView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -2106,6 +2235,19 @@
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SalahMotion.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/SalahMotion";
 			};
 			name = Debug;
+		};
+		3EDF5C8808CE90939C166443 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = SalahMotionWatch/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = Xienta.SalahMotionWatch;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Release;
 		};
 		448F4B43A55B5F021FC3EC8D /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -2147,6 +2289,19 @@
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SalahMotion.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/SalahMotion";
 			};
 			name = Release;
+		};
+		4B368928B6F25395235EDB3E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = SalahMotionWatch/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = Xienta.SalahMotionWatch;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Debug;
 		};
 		53F15A4D35FB924D73E434CC /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -2204,7 +2359,6 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -2279,7 +2433,6 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -2318,6 +2471,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		0C65180096F01B4442D4EC50 /* Build configuration list for PBXNativeTarget "SalahMotionWatch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4B368928B6F25395235EDB3E /* Debug */,
+				3EDF5C8808CE90939C166443 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
 		51FDDE8807C054BB6A3BC00D /* Build configuration list for PBXNativeTarget "SalahMotionTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
