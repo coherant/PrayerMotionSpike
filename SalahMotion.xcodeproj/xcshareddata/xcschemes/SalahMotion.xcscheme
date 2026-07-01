@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "2650"
+   LastUpgradeVersion = "1430"
    version = "1.7">
    <BuildAction
       parallelizeBuildables = "YES"
       buildImplicitDependencies = "YES"
-      buildArchitectures = "Automatic">
+      runPostActionsOnFailure = "NO">
       <BuildActionEntries>
          <BuildActionEntry
             buildForTesting = "YES"
@@ -15,7 +15,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "AD5C71AC2FE586D00022EFD3"
+               BlueprintIdentifier = "16931AC30F014C4F987AA6CC"
                BuildableName = "SalahMotion.app"
                BlueprintName = "SalahMotion"
                ReferencedContainer = "container:SalahMotion.xcodeproj">
@@ -28,20 +28,31 @@
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES"
-      shouldAutocreateTestPlan = "YES">
+      onlyGenerateCoverageForSpecifiedTargets = "NO">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "16931AC30F014C4F987AA6CC"
+            BuildableName = "SalahMotion.app"
+            BlueprintName = "SalahMotion"
+            ReferencedContainer = "container:SalahMotion.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <Testables>
          <TestableReference
             skipped = "NO"
-            parallelizable = "YES">
+            parallelizable = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "AD31F91D2FED68C900EF6F5B"
+               BlueprintIdentifier = "591941E02D534C00ECC1F7D9"
                BuildableName = "SalahMotionTests.xctest"
                BlueprintName = "SalahMotionTests"
                ReferencedContainer = "container:SalahMotion.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
+      <CommandLineArguments>
+      </CommandLineArguments>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
@@ -52,18 +63,19 @@
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
-      allowLocationSimulation = "YES"
-      queueDebuggingEnableBacktraceRecording = "Yes">
+      allowLocationSimulation = "YES">
       <BuildableProductRunnable
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "AD5C71AC2FE586D00022EFD3"
+            BlueprintIdentifier = "16931AC30F014C4F987AA6CC"
             BuildableName = "SalahMotion.app"
             BlueprintName = "SalahMotion"
             ReferencedContainer = "container:SalahMotion.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <CommandLineArguments>
+      </CommandLineArguments>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -75,12 +87,14 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "AD5C71AC2FE586D00022EFD3"
+            BlueprintIdentifier = "16931AC30F014C4F987AA6CC"
             BuildableName = "SalahMotion.app"
             BlueprintName = "SalahMotion"
             ReferencedContainer = "container:SalahMotion.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <CommandLineArguments>
+      </CommandLineArguments>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">
