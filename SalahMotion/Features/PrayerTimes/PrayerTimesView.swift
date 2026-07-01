@@ -12,6 +12,10 @@ struct PrayerTimesView: View {
     @State private var weather = WeatherStore()   // ambient; behind FeatureFlags.weather
     private let nature = NatureSettings.shared     // per-layer user toggles (Settings → Nature)
 
+    // Bottom CTA ("Waiting for / Prepare for / Pray X") temporarily DISABLED.
+    // Button code is kept intact — flip this to `true` to bring it back.
+    private let ctaButtonEnabled = false
+
     // Time-based cross-fade (theme.md §9): tokens + background interpolate between
     // periods over real-time-anchored windows. `now` ticks each second (VM timer),
     // so the fade is continuous.
@@ -182,8 +186,9 @@ struct PrayerTimesView: View {
                 header   // ScreenHeader owns its own 22pt gutter + top padding
 
                 VStack(spacing: 0) {
-                    // Weather — glanceable pill OUTSIDE the Up Next box, top-right.
-                    // Tap to cycle conditions (dev/demo). See weather/SPEC.md §5.
+                    // Weather — glanceable label OUTSIDE the Up Next box, top-right.
+                    // No pill/capsule; tap still cycles conditions (dev/demo).
+                    // See weather/SPEC.md §5.
                     if FeatureFlags.weather && nature.weather {
                         HStack {
                             Spacer()
@@ -192,11 +197,7 @@ struct PrayerTimesView: View {
                                             ink: ink, muted: muted, accent: accent)
                                     .padding(.horizontal, 12)
                                     .padding(.vertical, 7)
-                                    .background(
-                                        Capsule()
-                                            .fill(neutralFill)
-                                            .overlay(Capsule().strokeBorder(neutralBorder, lineWidth: 1))
-                                    )
+                                    .contentShape(Rectangle())
                             }
                             .buttonStyle(.plain)
                         }
@@ -208,8 +209,10 @@ struct PrayerTimesView: View {
                         .padding(.top, 22)
 
                     Spacer()
-                    ctaButton
-                        .padding(.bottom, 32)
+                    if ctaButtonEnabled {
+                        ctaButton
+                            .padding(.bottom, 32)
+                    }
                 }
                 .padding(.horizontal, 22)
             }
