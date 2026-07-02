@@ -53,6 +53,8 @@ struct MainMenuView: View {
                      accessory: { EmptyView() }, background: { EmptyView() }, footer: { EmptyView() }) { GuidedPrayerWatchView() }
                 card(title: "Calibration",    icon: { symbol("scope") },
                      accessory: { EmptyView() }, background: { EmptyView() }, footer: { EmptyView() }) { CalibrationWatchView() }
+                card(title: "Settings",       icon: { symbol("gearshape") },
+                     accessory: { EmptyView() }, background: { EmptyView() }, footer: { EmptyView() }) { WatchSettingsView() }
             }
             .padding(.horizontal, 8)
             .padding(.vertical, 4)

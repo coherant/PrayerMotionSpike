@@ -77,8 +77,20 @@ targets:
       # Shared, pure-Foundation prayer-times + qibla calc (compiled into both the iPhone
       # app and the watch — no network, standalone on the wrist). See docs/features/watch.
       - path: SalahMotion/Core/Prayer/Adhan
+      # Shared celestial rendering — the real Sun/Moon arc on the Prayer Times card
+      # (mirrors the iPhone "Up next" card). Core/Celestial is self-contained (Foundation +
+      # SwiftAA); CelestialArcView + MoonPhaseShape are the two view files it needs.
+      - path: SalahMotion/Core/Celestial
+      - path: SalahMotion/Features/PrayerTimes/CelestialArcView.swift
+      - path: SalahMotion/DesignSystem/Components/MoonPhaseShape.swift
+      # Shared typography — the app's Cormorant/Manrope/Amiri type ramp. Typography.swift is
+      # taken alone (its Tokens siblings carry iOS deps); Resources/Fonts bundles FontRegistrar
+      # + the .ttf files so the custom fonts register + render on the watch too.
+      - path: SalahMotion/DesignSystem/Tokens/Typography.swift
+      - path: SalahMotion/Resources/Fonts
     dependencies:
       - package: SalahMotionCore
+      - package: SwiftAA
     info:
       path: SalahMotionWatch/Info.plist
       properties:

@@ -14,6 +14,7 @@ final class WatchPrayerTimes {
     private(set) var timeZone: TimeZone = .current
 
     private(set) var pt: PrayerTimes?
+    private(set) var fajrOverride: Date?     // set when fajrRule == .beforeSunrise
     private(set) var computedForDay: Date?
 
     /// Update to a live device fix (from WatchLocationManager) and recompute.
@@ -29,10 +30,11 @@ final class WatchPrayerTimes {
         recompute()
     }
 
-    /// The five obligatory prayers in order, with today's instants.
+    /// The five obligatory prayers in order, with today's instants (Fajr honours the rule).
     var ordered: [(prayer: Prayer, date: Date)] {
         guard let pt else { return [] }
-        return [.fajr, .dhuhr, .asr, .maghrib, .isha].map { ($0, pt.time(for: $0)) }
+        let fajr = fajrOverride ?? pt.fajr
+        return [(.fajr, fajr), (.dhuhr, pt.dhuhr), (.asr, pt.asr), (.maghrib, pt.maghrib), (.isha, pt.isha)]
     }
 
     var nextPrayer: Prayer? { pt?.nextPrayer() }
@@ -106,15 +108,18 @@ final class WatchPrayerTimes {
     }
 
     func recompute(now: Date = Date()) {
+        let settings = WatchPrayerSettings.shared
         let coords = Coordinates(latitude: coordinate.latitude, longitude: coordinate.longitude)
-        var params = CalculationMethod.muslimWorldLeague.params
-        params.madhab = .shafi
+        var params = settings.method.params
+        params.madhab = settings.madhab
 
         var cal = Calendar(identifier: .gregorian); cal.timeZone = timeZone
         let comps = cal.dateComponents([.year, .month, .day], from: now)
 
         guard let computed = PrayerTimes(coordinates: coords, date: comps, calculationParameters: params) else { return }
         pt = computed
+        // Fajr rule: a fixed 1.5 h before sunrise (matches the iPhone engine's override).
+        fajrOverride = settings.fajrRule == .beforeSunrise ? computed.sunrise.addingTimeInterval(-90 * 60) : nil
         computedForDay = cal.startOfDay(for: now)
     }
 }

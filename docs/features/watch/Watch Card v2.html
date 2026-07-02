@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SalahMotion — Watch Card v2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Manrope:wght@300;400;500;600;700&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #07080f;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Manrope, sans-serif;
+  }
+
+  @keyframes breathe {
+    0%, 100% { transform: scale(.93); opacity: .76; }
+    50%       { transform: scale(1.08); opacity: 1; }
+  }
+  @keyframes ping {
+    0%   { transform: scale(1); opacity: .7; }
+    100% { transform: scale(2.8); opacity: 0; }
+  }
+
+  .orb       { animation: breathe 5s ease-in-out infinite; }
+  .pip-pulse { animation: ping 1.8s ease-out infinite; }
+
+  /* ── Switcher ── */
+  .switcher { display: flex; gap: 5px; }
+  .switcher button {
+    padding: 4px 10px;
+    border-radius: 7px;
+    font-family: Manrope, sans-serif;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: .5px;
+    cursor: pointer;
+    transition: background .2s, border-color .2s;
+  }
+
+  /* ── Watch shell ── */
+  .watch-outer {
+    position: relative;
+    width: 230px; height: 276px;
+    border-radius: 56px;
+    background: linear-gradient(145deg, #3e3e40, #2a2a2c 48%, #1a1a1c);
+    display: flex; align-items: center; justify-content: center;
+    box-shadow:
+      0 0 0 .5px rgba(255,255,255,.08),
+      0 2px 0 1.5px rgba(0,0,0,.5),
+      0 28px 56px rgba(0,0,0,.65),
+      inset 0 1px 0 rgba(255,255,255,.05);
+  }
+  .watch-crown {
+    position: absolute; right: -5px; top: 48%;
+    transform: translateY(-50%);
+    width: 5px; height: 50px;
+    background: linear-gradient(to right, #2e2e30, #4c4c50, #2e2e30);
+    border-radius: 0 3px 3px 0;
+    box-shadow: 2px 0 4px rgba(0,0,0,.45);
+  }
+  .watch-action {
+    position: absolute; left: -4px; top: 30%;
+    transform: translateY(-50%);
+    width: 4px; height: 26px;
+    background: linear-gradient(180deg, #c04200, #ff6600);
+    border-radius: 2px 0 0 2px;
+  }
+  .watch-side {
+    position: absolute; left: -4px; top: 57%;
+    transform: translateY(-50%);
+    width: 4px; height: 20px;
+    background: linear-gradient(to right, #2e2e30, #4c4c50);
+    border-radius: 2px 0 0 2px;
+  }
+  .watch-screen {
+    width: 200px; height: 246px;
+    border-radius: 42px;
+    overflow: hidden;
+    background: #000;
+    position: relative;
+    flex: none;
+  }
+
+  /* ── Status bar ── */
+  .status-bar {
+    height: 28px;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0 14px;
+    flex: none;
+  }
+  .status-time {
+    font-size: 13px; font-weight: 700;
+    color: #f4f1fa; letter-spacing: -.3px;
+  }
+
+  /* ── Cards ── */
+  .cards-area { overflow: hidden; padding: 0 8px; }
+
+  .card {
+    border-radius: 34px;
+    overflow: hidden;
+    height: 122px;
+    padding: 13px 14px 0;
+  }
+  .card-pt { margin-bottom: 5px; }
+
+  .card-inner-row {
+    display: flex; align-items: flex-start; gap: 10px;
+    margin-bottom: 9px;
+  }
+
+  .card-orb-sun {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    flex: none;
+  }
+  .card-orb-moon {
+    width: 22px; height: 22px;
+    flex: none;
+    overflow: visible;
+    transform-origin: center;
+  }
+
+  .card-title-col { flex: 1; min-width: 0; }
+
+  .card-label {
+    font-size: 7.5px; font-weight: 700;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: rgba(244,241,250,.5);
+    margin-bottom: 2px;
+  }
+
+  .card-name-row {
+    display: flex; flex-direction: row; flex-wrap: nowrap;
+    align-items: center; gap: 6px;
+    margin-bottom: 3px;
+    direction: ltr;
+  }
+  .card-ar {
+    font-family: 'Amiri', serif;
+    font-size: 16px;
+    color: rgba(244,241,250,.62);
+    flex: none;
+    unicode-bidi: isolate;
+    direction: rtl;
+  }
+  .card-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px; font-weight: 500;
+    color: #f4f1fa; line-height: 1;
+    flex: none;
+  }
+
+  .card-meta {
+    font-size: 8px;
+    color: rgba(244,241,250,.55);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ── Rail ── */
+  .rail {
+    position: relative;
+    display: flex; align-items: center;
+    padding: 0 6px;
+  }
+  .rail-line {
+    position: absolute; left: 10px; right: 10px; top: 43%;
+    height: 1px;
+    background: rgba(244,241,250,.16);
+  }
+  .rail-pip-col {
+    flex: 1;
+    display: flex; flex-direction: column;
+    align-items: center; gap: 3px;
+    position: relative; z-index: 1;
+  }
+  .pip-wrap {
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .pip-ring {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(244,241,250,.45);
+    z-index: 0;
+    display: none;
+  }
+  .pip-ring.active { display: block; }
+  .pip-dot {
+    border-radius: 50%;
+    position: relative; z-index: 1;
+    transition: all .35s;
+  }
+  .pip-lbl {
+    font-size: 5.5px; font-weight: 700;
+    letter-spacing: .3px;
+  }
+
+  /* ── Scroll chevron ── */
+  .scroll-hint {
+    position: absolute; bottom: 10px; left: 50%;
+    transform: translateX(-50%);
+    z-index: 10; opacity: 1;
+  }
+
+  /* ── Footer label ── */
+  .watch-label {
+    font-size: 9px; font-weight: 600;
+    letter-spacing: 2.5px; text-transform: uppercase;
+    opacity: .7;
+  }
+
+  /* ── Layout wrapper ── */
+  .stage {
+    display: flex; flex-direction: column;
+    align-items: center; gap: 20px;
+    padding: 48px;
+  }
+</style>
+</head>
+<body>
+<div class="stage">
+
+  <!-- Prayer switcher -->
+  <div class="switcher" id="switcher"></div>
+
+  <!-- Watch -->
+  <div class="watch-outer">
+    <div class="watch-crown"></div>
+    <div class="watch-action"></div>
+    <div class="watch-side"></div>
+
+    <div class="watch-screen">
+
+      <div class="status-bar">
+        <span class="status-time">9:41</span>
+        <svg width="18" height="9" viewBox="0 0 18 9" fill="none">
+          <rect x=".5" y=".5" width="15.5" height="8" rx="2.5" stroke="rgba(244,241,250,.38)" stroke-width="1"/>
+          <rect x="16" y="2.5" width="1.5" height="4" rx=".75" fill="rgba(244,241,250,.22)"/>
+          <rect x="2" y="2" width="8" height="5" rx="1.5" fill="rgba(244,241,250,.6)"/>
+        </svg>
+      </div>
+
+      <div class="cards-area">
+
+        <!-- Prayer Times card -->
+        <div class="card card-pt" id="card-pt">
+          <div class="card-inner-row">
+
+            <!-- Sun orb -->
+            <div class="orb card-orb-sun" id="orb-sun-pt"></div>
+
+            <!-- Moon crescent -->
+            <svg class="orb card-orb-moon" id="orb-moon-pt" viewBox="0 0 44 44" fill="none" style="display:none;">
+              <defs>
+                <mask id="cm-pt">
+                  <rect width="44" height="44" fill="white"/>
+                  <circle cx="27" cy="19" r="17" fill="black"/>
+                </mask>
+              </defs>
+              <circle cx="22" cy="22" r="18" id="cm-pt-fill" fill-opacity=".07" mask="url(#cm-pt)"/>
+              <circle cx="22" cy="22" r="18" fill="none" id="cm-pt-stroke" stroke-width="1.8" mask="url(#cm-pt)"/>
+              <circle cx="22" cy="22" r="22" id="cm-pt-glow" fill-opacity=".05"/>
+            </svg>
+
+            <div class="card-title-col">
+              <div class="card-label">Prayer Times</div>
+              <div class="card-name-row">
+                <div class="card-ar" id="pt-ar"></div>
+                <div class="card-name" id="pt-name"></div>
+              </div>
+              <div class="card-meta" id="pt-meta"></div>
+            </div>
+          </div>
+
+          <!-- Five-slot rail -->
+          <div class="rail">
+            <div class="rail-line"></div>
+            <div class="rail-pip-col">
+              <div class="pip-wrap">
+                <div class="pip-ring" id="ring-0" style="width:10px;height:10px;"></div>
+                <div class="pip-dot" id="dot-0"></div>
+              </div>
+              <div class="pip-lbl" id="lbl-0">Fajr</div>
+            </div>
+            <div class="rail-pip-col">
+              <div class="pip-wrap">
+                <div class="pip-ring" id="ring-1" style="width:10px;height:10px;"></div>
+                <div class="pip-dot" id="dot-1"></div>
+              </div>
+              <div class="pip-lbl" id="lbl-1">Dhuhr</div>
+            </div>
+            <div class="rail-pip-col">
+              <div class="pip-wrap">
+                <div class="pip-ring" id="ring-2" style="width:10px;height:10px;"></div>
+                <div class="pip-dot" id="dot-2"></div>
+              </div>
+              <div class="pip-lbl" id="lbl-2">Asr</div>
+            </div>
+            <div class="rail-pip-col">
+              <div class="pip-wrap">
+                <div class="pip-ring" id="ring-3" style="width:10px;height:10px;"></div>
+                <div class="pip-dot" id="dot-3"></div>
+              </div>
+              <div class="pip-lbl" id="lbl-3">Maghrib</div>
+            </div>
+            <div class="rail-pip-col">
+              <div class="pip-wrap">
+                <div class="pip-ring" id="ring-4" style="width:10px;height:10px;"></div>
+                <div class="pip-dot" id="dot-4"></div>
+              </div>
+              <div class="pip-lbl" id="lbl-4">Isha</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Guided Prayer card (peeking) -->
+        <div class="card card-gp" id="card-gp">
+          <div class="card-inner-row">
+
+            <div class="orb card-orb-sun" id="orb-sun-gp"></div>
+
+            <svg class="orb card-orb-moon" id="orb-moon-gp" viewBox="0 0 44 44" fill="none" style="display:none;">
+              <defs>
+                <mask id="cm-gp">
+                  <rect width="44" height="44" fill="white"/>
+                  <circle cx="27" cy="19" r="17" fill="black"/>
+                </mask>
+              </defs>
+              <circle cx="22" cy="22" r="18" id="cm-gp-fill" fill-opacity=".07" mask="url(#cm-gp)"/>
+              <circle cx="22" cy="22" r="18" fill="none" id="cm-gp-stroke" stroke-width="1.8" mask="url(#cm-gp)"/>
+              <circle cx="22" cy="22" r="22" id="cm-gp-glow" fill-opacity=".05"/>
+            </svg>
+
+            <div class="card-title-col">
+              <div class="card-label">Guided Prayer</div>
+              <div class="card-name-row">
+                <div class="card-ar" id="gp-ar"></div>
+                <div class="card-name" id="gp-name"></div>
+              </div>
+              <div class="card-meta" id="gp-meta"></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Scroll chevron -->
+      <div class="scroll-hint">
+        <svg width="12" height="7" viewBox="0 0 12 7" fill="none">
+          <path d="M1 1l5 5 5-5" stroke="rgba(244,241,250,.28)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Footer label -->
+  <div class="watch-label" id="footer-label"></div>
+
+</div>
+
+<script>
+const PD = {
+  fajr:    { name:'Fajr',    ar:'الفجر',  time:'4:52 AM',  rakah:'2', cd:'7h 29m',   slot:0, hex:'#6878c0', dark:'#272b48', glow:'rgba(104,120,192,.55)', moon:true,  cardBg:'#0d1430' },
+  dhuhr:   { name:'Dhuhr',   ar:'الظهر',  time:'12:21 PM', rakah:'4', cd:'3h 26m',   slot:1, hex:'#8fb8df', dark:'#333e51', glow:'rgba(143,184,223,.55)', moon:false, cardBg:'#8fb8df' },
+  asr:     { name:'Asr',     ar:'العصر',  time:'3:47 PM',  rakah:'4', cd:'3h 54m',   slot:2, hex:'#c89030', dark:'#44321c', glow:'rgba(200,144,48,.55)',  moon:false, cardBg:'#14568f' },
+  maghrib: { name:'Maghrib', ar:'المغرب', time:'7:41 PM',  rakah:'3', cd:'1h 23m',   slot:3, hex:'#c87030', dark:'#44291c', glow:'rgba(200,112,48,.55)',  moon:false, cardBg:'#241640' },
+  isha:    { name:'Isha',    ar:'العشاء', time:'9:04 PM',  rakah:'4', cd:'Tomorrow', slot:4, hex:'#4848a8', dark:'#1d1d40', glow:'rgba(72,72,168,.55)',   moon:true,  cardBg:'#201b3a' }
+};
+
+const PH = ['#6878c0','#8fb8df','#c89030','#c87030','#4848a8'];
+const PL = ['Fajr','Dhuhr','Asr','Maghrib','Isha'];
+
+// Build switcher
+const switcher = document.getElementById('switcher');
+Object.entries(PD).forEach(([key, p]) => {
+  const btn = document.createElement('button');
+  btn.textContent = p.name;
+  btn.dataset.key = key;
+  btn.onclick = () => update(key);
+  switcher.appendChild(btn);
+});
+
+function styleBtn(btn, key, p, active) {
+  btn.style.border     = `1px solid ${p.hex}${active ? 'bb' : '44'}`;
+  btn.style.background = `${p.hex}${active ? '28' : '0d'}`;
+  btn.style.color      = p.hex;
+}
+
+function updatePips(activeSlot) {
+  for (let i = 0; i < 5; i++) {
+    const active = i === activeSlot;
+    const dot  = document.getElementById(`dot-${i}`);
+    const ring = document.getElementById(`ring-${i}`);
+    const lbl  = document.getElementById(`lbl-${i}`);
+    const size = active ? 10 : 6;
+    dot.style.width      = size + 'px';
+    dot.style.height     = size + 'px';
+    dot.style.background = active ? '#f4f1fa' : PH[i];
+    dot.style.boxShadow  = active ? '0 0 6px rgba(244,241,250,.6)' : 'none';
+    ring.className = 'pip-ring pip-pulse' + (active ? ' active' : '');
+    lbl.style.color = active ? 'rgba(244,241,250,.82)' : i < activeSlot ? 'rgba(244,241,250,.35)' : 'rgba(244,241,250,.2)';
+  }
+}
+
+function updateOrb(p, suffix) {
+  const sun  = document.getElementById(`orb-sun-${suffix}`);
+  const moon = document.getElementById(`orb-moon-${suffix}`);
+  if (p.moon) {
+    sun.style.display  = 'none';
+    moon.style.display = '';
+    document.getElementById(`cm-${suffix}-fill`).setAttribute('fill', p.hex);
+    document.getElementById(`cm-${suffix}-stroke`).setAttribute('stroke', p.hex);
+    document.getElementById(`cm-${suffix}-glow`).setAttribute('fill', p.hex);
+  } else {
+    sun.style.display  = '';
+    moon.style.display = 'none';
+    sun.style.background = `radial-gradient(circle at 40% 32%, rgba(255,255,255,.9) 0%, ${p.hex} 40%, ${p.dark} 100%)`;
+    sun.style.boxShadow  = `0 0 10px ${p.glow}`;
+  }
+}
+
+function update(key) {
+  const p = PD[key];
+
+  // Cards background
+  document.getElementById('card-pt').style.background = p.cardBg;
+  document.getElementById('card-gp').style.background = p.cardBg;
+
+  // Orbs
+  updateOrb(p, 'pt');
+  updateOrb(p, 'gp');
+
+  // Text
+  document.getElementById('pt-name').textContent = p.name;
+  document.getElementById('pt-ar').textContent   = p.ar;
+  document.getElementById('pt-meta').textContent = `${p.time} · ${p.cd}`;
+
+  document.getElementById('gp-name').textContent = p.name;
+  document.getElementById('gp-ar').textContent   = p.ar;
+  document.getElementById('gp-meta').textContent = `${p.rakah} rakʿahs · Begin session`;
+
+  // Rail
+  updatePips(p.slot);
+
+  // Footer
+  const footer = document.getElementById('footer-label');
+  footer.textContent  = `${p.name.toUpperCase()} · ${p.time}`;
+  footer.style.color  = p.hex;
+
+  // Switcher buttons
+  document.querySelectorAll('#switcher button').forEach(btn => {
+    styleBtn(btn, btn.dataset.key, PD[btn.dataset.key], btn.dataset.key === key);
+  });
+}
+
+update('maghrib');
+</script>
+</body>
+</html>

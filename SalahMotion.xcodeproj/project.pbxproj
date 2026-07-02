@@ -13,7 +13,9 @@
 		02C26CD9069449F31E841A3C /* muallim-ai-tr-P-20.m4a in Resources */ = {isa = PBXBuildFile; fileRef = EEA0E716F84608433B14FCE0 /* muallim-ai-tr-P-20.m4a */; };
 		032586E982AB93E1796F2D34 /* murshid-ai-ar-isha-fard-I-25.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 7E75A8CA32FCD84BA0EA99B3 /* murshid-ai-ar-isha-fard-I-25.m4a */; };
 		06C08CFC93E62B30EAA0C307 /* Prayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A529B28CA6FB1FF9942AD824 /* Prayer.swift */; };
+		06E32605B64CE8575D4E0861 /* ObserverLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EF39297015CFB42AE060FB5 /* ObserverLocation.swift */; };
 		06E69F2C5FF3FCED43B814CD /* murshid-ai-tr-dhuhr-sunnah-I-25.m4a in Resources */ = {isa = PBXBuildFile; fileRef = E3EEDF18C54298F6B4F9B7D6 /* murshid-ai-tr-dhuhr-sunnah-I-25.m4a */; };
+		0721FF6708525681DA8FB481 /* Typography.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D379A8EA4241624482A7BD /* Typography.swift */; };
 		0773A7AFE1EF76FB0F82B512 /* muallim-ai-en-P-3.m4a in Resources */ = {isa = PBXBuildFile; fileRef = F8A30955D20706826838C849 /* muallim-ai-en-P-3.m4a */; };
 		07F5D4D49485AC107F1C92F1 /* murshid-ai-en-I-7.m4a in Resources */ = {isa = PBXBuildFile; fileRef = B66498484E43350888F0B99F /* murshid-ai-en-I-7.m4a */; };
 		08063166784879C8E9C78A55 /* munadi-ai-C-4.m4a in Resources */ = {isa = PBXBuildFile; fileRef = C57F12F089B716CD7CFCFEAB /* munadi-ai-C-4.m4a */; };
@@ -26,6 +28,7 @@
 		0CD766A67B8E92A8ADB10845 /* VENDORED.md in Resources */ = {isa = PBXBuildFile; fileRef = E81EF0D85D78FFB48980D89C /* VENDORED.md */; };
 		0D14BFE0DAC0A1F34408394E /* SkyState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B0AAD054DBB9E42E44C940 /* SkyState.swift */; };
 		0D50B3CC7BB517787ED953FF /* murshid-ai-en-I-43.m4a in Resources */ = {isa = PBXBuildFile; fileRef = C3F57D06C2234219747D5C91 /* murshid-ai-en-I-43.m4a */; };
+		0DC940C885B939BD09691561 /* CormorantGaramond-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 35B67277EA0AE572B7215B71 /* CormorantGaramond-Medium.ttf */; };
 		0FE2F236B1A0AD67E4896232 /* murshid-ai-ar-I-46.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 6441463FC9101E3DBA25F3A0 /* murshid-ai-ar-I-46.m4a */; };
 		1000FFE881AAD21788FC62D6 /* munadi-ai-C-1.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 60CEF51F7DBE9D2D33BB69F5 /* munadi-ai-C-1.m4a */; };
 		100CCE987892C1A1F82DBD74 /* StarfieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01B882EFFE8ADADF71E08C6A /* StarfieldView.swift */; };
@@ -114,6 +117,7 @@
 		38EDD1253DA17F897AE35D62 /* muallim-ai-en-P-19.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5742FD1544A0BAE401816E59 /* muallim-ai-en-P-19.m4a */; };
 		38F735EC9B1E4DB1E9700DE8 /* murshid-ai-ar-I-18.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 960CF31E2972DEBBD1417F0C /* murshid-ai-ar-I-18.m4a */; };
 		395DA730C0B606B224CBA838 /* murshid-ai-tr-asr-sunnah-I-25.m4a in Resources */ = {isa = PBXBuildFile; fileRef = A2A27EEAEE2ED5691C662791 /* murshid-ai-tr-asr-sunnah-I-25.m4a */; };
+		39E81D84F3ADAD46C4032947 /* WatchPrayerSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A9589E085D695BE0992BCFA /* WatchPrayerSettings.swift */; };
 		3A286660553637621F5D759B /* PrayerAdjustment.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD6B75D1E31557B85EB1E0B5 /* PrayerAdjustment.swift */; };
 		3B0C227630044F04B9AD1679 /* muallim-ai-ar-P-13.m4a in Resources */ = {isa = PBXBuildFile; fileRef = E47D000B5DED7141DA7CA629 /* muallim-ai-ar-P-13.m4a */; };
 		3CA562AA6C1171171D79F0AA /* AudioPulseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0809A21303B19E79A08D0ED /* AudioPulseView.swift */; };
@@ -153,6 +157,7 @@
 		561FC9D728E028AB107607C0 /* murshid-ai-ar-I-36.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 328284D66638C5BD67827A09 /* murshid-ai-ar-I-36.m4a */; };
 		5673B4AC034526BBC74E1235 /* GuidanceEventSnapshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F5754BF365C2DF9A0C6B15 /* GuidanceEventSnapshotTests.swift */; };
 		57AF8372F00A586AE9FB1C0A /* WatchGuidanceRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E509BD739D7CAB52F50B914 /* WatchGuidanceRenderer.swift */; };
+		5862FC649E4000F0434704FF /* Amiri-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F6580723E2403D855BA70A08 /* Amiri-Regular.ttf */; };
 		59397CFE237782B52226CE66 /* murshid-ai-tr-I-16.m4a in Resources */ = {isa = PBXBuildFile; fileRef = C4DA2F89F49DD4DFCBF72463 /* murshid-ai-tr-I-16.m4a */; };
 		596208BE8484E7FFB2A04367 /* murshid-ai-tr-I-51.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9FE1311365E843C4D8C183B5 /* murshid-ai-tr-I-51.m4a */; };
 		61405EBB5F39A786CA4A0808 /* murshid-ai-en-I-31.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 3C61B0B47A2D1FCC9F26D827 /* murshid-ai-en-I-31.m4a */; };
@@ -167,8 +172,10 @@
 		65DCA61CCA225C7F92FC91E2 /* SwiftAA in Frameworks */ = {isa = PBXBuildFile; productRef = 40C64203C910802009037C35 /* SwiftAA */; };
 		662B99F21A9BD38748302D47 /* murshid-ai-tr-I-44.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 2D0BAD2D457ED52F0807142A /* murshid-ai-tr-I-44.m4a */; };
 		66677064BBD6C2F5682C5779 /* muallim-ai-en-P-13.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 58CBFFFCE728FD6B7719FDD6 /* muallim-ai-en-P-13.m4a */; };
+		67E22E3CE0CE64B85B4ECE5B /* Manrope-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E4DA5F99630F2431E9CD66D9 /* Manrope-SemiBold.ttf */; };
 		69D4A76EAD35FD83D2DB9528 /* muallim-ai-tr-P-0.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 78E6FCCCF5EADC29DF9BD42D /* muallim-ai-tr-P-0.m4a */; };
 		6A6E4CC927DDC9E288F2CD8F /* muallim-ai-ar-P-9.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 0957C316382BFECB0AF13125 /* muallim-ai-ar-P-9.m4a */; };
+		6AB43A841F95B802A255ABDE /* CelestialEphemeris.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77842A0B322C93C8E9774BD7 /* CelestialEphemeris.swift */; };
 		6C647CDF2920E8EDAC8C8FAF /* muallim-ai-tr-P-21.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 63EEBB97DE6BA5B7B5DE852A /* muallim-ai-tr-P-21.m4a */; };
 		6CD7EE21A9855761BB4A2D12 /* murshid-ai-en-I-47.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 3A65510F4E8EBD1667505B7D /* murshid-ai-en-I-47.m4a */; };
 		6CDE446DEAB791D741A9F7E8 /* GuidedPrayerBottomTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72FF1C9EAA51A7EE0109515 /* GuidedPrayerBottomTextView.swift */; };
@@ -192,6 +199,7 @@
 		772ABA12F087C361A5AF62BD /* muallim-ai-ar-P-17.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 3BE21827CB5FDDC9ABB126B4 /* muallim-ai-ar-P-17.m4a */; };
 		786A22077AA7791BE21CB9FD /* murshid-ai-ar-dhuhr-fard-I-25.m4a in Resources */ = {isa = PBXBuildFile; fileRef = C6CFC7C0A0FF85F7B26C778D /* murshid-ai-ar-dhuhr-fard-I-25.m4a */; };
 		79671436DAB695741D69436E /* muallim-ai-tr-P-13.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 03EEB8F54B79D473784D469F /* muallim-ai-tr-P-13.m4a */; };
+		7970C9C2230AD1EFE525569F /* CelestialArcView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBB25B9D109BFF958B350BBA /* CelestialArcView.swift */; };
 		79947E1ADC2CFAFE3CA07A3D /* murshid-ai-en-isha-sunnah-I-25.m4a in Resources */ = {isa = PBXBuildFile; fileRef = BB9584589BA85437655D70FA /* murshid-ai-en-isha-sunnah-I-25.m4a */; };
 		79E0E8C31F029F32BF652894 /* muallim-ai-ar-P-1.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 02566AAE8D037CFC31BB27E3 /* muallim-ai-ar-P-1.m4a */; };
 		7A11B1E52C06F5DCD9311A5F /* Minute.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7D646917D7D81D31371F085 /* Minute.swift */; };
@@ -199,13 +207,17 @@
 		7AA740C8D0F2CB02D77768D2 /* murshid-ai-en-I-11.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5049DA7BEE50F931AF8237C2 /* murshid-ai-en-I-11.m4a */; };
 		7B087E3F890F10C78222D9EA /* muallim-ai-ar-P-5.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 04F436728B257ABA5CBB516A /* muallim-ai-ar-P-5.m4a */; };
 		7C4EADD16653D5549C09637D /* muallim-ai-ar-P-15.m4a in Resources */ = {isa = PBXBuildFile; fileRef = F06FA3FDB487D6864445CD0F /* muallim-ai-ar-P-15.m4a */; };
+		7D53E8EFEFECBEFFC0F389ED /* MeteorShowers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497D8C6BEB53A2F2FE961867 /* MeteorShowers.swift */; };
+		7DC6EF91C4E6E20369187DAC /* SolarEphemeris.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A83A4D3250E1F0C6486869D /* SolarEphemeris.swift */; };
 		7DE9097F361964D594ECD2C1 /* murshid-ai-tr-witr-I-25.m4a in Resources */ = {isa = PBXBuildFile; fileRef = C61E8966C438A5FA6C239E60 /* murshid-ai-tr-witr-I-25.m4a */; };
+		7E318ADFACCA0B2558C237CE /* MoonPhase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BE8400B6F173DEC10EEDB24 /* MoonPhase.swift */; };
 		7EE37E2A97DA038280CACB15 /* murshid-ai-tr-fajr-fard-I-25.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 3277906B101872544D026666 /* murshid-ai-tr-fajr-fard-I-25.m4a */; };
 		7FE9D5D5B8079130DAF99B93 /* VoiceReciterSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 456B308902050BCE4E66FE3B /* VoiceReciterSheet.swift */; };
 		8001989CAF1C5BF014ABA661 /* WeatherProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88287543E3F1EB6CD7DD2A1F /* WeatherProvider.swift */; };
 		8065921B5A23243D219B17A5 /* murshid-ai-ar-I-9.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 352C56B56B6ECD4087E8EEF4 /* murshid-ai-ar-I-9.m4a */; };
 		80AB1DBC6E44E53FB5D9A755 /* murshid-ai-ar-I-39.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 299FD432A769A34851AA5A66 /* murshid-ai-ar-I-39.m4a */; };
 		80B22506C9C7DAE7CF6AF26F /* Shafaq.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87131AFBEBA5D69DD8C748F4 /* Shafaq.swift */; };
+		81D916DE00024A48A534D68D /* SwiftAA in Frameworks */ = {isa = PBXBuildFile; productRef = 0FE6AB96110E5D5E62F7539F /* SwiftAA */; };
 		824E3D07B309601AB378FB6A /* murshid-ai-tr-I-41.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 4D6E0038200F023165CCA9E5 /* murshid-ai-tr-I-41.m4a */; };
 		82569C61CD89ED3212EF7758 /* PrayerCalculationDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDD63ADB00E0A97AAC9246D /* PrayerCalculationDisplay.swift */; };
 		82F55A8580301662BE347CCB /* muallim-ai-tr-P-6.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9F6A1511E77912ACD0132FD4 /* muallim-ai-tr-P-6.m4a */; };
@@ -242,6 +254,7 @@
 		95050D077324E40AE802C13E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A290B0CDC38D4877587283E0 /* Assets.xcassets */; };
 		95B0D2469C90D830473017A5 /* Manrope-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8C802C47EF08A1E1169E3D63 /* Manrope-Medium.ttf */; };
 		96134079A54346466791F136 /* murshid-ai-ar-I-48.m4a in Resources */ = {isa = PBXBuildFile; fileRef = FCDE87C1679650E34B9D0625 /* murshid-ai-ar-I-48.m4a */; };
+		96243230E3D04DB89795ABBA /* FontRegistrar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2B9296B08BDC6BC17A4B230 /* FontRegistrar.swift */; };
 		96733DFA455B6FFA45DFC7CF /* murshid-ai-ar-I-51.m4a in Resources */ = {isa = PBXBuildFile; fileRef = E194D4DF842BE839A7764ED4 /* murshid-ai-ar-I-51.m4a */; };
 		96BE7FE6CCB446FCBE30DAFD /* calib-qiyam.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F4CA8FB19134D6ABBD7548B /* calib-qiyam.png */; };
 		9705259E4FB8719986922C31 /* murshid-ai-tr-I-14.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 6961C534668E072B39B8CC46 /* murshid-ai-tr-I-14.m4a */; };
@@ -279,6 +292,7 @@
 		A6AAF6D37262CD2A78F8DF12 /* WeatherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742C487D647A3E7D335E9921 /* WeatherTests.swift */; };
 		A6E9BD74C74061E1847122C7 /* muallim-ai-tr-P-9.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 4C9F959DF29DFC34755AA943 /* muallim-ai-tr-P-9.m4a */; };
 		A74C9BF2BA8161ACDB887673 /* munadi-ai-C-11.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 405045478C714255A8A1EDEE /* munadi-ai-C-11.m4a */; };
+		A82C273BE3C66105CAC05E76 /* WatchSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375E528294A8BBBB0303897F /* WatchSettingsView.swift */; };
 		A8CF429C1F28F58F2DACC09E /* Madhab.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC655FCA78A5124D16697C08 /* Madhab.swift */; };
 		A925DA0C12B90EBCCE2E0DF8 /* WeatherKitProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DAF86F3F7CCE7D92F8E38F8 /* WeatherKitProvider.swift */; };
 		A9A1203582352CB20D7B9672 /* murshid-ai-en-dhuhr-fard-I-25.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5E253736DD868019F381C52B /* murshid-ai-en-dhuhr-fard-I-25.m4a */; };
@@ -289,31 +303,8 @@
 		AAE55086BDC4C4E35D594E49 /* UnitTransitionCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D082D0224C14127DB11E53 /* UnitTransitionCardView.swift */; };
 		AB31CE153DD5E5B1A47A94F5 /* murshid-ai-en-I-4.m4a in Resources */ = {isa = PBXBuildFile; fileRef = E37A01467E4DAFB5EE3AC8E6 /* murshid-ai-en-I-4.m4a */; };
 		AC8B4742561A800328A2BD52 /* LaunchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE4676B1EDA27DB229123E3B /* LaunchView.swift */; };
+		AD47A392DBFA360AF7125C46 /* CelestialBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A3002CDB51A096C058E234F /* CelestialBody.swift */; };
 		AD56BBC4CBC5F5CA18F616DB /* murshid-ai-tr-I-43.m4a in Resources */ = {isa = PBXBuildFile; fileRef = DC8025FAA227D36767804C33 /* murshid-ai-tr-I-43.m4a */; };
-		AD88CCE12FF5F60100234B0A /* SwiftAA in Frameworks */ = {isa = PBXBuildFile; productRef = AD88CCE02FF5F60100234B0A /* SwiftAA */; };
-		AD88CCFA2FF5F9CB00234B0A /* MoonPhase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BE8400B6F173DEC10EEDB24 /* MoonPhase.swift */; };
-		AD88CCFB2FF5F9CB00234B0A /* CelestialBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A3002CDB51A096C058E234F /* CelestialBody.swift */; };
-		AD88CCFC2FF5F9CB00234B0A /* SolarEphemeris.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A83A4D3250E1F0C6486869D /* SolarEphemeris.swift */; };
-		AD88CCFD2FF5F9CB00234B0A /* MeteorShowers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497D8C6BEB53A2F2FE961867 /* MeteorShowers.swift */; };
-		AD88CCFE2FF5F9CB00234B0A /* SkyState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B0AAD054DBB9E42E44C940 /* SkyState.swift */; };
-		AD88CCFF2FF5F9CB00234B0A /* LunarEphemeris.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE541FF46303194740DC82ED /* LunarEphemeris.swift */; };
-		AD88CD002FF5F9CB00234B0A /* ObserverLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EF39297015CFB42AE060FB5 /* ObserverLocation.swift */; };
-		AD88CD012FF5F9CB00234B0A /* CelestialSky.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F61709C91BF20E890D899B2 /* CelestialSky.swift */; };
-		AD88CD022FF5F9CB00234B0A /* MoonPhaseShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0273D7A3201E41B7D93155C1 /* MoonPhaseShape.swift */; };
-		AD88CD032FF5F9CB00234B0A /* CelestialArcGeometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45437722277344DD08E869C4 /* CelestialArcGeometry.swift */; };
-		AD88CD042FF5F9CB00234B0A /* CelestialClock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C255D9C509325ACC2D54AB8D /* CelestialClock.swift */; };
-		AD88CD052FF5F9CB00234B0A /* DailyArc.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3C2B4A17834EED98F2A8C5B /* DailyArc.swift */; };
-		AD88CD062FF5F9CB00234B0A /* CelestialEphemeris.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77842A0B322C93C8E9774BD7 /* CelestialEphemeris.swift */; };
-		AD88CD072FF5F9CB00234B0A /* CelestialArcView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBB25B9D109BFF958B350BBA /* CelestialArcView.swift */; };
-		AD88CD082FF600A300234B0A /* Amiri-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F6580723E2403D855BA70A08 /* Amiri-Regular.ttf */; };
-		AD88CD0A2FF600A300234B0A /* CormorantGaramond-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 35B67277EA0AE572B7215B71 /* CormorantGaramond-Medium.ttf */; };
-		AD88CD0B2FF600A300234B0A /* Manrope-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E4DA5F99630F2431E9CD66D9 /* Manrope-SemiBold.ttf */; };
-		AD88CD0C2FF600A300234B0A /* Manrope-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 71EBC4FF07650B60E99445D9 /* Manrope-Bold.ttf */; };
-		AD88CD0D2FF600A300234B0A /* Manrope-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FF929CE7B3E0EFADDF4EE6F4 /* Manrope-Regular.ttf */; };
-		AD88CD0E2FF600A300234B0A /* Manrope-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8C802C47EF08A1E1169E3D63 /* Manrope-Medium.ttf */; };
-		AD88CD0F2FF600D000234B0A /* CormorantGaramond-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A621CEE4E63EBBA5FF632D80 /* CormorantGaramond-SemiBold.ttf */; };
-		AD88CD102FF600D000234B0A /* FontRegistrar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2B9296B08BDC6BC17A4B230 /* FontRegistrar.swift */; };
-		AD88CD112FF600D000234B0A /* Typography.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D379A8EA4241624482A7BD /* Typography.swift */; };
 		AECFF6CAB8D00E698B60007D /* murshid-ai-ar-I-3.m4a in Resources */ = {isa = PBXBuildFile; fileRef = C3C369F35D295F9DE8A6F416 /* murshid-ai-ar-I-3.m4a */; };
 		AF0C32074BDAE771CB6D7C74 /* murshid-ai-ar-witr-I-25.m4a in Resources */ = {isa = PBXBuildFile; fileRef = A12CEABFB6DF9ED241D0E695 /* murshid-ai-ar-witr-I-25.m4a */; };
 		AF4270683DDB5009F9AEF452 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C80D27750CBB1175BFBD6633 /* SettingsViewModel.swift */; };
@@ -334,15 +325,19 @@
 		B83FB803F4ED6D57BB2D5D04 /* murshid-ai-ar-fajr-fard-I-25.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 4F630D8AB9939B52D39C0622 /* murshid-ai-ar-fajr-fard-I-25.m4a */; };
 		B908E694C63B1C4BB9058C2E /* murshid-ai-en-I-15.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 91E64F0A3F8CE12FCCEA3521 /* murshid-ai-en-I-15.m4a */; };
 		B9130F87B119402E1F0036EC /* murshid-ai-ar-I-14.m4a in Resources */ = {isa = PBXBuildFile; fileRef = C3142B4482208ADAE1982570 /* murshid-ai-ar-I-14.m4a */; };
+		B93F8DE88CBB2513380AFA8A /* DailyArc.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3C2B4A17834EED98F2A8C5B /* DailyArc.swift */; };
 		B94909971C48DBA1D9403512 /* murshid-ai-ar-I-37.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 327CFC0857FBB265DAB4A1DE /* murshid-ai-ar-I-37.m4a */; };
 		B98A929A678D0967D5B87986 /* murshid-ai-en-I-20.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 07F7E15D5975B796DFBE0A14 /* murshid-ai-en-I-20.m4a */; };
 		B9C6CFAB09AFFB6BB37791D0 /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564BDB0B6B41DCEA3271AD3F /* ShareSheet.swift */; };
 		BA077A02B5D1BB733DDA030A /* murshid-ai-ar-I-27.m4a in Resources */ = {isa = PBXBuildFile; fileRef = BEEBA5D8BD5890EBC601E0F4 /* murshid-ai-ar-I-27.m4a */; };
 		BA13E8331B1DAC1D4E0F6E15 /* murshid-ai-ar-I-41.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 514B1F650C493F073B7641C1 /* murshid-ai-ar-I-41.m4a */; };
+		BA7D3F106D31FCE22CD845B5 /* MoonPhaseShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0273D7A3201E41B7D93155C1 /* MoonPhaseShape.swift */; };
 		BA8B5E486E99AE40B50D0B0E /* Shafaq.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87131AFBEBA5D69DD8C748F4 /* Shafaq.swift */; };
 		BAE318AD521DFF1B8575B02D /* murshid-ai-en-I-52.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 6AD1F2F8A26D62691AA4B3AE /* murshid-ai-en-I-52.m4a */; };
 		BAECD0CFB7C201EAD4097A0A /* SalahMotionCore in Frameworks */ = {isa = PBXBuildFile; productRef = 0F99BD7230282EEA50285674 /* SalahMotionCore */; };
 		BC99551660DB2213AD49783C /* muallim-ai-en-P-6.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 42A6A63ADB284BF4605823DE /* muallim-ai-en-P-6.m4a */; };
+		BCB85670473B935FEAFBF3A0 /* CelestialSky.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F61709C91BF20E890D899B2 /* CelestialSky.swift */; };
+		BCBF6136D038617B9A2A4023 /* Manrope-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FF929CE7B3E0EFADDF4EE6F4 /* Manrope-Regular.ttf */; };
 		BD63025E8131DF3D0643B95E /* MathUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD6F253CF3AD4B0ADD04A0AA /* MathUtilities.swift */; };
 		BE55E8A85111B3400C582988 /* CelestialArcGeometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45437722277344DD08E869C4 /* CelestialArcGeometry.swift */; };
 		BF20432F55CB8F50C60329D8 /* murshid-ai-tr-I-24.m4a in Resources */ = {isa = PBXBuildFile; fileRef = FD0E1C7AD4878EB0CF49BBAA /* murshid-ai-tr-I-24.m4a */; };
@@ -351,6 +346,7 @@
 		C0E46DC4D34295039E157B93 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C0E2580EA8C8CF97E347AA /* LocationManager.swift */; };
 		C1282E542990722C3185C624 /* murshid-ai-en-I-32.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 8144885C2E6862C95A844186 /* murshid-ai-en-I-32.m4a */; };
 		C136EA1A473787DBE8FF1488 /* murshid-ai-en-fajr-sunnah-I-25.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 16A27CF2A5562254DCB65DB7 /* murshid-ai-en-fajr-sunnah-I-25.m4a */; };
+		C25D387E7D6A9508136339D1 /* SkyState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B0AAD054DBB9E42E44C940 /* SkyState.swift */; };
 		C2847CCAB9D9D261174A6A8B /* SolarTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16886C745CE5F4BF3EF244AA /* SolarTime.swift */; };
 		C306F6B47047FCEC573B509C /* GuidedPrayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E7599F9C2BA99C8F7B4D1FE /* GuidedPrayerView.swift */; };
 		C4FAD614A1F621E3792F317B /* MoonPhaseShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0273D7A3201E41B7D93155C1 /* MoonPhaseShape.swift */; };
@@ -384,7 +380,9 @@
 		DA84D3FD5395A3184B673640 /* murshid-ai-tr-I-31.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 06841599938CF8C900674B51 /* murshid-ai-tr-I-31.m4a */; };
 		DB01B1ED9335BC8624F32D7C /* PrayerTimesEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B573F97EF6F4F14CB17FDB8 /* PrayerTimesEngine.swift */; };
 		DBB35A98372C1A1CC83A4C8C /* murshid-ai-ar-I-42.m4a in Resources */ = {isa = PBXBuildFile; fileRef = FAE2EBCD50BB9854DF51A133 /* murshid-ai-ar-I-42.m4a */; };
+		DC159EDF6986C340C0514BD1 /* CormorantGaramond-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A621CEE4E63EBBA5FF632D80 /* CormorantGaramond-SemiBold.ttf */; };
 		DCE922213B9487D318AC6A7E /* munadi-ai-C-7.m4a in Resources */ = {isa = PBXBuildFile; fileRef = E482934AF348F25E7BDC13A2 /* munadi-ai-C-7.m4a */; };
+		DDED3AA5F6F4713E9476AFB5 /* Manrope-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 71EBC4FF07650B60E99445D9 /* Manrope-Bold.ttf */; };
 		DE20F99E79127714C83C6B3B /* WristMotionSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3860B25CBC92F144A4C05986 /* WristMotionSource.swift */; };
 		DE82AEE635983F46DC6FDA89 /* SolarCoordinates.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3F1837323F52EED208A2ED6 /* SolarCoordinates.swift */; };
 		DE9B003379967F07D2A58DF8 /* muallim-ai-tr-P-23.m4a in Resources */ = {isa = PBXBuildFile; fileRef = D98628EDDBA50E76EFA0F4EA /* muallim-ai-tr-P-23.m4a */; };
@@ -417,6 +415,7 @@
 		E8EBD581DC264ADF94277A70 /* murshid-ai-ar-I-1.m4a in Resources */ = {isa = PBXBuildFile; fileRef = F72549DBD59EF5B5E4D87A5F /* murshid-ai-ar-I-1.m4a */; };
 		E9FAFEC019931F33A0D3E5DA /* murshid-ai-tr-I-46.m4a in Resources */ = {isa = PBXBuildFile; fileRef = E53CF6609357089F7D451684 /* murshid-ai-tr-I-46.m4a */; };
 		EAAE268A350C53003BFFF220 /* murshid-ai-ar-I-20.m4a in Resources */ = {isa = PBXBuildFile; fileRef = FF5555F6CA34F9527B673405 /* murshid-ai-ar-I-20.m4a */; };
+		EAD05F023326A74C5DD73E25 /* CelestialArcGeometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45437722277344DD08E869C4 /* CelestialArcGeometry.swift */; };
 		ECAEB767D2E73F7775817CEE /* muallim-ai-en-P-11.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 6D161C6DE83A854F1C5911AD /* muallim-ai-en-P-11.m4a */; };
 		ED78F2BB2C200AA06EDE31FA /* muallim-ai-ar-P-4.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 97D622C0307FD10BAB571504 /* muallim-ai-ar-P-4.m4a */; };
 		EF834E96F13F5CEDEEBD95A5 /* murshid-ai-tr-I-22.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 62AC5871C81B934007AC0165 /* murshid-ai-tr-I-22.m4a */; };
@@ -429,11 +428,13 @@
 		F3AABCF28B1BBC1DE5E36B70 /* muallim-ai-ar-P-10.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 71C793F6384F747786789770 /* muallim-ai-ar-P-10.m4a */; };
 		F4729E7544CABCF3BB6CD451 /* murshid-ai-tr-I-47.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CE7D2E627328655E0BD3A0AC /* murshid-ai-tr-I-47.m4a */; };
 		F4B9491C892ED3A0602DE57D /* CelestialArcView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBB25B9D109BFF958B350BBA /* CelestialArcView.swift */; };
+		F50898E64E297E89761866ED /* CelestialClock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C255D9C509325ACC2D54AB8D /* CelestialClock.swift */; };
 		F52255685758295E49B4AE84 /* CelestialEphemeris.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77842A0B322C93C8E9774BD7 /* CelestialEphemeris.swift */; };
 		F579E8B2C5E178E0130CA2A8 /* murshid-ai-ar-I-17.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9873257DA13188A8D8C1622B /* murshid-ai-ar-I-17.m4a */; };
 		F59CF8D5395D2BA2293ABD5C /* murshid-ai-en-I-3.m4a in Resources */ = {isa = PBXBuildFile; fileRef = A465768600B15497FD8979BA /* murshid-ai-en-I-3.m4a */; };
 		F5CC1B4AC0A952CD0F3ECC13 /* murshid-ai-en-I-50.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 0AD5E639F5F8D23E0A0062FF /* murshid-ai-en-I-50.m4a */; };
 		F6D4914A0422D6096015AB9C /* murshid-ai-tr-I-10.m4a in Resources */ = {isa = PBXBuildFile; fileRef = F60DE1FBD211B146A768FF10 /* murshid-ai-tr-I-10.m4a */; };
+		F744ADC3A2338A5AF9BAFBBA /* LunarEphemeris.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE541FF46303194740DC82ED /* LunarEphemeris.swift */; };
 		F778A36639C05115DC0240EC /* muallim-ai-en-P-17.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 8BA2BF20DDBD0191DF6578D8 /* muallim-ai-en-P-17.m4a */; };
 		F7D93A9BA0A237E9FD0A32F3 /* PrayerTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200E60C82C33600972AC1BC4 /* PrayerTime.swift */; };
 		F86A9A4D53B62F184FFE420F /* GuidedSnapshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 924C0B994C491510879B7126 /* GuidedSnapshotTests.swift */; };
@@ -448,6 +449,7 @@
 		FBF955A200272AE9BB3A7979 /* murshid-ai-tr-I-1.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CC8B7C9CCB8AD0CC5D3D54E5 /* murshid-ai-tr-I-1.m4a */; };
 		FC5DA1817A6257ECC5CC9E48 /* murshid-ai-en-I-37.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 8B8155A4F08F4F805D473E77 /* murshid-ai-en-I-37.m4a */; };
 		FC7FF37EAA8A284C6FBF22F9 /* murshid-ai-tr-I-30.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 7E89CD09592C4F081F5FDD2C /* murshid-ai-tr-I-30.m4a */; };
+		FCE33AF36683A0FD2040472E /* Manrope-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8C802C47EF08A1E1169E3D63 /* Manrope-Medium.ttf */; };
 		FE09A69CE453A2E3C96C2F63 /* murshid-ai-tr-I-8.m4a in Resources */ = {isa = PBXBuildFile; fileRef = ADB44EB22F10D56EE71FCFE1 /* murshid-ai-tr-I-8.m4a */; };
 		FE18DFD7EB9FDE027DF142AB /* murshid-ai-ar-I-52.m4a in Resources */ = {isa = PBXBuildFile; fileRef = FD6B1771E7CF97586AA9DE70 /* murshid-ai-ar-I-52.m4a */; };
 		FE4354DC156D49D856F1644F /* FeatureFlags.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6712C83FD923AF779A2FD74D /* FeatureFlags.swift */; };
@@ -469,408 +471,410 @@
 /* Begin PBXFileReference section */
 		0096F71A42105A59EA8FFD96 /* WeatherChip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherChip.swift; sourceTree = "<group>"; };
 		01B882EFFE8ADADF71E08C6A /* StarfieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarfieldView.swift; sourceTree = "<group>"; };
-		020E18D4F38EB483736C9C61 /* murshid-ai-ar-isha-sunnah-I-25.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-ar-isha-sunnah-I-25.m4a"; sourceTree = "<group>"; };
-		02566AAE8D037CFC31BB27E3 /* muallim-ai-ar-P-1.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-ar-P-1.m4a"; sourceTree = "<group>"; };
+		020E18D4F38EB483736C9C61 /* murshid-ai-ar-isha-sunnah-I-25.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-isha-sunnah-I-25.m4a"; sourceTree = "<group>"; };
+		02566AAE8D037CFC31BB27E3 /* muallim-ai-ar-P-1.m4a */ = {isa = PBXFileReference; path = "muallim-ai-ar-P-1.m4a"; sourceTree = "<group>"; };
 		0273D7A3201E41B7D93155C1 /* MoonPhaseShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoonPhaseShape.swift; sourceTree = "<group>"; };
-		03AFDE3F8DCE46010AA774ED /* murshid-ai-tr-I-40.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-tr-I-40.m4a"; sourceTree = "<group>"; };
-		03EEB8F54B79D473784D469F /* muallim-ai-tr-P-13.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-tr-P-13.m4a"; sourceTree = "<group>"; };
-		0460BF35AF007374674E3B58 /* murshid-ai-en-I-41.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-en-I-41.m4a"; sourceTree = "<group>"; };
-		04F436728B257ABA5CBB516A /* muallim-ai-ar-P-5.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-ar-P-5.m4a"; sourceTree = "<group>"; };
-		057AF0446905CA287B0151B2 /* murshid-ai-ar-maghrib-fard-I-25.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-ar-maghrib-fard-I-25.m4a"; sourceTree = "<group>"; };
-		060F2535B046CD6E2875D0B0 /* murshid-ai-en-I-39.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-en-I-39.m4a"; sourceTree = "<group>"; };
-		06841599938CF8C900674B51 /* murshid-ai-tr-I-31.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-tr-I-31.m4a"; sourceTree = "<group>"; };
-		06C47C7958089C058C6694EC /* murshid-ai-ar-I-28.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-ar-I-28.m4a"; sourceTree = "<group>"; };
-		07F7E15D5975B796DFBE0A14 /* murshid-ai-en-I-20.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-en-I-20.m4a"; sourceTree = "<group>"; };
-		0957C316382BFECB0AF13125 /* muallim-ai-ar-P-9.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-ar-P-9.m4a"; sourceTree = "<group>"; };
+		03AFDE3F8DCE46010AA774ED /* murshid-ai-tr-I-40.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-I-40.m4a"; sourceTree = "<group>"; };
+		03EEB8F54B79D473784D469F /* muallim-ai-tr-P-13.m4a */ = {isa = PBXFileReference; path = "muallim-ai-tr-P-13.m4a"; sourceTree = "<group>"; };
+		0460BF35AF007374674E3B58 /* murshid-ai-en-I-41.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-I-41.m4a"; sourceTree = "<group>"; };
+		04F436728B257ABA5CBB516A /* muallim-ai-ar-P-5.m4a */ = {isa = PBXFileReference; path = "muallim-ai-ar-P-5.m4a"; sourceTree = "<group>"; };
+		057AF0446905CA287B0151B2 /* murshid-ai-ar-maghrib-fard-I-25.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-maghrib-fard-I-25.m4a"; sourceTree = "<group>"; };
+		060F2535B046CD6E2875D0B0 /* murshid-ai-en-I-39.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-I-39.m4a"; sourceTree = "<group>"; };
+		06841599938CF8C900674B51 /* murshid-ai-tr-I-31.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-I-31.m4a"; sourceTree = "<group>"; };
+		06C47C7958089C058C6694EC /* murshid-ai-ar-I-28.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-28.m4a"; sourceTree = "<group>"; };
+		07F7E15D5975B796DFBE0A14 /* murshid-ai-en-I-20.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-I-20.m4a"; sourceTree = "<group>"; };
+		0957C316382BFECB0AF13125 /* muallim-ai-ar-P-9.m4a */ = {isa = PBXFileReference; path = "muallim-ai-ar-P-9.m4a"; sourceTree = "<group>"; };
 		09824D22AA3D2FDD333FF114 /* calib-ruku.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "calib-ruku.png"; sourceTree = "<group>"; };
-		0A067EE4008E518A2B138D7E /* murshid-ai-tr-isha-sunnah-I-25.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-tr-isha-sunnah-I-25.m4a"; sourceTree = "<group>"; };
+		0A067EE4008E518A2B138D7E /* murshid-ai-tr-isha-sunnah-I-25.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-isha-sunnah-I-25.m4a"; sourceTree = "<group>"; };
 		0A67553E40C446362466E9CF /* CallLibraryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallLibraryTests.swift; sourceTree = "<group>"; };
-		0AD5E639F5F8D23E0A0062FF /* murshid-ai-en-I-50.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-en-I-50.m4a"; sourceTree = "<group>"; };
-		0B031B68C337CCDE31EB74B4 /* murshid-ai-en-I-2.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-en-I-2.m4a"; sourceTree = "<group>"; };
+		0AD5E639F5F8D23E0A0062FF /* murshid-ai-en-I-50.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-I-50.m4a"; sourceTree = "<group>"; };
+		0B031B68C337CCDE31EB74B4 /* murshid-ai-en-I-2.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-I-2.m4a"; sourceTree = "<group>"; };
 		0B649C730414815C54CB9D8B /* PrayerCalculationSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrayerCalculationSettings.swift; sourceTree = "<group>"; };
 		0BDB156C2585DE2639DEEF3C /* DesignTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignTokens.swift; sourceTree = "<group>"; };
 		0C606E2A9589FE0A833967B8 /* SalahMotionTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = SalahMotionTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		0D4FB626EB53BE9B31D23FD6 /* murshid-ai-tr-I-18.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-tr-I-18.m4a"; sourceTree = "<group>"; };
-		0E96C28373C72ABDA6F5F570 /* murshid-ai-ar-I-19.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-ar-I-19.m4a"; sourceTree = "<group>"; };
-		0EA4F377703C5C28DB15B635 /* muallim-ai-en-P-8.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-en-P-8.m4a"; sourceTree = "<group>"; };
+		0D4FB626EB53BE9B31D23FD6 /* murshid-ai-tr-I-18.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-I-18.m4a"; sourceTree = "<group>"; };
+		0E96C28373C72ABDA6F5F570 /* murshid-ai-ar-I-19.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-19.m4a"; sourceTree = "<group>"; };
+		0EA4F377703C5C28DB15B635 /* muallim-ai-en-P-8.m4a */ = {isa = PBXFileReference; path = "muallim-ai-en-P-8.m4a"; sourceTree = "<group>"; };
 		0F4CA8FB19134D6ABBD7548B /* calib-qiyam.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "calib-qiyam.png"; sourceTree = "<group>"; };
-		0FA8859183B40B5596B7C60A /* murshid-ai-ar-I-49.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-ar-I-49.m4a"; sourceTree = "<group>"; };
-		10EAFEE7C0EDC3B8333E86F9 /* murshid-ai-ar-I-8.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-ar-I-8.m4a"; sourceTree = "<group>"; };
+		0FA8859183B40B5596B7C60A /* murshid-ai-ar-I-49.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-49.m4a"; sourceTree = "<group>"; };
+		10EAFEE7C0EDC3B8333E86F9 /* murshid-ai-ar-I-8.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-8.m4a"; sourceTree = "<group>"; };
 		12D379A8EA4241624482A7BD /* Typography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Typography.swift; sourceTree = "<group>"; };
-		12F7BCB154A5391470AF5FD5 /* murshid-ai-en-I-30.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-en-I-30.m4a"; sourceTree = "<group>"; };
-		14C7F910A4409DCF913DC28B /* muallim-ai-ar-P-16.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-ar-P-16.m4a"; sourceTree = "<group>"; };
+		12F7BCB154A5391470AF5FD5 /* murshid-ai-en-I-30.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-I-30.m4a"; sourceTree = "<group>"; };
+		14C7F910A4409DCF913DC28B /* muallim-ai-ar-P-16.m4a */ = {isa = PBXFileReference; path = "muallim-ai-ar-P-16.m4a"; sourceTree = "<group>"; };
 		14F357D929AF9157B4BC7251 /* HighLatitudeRule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighLatitudeRule.swift; sourceTree = "<group>"; };
 		1503C100C4DF742FA9BCBB14 /* CachedWeatherProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CachedWeatherProvider.swift; sourceTree = "<group>"; };
 		1549E1B1CDD4E1FCF3DD61E6 /* GuidedPrayerWatchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuidedPrayerWatchView.swift; sourceTree = "<group>"; };
 		16886C745CE5F4BF3EF244AA /* SolarTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolarTime.swift; sourceTree = "<group>"; };
-		16A27CF2A5562254DCB65DB7 /* murshid-ai-en-fajr-sunnah-I-25.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-en-fajr-sunnah-I-25.m4a"; sourceTree = "<group>"; };
-		1A6ADF4D4C20FFE494D47097 /* muallim-ai-en-P-12.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-en-P-12.m4a"; sourceTree = "<group>"; };
+		16A27CF2A5562254DCB65DB7 /* murshid-ai-en-fajr-sunnah-I-25.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-fajr-sunnah-I-25.m4a"; sourceTree = "<group>"; };
+		1A6ADF4D4C20FFE494D47097 /* muallim-ai-en-P-12.m4a */ = {isa = PBXFileReference; path = "muallim-ai-en-P-12.m4a"; sourceTree = "<group>"; };
 		1A83A4D3250E1F0C6486869D /* SolarEphemeris.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolarEphemeris.swift; sourceTree = "<group>"; };
 		1ADC999140475E02FC5F57D0 /* DayTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayTheme.swift; sourceTree = "<group>"; };
 		1BE8400B6F173DEC10EEDB24 /* MoonPhase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoonPhase.swift; sourceTree = "<group>"; };
-		1CB022B23EC9372542169160 /* murshid-ai-ar-fajr-sunnah-I-25.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-ar-fajr-sunnah-I-25.m4a"; sourceTree = "<group>"; };
-		1D642BA023DCFA0344343B18 /* murshid-ai-en-I-23.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-en-I-23.m4a"; sourceTree = "<group>"; };
-		1D6A3B13D7AC86050A59F817 /* muallim-ai-ar-P-12.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-ar-P-12.m4a"; sourceTree = "<group>"; };
+		1CB022B23EC9372542169160 /* murshid-ai-ar-fajr-sunnah-I-25.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-fajr-sunnah-I-25.m4a"; sourceTree = "<group>"; };
+		1D642BA023DCFA0344343B18 /* murshid-ai-en-I-23.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-I-23.m4a"; sourceTree = "<group>"; };
+		1D6A3B13D7AC86050A59F817 /* muallim-ai-ar-P-12.m4a */ = {isa = PBXFileReference; path = "muallim-ai-ar-P-12.m4a"; sourceTree = "<group>"; };
 		1DD3515CF4E8CA02059BA4FB /* WeatherLayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherLayerView.swift; sourceTree = "<group>"; };
 		1F61709C91BF20E890D899B2 /* CelestialSky.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CelestialSky.swift; sourceTree = "<group>"; };
-		1FCBAF38B8F8D37BEC3E6141 /* murshid-ai-en-maghrib-sunnah-I-25.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-en-maghrib-sunnah-I-25.m4a"; sourceTree = "<group>"; };
+		1FCBAF38B8F8D37BEC3E6141 /* murshid-ai-en-maghrib-sunnah-I-25.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-maghrib-sunnah-I-25.m4a"; sourceTree = "<group>"; };
 		1FDD63ADB00E0A97AAC9246D /* PrayerCalculationDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrayerCalculationDisplay.swift; sourceTree = "<group>"; };
 		200E60C82C33600972AC1BC4 /* PrayerTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrayerTime.swift; sourceTree = "<group>"; };
-		2012FCAB337FA5923229D212 /* muallim-ai-en-P-22.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-en-P-22.m4a"; sourceTree = "<group>"; };
-		203D2D24E6099FB9A7364BD8 /* murshid-ai-tr-I-48.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-tr-I-48.m4a"; sourceTree = "<group>"; };
-		209231CF5408A567C82BBCF5 /* muallim-ai-tr-P-17.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-tr-P-17.m4a"; sourceTree = "<group>"; };
-		216AED27E5541464D3EAF0E8 /* murshid-ai-en-I-10.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-en-I-10.m4a"; sourceTree = "<group>"; };
-		239955D7DE38D81547AE0A9E /* murshid-ai-ar-I-16.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-ar-I-16.m4a"; sourceTree = "<group>"; };
+		2012FCAB337FA5923229D212 /* muallim-ai-en-P-22.m4a */ = {isa = PBXFileReference; path = "muallim-ai-en-P-22.m4a"; sourceTree = "<group>"; };
+		203D2D24E6099FB9A7364BD8 /* murshid-ai-tr-I-48.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-I-48.m4a"; sourceTree = "<group>"; };
+		209231CF5408A567C82BBCF5 /* muallim-ai-tr-P-17.m4a */ = {isa = PBXFileReference; path = "muallim-ai-tr-P-17.m4a"; sourceTree = "<group>"; };
+		216AED27E5541464D3EAF0E8 /* murshid-ai-en-I-10.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-I-10.m4a"; sourceTree = "<group>"; };
+		239955D7DE38D81547AE0A9E /* murshid-ai-ar-I-16.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-16.m4a"; sourceTree = "<group>"; };
 		23B0AAD054DBB9E42E44C940 /* SkyState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkyState.swift; sourceTree = "<group>"; };
 		24E4F267AD454BFBEE81C57F /* PositionTrackerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionTrackerView.swift; sourceTree = "<group>"; };
-		273467ED9D826B433F79B243 /* murshid-ai-ar-I-31.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-ar-I-31.m4a"; sourceTree = "<group>"; };
-		27C3FAA42189426AD099BA95 /* murshid-ai-ar-I-25.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-ar-I-25.m4a"; sourceTree = "<group>"; };
-		281A94530B455D536990E62B /* murshid-ai-tr-I-38.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-tr-I-38.m4a"; sourceTree = "<group>"; };
-		28246FB783F939857A7058AD /* muallim-ai-tr-P-19.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-tr-P-19.m4a"; sourceTree = "<group>"; };
+		273467ED9D826B433F79B243 /* murshid-ai-ar-I-31.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-31.m4a"; sourceTree = "<group>"; };
+		27C3FAA42189426AD099BA95 /* murshid-ai-ar-I-25.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-25.m4a"; sourceTree = "<group>"; };
+		281A94530B455D536990E62B /* murshid-ai-tr-I-38.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-I-38.m4a"; sourceTree = "<group>"; };
+		28246FB783F939857A7058AD /* muallim-ai-tr-P-19.m4a */ = {isa = PBXFileReference; path = "muallim-ai-tr-P-19.m4a"; sourceTree = "<group>"; };
 		28898591A4E2CC4D865318AB /* SalahMotionWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalahMotionWatchApp.swift; sourceTree = "<group>"; };
-		28C70D26221EADCE9800A76E /* murshid-ai-en-I-21.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-en-I-21.m4a"; sourceTree = "<group>"; };
-		29935E7B050D7877EE25C28F /* muallim-ai-ar-P-7.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-ar-P-7.m4a"; sourceTree = "<group>"; };
-		299FD432A769A34851AA5A66 /* murshid-ai-ar-I-39.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-ar-I-39.m4a"; sourceTree = "<group>"; };
-		2AE550526F5B8CAAE3E70F37 /* murshid-ai-tr-I-50.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-tr-I-50.m4a"; sourceTree = "<group>"; };
-		2C718D8EFB935D670D3AC7AE /* murshid-ai-en-I-46.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-en-I-46.m4a"; sourceTree = "<group>"; };
-		2D0BAD2D457ED52F0807142A /* murshid-ai-tr-I-44.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-tr-I-44.m4a"; sourceTree = "<group>"; };
-		2E225C0179E4C92220ECE9B4 /* murshid-ai-ar-I-7.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-ar-I-7.m4a"; sourceTree = "<group>"; };
+		28C70D26221EADCE9800A76E /* murshid-ai-en-I-21.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-I-21.m4a"; sourceTree = "<group>"; };
+		29935E7B050D7877EE25C28F /* muallim-ai-ar-P-7.m4a */ = {isa = PBXFileReference; path = "muallim-ai-ar-P-7.m4a"; sourceTree = "<group>"; };
+		299FD432A769A34851AA5A66 /* murshid-ai-ar-I-39.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-39.m4a"; sourceTree = "<group>"; };
+		2AE550526F5B8CAAE3E70F37 /* murshid-ai-tr-I-50.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-I-50.m4a"; sourceTree = "<group>"; };
+		2C718D8EFB935D670D3AC7AE /* murshid-ai-en-I-46.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-I-46.m4a"; sourceTree = "<group>"; };
+		2D0BAD2D457ED52F0807142A /* murshid-ai-tr-I-44.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-I-44.m4a"; sourceTree = "<group>"; };
+		2E225C0179E4C92220ECE9B4 /* murshid-ai-ar-I-7.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-7.m4a"; sourceTree = "<group>"; };
 		2E7599F9C2BA99C8F7B4D1FE /* GuidedPrayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuidedPrayerView.swift; sourceTree = "<group>"; };
 		2EABD29F481386054DCA40CF /* WeatherCondition+Display.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WeatherCondition+Display.swift"; sourceTree = "<group>"; };
-		2EE32B1EF54C97AE119D25AC /* muallim-ai-ar-P-22.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-ar-P-22.m4a"; sourceTree = "<group>"; };
+		2EE32B1EF54C97AE119D25AC /* muallim-ai-ar-P-22.m4a */ = {isa = PBXFileReference; path = "muallim-ai-ar-P-22.m4a"; sourceTree = "<group>"; };
 		304EEC9E9C6222550BAFDED8 /* Coordinates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinates.swift; sourceTree = "<group>"; };
-		308179AF06FDFD9F0EE73F2F /* muallim-ai-tr-P-10.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-tr-P-10.m4a"; sourceTree = "<group>"; };
-		31856DA9740893D7E0174A8D /* munadi-ai-C-8.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "munadi-ai-C-8.m4a"; sourceTree = "<group>"; };
-		3251DF0A674F31E5AC506B7F /* murshid-ai-tr-I-17.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-tr-I-17.m4a"; sourceTree = "<group>"; };
+		308179AF06FDFD9F0EE73F2F /* muallim-ai-tr-P-10.m4a */ = {isa = PBXFileReference; path = "muallim-ai-tr-P-10.m4a"; sourceTree = "<group>"; };
+		31856DA9740893D7E0174A8D /* munadi-ai-C-8.m4a */ = {isa = PBXFileReference; path = "munadi-ai-C-8.m4a"; sourceTree = "<group>"; };
+		3251DF0A674F31E5AC506B7F /* murshid-ai-tr-I-17.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-I-17.m4a"; sourceTree = "<group>"; };
 		3253483916BF8F00B2D9B11F /* guided-sequences.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "guided-sequences.txt"; sourceTree = "<group>"; };
-		3277906B101872544D026666 /* murshid-ai-tr-fajr-fard-I-25.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-tr-fajr-fard-I-25.m4a"; sourceTree = "<group>"; };
-		327CFC0857FBB265DAB4A1DE /* murshid-ai-ar-I-37.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-ar-I-37.m4a"; sourceTree = "<group>"; };
-		328284D66638C5BD67827A09 /* murshid-ai-ar-I-36.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-ar-I-36.m4a"; sourceTree = "<group>"; };
+		3277906B101872544D026666 /* murshid-ai-tr-fajr-fard-I-25.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-fajr-fard-I-25.m4a"; sourceTree = "<group>"; };
+		327CFC0857FBB265DAB4A1DE /* murshid-ai-ar-I-37.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-37.m4a"; sourceTree = "<group>"; };
+		328284D66638C5BD67827A09 /* murshid-ai-ar-I-36.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-36.m4a"; sourceTree = "<group>"; };
 		32A41968B198EA6F9273ADA9 /* HeadphoneMotionDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadphoneMotionDetector.swift; sourceTree = "<group>"; };
-		34636CB14D04DA8A95318A8E /* murshid-ai-en-I-1.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-en-I-1.m4a"; sourceTree = "<group>"; };
-		3493CDC42D9D7DEE4D5DD7A2 /* murshid-ai-en-maghrib-fard-I-25.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-en-maghrib-fard-I-25.m4a"; sourceTree = "<group>"; };
-		34C2CBA9B727F1798562A5E3 /* munadi-ai-C-1F.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "munadi-ai-C-1F.m4a"; sourceTree = "<group>"; };
-		352C56B56B6ECD4087E8EEF4 /* murshid-ai-ar-I-9.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-ar-I-9.m4a"; sourceTree = "<group>"; };
+		34636CB14D04DA8A95318A8E /* murshid-ai-en-I-1.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-I-1.m4a"; sourceTree = "<group>"; };
+		3493CDC42D9D7DEE4D5DD7A2 /* murshid-ai-en-maghrib-fard-I-25.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-maghrib-fard-I-25.m4a"; sourceTree = "<group>"; };
+		34C2CBA9B727F1798562A5E3 /* munadi-ai-C-1F.m4a */ = {isa = PBXFileReference; path = "munadi-ai-C-1F.m4a"; sourceTree = "<group>"; };
+		352C56B56B6ECD4087E8EEF4 /* murshid-ai-ar-I-9.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-9.m4a"; sourceTree = "<group>"; };
 		35B67277EA0AE572B7215B71 /* CormorantGaramond-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "CormorantGaramond-Medium.ttf"; sourceTree = "<group>"; };
 		362C54B2BA3C0F5E5CC2FE14 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
-		37873779F0AAEA632A65BE05 /* muallim-ai-tr-P-11.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-tr-P-11.m4a"; sourceTree = "<group>"; };
-		37D9818D7A9CAEDDED1E4508 /* murshid-ai-ar-I-6.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-ar-I-6.m4a"; sourceTree = "<group>"; };
-		384791B63E2356B07FBEB5CD /* murshid-ai-en-dhuhr-sunnah-I-25.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-en-dhuhr-sunnah-I-25.m4a"; sourceTree = "<group>"; };
+		375E528294A8BBBB0303897F /* WatchSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSettingsView.swift; sourceTree = "<group>"; };
+		37873779F0AAEA632A65BE05 /* muallim-ai-tr-P-11.m4a */ = {isa = PBXFileReference; path = "muallim-ai-tr-P-11.m4a"; sourceTree = "<group>"; };
+		37D9818D7A9CAEDDED1E4508 /* murshid-ai-ar-I-6.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-6.m4a"; sourceTree = "<group>"; };
+		384791B63E2356B07FBEB5CD /* murshid-ai-en-dhuhr-sunnah-I-25.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-dhuhr-sunnah-I-25.m4a"; sourceTree = "<group>"; };
 		3860B25CBC92F144A4C05986 /* WristMotionSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WristMotionSource.swift; sourceTree = "<group>"; };
 		3A3002CDB51A096C058E234F /* CelestialBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CelestialBody.swift; sourceTree = "<group>"; };
-		3A65510F4E8EBD1667505B7D /* murshid-ai-en-I-47.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-en-I-47.m4a"; sourceTree = "<group>"; };
-		3A7BB9CBECBA3DD5AA9C027C /* muallim-ai-en-P-20.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-en-P-20.m4a"; sourceTree = "<group>"; };
+		3A65510F4E8EBD1667505B7D /* murshid-ai-en-I-47.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-I-47.m4a"; sourceTree = "<group>"; };
+		3A7BB9CBECBA3DD5AA9C027C /* muallim-ai-en-P-20.m4a */ = {isa = PBXFileReference; path = "muallim-ai-en-P-20.m4a"; sourceTree = "<group>"; };
 		3A7E146118E02052DB68E844 /* Angle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Angle.swift; sourceTree = "<group>"; };
 		3B0FEAA4EE4C7B3D8881F201 /* AudioManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioManager.swift; sourceTree = "<group>"; };
 		3B559744BE56422D0BE16432 /* SalahMotion.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = SalahMotion.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		3BE21827CB5FDDC9ABB126B4 /* muallim-ai-ar-P-17.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-ar-P-17.m4a"; sourceTree = "<group>"; };
-		3C61B0B47A2D1FCC9F26D827 /* murshid-ai-en-I-31.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-en-I-31.m4a"; sourceTree = "<group>"; };
+		3BE21827CB5FDDC9ABB126B4 /* muallim-ai-ar-P-17.m4a */ = {isa = PBXFileReference; path = "muallim-ai-ar-P-17.m4a"; sourceTree = "<group>"; };
+		3C61B0B47A2D1FCC9F26D827 /* murshid-ai-en-I-31.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-I-31.m4a"; sourceTree = "<group>"; };
 		3D00639A777FF4C954077C0A /* TasbihCounterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasbihCounterView.swift; sourceTree = "<group>"; };
-		3E92B11F21AD0FAE9969637D /* murshid-ai-tr-I-2.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-tr-I-2.m4a"; sourceTree = "<group>"; };
-		4047F38121A2EECAA606D5D1 /* murshid-ai-ar-I-13.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-ar-I-13.m4a"; sourceTree = "<group>"; };
-		405045478C714255A8A1EDEE /* munadi-ai-C-11.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "munadi-ai-C-11.m4a"; sourceTree = "<group>"; };
-		40B88A206BF6D815DCA38445 /* muallim-ai-en-P-4.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-en-P-4.m4a"; sourceTree = "<group>"; };
-		4243C9F448BFA807656071A6 /* murshid-ai-ar-I-44.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-ar-I-44.m4a"; sourceTree = "<group>"; };
-		42A6A63ADB284BF4605823DE /* muallim-ai-en-P-6.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-en-P-6.m4a"; sourceTree = "<group>"; };
-		433C2E6B1A4FC3044EE24110 /* murshid-ai-tr-I-13.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-tr-I-13.m4a"; sourceTree = "<group>"; };
-		43871123A0F4F77843858186 /* murshid-ai-en-I-35.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-en-I-35.m4a"; sourceTree = "<group>"; };
-		43A8A920AC32810FAEF9A334 /* muallim-ai-ar-P-3.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-ar-P-3.m4a"; sourceTree = "<group>"; };
+		3E92B11F21AD0FAE9969637D /* murshid-ai-tr-I-2.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-I-2.m4a"; sourceTree = "<group>"; };
+		4047F38121A2EECAA606D5D1 /* murshid-ai-ar-I-13.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-13.m4a"; sourceTree = "<group>"; };
+		405045478C714255A8A1EDEE /* munadi-ai-C-11.m4a */ = {isa = PBXFileReference; path = "munadi-ai-C-11.m4a"; sourceTree = "<group>"; };
+		40B88A206BF6D815DCA38445 /* muallim-ai-en-P-4.m4a */ = {isa = PBXFileReference; path = "muallim-ai-en-P-4.m4a"; sourceTree = "<group>"; };
+		4243C9F448BFA807656071A6 /* murshid-ai-ar-I-44.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-44.m4a"; sourceTree = "<group>"; };
+		42A6A63ADB284BF4605823DE /* muallim-ai-en-P-6.m4a */ = {isa = PBXFileReference; path = "muallim-ai-en-P-6.m4a"; sourceTree = "<group>"; };
+		433C2E6B1A4FC3044EE24110 /* murshid-ai-tr-I-13.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-I-13.m4a"; sourceTree = "<group>"; };
+		43871123A0F4F77843858186 /* murshid-ai-en-I-35.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-I-35.m4a"; sourceTree = "<group>"; };
+		43A8A920AC32810FAEF9A334 /* muallim-ai-ar-P-3.m4a */ = {isa = PBXFileReference; path = "muallim-ai-ar-P-3.m4a"; sourceTree = "<group>"; };
 		45437722277344DD08E869C4 /* CelestialArcGeometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CelestialArcGeometry.swift; sourceTree = "<group>"; };
 		456B308902050BCE4E66FE3B /* VoiceReciterSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceReciterSheet.swift; sourceTree = "<group>"; };
-		460B627E0F7C4F07C5415CA4 /* munadi-ai-C-10.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "munadi-ai-C-10.m4a"; sourceTree = "<group>"; };
-		46C4371460B6DB6334207161 /* munadi-ai-C-1S.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "munadi-ai-C-1S.m4a"; sourceTree = "<group>"; };
-		46D7189292ADFDE7F7E49CA5 /* murshid-ai-en-I-16.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-en-I-16.m4a"; sourceTree = "<group>"; };
+		460B627E0F7C4F07C5415CA4 /* munadi-ai-C-10.m4a */ = {isa = PBXFileReference; path = "munadi-ai-C-10.m4a"; sourceTree = "<group>"; };
+		46C4371460B6DB6334207161 /* munadi-ai-C-1S.m4a */ = {isa = PBXFileReference; path = "munadi-ai-C-1S.m4a"; sourceTree = "<group>"; };
+		46D7189292ADFDE7F7E49CA5 /* murshid-ai-en-I-16.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-I-16.m4a"; sourceTree = "<group>"; };
 		48FB3DE508FF1E75A417B76F /* Rouding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rouding.swift; sourceTree = "<group>"; };
 		497D8C6BEB53A2F2FE961867 /* MeteorShowers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeteorShowers.swift; sourceTree = "<group>"; };
-		4A335FBB61CF2B943DDE3544 /* murshid-ai-ar-I-35.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-ar-I-35.m4a"; sourceTree = "<group>"; };
-		4C86ABAF544FBFC9DBCE93BC /* muallim-ai-tr-P-12.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-tr-P-12.m4a"; sourceTree = "<group>"; };
-		4C9F959DF29DFC34755AA943 /* muallim-ai-tr-P-9.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-tr-P-9.m4a"; sourceTree = "<group>"; };
-		4D6E0038200F023165CCA9E5 /* murshid-ai-tr-I-41.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-tr-I-41.m4a"; sourceTree = "<group>"; };
+		4A335FBB61CF2B943DDE3544 /* murshid-ai-ar-I-35.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-35.m4a"; sourceTree = "<group>"; };
+		4C86ABAF544FBFC9DBCE93BC /* muallim-ai-tr-P-12.m4a */ = {isa = PBXFileReference; path = "muallim-ai-tr-P-12.m4a"; sourceTree = "<group>"; };
+		4C9F959DF29DFC34755AA943 /* muallim-ai-tr-P-9.m4a */ = {isa = PBXFileReference; path = "muallim-ai-tr-P-9.m4a"; sourceTree = "<group>"; };
+		4D6E0038200F023165CCA9E5 /* murshid-ai-tr-I-41.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-I-41.m4a"; sourceTree = "<group>"; };
 		4EF39297015CFB42AE060FB5 /* ObserverLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObserverLocation.swift; sourceTree = "<group>"; };
-		4F630D8AB9939B52D39C0622 /* murshid-ai-ar-fajr-fard-I-25.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-ar-fajr-fard-I-25.m4a"; sourceTree = "<group>"; };
-		5049DA7BEE50F931AF8237C2 /* murshid-ai-en-I-11.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-en-I-11.m4a"; sourceTree = "<group>"; };
-		5141264441FB17FCAE79AE5A /* murshid-ai-en-asr-sunnah-I-25.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-en-asr-sunnah-I-25.m4a"; sourceTree = "<group>"; };
-		514B1F650C493F073B7641C1 /* murshid-ai-ar-I-41.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-ar-I-41.m4a"; sourceTree = "<group>"; };
-		51CDD072881FC194FCF6152F /* murshid-ai-ar-asr-fard-I-25.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-ar-asr-fard-I-25.m4a"; sourceTree = "<group>"; };
-		52D61AEB15CCE5D8756BE6E6 /* murshid-ai-en-I-33.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-en-I-33.m4a"; sourceTree = "<group>"; };
-		534F89809E99ED893BF7916F /* murshid-ai-tr-I-27.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-tr-I-27.m4a"; sourceTree = "<group>"; };
-		5566E153826A5464138DC992 /* murshid-ai-ar-I-40.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-ar-I-40.m4a"; sourceTree = "<group>"; };
-		55A35BF90645F9C41EFB61A1 /* murshid-ai-tr-I-25.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-tr-I-25.m4a"; sourceTree = "<group>"; };
+		4F630D8AB9939B52D39C0622 /* murshid-ai-ar-fajr-fard-I-25.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-fajr-fard-I-25.m4a"; sourceTree = "<group>"; };
+		5049DA7BEE50F931AF8237C2 /* murshid-ai-en-I-11.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-I-11.m4a"; sourceTree = "<group>"; };
+		5141264441FB17FCAE79AE5A /* murshid-ai-en-asr-sunnah-I-25.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-asr-sunnah-I-25.m4a"; sourceTree = "<group>"; };
+		514B1F650C493F073B7641C1 /* murshid-ai-ar-I-41.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-41.m4a"; sourceTree = "<group>"; };
+		51CDD072881FC194FCF6152F /* murshid-ai-ar-asr-fard-I-25.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-asr-fard-I-25.m4a"; sourceTree = "<group>"; };
+		52D61AEB15CCE5D8756BE6E6 /* murshid-ai-en-I-33.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-I-33.m4a"; sourceTree = "<group>"; };
+		534F89809E99ED893BF7916F /* murshid-ai-tr-I-27.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-I-27.m4a"; sourceTree = "<group>"; };
+		5566E153826A5464138DC992 /* murshid-ai-ar-I-40.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-40.m4a"; sourceTree = "<group>"; };
+		55A35BF90645F9C41EFB61A1 /* murshid-ai-tr-I-25.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-I-25.m4a"; sourceTree = "<group>"; };
 		564BDB0B6B41DCEA3271AD3F /* ShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
-		5742FD1544A0BAE401816E59 /* muallim-ai-en-P-19.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-en-P-19.m4a"; sourceTree = "<group>"; };
+		5742FD1544A0BAE401816E59 /* muallim-ai-en-P-19.m4a */ = {isa = PBXFileReference; path = "muallim-ai-en-P-19.m4a"; sourceTree = "<group>"; };
 		57F2B064524DC63AA04C484A /* DateUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateUtilities.swift; sourceTree = "<group>"; };
-		580F70D5AB1A5AB7E27242B4 /* murshid-ai-en-asr-fard-I-25.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-en-asr-fard-I-25.m4a"; sourceTree = "<group>"; };
-		58CBFFFCE728FD6B7719FDD6 /* muallim-ai-en-P-13.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-en-P-13.m4a"; sourceTree = "<group>"; };
+		580F70D5AB1A5AB7E27242B4 /* murshid-ai-en-asr-fard-I-25.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-asr-fard-I-25.m4a"; sourceTree = "<group>"; };
+		58CBFFFCE728FD6B7719FDD6 /* muallim-ai-en-P-13.m4a */ = {isa = PBXFileReference; path = "muallim-ai-en-P-13.m4a"; sourceTree = "<group>"; };
 		5AC495B637DF88F7928A208D /* NightMeteorsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NightMeteorsView.swift; sourceTree = "<group>"; };
-		5AE9F2C9A4223C8E23B1E898 /* murshid-ai-tr-fajr-sunnah-I-25.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-tr-fajr-sunnah-I-25.m4a"; sourceTree = "<group>"; };
-		5D1632C0CF9DBB918DEEEB1D /* munadi-ai-C-2.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "munadi-ai-C-2.m4a"; sourceTree = "<group>"; };
-		5DB5CF315CB0070B5F412860 /* murshid-ai-tr-maghrib-sunnah-I-25.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-tr-maghrib-sunnah-I-25.m4a"; sourceTree = "<group>"; };
-		5DB6B39DBD3142E65FF4FE04 /* murshid-ai-tr-I-29.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-tr-I-29.m4a"; sourceTree = "<group>"; };
-		5E253736DD868019F381C52B /* murshid-ai-en-dhuhr-fard-I-25.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-en-dhuhr-fard-I-25.m4a"; sourceTree = "<group>"; };
+		5AE9F2C9A4223C8E23B1E898 /* murshid-ai-tr-fajr-sunnah-I-25.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-fajr-sunnah-I-25.m4a"; sourceTree = "<group>"; };
+		5D1632C0CF9DBB918DEEEB1D /* munadi-ai-C-2.m4a */ = {isa = PBXFileReference; path = "munadi-ai-C-2.m4a"; sourceTree = "<group>"; };
+		5DB5CF315CB0070B5F412860 /* murshid-ai-tr-maghrib-sunnah-I-25.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-maghrib-sunnah-I-25.m4a"; sourceTree = "<group>"; };
+		5DB6B39DBD3142E65FF4FE04 /* murshid-ai-tr-I-29.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-I-29.m4a"; sourceTree = "<group>"; };
+		5E253736DD868019F381C52B /* murshid-ai-en-dhuhr-fard-I-25.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-dhuhr-fard-I-25.m4a"; sourceTree = "<group>"; };
 		5F39845BAF1764009B877F35 /* PrayerTimes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrayerTimes.swift; sourceTree = "<group>"; };
-		6006F38E6C4F7D519EE4F4DF /* murshid-ai-en-I-5.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-en-I-5.m4a"; sourceTree = "<group>"; };
-		60CEF51F7DBE9D2D33BB69F5 /* munadi-ai-C-1.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "munadi-ai-C-1.m4a"; sourceTree = "<group>"; };
+		6006F38E6C4F7D519EE4F4DF /* murshid-ai-en-I-5.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-I-5.m4a"; sourceTree = "<group>"; };
+		60CEF51F7DBE9D2D33BB69F5 /* munadi-ai-C-1.m4a */ = {isa = PBXFileReference; path = "munadi-ai-C-1.m4a"; sourceTree = "<group>"; };
 		61036B84F8F3A96246D77D92 /* PrayerTimesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrayerTimesViewModel.swift; sourceTree = "<group>"; };
 		6224864767D3D556DA5B2FA2 /* SettingsComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsComponents.swift; sourceTree = "<group>"; };
-		62AC5871C81B934007AC0165 /* murshid-ai-tr-I-22.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-tr-I-22.m4a"; sourceTree = "<group>"; };
-		630765C98387BD292E8F1A03 /* murshid-ai-ar-I-34.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-ar-I-34.m4a"; sourceTree = "<group>"; };
-		638E352FB040E4A886AE8066 /* murshid-ai-tr-I-21.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-tr-I-21.m4a"; sourceTree = "<group>"; };
-		63EEBB97DE6BA5B7B5DE852A /* muallim-ai-tr-P-21.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-tr-P-21.m4a"; sourceTree = "<group>"; };
-		6441463FC9101E3DBA25F3A0 /* murshid-ai-ar-I-46.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-ar-I-46.m4a"; sourceTree = "<group>"; };
-		6443909C60533C7FFC5589DE /* murshid-ai-en-witr-I-25.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-en-witr-I-25.m4a"; sourceTree = "<group>"; };
-		6562349D36F67FBBBC839E7C /* murshid-ai-tr-dhuhr-fard-I-25.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-tr-dhuhr-fard-I-25.m4a"; sourceTree = "<group>"; };
+		62AC5871C81B934007AC0165 /* murshid-ai-tr-I-22.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-I-22.m4a"; sourceTree = "<group>"; };
+		630765C98387BD292E8F1A03 /* murshid-ai-ar-I-34.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-34.m4a"; sourceTree = "<group>"; };
+		638E352FB040E4A886AE8066 /* murshid-ai-tr-I-21.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-I-21.m4a"; sourceTree = "<group>"; };
+		63EEBB97DE6BA5B7B5DE852A /* muallim-ai-tr-P-21.m4a */ = {isa = PBXFileReference; path = "muallim-ai-tr-P-21.m4a"; sourceTree = "<group>"; };
+		6441463FC9101E3DBA25F3A0 /* murshid-ai-ar-I-46.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-46.m4a"; sourceTree = "<group>"; };
+		6443909C60533C7FFC5589DE /* murshid-ai-en-witr-I-25.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-witr-I-25.m4a"; sourceTree = "<group>"; };
+		6562349D36F67FBBBC839E7C /* murshid-ai-tr-dhuhr-fard-I-25.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-dhuhr-fard-I-25.m4a"; sourceTree = "<group>"; };
 		65C3D239685993BD37583DCD /* SalahMotionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalahMotionTests.swift; sourceTree = "<group>"; };
-		6663836E1FCF716A5BFED4DC /* murshid-ai-tr-I-15.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-tr-I-15.m4a"; sourceTree = "<group>"; };
-		666884A682398E0B016FA542 /* murshid-ai-ar-I-11.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-ar-I-11.m4a"; sourceTree = "<group>"; };
+		6663836E1FCF716A5BFED4DC /* murshid-ai-tr-I-15.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-I-15.m4a"; sourceTree = "<group>"; };
+		666884A682398E0B016FA542 /* murshid-ai-ar-I-11.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-11.m4a"; sourceTree = "<group>"; };
 		66AC1F442B8B6505820856D4 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		6712C83FD923AF779A2FD74D /* FeatureFlags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureFlags.swift; sourceTree = "<group>"; };
 		67496A11176F452CDC06826C /* WeatherState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherState.swift; sourceTree = "<group>"; };
-		68282D6E11CC30747D85C165 /* murshid-ai-ar-I-4.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-ar-I-4.m4a"; sourceTree = "<group>"; };
-		6961C534668E072B39B8CC46 /* murshid-ai-tr-I-14.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-tr-I-14.m4a"; sourceTree = "<group>"; };
+		68282D6E11CC30747D85C165 /* murshid-ai-ar-I-4.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-4.m4a"; sourceTree = "<group>"; };
+		6961C534668E072B39B8CC46 /* murshid-ai-tr-I-14.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-I-14.m4a"; sourceTree = "<group>"; };
 		6AB09AE42C517B4A9EBBC707 /* audio-manifest.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "audio-manifest.json"; sourceTree = "<group>"; };
 		6ABF2B6B2280C63D0DD009FD /* guidance-events.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "guidance-events.txt"; sourceTree = "<group>"; };
-		6AD1F2F8A26D62691AA4B3AE /* murshid-ai-en-I-52.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-en-I-52.m4a"; sourceTree = "<group>"; };
-		6B68C02CD68A8EF5476E054E /* murshid-ai-en-isha-fard-I-25.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-en-isha-fard-I-25.m4a"; sourceTree = "<group>"; };
+		6AD1F2F8A26D62691AA4B3AE /* murshid-ai-en-I-52.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-I-52.m4a"; sourceTree = "<group>"; };
+		6B68C02CD68A8EF5476E054E /* murshid-ai-en-isha-fard-I-25.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-isha-fard-I-25.m4a"; sourceTree = "<group>"; };
 		6C42AF01C2886F328F51294E /* ScrollBehindScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollBehindScreen.swift; sourceTree = "<group>"; };
-		6D161C6DE83A854F1C5911AD /* muallim-ai-en-P-11.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-en-P-11.m4a"; sourceTree = "<group>"; };
-		6E74C336789D61777CEB60F7 /* murshid-ai-ar-I-33.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-ar-I-33.m4a"; sourceTree = "<group>"; };
-		70A7E500C3A7D2EC2ACC2449 /* murshid-ai-en-I-27.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-en-I-27.m4a"; sourceTree = "<group>"; };
-		71C793F6384F747786789770 /* muallim-ai-ar-P-10.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-ar-P-10.m4a"; sourceTree = "<group>"; };
+		6D161C6DE83A854F1C5911AD /* muallim-ai-en-P-11.m4a */ = {isa = PBXFileReference; path = "muallim-ai-en-P-11.m4a"; sourceTree = "<group>"; };
+		6E74C336789D61777CEB60F7 /* murshid-ai-ar-I-33.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-33.m4a"; sourceTree = "<group>"; };
+		70A7E500C3A7D2EC2ACC2449 /* murshid-ai-en-I-27.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-I-27.m4a"; sourceTree = "<group>"; };
+		71C793F6384F747786789770 /* muallim-ai-ar-P-10.m4a */ = {isa = PBXFileReference; path = "muallim-ai-ar-P-10.m4a"; sourceTree = "<group>"; };
 		71EBC4FF07650B60E99445D9 /* Manrope-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Manrope-Bold.ttf"; sourceTree = "<group>"; };
-		72058AE706C135738F303C6F /* murshid-ai-en-I-13.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-en-I-13.m4a"; sourceTree = "<group>"; };
-		720CA0EB2F81958C1674C327 /* murshid-ai-ar-I-47.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-ar-I-47.m4a"; sourceTree = "<group>"; };
-		72438DECA3F7DD169A75BE2A /* munadi-ai-C-5.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "munadi-ai-C-5.m4a"; sourceTree = "<group>"; };
+		72058AE706C135738F303C6F /* murshid-ai-en-I-13.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-I-13.m4a"; sourceTree = "<group>"; };
+		720CA0EB2F81958C1674C327 /* murshid-ai-ar-I-47.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-47.m4a"; sourceTree = "<group>"; };
+		72438DECA3F7DD169A75BE2A /* munadi-ai-C-5.m4a */ = {isa = PBXFileReference; path = "munadi-ai-C-5.m4a"; sourceTree = "<group>"; };
 		733E043C928F889B3202C0E9 /* GlobalCalibrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalCalibrationView.swift; sourceTree = "<group>"; };
 		742C487D647A3E7D335E9921 /* WeatherTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherTests.swift; sourceTree = "<group>"; };
-		747C385A8664285D2E309F77 /* murshid-ai-en-I-38.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-en-I-38.m4a"; sourceTree = "<group>"; };
+		747C385A8664285D2E309F77 /* murshid-ai-en-I-38.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-I-38.m4a"; sourceTree = "<group>"; };
 		74F2628F5D4F297A2737BFCE /* WeatherCondition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherCondition.swift; sourceTree = "<group>"; };
 		767C2A3F78F79ED77724C518 /* CalibrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalibrationView.swift; sourceTree = "<group>"; };
 		773F5416A6EE891B0F91AC81 /* WatchPrayerTimes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchPrayerTimes.swift; sourceTree = "<group>"; };
 		77842A0B322C93C8E9774BD7 /* CelestialEphemeris.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CelestialEphemeris.swift; sourceTree = "<group>"; };
 		780431AB41B1199C5D04C772 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		78E6FCCCF5EADC29DF9BD42D /* muallim-ai-tr-P-0.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-tr-P-0.m4a"; sourceTree = "<group>"; };
+		78E6FCCCF5EADC29DF9BD42D /* muallim-ai-tr-P-0.m4a */ = {isa = PBXFileReference; path = "muallim-ai-tr-P-0.m4a"; sourceTree = "<group>"; };
 		7948A8B6C4EF66CAA50F598B /* AudioGuidanceRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioGuidanceRenderer.swift; sourceTree = "<group>"; };
-		7A06BD2DCC5BE48FD72EBFD1 /* murshid-ai-tr-asr-fard-I-25.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-tr-asr-fard-I-25.m4a"; sourceTree = "<group>"; };
-		7AFD421E98EC4EA9AA7580AB /* muallim-ai-tr-P-7.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-tr-P-7.m4a"; sourceTree = "<group>"; };
-		7B354BCF32CA2E0A5A681990 /* muallim-ai-ar-P-18.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-ar-P-18.m4a"; sourceTree = "<group>"; };
+		7A06BD2DCC5BE48FD72EBFD1 /* murshid-ai-tr-asr-fard-I-25.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-asr-fard-I-25.m4a"; sourceTree = "<group>"; };
+		7AFD421E98EC4EA9AA7580AB /* muallim-ai-tr-P-7.m4a */ = {isa = PBXFileReference; path = "muallim-ai-tr-P-7.m4a"; sourceTree = "<group>"; };
+		7B354BCF32CA2E0A5A681990 /* muallim-ai-ar-P-18.m4a */ = {isa = PBXFileReference; path = "muallim-ai-ar-P-18.m4a"; sourceTree = "<group>"; };
 		7C584527866555C6FDE8DF04 /* CalculationParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculationParameters.swift; sourceTree = "<group>"; };
 		7C5A0852B71E8C46A8E5ED34 /* WeatherStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherStore.swift; sourceTree = "<group>"; };
-		7E75A8CA32FCD84BA0EA99B3 /* murshid-ai-ar-isha-fard-I-25.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-ar-isha-fard-I-25.m4a"; sourceTree = "<group>"; };
-		7E89CD09592C4F081F5FDD2C /* murshid-ai-tr-I-30.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-tr-I-30.m4a"; sourceTree = "<group>"; };
+		7E75A8CA32FCD84BA0EA99B3 /* murshid-ai-ar-isha-fard-I-25.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-isha-fard-I-25.m4a"; sourceTree = "<group>"; };
+		7E89CD09592C4F081F5FDD2C /* murshid-ai-tr-I-30.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-I-30.m4a"; sourceTree = "<group>"; };
 		7F3B4EEC62E5A1C4EE9A8C84 /* ScreenHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenHeader.swift; sourceTree = "<group>"; };
-		7FDA0C5BC0E69D59F3A837E2 /* muallim-ai-en-P-10.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-en-P-10.m4a"; sourceTree = "<group>"; };
-		8144885C2E6862C95A844186 /* murshid-ai-en-I-32.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-en-I-32.m4a"; sourceTree = "<group>"; };
+		7FDA0C5BC0E69D59F3A837E2 /* muallim-ai-en-P-10.m4a */ = {isa = PBXFileReference; path = "muallim-ai-en-P-10.m4a"; sourceTree = "<group>"; };
+		8144885C2E6862C95A844186 /* murshid-ai-en-I-32.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-I-32.m4a"; sourceTree = "<group>"; };
 		86A647036EB92FEB5BC38FF0 /* calib-sujud.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "calib-sujud.png"; sourceTree = "<group>"; };
 		87131AFBEBA5D69DD8C748F4 /* Shafaq.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shafaq.swift; sourceTree = "<group>"; };
 		88287543E3F1EB6CD7DD2A1F /* WeatherProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherProvider.swift; sourceTree = "<group>"; };
-		88DAF747DDD6261F2CCA0B2B /* murshid-ai-tr-I-9.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-tr-I-9.m4a"; sourceTree = "<group>"; };
-		89415C90604E013B70C2D930 /* muallim-ai-tr-P-5.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-tr-P-5.m4a"; sourceTree = "<group>"; };
-		89EE67E90AEBC90DD30D3CA3 /* muallim-ai-en-P-7.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-en-P-7.m4a"; sourceTree = "<group>"; };
+		88DAF747DDD6261F2CCA0B2B /* murshid-ai-tr-I-9.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-I-9.m4a"; sourceTree = "<group>"; };
+		89415C90604E013B70C2D930 /* muallim-ai-tr-P-5.m4a */ = {isa = PBXFileReference; path = "muallim-ai-tr-P-5.m4a"; sourceTree = "<group>"; };
+		89EE67E90AEBC90DD30D3CA3 /* muallim-ai-en-P-7.m4a */ = {isa = PBXFileReference; path = "muallim-ai-en-P-7.m4a"; sourceTree = "<group>"; };
 		8A6A47FBE62F3276CBB648E5 /* CalculationMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculationMethod.swift; sourceTree = "<group>"; };
-		8A9C199E75C3CA4B42EAEA2A /* muallim-ai-en-P-0.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-en-P-0.m4a"; sourceTree = "<group>"; };
-		8ABEC6F760A33883147F548D /* murshid-ai-tr-I-39.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-tr-I-39.m4a"; sourceTree = "<group>"; };
-		8B8155A4F08F4F805D473E77 /* murshid-ai-en-I-37.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-en-I-37.m4a"; sourceTree = "<group>"; };
-		8BA2BF20DDBD0191DF6578D8 /* muallim-ai-en-P-17.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-en-P-17.m4a"; sourceTree = "<group>"; };
+		8A9589E085D695BE0992BCFA /* WatchPrayerSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchPrayerSettings.swift; sourceTree = "<group>"; };
+		8A9C199E75C3CA4B42EAEA2A /* muallim-ai-en-P-0.m4a */ = {isa = PBXFileReference; path = "muallim-ai-en-P-0.m4a"; sourceTree = "<group>"; };
+		8ABEC6F760A33883147F548D /* murshid-ai-tr-I-39.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-I-39.m4a"; sourceTree = "<group>"; };
+		8B8155A4F08F4F805D473E77 /* murshid-ai-en-I-37.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-I-37.m4a"; sourceTree = "<group>"; };
+		8BA2BF20DDBD0191DF6578D8 /* muallim-ai-en-P-17.m4a */ = {isa = PBXFileReference; path = "muallim-ai-en-P-17.m4a"; sourceTree = "<group>"; };
 		8C802C47EF08A1E1169E3D63 /* Manrope-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Manrope-Medium.ttf"; sourceTree = "<group>"; };
-		8DB597E57B3137D10D776477 /* muallim-ai-tr-P-22.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-tr-P-22.m4a"; sourceTree = "<group>"; };
+		8DB597E57B3137D10D776477 /* muallim-ai-tr-P-22.m4a */ = {isa = PBXFileReference; path = "muallim-ai-tr-P-22.m4a"; sourceTree = "<group>"; };
 		8E23B8750171D22CFF934547 /* Astronomical.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Astronomical.swift; sourceTree = "<group>"; };
 		8E509BD739D7CAB52F50B914 /* WatchGuidanceRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchGuidanceRenderer.swift; sourceTree = "<group>"; };
-		8E542876C1350E90B302BC04 /* murshid-ai-tr-I-45.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-tr-I-45.m4a"; sourceTree = "<group>"; };
-		8EC78AC692B7F82F8D140DB4 /* muallim-ai-en-P-21.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-en-P-21.m4a"; sourceTree = "<group>"; };
-		901B9E93287A101098DCC86C /* murshid-ai-ar-I-29.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-ar-I-29.m4a"; sourceTree = "<group>"; };
-		91E64F0A3F8CE12FCCEA3521 /* murshid-ai-en-I-15.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-en-I-15.m4a"; sourceTree = "<group>"; };
+		8E542876C1350E90B302BC04 /* murshid-ai-tr-I-45.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-I-45.m4a"; sourceTree = "<group>"; };
+		8EC78AC692B7F82F8D140DB4 /* muallim-ai-en-P-21.m4a */ = {isa = PBXFileReference; path = "muallim-ai-en-P-21.m4a"; sourceTree = "<group>"; };
+		901B9E93287A101098DCC86C /* murshid-ai-ar-I-29.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-29.m4a"; sourceTree = "<group>"; };
+		91E64F0A3F8CE12FCCEA3521 /* murshid-ai-en-I-15.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-I-15.m4a"; sourceTree = "<group>"; };
 		924C0B994C491510879B7126 /* GuidedSnapshotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuidedSnapshotTests.swift; sourceTree = "<group>"; };
-		93AF4C58266770B8D584EEF9 /* murshid-ai-ar-I-12.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-ar-I-12.m4a"; sourceTree = "<group>"; };
-		94DD5AE0C72407AFEA34257A /* muallim-ai-en-P-2.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-en-P-2.m4a"; sourceTree = "<group>"; };
-		960CF31E2972DEBBD1417F0C /* murshid-ai-ar-I-18.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-ar-I-18.m4a"; sourceTree = "<group>"; };
-		96290BD238ED6274880842C5 /* muallim-ai-ar-P-19.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-ar-P-19.m4a"; sourceTree = "<group>"; };
-		97D2F9FFDDADEC8AE40BB8CF /* murshid-ai-ar-I-38.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-ar-I-38.m4a"; sourceTree = "<group>"; };
-		97D622C0307FD10BAB571504 /* muallim-ai-ar-P-4.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-ar-P-4.m4a"; sourceTree = "<group>"; };
-		9873257DA13188A8D8C1622B /* murshid-ai-ar-I-17.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-ar-I-17.m4a"; sourceTree = "<group>"; };
-		99B6122E0D28FA6E5B65CF77 /* murshid-ai-en-I-19.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-en-I-19.m4a"; sourceTree = "<group>"; };
-		99DC9F05FF8DDC0CA826FE79 /* murshid-ai-tr-I-5.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-tr-I-5.m4a"; sourceTree = "<group>"; };
-		99F3D0110956FC5934D15130 /* muallim-ai-en-P-1.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-en-P-1.m4a"; sourceTree = "<group>"; };
-		9A0BD00F4FC23C8F9FDFB379 /* murshid-ai-ar-I-43.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-ar-I-43.m4a"; sourceTree = "<group>"; };
-		9A44A20E0D87EDFB1B637329 /* murshid-ai-en-I-8.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-en-I-8.m4a"; sourceTree = "<group>"; };
+		93AF4C58266770B8D584EEF9 /* murshid-ai-ar-I-12.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-12.m4a"; sourceTree = "<group>"; };
+		94DD5AE0C72407AFEA34257A /* muallim-ai-en-P-2.m4a */ = {isa = PBXFileReference; path = "muallim-ai-en-P-2.m4a"; sourceTree = "<group>"; };
+		960CF31E2972DEBBD1417F0C /* murshid-ai-ar-I-18.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-18.m4a"; sourceTree = "<group>"; };
+		96290BD238ED6274880842C5 /* muallim-ai-ar-P-19.m4a */ = {isa = PBXFileReference; path = "muallim-ai-ar-P-19.m4a"; sourceTree = "<group>"; };
+		97D2F9FFDDADEC8AE40BB8CF /* murshid-ai-ar-I-38.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-38.m4a"; sourceTree = "<group>"; };
+		97D622C0307FD10BAB571504 /* muallim-ai-ar-P-4.m4a */ = {isa = PBXFileReference; path = "muallim-ai-ar-P-4.m4a"; sourceTree = "<group>"; };
+		9873257DA13188A8D8C1622B /* murshid-ai-ar-I-17.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-17.m4a"; sourceTree = "<group>"; };
+		99B6122E0D28FA6E5B65CF77 /* murshid-ai-en-I-19.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-I-19.m4a"; sourceTree = "<group>"; };
+		99DC9F05FF8DDC0CA826FE79 /* murshid-ai-tr-I-5.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-I-5.m4a"; sourceTree = "<group>"; };
+		99F3D0110956FC5934D15130 /* muallim-ai-en-P-1.m4a */ = {isa = PBXFileReference; path = "muallim-ai-en-P-1.m4a"; sourceTree = "<group>"; };
+		9A0BD00F4FC23C8F9FDFB379 /* murshid-ai-ar-I-43.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-43.m4a"; sourceTree = "<group>"; };
+		9A44A20E0D87EDFB1B637329 /* murshid-ai-en-I-8.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-I-8.m4a"; sourceTree = "<group>"; };
 		9B573F97EF6F4F14CB17FDB8 /* PrayerTimesEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrayerTimesEngine.swift; sourceTree = "<group>"; };
-		9BA1B44535D78BA295AA4913 /* muallim-ai-ar-P-6.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-ar-P-6.m4a"; sourceTree = "<group>"; };
+		9BA1B44535D78BA295AA4913 /* muallim-ai-ar-P-6.m4a */ = {isa = PBXFileReference; path = "muallim-ai-ar-P-6.m4a"; sourceTree = "<group>"; };
 		9BBD00D9BD5EFAB606B28570 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		9C7D91D387C7CA7403667C94 /* PrayerTimesWatchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrayerTimesWatchView.swift; sourceTree = "<group>"; };
-		9DA4A5977A80F9CBCB4C0CAA /* muallim-ai-ar-P-23.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-ar-P-23.m4a"; sourceTree = "<group>"; };
+		9DA4A5977A80F9CBCB4C0CAA /* muallim-ai-ar-P-23.m4a */ = {isa = PBXFileReference; path = "muallim-ai-ar-P-23.m4a"; sourceTree = "<group>"; };
 		9DAF86F3F7CCE7D92F8E38F8 /* WeatherKitProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherKitProvider.swift; sourceTree = "<group>"; };
-		9DC34FE5E7F0D0CC5C6AAD6C /* murshid-ai-en-I-26.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-en-I-26.m4a"; sourceTree = "<group>"; };
-		9DC575FB498A6AC51CED50B6 /* murshid-ai-ar-I-32.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-ar-I-32.m4a"; sourceTree = "<group>"; };
-		9DD51992570BA58EF2993E4E /* murshid-ai-tr-I-12.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-tr-I-12.m4a"; sourceTree = "<group>"; };
+		9DC34FE5E7F0D0CC5C6AAD6C /* murshid-ai-en-I-26.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-I-26.m4a"; sourceTree = "<group>"; };
+		9DC575FB498A6AC51CED50B6 /* murshid-ai-ar-I-32.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-32.m4a"; sourceTree = "<group>"; };
+		9DD51992570BA58EF2993E4E /* murshid-ai-tr-I-12.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-I-12.m4a"; sourceTree = "<group>"; };
 		9E2BD2813863721D6D20C3D8 /* SalahMotionApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SalahMotionApp.swift; sourceTree = "<group>"; };
-		9F6A1511E77912ACD0132FD4 /* muallim-ai-tr-P-6.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-tr-P-6.m4a"; sourceTree = "<group>"; };
-		9F6D597C7B50C7CED00DAB22 /* murshid-ai-en-I-49.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-en-I-49.m4a"; sourceTree = "<group>"; };
-		9F78F80D7A30BD62E5F95D06 /* murshid-ai-en-I-42.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-en-I-42.m4a"; sourceTree = "<group>"; };
-		9FE1311365E843C4D8C183B5 /* murshid-ai-tr-I-51.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-tr-I-51.m4a"; sourceTree = "<group>"; };
-		A12201346399B1278DD0F119 /* murshid-ai-tr-I-6.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-tr-I-6.m4a"; sourceTree = "<group>"; };
-		A12B0CFC6E5F5F7A8744D5FC /* muallim-ai-tr-P-2.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-tr-P-2.m4a"; sourceTree = "<group>"; };
-		A12CEABFB6DF9ED241D0E695 /* murshid-ai-ar-witr-I-25.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-ar-witr-I-25.m4a"; sourceTree = "<group>"; };
+		9F6A1511E77912ACD0132FD4 /* muallim-ai-tr-P-6.m4a */ = {isa = PBXFileReference; path = "muallim-ai-tr-P-6.m4a"; sourceTree = "<group>"; };
+		9F6D597C7B50C7CED00DAB22 /* murshid-ai-en-I-49.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-I-49.m4a"; sourceTree = "<group>"; };
+		9F78F80D7A30BD62E5F95D06 /* murshid-ai-en-I-42.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-I-42.m4a"; sourceTree = "<group>"; };
+		9FE1311365E843C4D8C183B5 /* murshid-ai-tr-I-51.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-I-51.m4a"; sourceTree = "<group>"; };
+		A12201346399B1278DD0F119 /* murshid-ai-tr-I-6.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-I-6.m4a"; sourceTree = "<group>"; };
+		A12B0CFC6E5F5F7A8744D5FC /* muallim-ai-tr-P-2.m4a */ = {isa = PBXFileReference; path = "muallim-ai-tr-P-2.m4a"; sourceTree = "<group>"; };
+		A12CEABFB6DF9ED241D0E695 /* murshid-ai-ar-witr-I-25.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-witr-I-25.m4a"; sourceTree = "<group>"; };
 		A290B0CDC38D4877587283E0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		A2A27EEAEE2ED5691C662791 /* murshid-ai-tr-asr-sunnah-I-25.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-tr-asr-sunnah-I-25.m4a"; sourceTree = "<group>"; };
-		A2EEBA3FE7476F868F005F2A /* murshid-ai-tr-I-20.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-tr-I-20.m4a"; sourceTree = "<group>"; };
+		A2A27EEAEE2ED5691C662791 /* murshid-ai-tr-asr-sunnah-I-25.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-asr-sunnah-I-25.m4a"; sourceTree = "<group>"; };
+		A2EEBA3FE7476F868F005F2A /* murshid-ai-tr-I-20.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-I-20.m4a"; sourceTree = "<group>"; };
 		A2FB72CF6FA98728E1EEAB90 /* GuidedPrayerHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuidedPrayerHeaderView.swift; sourceTree = "<group>"; };
-		A329D2F596E1EF504CDD4F99 /* muallim-ai-ar-P-11.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-ar-P-11.m4a"; sourceTree = "<group>"; };
-		A465768600B15497FD8979BA /* murshid-ai-en-I-3.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-en-I-3.m4a"; sourceTree = "<group>"; };
+		A329D2F596E1EF504CDD4F99 /* muallim-ai-ar-P-11.m4a */ = {isa = PBXFileReference; path = "muallim-ai-ar-P-11.m4a"; sourceTree = "<group>"; };
+		A465768600B15497FD8979BA /* murshid-ai-en-I-3.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-I-3.m4a"; sourceTree = "<group>"; };
 		A529B28CA6FB1FF9942AD824 /* Prayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Prayer.swift; sourceTree = "<group>"; };
-		A619B5A94153C6C93F9BFB20 /* murshid-ai-tr-I-49.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-tr-I-49.m4a"; sourceTree = "<group>"; };
+		A619B5A94153C6C93F9BFB20 /* murshid-ai-tr-I-49.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-I-49.m4a"; sourceTree = "<group>"; };
 		A621CEE4E63EBBA5FF632D80 /* CormorantGaramond-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "CormorantGaramond-SemiBold.ttf"; sourceTree = "<group>"; };
-		A76CE22FA3F6A169B7C18468 /* munadi-ai-C-1FS.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "munadi-ai-C-1FS.m4a"; sourceTree = "<group>"; };
+		A76CE22FA3F6A169B7C18468 /* munadi-ai-C-1FS.m4a */ = {isa = PBXFileReference; path = "munadi-ai-C-1FS.m4a"; sourceTree = "<group>"; };
 		A8941C5A297C8D4C6B53AFD1 /* TimeMachine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeMachine.swift; sourceTree = "<group>"; };
-		ADB44EB22F10D56EE71FCFE1 /* murshid-ai-tr-I-8.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-tr-I-8.m4a"; sourceTree = "<group>"; };
-		AEA81B1EF331D04861995517 /* munadi-ai-C-3.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "munadi-ai-C-3.m4a"; sourceTree = "<group>"; };
-		AEF0EA6742F539E7DF361016 /* muallim-ai-tr-P-15.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-tr-P-15.m4a"; sourceTree = "<group>"; };
-		AF33EE0231D52669DEC3095A /* murshid-ai-tr-isha-fard-I-25.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-tr-isha-fard-I-25.m4a"; sourceTree = "<group>"; };
-		AF9F4E52C6D5931EB7180271 /* murshid-ai-en-fajr-fard-I-25.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-en-fajr-fard-I-25.m4a"; sourceTree = "<group>"; };
-		B027B19403530BD79264C9AF /* murshid-ai-tr-I-7.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-tr-I-7.m4a"; sourceTree = "<group>"; };
-		B046BB52F147753C5DD47E0C /* muallim-ai-en-P-14.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-en-P-14.m4a"; sourceTree = "<group>"; };
+		ADB44EB22F10D56EE71FCFE1 /* murshid-ai-tr-I-8.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-I-8.m4a"; sourceTree = "<group>"; };
+		AEA81B1EF331D04861995517 /* munadi-ai-C-3.m4a */ = {isa = PBXFileReference; path = "munadi-ai-C-3.m4a"; sourceTree = "<group>"; };
+		AEF0EA6742F539E7DF361016 /* muallim-ai-tr-P-15.m4a */ = {isa = PBXFileReference; path = "muallim-ai-tr-P-15.m4a"; sourceTree = "<group>"; };
+		AF33EE0231D52669DEC3095A /* murshid-ai-tr-isha-fard-I-25.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-isha-fard-I-25.m4a"; sourceTree = "<group>"; };
+		AF9F4E52C6D5931EB7180271 /* murshid-ai-en-fajr-fard-I-25.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-fajr-fard-I-25.m4a"; sourceTree = "<group>"; };
+		B027B19403530BD79264C9AF /* murshid-ai-tr-I-7.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-I-7.m4a"; sourceTree = "<group>"; };
+		B046BB52F147753C5DD47E0C /* muallim-ai-en-P-14.m4a */ = {isa = PBXFileReference; path = "muallim-ai-en-P-14.m4a"; sourceTree = "<group>"; };
 		B08A86A4DF6B4F0B70541631 /* PrayerSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrayerSetupView.swift; sourceTree = "<group>"; };
-		B123789B36C45CF09F95574B /* murshid-ai-ar-asr-sunnah-I-25.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-ar-asr-sunnah-I-25.m4a"; sourceTree = "<group>"; };
+		B123789B36C45CF09F95574B /* murshid-ai-ar-asr-sunnah-I-25.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-asr-sunnah-I-25.m4a"; sourceTree = "<group>"; };
 		B224E591222919A39B375714 /* AppShell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppShell.swift; sourceTree = "<group>"; };
-		B280B51A11FBE6612FEBAECE /* murshid-ai-ar-I-21.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-ar-I-21.m4a"; sourceTree = "<group>"; };
+		B280B51A11FBE6612FEBAECE /* murshid-ai-ar-I-21.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-21.m4a"; sourceTree = "<group>"; };
 		B2FEFBFB4CD7AD3C919AE2CB /* MainMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuView.swift; sourceTree = "<group>"; };
 		B3F1837323F52EED208A2ED6 /* SolarCoordinates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolarCoordinates.swift; sourceTree = "<group>"; };
 		B4FEE71BDDDCA20E1D8A3905 /* NatureSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NatureSettings.swift; sourceTree = "<group>"; };
-		B50DA6DA97A56F96607FA918 /* murshid-ai-tr-I-28.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-tr-I-28.m4a"; sourceTree = "<group>"; };
-		B66498484E43350888F0B99F /* murshid-ai-en-I-7.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-en-I-7.m4a"; sourceTree = "<group>"; };
-		B791F0984FCF13623C71617E /* murshid-ai-tr-I-26.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-tr-I-26.m4a"; sourceTree = "<group>"; };
-		B7B9E72846A5B4894AFB0718 /* murshid-ai-tr-I-19.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-tr-I-19.m4a"; sourceTree = "<group>"; };
+		B50DA6DA97A56F96607FA918 /* murshid-ai-tr-I-28.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-I-28.m4a"; sourceTree = "<group>"; };
+		B66498484E43350888F0B99F /* murshid-ai-en-I-7.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-I-7.m4a"; sourceTree = "<group>"; };
+		B791F0984FCF13623C71617E /* murshid-ai-tr-I-26.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-I-26.m4a"; sourceTree = "<group>"; };
+		B7B9E72846A5B4894AFB0718 /* murshid-ai-tr-I-19.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-I-19.m4a"; sourceTree = "<group>"; };
 		B7D646917D7D81D31371F085 /* Minute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Minute.swift; sourceTree = "<group>"; };
-		B83821797AEAEF524222BABD /* muallim-ai-en-P-16.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-en-P-16.m4a"; sourceTree = "<group>"; };
+		B83821797AEAEF524222BABD /* muallim-ai-en-P-16.m4a */ = {isa = PBXFileReference; path = "muallim-ai-en-P-16.m4a"; sourceTree = "<group>"; };
 		BA57B0A234EE66F8BDEAAA11 /* Qibla.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Qibla.swift; sourceTree = "<group>"; };
-		BB9584589BA85437655D70FA /* murshid-ai-en-isha-sunnah-I-25.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-en-isha-sunnah-I-25.m4a"; sourceTree = "<group>"; };
-		BBFAD78AC1D0AC1B644E1DBE /* muallim-ai-en-P-18.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-en-P-18.m4a"; sourceTree = "<group>"; };
-		BD03A0A728C27CF4099186CB /* muallim-ai-tr-P-8.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-tr-P-8.m4a"; sourceTree = "<group>"; };
-		BE3D0C8DF4376512CCFE3F77 /* murshid-ai-ar-I-45.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-ar-I-45.m4a"; sourceTree = "<group>"; };
+		BB9584589BA85437655D70FA /* murshid-ai-en-isha-sunnah-I-25.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-isha-sunnah-I-25.m4a"; sourceTree = "<group>"; };
+		BBFAD78AC1D0AC1B644E1DBE /* muallim-ai-en-P-18.m4a */ = {isa = PBXFileReference; path = "muallim-ai-en-P-18.m4a"; sourceTree = "<group>"; };
+		BD03A0A728C27CF4099186CB /* muallim-ai-tr-P-8.m4a */ = {isa = PBXFileReference; path = "muallim-ai-tr-P-8.m4a"; sourceTree = "<group>"; };
+		BE3D0C8DF4376512CCFE3F77 /* murshid-ai-ar-I-45.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-45.m4a"; sourceTree = "<group>"; };
 		BE541FF46303194740DC82ED /* LunarEphemeris.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LunarEphemeris.swift; sourceTree = "<group>"; };
-		BEC6C2508724303BC6CF3FA8 /* murshid-ai-en-I-6.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-en-I-6.m4a"; sourceTree = "<group>"; };
-		BEEBA5D8BD5890EBC601E0F4 /* murshid-ai-ar-I-27.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-ar-I-27.m4a"; sourceTree = "<group>"; };
-		BF099FB8D76CB38ECAF9D910 /* murshid-ai-en-I-17.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-en-I-17.m4a"; sourceTree = "<group>"; };
-		BF0D52420D895748387416B0 /* murshid-ai-ar-dhuhr-sunnah-I-25.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-ar-dhuhr-sunnah-I-25.m4a"; sourceTree = "<group>"; };
-		BF660881D8B787969A2C02AC /* muallim-ai-tr-P-3.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-tr-P-3.m4a"; sourceTree = "<group>"; };
-		BFFF84E6348578979CA5188C /* murshid-ai-tr-I-42.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-tr-I-42.m4a"; sourceTree = "<group>"; };
+		BEC6C2508724303BC6CF3FA8 /* murshid-ai-en-I-6.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-I-6.m4a"; sourceTree = "<group>"; };
+		BEEBA5D8BD5890EBC601E0F4 /* murshid-ai-ar-I-27.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-27.m4a"; sourceTree = "<group>"; };
+		BF099FB8D76CB38ECAF9D910 /* murshid-ai-en-I-17.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-I-17.m4a"; sourceTree = "<group>"; };
+		BF0D52420D895748387416B0 /* murshid-ai-ar-dhuhr-sunnah-I-25.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-dhuhr-sunnah-I-25.m4a"; sourceTree = "<group>"; };
+		BF660881D8B787969A2C02AC /* muallim-ai-tr-P-3.m4a */ = {isa = PBXFileReference; path = "muallim-ai-tr-P-3.m4a"; sourceTree = "<group>"; };
+		BFFF84E6348578979CA5188C /* murshid-ai-tr-I-42.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-I-42.m4a"; sourceTree = "<group>"; };
 		C255D9C509325ACC2D54AB8D /* CelestialClock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CelestialClock.swift; sourceTree = "<group>"; };
-		C2A73DC7AB2DEB86789C611D /* murshid-ai-tr-I-33.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-tr-I-33.m4a"; sourceTree = "<group>"; };
-		C2D5AAC704156A955BDBDFEA /* murshid-ai-tr-I-34.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-tr-I-34.m4a"; sourceTree = "<group>"; };
+		C2A73DC7AB2DEB86789C611D /* murshid-ai-tr-I-33.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-I-33.m4a"; sourceTree = "<group>"; };
+		C2D5AAC704156A955BDBDFEA /* murshid-ai-tr-I-34.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-I-34.m4a"; sourceTree = "<group>"; };
 		C2EEAD9DE98D4F63B0E024BE /* WeatherConditionMappingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherConditionMappingTests.swift; sourceTree = "<group>"; };
-		C3142B4482208ADAE1982570 /* murshid-ai-ar-I-14.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-ar-I-14.m4a"; sourceTree = "<group>"; };
-		C3C369F35D295F9DE8A6F416 /* murshid-ai-ar-I-3.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-ar-I-3.m4a"; sourceTree = "<group>"; };
-		C3F57D06C2234219747D5C91 /* murshid-ai-en-I-43.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-en-I-43.m4a"; sourceTree = "<group>"; };
-		C4DA2F89F49DD4DFCBF72463 /* murshid-ai-tr-I-16.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-tr-I-16.m4a"; sourceTree = "<group>"; };
-		C57F12F089B716CD7CFCFEAB /* munadi-ai-C-4.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "munadi-ai-C-4.m4a"; sourceTree = "<group>"; };
-		C61E8966C438A5FA6C239E60 /* murshid-ai-tr-witr-I-25.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-tr-witr-I-25.m4a"; sourceTree = "<group>"; };
-		C6CFC7C0A0FF85F7B26C778D /* murshid-ai-ar-dhuhr-fard-I-25.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-ar-dhuhr-fard-I-25.m4a"; sourceTree = "<group>"; };
+		C3142B4482208ADAE1982570 /* murshid-ai-ar-I-14.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-14.m4a"; sourceTree = "<group>"; };
+		C3C369F35D295F9DE8A6F416 /* murshid-ai-ar-I-3.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-3.m4a"; sourceTree = "<group>"; };
+		C3F57D06C2234219747D5C91 /* murshid-ai-en-I-43.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-I-43.m4a"; sourceTree = "<group>"; };
+		C4DA2F89F49DD4DFCBF72463 /* murshid-ai-tr-I-16.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-I-16.m4a"; sourceTree = "<group>"; };
+		C57F12F089B716CD7CFCFEAB /* munadi-ai-C-4.m4a */ = {isa = PBXFileReference; path = "munadi-ai-C-4.m4a"; sourceTree = "<group>"; };
+		C61E8966C438A5FA6C239E60 /* murshid-ai-tr-witr-I-25.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-witr-I-25.m4a"; sourceTree = "<group>"; };
+		C6CFC7C0A0FF85F7B26C778D /* murshid-ai-ar-dhuhr-fard-I-25.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-dhuhr-fard-I-25.m4a"; sourceTree = "<group>"; };
 		C80D27750CBB1175BFBD6633 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
-		C82521546AB9E368740A7E10 /* murshid-ai-ar-I-30.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-ar-I-30.m4a"; sourceTree = "<group>"; };
-		C88CB74AA20F569531882F15 /* muallim-ai-en-P-5.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-en-P-5.m4a"; sourceTree = "<group>"; };
-		C9393D29CF004C172016A9B9 /* murshid-ai-ar-I-22.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-ar-I-22.m4a"; sourceTree = "<group>"; };
-		C96EF02C32740B89830872D9 /* murshid-ai-en-I-45.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-en-I-45.m4a"; sourceTree = "<group>"; };
-		CB508E1ECFBEE506DE6D2391 /* murshid-ai-en-I-51.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-en-I-51.m4a"; sourceTree = "<group>"; };
-		CBF1B54173DCB18CC6E0BD3A /* murshid-ai-en-I-34.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-en-I-34.m4a"; sourceTree = "<group>"; };
-		CC40DF571B95600BE17E1027 /* murshid-ai-ar-I-10.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-ar-I-10.m4a"; sourceTree = "<group>"; };
-		CC69F1676151643ED6C81C91 /* muallim-ai-en-P-23.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-en-P-23.m4a"; sourceTree = "<group>"; };
-		CC8B7C9CCB8AD0CC5D3D54E5 /* murshid-ai-tr-I-1.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-tr-I-1.m4a"; sourceTree = "<group>"; };
-		CE3021299D2E6BB7E5C55B29 /* muallim-ai-tr-P-1.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-tr-P-1.m4a"; sourceTree = "<group>"; };
-		CE7D2E627328655E0BD3A0AC /* murshid-ai-tr-I-47.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-tr-I-47.m4a"; sourceTree = "<group>"; };
-		CE935DAEDCC9D72219F926E1 /* murshid-ai-ar-I-2.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-ar-I-2.m4a"; sourceTree = "<group>"; };
+		C82521546AB9E368740A7E10 /* murshid-ai-ar-I-30.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-30.m4a"; sourceTree = "<group>"; };
+		C88CB74AA20F569531882F15 /* muallim-ai-en-P-5.m4a */ = {isa = PBXFileReference; path = "muallim-ai-en-P-5.m4a"; sourceTree = "<group>"; };
+		C9393D29CF004C172016A9B9 /* murshid-ai-ar-I-22.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-22.m4a"; sourceTree = "<group>"; };
+		C96EF02C32740B89830872D9 /* murshid-ai-en-I-45.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-I-45.m4a"; sourceTree = "<group>"; };
+		CB508E1ECFBEE506DE6D2391 /* murshid-ai-en-I-51.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-I-51.m4a"; sourceTree = "<group>"; };
+		CBF1B54173DCB18CC6E0BD3A /* murshid-ai-en-I-34.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-I-34.m4a"; sourceTree = "<group>"; };
+		CC40DF571B95600BE17E1027 /* murshid-ai-ar-I-10.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-10.m4a"; sourceTree = "<group>"; };
+		CC69F1676151643ED6C81C91 /* muallim-ai-en-P-23.m4a */ = {isa = PBXFileReference; path = "muallim-ai-en-P-23.m4a"; sourceTree = "<group>"; };
+		CC8B7C9CCB8AD0CC5D3D54E5 /* murshid-ai-tr-I-1.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-I-1.m4a"; sourceTree = "<group>"; };
+		CE3021299D2E6BB7E5C55B29 /* muallim-ai-tr-P-1.m4a */ = {isa = PBXFileReference; path = "muallim-ai-tr-P-1.m4a"; sourceTree = "<group>"; };
+		CE7D2E627328655E0BD3A0AC /* murshid-ai-tr-I-47.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-I-47.m4a"; sourceTree = "<group>"; };
+		CE935DAEDCC9D72219F926E1 /* murshid-ai-ar-I-2.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-2.m4a"; sourceTree = "<group>"; };
 		CFE6E42448CE652D81053BE4 /* KeepScreenAwake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeepScreenAwake.swift; sourceTree = "<group>"; };
 		D0809A21303B19E79A08D0ED /* AudioPulseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPulseView.swift; sourceTree = "<group>"; };
-		D0CF5F9087AAE72CBCCC2F53 /* muallim-ai-ar-P-20.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-ar-P-20.m4a"; sourceTree = "<group>"; };
-		D13412E6F7E547338EE8B8D3 /* munadi-ai-C-6.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "munadi-ai-C-6.m4a"; sourceTree = "<group>"; };
-		D23677ECB7343D3B38E02C02 /* muallim-ai-tr-P-16.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-tr-P-16.m4a"; sourceTree = "<group>"; };
+		D0CF5F9087AAE72CBCCC2F53 /* muallim-ai-ar-P-20.m4a */ = {isa = PBXFileReference; path = "muallim-ai-ar-P-20.m4a"; sourceTree = "<group>"; };
+		D13412E6F7E547338EE8B8D3 /* munadi-ai-C-6.m4a */ = {isa = PBXFileReference; path = "munadi-ai-C-6.m4a"; sourceTree = "<group>"; };
+		D23677ECB7343D3B38E02C02 /* muallim-ai-tr-P-16.m4a */ = {isa = PBXFileReference; path = "muallim-ai-tr-P-16.m4a"; sourceTree = "<group>"; };
 		D2B9296B08BDC6BC17A4B230 /* FontRegistrar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontRegistrar.swift; sourceTree = "<group>"; };
-		D371C07E40F2E44493187DDD /* murshid-ai-tr-I-37.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-tr-I-37.m4a"; sourceTree = "<group>"; };
+		D371C07E40F2E44493187DDD /* murshid-ai-tr-I-37.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-I-37.m4a"; sourceTree = "<group>"; };
 		D4B2B5DBBCB6A4162FAAA086 /* CalibrationWatchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalibrationWatchView.swift; sourceTree = "<group>"; };
-		D525394CC98E950C4189D600 /* muallim-ai-ar-P-21.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-ar-P-21.m4a"; sourceTree = "<group>"; };
-		D6F235B18E57951A42456D59 /* murshid-ai-ar-I-26.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-ar-I-26.m4a"; sourceTree = "<group>"; };
-		D702B6C261BF339F213B4EB0 /* murshid-ai-en-I-9.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-en-I-9.m4a"; sourceTree = "<group>"; };
+		D525394CC98E950C4189D600 /* muallim-ai-ar-P-21.m4a */ = {isa = PBXFileReference; path = "muallim-ai-ar-P-21.m4a"; sourceTree = "<group>"; };
+		D6F235B18E57951A42456D59 /* murshid-ai-ar-I-26.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-26.m4a"; sourceTree = "<group>"; };
+		D702B6C261BF339F213B4EB0 /* murshid-ai-en-I-9.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-I-9.m4a"; sourceTree = "<group>"; };
 		D7C3BA23EEEBABBBE0518EB8 /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		D861E6DA1359C3D8AF5D3D90 /* WeatherCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherCache.swift; sourceTree = "<group>"; };
-		D8B317CF6774A1FCA9F8B59C /* murshid-ai-tr-I-23.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-tr-I-23.m4a"; sourceTree = "<group>"; };
+		D8B317CF6774A1FCA9F8B59C /* murshid-ai-tr-I-23.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-I-23.m4a"; sourceTree = "<group>"; };
 		D8F4D83983A96CECCBA722DB /* VoiceLanguageSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceLanguageSheet.swift; sourceTree = "<group>"; };
-		D98628EDDBA50E76EFA0F4EA /* muallim-ai-tr-P-23.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-tr-P-23.m4a"; sourceTree = "<group>"; };
+		D98628EDDBA50E76EFA0F4EA /* muallim-ai-tr-P-23.m4a */ = {isa = PBXFileReference; path = "muallim-ai-tr-P-23.m4a"; sourceTree = "<group>"; };
 		D99F3B42211C354F99837110 /* PositionOrbView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionOrbView.swift; sourceTree = "<group>"; };
 		DBB25B9D109BFF958B350BBA /* CelestialArcView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CelestialArcView.swift; sourceTree = "<group>"; };
 		DC655FCA78A5124D16697C08 /* Madhab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Madhab.swift; sourceTree = "<group>"; };
-		DC8025FAA227D36767804C33 /* murshid-ai-tr-I-43.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-tr-I-43.m4a"; sourceTree = "<group>"; };
-		DCEAF5879D0C1A01AE01AAB2 /* murshid-ai-en-I-40.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-en-I-40.m4a"; sourceTree = "<group>"; };
+		DC8025FAA227D36767804C33 /* murshid-ai-tr-I-43.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-I-43.m4a"; sourceTree = "<group>"; };
+		DCEAF5879D0C1A01AE01AAB2 /* murshid-ai-en-I-40.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-I-40.m4a"; sourceTree = "<group>"; };
 		DD6F253CF3AD4B0ADD04A0AA /* MathUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MathUtilities.swift; sourceTree = "<group>"; };
 		DE56FA4AD512DAC6EA9D7FD7 /* AuroraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuroraView.swift; sourceTree = "<group>"; };
-		DEB2AFEDB06038BCE61F8BD6 /* murshid-ai-tr-I-36.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-tr-I-36.m4a"; sourceTree = "<group>"; };
-		DEE0879CB3A1966D3B1FAB5D /* murshid-ai-tr-I-3.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-tr-I-3.m4a"; sourceTree = "<group>"; };
-		DF77EFA32468A249552201E8 /* muallim-ai-ar-P-14.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-ar-P-14.m4a"; sourceTree = "<group>"; };
-		DF8E27882BB21CB4A75466F3 /* murshid-ai-en-I-12.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-en-I-12.m4a"; sourceTree = "<group>"; };
-		E194D4DF842BE839A7764ED4 /* murshid-ai-ar-I-51.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-ar-I-51.m4a"; sourceTree = "<group>"; };
-		E1AC4CD3179B1BAF4200F39D /* murshid-ai-en-I-22.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-en-I-22.m4a"; sourceTree = "<group>"; };
-		E37A01467E4DAFB5EE3AC8E6 /* murshid-ai-en-I-4.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-en-I-4.m4a"; sourceTree = "<group>"; };
-		E3E2848DA058C3B0E41AAA3F /* murshid-ai-en-I-29.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-en-I-29.m4a"; sourceTree = "<group>"; };
-		E3EEDF18C54298F6B4F9B7D6 /* murshid-ai-tr-dhuhr-sunnah-I-25.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-tr-dhuhr-sunnah-I-25.m4a"; sourceTree = "<group>"; };
-		E47D000B5DED7141DA7CA629 /* muallim-ai-ar-P-13.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-ar-P-13.m4a"; sourceTree = "<group>"; };
-		E482934AF348F25E7BDC13A2 /* munadi-ai-C-7.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "munadi-ai-C-7.m4a"; sourceTree = "<group>"; };
+		DEB2AFEDB06038BCE61F8BD6 /* murshid-ai-tr-I-36.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-I-36.m4a"; sourceTree = "<group>"; };
+		DEE0879CB3A1966D3B1FAB5D /* murshid-ai-tr-I-3.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-I-3.m4a"; sourceTree = "<group>"; };
+		DF77EFA32468A249552201E8 /* muallim-ai-ar-P-14.m4a */ = {isa = PBXFileReference; path = "muallim-ai-ar-P-14.m4a"; sourceTree = "<group>"; };
+		DF8E27882BB21CB4A75466F3 /* murshid-ai-en-I-12.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-I-12.m4a"; sourceTree = "<group>"; };
+		E194D4DF842BE839A7764ED4 /* murshid-ai-ar-I-51.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-51.m4a"; sourceTree = "<group>"; };
+		E1AC4CD3179B1BAF4200F39D /* murshid-ai-en-I-22.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-I-22.m4a"; sourceTree = "<group>"; };
+		E37A01467E4DAFB5EE3AC8E6 /* murshid-ai-en-I-4.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-I-4.m4a"; sourceTree = "<group>"; };
+		E3E2848DA058C3B0E41AAA3F /* murshid-ai-en-I-29.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-I-29.m4a"; sourceTree = "<group>"; };
+		E3EEDF18C54298F6B4F9B7D6 /* murshid-ai-tr-dhuhr-sunnah-I-25.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-dhuhr-sunnah-I-25.m4a"; sourceTree = "<group>"; };
+		E47D000B5DED7141DA7CA629 /* muallim-ai-ar-P-13.m4a */ = {isa = PBXFileReference; path = "muallim-ai-ar-P-13.m4a"; sourceTree = "<group>"; };
+		E482934AF348F25E7BDC13A2 /* munadi-ai-C-7.m4a */ = {isa = PBXFileReference; path = "munadi-ai-C-7.m4a"; sourceTree = "<group>"; };
 		E4DA5F99630F2431E9CD66D9 /* Manrope-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Manrope-SemiBold.ttf"; sourceTree = "<group>"; };
-		E4E64D83220C97220AA594E7 /* murshid-ai-en-I-18.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-en-I-18.m4a"; sourceTree = "<group>"; };
-		E53CF6609357089F7D451684 /* murshid-ai-tr-I-46.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-tr-I-46.m4a"; sourceTree = "<group>"; };
-		E5DD32DC2173602F38AFE655 /* muallim-ai-ar-P-2.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-ar-P-2.m4a"; sourceTree = "<group>"; };
+		E4E64D83220C97220AA594E7 /* murshid-ai-en-I-18.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-I-18.m4a"; sourceTree = "<group>"; };
+		E53CF6609357089F7D451684 /* murshid-ai-tr-I-46.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-I-46.m4a"; sourceTree = "<group>"; };
+		E5DD32DC2173602F38AFE655 /* muallim-ai-ar-P-2.m4a */ = {isa = PBXFileReference; path = "muallim-ai-ar-P-2.m4a"; sourceTree = "<group>"; };
 		E5DDE5C71FCC9B7A27F6E344 /* Aurora.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Aurora.metal; sourceTree = "<group>"; };
-		E6ED34A1382EF0FD1B32AE45 /* murshid-ai-en-I-48.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-en-I-48.m4a"; sourceTree = "<group>"; };
+		E6ED34A1382EF0FD1B32AE45 /* murshid-ai-en-I-48.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-I-48.m4a"; sourceTree = "<group>"; };
 		E72FF1C9EAA51A7EE0109515 /* GuidedPrayerBottomTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuidedPrayerBottomTextView.swift; sourceTree = "<group>"; };
-		E74BC1CEDC95591732E0BCBA /* murshid-ai-tr-I-32.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-tr-I-32.m4a"; sourceTree = "<group>"; };
-		E798DF0FF955AFA664617E5C /* munadi-ai-C-9.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "munadi-ai-C-9.m4a"; sourceTree = "<group>"; };
+		E74BC1CEDC95591732E0BCBA /* murshid-ai-tr-I-32.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-I-32.m4a"; sourceTree = "<group>"; };
+		E798DF0FF955AFA664617E5C /* munadi-ai-C-9.m4a */ = {isa = PBXFileReference; path = "munadi-ai-C-9.m4a"; sourceTree = "<group>"; };
 		E81EF0D85D78FFB48980D89C /* VENDORED.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = VENDORED.md; sourceTree = "<group>"; };
-		E9277CF6A489FF883FCB32D8 /* murshid-ai-tr-I-11.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-tr-I-11.m4a"; sourceTree = "<group>"; };
-		E9799BF126D84F407A3666C4 /* muallim-ai-tr-P-14.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-tr-P-14.m4a"; sourceTree = "<group>"; };
+		E9277CF6A489FF883FCB32D8 /* murshid-ai-tr-I-11.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-I-11.m4a"; sourceTree = "<group>"; };
+		E9799BF126D84F407A3666C4 /* muallim-ai-tr-P-14.m4a */ = {isa = PBXFileReference; path = "muallim-ai-tr-P-14.m4a"; sourceTree = "<group>"; };
 		E9973529D0B7462831AAB72D /* PrayerStateMachine+iPhone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PrayerStateMachine+iPhone.swift"; sourceTree = "<group>"; };
-		EA7FDF29C8E890BE9058569D /* murshid-ai-en-I-44.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-en-I-44.m4a"; sourceTree = "<group>"; };
-		EAB640AD727D7E3422265E80 /* murshid-ai-en-I-24.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-en-I-24.m4a"; sourceTree = "<group>"; };
+		EA7FDF29C8E890BE9058569D /* murshid-ai-en-I-44.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-I-44.m4a"; sourceTree = "<group>"; };
+		EAB640AD727D7E3422265E80 /* murshid-ai-en-I-24.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-I-24.m4a"; sourceTree = "<group>"; };
 		EB20D9535DA492681D35A4BD /* PrayerTimesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrayerTimesView.swift; sourceTree = "<group>"; };
-		EBB0ABE593C6EA47949A8A53 /* murshid-ai-ar-I-24.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-ar-I-24.m4a"; sourceTree = "<group>"; };
-		EC0D7070F5B18ED24ABE7C33 /* murshid-ai-en-I-25.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-en-I-25.m4a"; sourceTree = "<group>"; };
-		ED1150C0D49D1CC1994EB5E6 /* murshid-ai-tr-I-4.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-tr-I-4.m4a"; sourceTree = "<group>"; };
-		ED5EE50203D9C5C15AED35F6 /* murshid-ai-tr-maghrib-fard-I-25.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-tr-maghrib-fard-I-25.m4a"; sourceTree = "<group>"; };
-		EEA0E716F84608433B14FCE0 /* muallim-ai-tr-P-20.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-tr-P-20.m4a"; sourceTree = "<group>"; };
+		EBB0ABE593C6EA47949A8A53 /* murshid-ai-ar-I-24.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-24.m4a"; sourceTree = "<group>"; };
+		EC0D7070F5B18ED24ABE7C33 /* murshid-ai-en-I-25.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-I-25.m4a"; sourceTree = "<group>"; };
+		ED1150C0D49D1CC1994EB5E6 /* murshid-ai-tr-I-4.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-I-4.m4a"; sourceTree = "<group>"; };
+		ED5EE50203D9C5C15AED35F6 /* murshid-ai-tr-maghrib-fard-I-25.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-maghrib-fard-I-25.m4a"; sourceTree = "<group>"; };
+		EEA0E716F84608433B14FCE0 /* muallim-ai-tr-P-20.m4a */ = {isa = PBXFileReference; path = "muallim-ai-tr-P-20.m4a"; sourceTree = "<group>"; };
 		EEFB49E4A5FE3919772ED382 /* SunnahTimes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SunnahTimes.swift; sourceTree = "<group>"; };
-		F03C95E432870545D0FCD66B /* muallim-ai-ar-P-8.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-ar-P-8.m4a"; sourceTree = "<group>"; };
-		F06FA3FDB487D6864445CD0F /* muallim-ai-ar-P-15.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-ar-P-15.m4a"; sourceTree = "<group>"; };
+		F03C95E432870545D0FCD66B /* muallim-ai-ar-P-8.m4a */ = {isa = PBXFileReference; path = "muallim-ai-ar-P-8.m4a"; sourceTree = "<group>"; };
+		F06FA3FDB487D6864445CD0F /* muallim-ai-ar-P-15.m4a */ = {isa = PBXFileReference; path = "muallim-ai-ar-P-15.m4a"; sourceTree = "<group>"; };
 		F0878CA515B45DE595E0A6C5 /* SalatType+PrayerTimes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SalatType+PrayerTimes.swift"; sourceTree = "<group>"; };
-		F0A98ED129B2BF92BA0AEAE1 /* murshid-ai-ar-I-5.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-ar-I-5.m4a"; sourceTree = "<group>"; };
+		F0A98ED129B2BF92BA0AEAE1 /* murshid-ai-ar-I-5.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-5.m4a"; sourceTree = "<group>"; };
 		F0C0E2580EA8C8CF97E347AA /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		F0F5754BF365C2DF9A0C6B15 /* GuidanceEventSnapshotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuidanceEventSnapshotTests.swift; sourceTree = "<group>"; };
-		F199372E1B9E004BAC2127C7 /* muallim-ai-en-P-15.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-en-P-15.m4a"; sourceTree = "<group>"; };
-		F1B21595646DCEF10B1F840F /* muallim-ai-tr-P-18.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-tr-P-18.m4a"; sourceTree = "<group>"; };
-		F37757D158E3BEA1614494BA /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		F199372E1B9E004BAC2127C7 /* muallim-ai-en-P-15.m4a */ = {isa = PBXFileReference; path = "muallim-ai-en-P-15.m4a"; sourceTree = "<group>"; };
+		F1B21595646DCEF10B1F840F /* muallim-ai-tr-P-18.m4a */ = {isa = PBXFileReference; path = "muallim-ai-tr-P-18.m4a"; sourceTree = "<group>"; };
+		F37757D158E3BEA1614494BA /* LICENSE */ = {isa = PBXFileReference; path = LICENSE; sourceTree = "<group>"; };
 		F3C2B4A17834EED98F2A8C5B /* DailyArc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyArc.swift; sourceTree = "<group>"; };
-		F3E89D90AC55216AED72DE12 /* murshid-ai-en-I-14.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-en-I-14.m4a"; sourceTree = "<group>"; };
-		F4428D0CD897A16E75FD028B /* murshid-ai-ar-I-50.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-ar-I-50.m4a"; sourceTree = "<group>"; };
+		F3E89D90AC55216AED72DE12 /* murshid-ai-en-I-14.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-I-14.m4a"; sourceTree = "<group>"; };
+		F4428D0CD897A16E75FD028B /* murshid-ai-ar-I-50.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-50.m4a"; sourceTree = "<group>"; };
 		F4D082D0224C14127DB11E53 /* UnitTransitionCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitTransitionCardView.swift; sourceTree = "<group>"; };
-		F4F55B610AE0434F613D36B1 /* murshid-ai-ar-maghrib-sunnah-I-25.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-ar-maghrib-sunnah-I-25.m4a"; sourceTree = "<group>"; };
+		F4F55B610AE0434F613D36B1 /* murshid-ai-ar-maghrib-sunnah-I-25.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-maghrib-sunnah-I-25.m4a"; sourceTree = "<group>"; };
 		F534875439207A26DA0B4C02 /* PrayerSetSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrayerSetSheet.swift; sourceTree = "<group>"; };
 		F5E3F188021C567622844298 /* WatchLocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchLocationManager.swift; sourceTree = "<group>"; };
-		F60DE1FBD211B146A768FF10 /* murshid-ai-tr-I-10.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-tr-I-10.m4a"; sourceTree = "<group>"; };
-		F6263227BC12776BF16D2AC4 /* muallim-ai-en-P-9.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-en-P-9.m4a"; sourceTree = "<group>"; };
+		F60DE1FBD211B146A768FF10 /* murshid-ai-tr-I-10.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-I-10.m4a"; sourceTree = "<group>"; };
+		F6263227BC12776BF16D2AC4 /* muallim-ai-en-P-9.m4a */ = {isa = PBXFileReference; path = "muallim-ai-en-P-9.m4a"; sourceTree = "<group>"; };
 		F6580723E2403D855BA70A08 /* Amiri-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Amiri-Regular.ttf"; sourceTree = "<group>"; };
-		F696E582FBFCDE02DC15CB4E /* murshid-ai-en-I-36.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-en-I-36.m4a"; sourceTree = "<group>"; };
-		F6FB1530928014D210725A46 /* muallim-ai-tr-P-4.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-tr-P-4.m4a"; sourceTree = "<group>"; };
-		F72549DBD59EF5B5E4D87A5F /* murshid-ai-ar-I-1.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-ar-I-1.m4a"; sourceTree = "<group>"; };
-		F74AB1CCA4902BBF13378DEC /* murshid-ai-tr-I-52.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-tr-I-52.m4a"; sourceTree = "<group>"; };
-		F7C8E246F411FDCC74439DAA /* muallim-ai-ar-P-0.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-ar-P-0.m4a"; sourceTree = "<group>"; };
-		F831FFBFB953306A0AAC5D8D /* murshid-ai-tr-I-35.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-tr-I-35.m4a"; sourceTree = "<group>"; };
-		F8A30955D20706826838C849 /* muallim-ai-en-P-3.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "muallim-ai-en-P-3.m4a"; sourceTree = "<group>"; };
-		FAE2EBCD50BB9854DF51A133 /* murshid-ai-ar-I-42.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-ar-I-42.m4a"; sourceTree = "<group>"; };
+		F696E582FBFCDE02DC15CB4E /* murshid-ai-en-I-36.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-I-36.m4a"; sourceTree = "<group>"; };
+		F6FB1530928014D210725A46 /* muallim-ai-tr-P-4.m4a */ = {isa = PBXFileReference; path = "muallim-ai-tr-P-4.m4a"; sourceTree = "<group>"; };
+		F72549DBD59EF5B5E4D87A5F /* murshid-ai-ar-I-1.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-1.m4a"; sourceTree = "<group>"; };
+		F74AB1CCA4902BBF13378DEC /* murshid-ai-tr-I-52.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-I-52.m4a"; sourceTree = "<group>"; };
+		F7C8E246F411FDCC74439DAA /* muallim-ai-ar-P-0.m4a */ = {isa = PBXFileReference; path = "muallim-ai-ar-P-0.m4a"; sourceTree = "<group>"; };
+		F831FFBFB953306A0AAC5D8D /* murshid-ai-tr-I-35.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-I-35.m4a"; sourceTree = "<group>"; };
+		F8A30955D20706826838C849 /* muallim-ai-en-P-3.m4a */ = {isa = PBXFileReference; path = "muallim-ai-en-P-3.m4a"; sourceTree = "<group>"; };
+		FAE2EBCD50BB9854DF51A133 /* murshid-ai-ar-I-42.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-42.m4a"; sourceTree = "<group>"; };
 		FC5771EBA251B6A83FFAA9E9 /* CelestialDomainTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CelestialDomainTests.swift; sourceTree = "<group>"; };
-		FCA2DAA41350E53D817873BE /* SalahMotionCore */ = {isa = PBXFileReference; lastKnownFileType = folder; path = SalahMotionCore; sourceTree = SOURCE_ROOT; };
-		FCDE87C1679650E34B9D0625 /* murshid-ai-ar-I-48.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-ar-I-48.m4a"; sourceTree = "<group>"; };
-		FD0E1C7AD4878EB0CF49BBAA /* murshid-ai-tr-I-24.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-tr-I-24.m4a"; sourceTree = "<group>"; };
-		FD41F193A8BC8B2C5C90F237 /* murshid-ai-ar-I-23.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-ar-I-23.m4a"; sourceTree = "<group>"; };
-		FD6B1771E7CF97586AA9DE70 /* murshid-ai-ar-I-52.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-ar-I-52.m4a"; sourceTree = "<group>"; };
+		FCA2DAA41350E53D817873BE /* SalahMotionCore */ = {isa = PBXFileReference; lastKnownFileType = folder; name = SalahMotionCore; path = SalahMotionCore; sourceTree = SOURCE_ROOT; };
+		FCDE87C1679650E34B9D0625 /* murshid-ai-ar-I-48.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-48.m4a"; sourceTree = "<group>"; };
+		FD0E1C7AD4878EB0CF49BBAA /* murshid-ai-tr-I-24.m4a */ = {isa = PBXFileReference; path = "murshid-ai-tr-I-24.m4a"; sourceTree = "<group>"; };
+		FD41F193A8BC8B2C5C90F237 /* murshid-ai-ar-I-23.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-23.m4a"; sourceTree = "<group>"; };
+		FD6B1771E7CF97586AA9DE70 /* murshid-ai-ar-I-52.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-52.m4a"; sourceTree = "<group>"; };
 		FD6B75D1E31557B85EB1E0B5 /* PrayerAdjustment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrayerAdjustment.swift; sourceTree = "<group>"; };
 		FE4676B1EDA27DB229123E3B /* LaunchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchView.swift; sourceTree = "<group>"; };
-		FE9C805E14B730B2664071C0 /* murshid-ai-en-I-28.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-en-I-28.m4a"; sourceTree = "<group>"; };
+		FE9C805E14B730B2664071C0 /* murshid-ai-en-I-28.m4a */ = {isa = PBXFileReference; path = "murshid-ai-en-I-28.m4a"; sourceTree = "<group>"; };
 		FF1311A80CCE6F722EA03659 /* SalahMotionWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SalahMotionWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		FF5555F6CA34F9527B673405 /* murshid-ai-ar-I-20.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-ar-I-20.m4a"; sourceTree = "<group>"; };
-		FF5AF5846B97CA03FE9BDBA8 /* murshid-ai-ar-I-15.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "murshid-ai-ar-I-15.m4a"; sourceTree = "<group>"; };
+		FF5555F6CA34F9527B673405 /* murshid-ai-ar-I-20.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-20.m4a"; sourceTree = "<group>"; };
+		FF5AF5846B97CA03FE9BDBA8 /* murshid-ai-ar-I-15.m4a */ = {isa = PBXFileReference; path = "murshid-ai-ar-I-15.m4a"; sourceTree = "<group>"; };
 		FF7EDB1D386EEA14D59F354D /* SkyBirdsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkyBirdsView.swift; sourceTree = "<group>"; };
 		FF929CE7B3E0EFADDF4EE6F4 /* Manrope-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Manrope-Regular.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -889,8 +893,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AD88CCE12FF5F60100234B0A /* SwiftAA in Frameworks */,
 				BAECD0CFB7C201EAD4097A0A /* SalahMotionCore in Frameworks */,
+				81D916DE00024A48A534D68D /* SwiftAA in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -915,6 +919,7 @@
 				7AC134E1CBAFC61270F0FFF5 /* GuidedPrayer */,
 				86C183565A91D88F426B425F /* MainMenu */,
 				5D9BE38B4AA39CB4752E9DE8 /* PrayerTimes */,
+				36FF57DE06323BDAFB198F61 /* Settings */,
 			);
 			path = Features;
 			sourceTree = "<group>";
@@ -953,7 +958,6 @@
 			);
 			path = SalahMotionWatch;
 			sourceTree = "<group>";
-			usesTabs = 0;
 		};
 		12B591AD3542E4DFA02DFB11 /* Calibration */ = {
 			isa = PBXGroup;
@@ -999,7 +1003,6 @@
 				35EEFB0C648B19129FA2990B /* SalahMotion */,
 				71B25ED59F07529ACE4C72A6 /* SalahMotionTests */,
 				126948C4E4DFE2160F0613F9 /* SalahMotionWatch */,
-				AD88CCDD2FF5F3F200234B0A /* Frameworks */,
 				1C4B0FC52CD51B4CCF962C6A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -1063,6 +1066,14 @@
 				A290B0CDC38D4877587283E0 /* Assets.xcassets */,
 			);
 			path = SalahMotion;
+			sourceTree = "<group>";
+		};
+		36FF57DE06323BDAFB198F61 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				375E528294A8BBBB0303897F /* WatchSettingsView.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 		3984E135DE8D4616D35A224D /* DesignSystem */ = {
@@ -1276,6 +1287,7 @@
 		A1346CBDB5A312AD079C0E91 /* Prayer */ = {
 			isa = PBXGroup;
 			children = (
+				8A9589E085D695BE0992BCFA /* WatchPrayerSettings.swift */,
 				773F5416A6EE891B0F91AC81 /* WatchPrayerTimes.swift */,
 			);
 			path = Prayer;
@@ -1298,13 +1310,6 @@
 				1A83A4D3250E1F0C6486869D /* SolarEphemeris.swift */,
 			);
 			path = Celestial;
-			sourceTree = "<group>";
-		};
-		AD88CCDD2FF5F3F200234B0A /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		B38F921AF6FF2ED59E207072 /* Reciters */ = {
@@ -1736,7 +1741,7 @@
 			name = SalahMotionWatch;
 			packageProductDependencies = (
 				0F99BD7230282EEA50285674 /* SalahMotionCore */,
-				AD88CCE02FF5F60100234B0A /* SwiftAA */,
+				0FE6AB96110E5D5E62F7539F /* SwiftAA */,
 			);
 			productName = SalahMotionWatch;
 			productReference = FF1311A80CCE6F722EA03659 /* SalahMotionWatch.app */;
@@ -2139,14 +2144,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5862FC649E4000F0434704FF /* Amiri-Regular.ttf in Resources */,
 				273C2D0983023891798B9983 /* Assets.xcassets in Resources */,
-				AD88CD082FF600A300234B0A /* Amiri-Regular.ttf in Resources */,
-				AD88CD0F2FF600D000234B0A /* CormorantGaramond-SemiBold.ttf in Resources */,
-				AD88CD0A2FF600A300234B0A /* CormorantGaramond-Medium.ttf in Resources */,
-				AD88CD0B2FF600A300234B0A /* Manrope-SemiBold.ttf in Resources */,
-				AD88CD0C2FF600A300234B0A /* Manrope-Bold.ttf in Resources */,
-				AD88CD0D2FF600A300234B0A /* Manrope-Regular.ttf in Resources */,
-				AD88CD0E2FF600A300234B0A /* Manrope-Medium.ttf in Resources */,
+				0DC940C885B939BD09691561 /* CormorantGaramond-Medium.ttf in Resources */,
+				DC159EDF6986C340C0514BD1 /* CormorantGaramond-SemiBold.ttf in Resources */,
+				DDED3AA5F6F4713E9476AFB5 /* Manrope-Bold.ttf in Resources */,
+				FCE33AF36683A0FD2040472E /* Manrope-Medium.ttf in Resources */,
+				BCBF6136D038617B9A2A4023 /* Manrope-Regular.ttf in Resources */,
+				67E22E3CE0CE64B85B4ECE5B /* Manrope-SemiBold.ttf in Resources */,
 				0CD766A67B8E92A8ADB10845 /* VENDORED.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2277,30 +2282,27 @@
 				23CF2FE25DF291708ACE96A4 /* CalculationMethod.swift in Sources */,
 				CEBB7C21F708D834534F0764 /* CalculationParameters.swift in Sources */,
 				1B23D79CF592302AD4345AD0 /* CalibrationWatchView.swift in Sources */,
+				EAD05F023326A74C5DD73E25 /* CelestialArcGeometry.swift in Sources */,
+				7970C9C2230AD1EFE525569F /* CelestialArcView.swift in Sources */,
+				AD47A392DBFA360AF7125C46 /* CelestialBody.swift in Sources */,
+				F50898E64E297E89761866ED /* CelestialClock.swift in Sources */,
+				6AB43A841F95B802A255ABDE /* CelestialEphemeris.swift in Sources */,
+				BCB85670473B935FEAFBF3A0 /* CelestialSky.swift in Sources */,
 				3D08190502DFD4CFECA102F5 /* Coordinates.swift in Sources */,
+				B93F8DE88CBB2513380AFA8A /* DailyArc.swift in Sources */,
 				E09B9A48E115163D0E86E1C4 /* DateUtilities.swift in Sources */,
+				96243230E3D04DB89795ABBA /* FontRegistrar.swift in Sources */,
 				13013841FEB15BAD0C4EBFA6 /* GuidedPrayerWatchView.swift in Sources */,
 				A567C1AD83F80942AA9C288B /* HighLatitudeRule.swift in Sources */,
+				F744ADC3A2338A5AF9BAFBBA /* LunarEphemeris.swift in Sources */,
 				A8CF429C1F28F58F2DACC09E /* Madhab.swift in Sources */,
 				381BE9BBD2D23C44BD564D88 /* MainMenuView.swift in Sources */,
 				BD63025E8131DF3D0643B95E /* MathUtilities.swift in Sources */,
+				7D53E8EFEFECBEFFC0F389ED /* MeteorShowers.swift in Sources */,
 				B8160092E486B0C78F96B679 /* Minute.swift in Sources */,
-				AD88CCFA2FF5F9CB00234B0A /* MoonPhase.swift in Sources */,
-				AD88CCFB2FF5F9CB00234B0A /* CelestialBody.swift in Sources */,
-				AD88CCFC2FF5F9CB00234B0A /* SolarEphemeris.swift in Sources */,
-				AD88CCFD2FF5F9CB00234B0A /* MeteorShowers.swift in Sources */,
-				AD88CCFE2FF5F9CB00234B0A /* SkyState.swift in Sources */,
-				AD88CCFF2FF5F9CB00234B0A /* LunarEphemeris.swift in Sources */,
-				AD88CD002FF5F9CB00234B0A /* ObserverLocation.swift in Sources */,
-				AD88CD012FF5F9CB00234B0A /* CelestialSky.swift in Sources */,
-				AD88CD102FF600D000234B0A /* FontRegistrar.swift in Sources */,
-				AD88CD112FF600D000234B0A /* Typography.swift in Sources */,
-				AD88CD022FF5F9CB00234B0A /* MoonPhaseShape.swift in Sources */,
-				AD88CD032FF5F9CB00234B0A /* CelestialArcGeometry.swift in Sources */,
-				AD88CD042FF5F9CB00234B0A /* CelestialClock.swift in Sources */,
-				AD88CD052FF5F9CB00234B0A /* DailyArc.swift in Sources */,
-				AD88CD062FF5F9CB00234B0A /* CelestialEphemeris.swift in Sources */,
-				AD88CD072FF5F9CB00234B0A /* CelestialArcView.swift in Sources */,
+				7E318ADFACCA0B2558C237CE /* MoonPhase.swift in Sources */,
+				BA7D3F106D31FCE22CD845B5 /* MoonPhaseShape.swift in Sources */,
+				06E32605B64CE8575D4E0861 /* ObserverLocation.swift in Sources */,
 				06C08CFC93E62B30EAA0C307 /* Prayer.swift in Sources */,
 				3A286660553637621F5D759B /* PrayerAdjustment.swift in Sources */,
 				18ABFEAF66D5942B4EE7B834 /* PrayerTimes.swift in Sources */,
@@ -2309,12 +2311,17 @@
 				E773BF88AB47C69253060B08 /* Rouding.swift in Sources */,
 				9C17B2E51745494F97DA5404 /* SalahMotionWatchApp.swift in Sources */,
 				80B22506C9C7DAE7CF6AF26F /* Shafaq.swift in Sources */,
+				C25D387E7D6A9508136339D1 /* SkyState.swift in Sources */,
 				DE82AEE635983F46DC6FDA89 /* SolarCoordinates.swift in Sources */,
+				7DC6EF91C4E6E20369187DAC /* SolarEphemeris.swift in Sources */,
 				C2847CCAB9D9D261174A6A8B /* SolarTime.swift in Sources */,
 				88C14D837334DF647569F3FF /* SunnahTimes.swift in Sources */,
+				0721FF6708525681DA8FB481 /* Typography.swift in Sources */,
 				57AF8372F00A586AE9FB1C0A /* WatchGuidanceRenderer.swift in Sources */,
 				29CE32A88C4FCD473C33B31B /* WatchLocationManager.swift in Sources */,
+				39E81D84F3ADAD46C4032947 /* WatchPrayerSettings.swift in Sources */,
 				455E6C1B8C37628633057BF7 /* WatchPrayerTimes.swift in Sources */,
+				A82C273BE3C66105CAC05E76 /* WatchSettingsView.swift in Sources */,
 				DE20F99E79127714C83C6B3B /* WristMotionSource.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2643,16 +2650,16 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = SalahMotionCore;
 		};
+		0FE6AB96110E5D5E62F7539F /* SwiftAA */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5FED23F3A5012739E15FA355 /* XCRemoteSwiftPackageReference "SwiftAA" */;
+			productName = SwiftAA;
+		};
 		351D3F1DD3A56AB6FE5AC5F0 /* SalahMotionCore */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = SalahMotionCore;
 		};
 		40C64203C910802009037C35 /* SwiftAA */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 5FED23F3A5012739E15FA355 /* XCRemoteSwiftPackageReference "SwiftAA" */;
-			productName = SwiftAA;
-		};
-		AD88CCE02FF5F60100234B0A /* SwiftAA */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 5FED23F3A5012739E15FA355 /* XCRemoteSwiftPackageReference "SwiftAA" */;
 			productName = SwiftAA;
