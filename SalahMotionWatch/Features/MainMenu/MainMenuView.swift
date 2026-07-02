@@ -30,6 +30,13 @@ struct MainMenuView: View {
     private var menu: some View {
         ScrollView {
             LazyVStack(spacing: 5) {
+                // App name header — Cormorant, light on the black menu background.
+                Text("SalahMotion")
+                    .font(Typography.display(24, weight: .semibold))
+                    .foregroundStyle(Color(hex: "#f4f1fa"))
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.top, 2)
+                    .padding(.bottom, 1)
                 // Prayer Times: no icon — the live Sun/Moon arc (mirroring the iPhone "Up
                 // next" card) fills the card, with the day-progress rail at its foot. Both
                 // ride one 60s tick — the real bodies move imperceptibly per minute, so a
@@ -70,73 +77,84 @@ struct MainMenuView: View {
                                                 timeZone: engine.timeZone))
     }
 
-    // MARK: - Day progress rail (Prayer Times card)
+    // MARK: - Day progress rail (Prayer Times card — Watch Card v2 style)
     //
-    // Ports the iPhone rail (SalahMotion/Features/PrayerTimes/PrayerTimesView.swift `dayRail`),
-    // scaled for the card: track + accent fill + five prayer nodes (solid = prayed, hollow ring
-    // = current/future) + a pulse marker at the fill's leading edge. All state comes from the
-    // already-ported WatchPrayerTimes rail helpers — no new logic here. Coloured by the card's
-    // active theme so it reads as one with the card.
+    // Five evenly-spaced, labelled pips (Fajr→Isha). Position is encoded by SIZE first, colour
+    // second (three of the five hues are blue). Past/future pips take their prayer's day-hue;
+    // the active (current) pip is light + larger, with an expanding "ping" ring, over a faint
+    // full-width connector line. Spec: docs/features/watch/Watch Card v2.md §Five-Slot Rail.
     private func dayRail(now: Date) -> some View {
-        let currentIndex = engine.currentPrayerIndex(at: now)
-        let fill = engine.continuousRailFill(at: now)
-        // Colour the rail by the REAL current prayer (per-prayer accent table), not the
-        // card's clock-hour theme — so the accent is exact at every prayer boundary.
+        let activeSlot = engine.currentPrayerIndex(at: now)
         let ordered = engine.ordered
-        let railTheme = ordered.indices.contains(currentIndex)
-            ? DayThemes.theme(for: ordered[currentIndex].prayer)
-            : theme
-        let accent = railTheme.accent
+        let light = Color(hex: "#f4f1fa")
 
-        return GeometryReader { geo in
-            let w = geo.size.width
-            let track: Color = railTheme.isLight ? Color(hex: "#2b3a4a").opacity(0.12) : Color.white.opacity(0.14)
-            let neutralRing: Color = railTheme.isLight ? Color(hex: "#2b3a4a").opacity(0.28) : Color.white.opacity(0.35)
-
-            ZStack(alignment: .topLeading) {
-                // Track
+        return VStack(spacing: 3) {
+            // Pips + connector line behind them
+            ZStack {
                 Rectangle()
-                    .fill(track)
-                    .frame(width: w, height: 1.5)
-                    .offset(y: 9)
-
-                // Fill
-                Rectangle()
-                    .fill(accent)
-                    .frame(width: w * fill, height: 1.5)
-                    .offset(y: 9)
-
-                // Prayer nodes
-                ForEach(Array(WatchPrayerTimes.railNodeFractions.enumerated()), id: \.offset) { i, pos in
-                    if i < currentIndex {
-                        // Prayed — filled solid dot
-                        Circle()
-                            .fill(accent)
-                            .frame(width: 8, height: 8)
-                            .offset(x: w * pos - 4, y: 5.5)
-                    } else {
-                        // Current or future — hollow ring
-                        Circle()
-                            .strokeBorder(neutralRing, lineWidth: 1.5)
-                            .frame(width: 7, height: 7)
-                            .offset(x: w * pos - 3.5, y: 6)
+                    .fill(light.opacity(0.16))
+                    .frame(height: 1)
+                    .padding(.horizontal, 10)
+                HStack(spacing: 0) {
+                    ForEach(Array(ordered.enumerated()), id: \.offset) { i, item in
+                        railPip(index: i, activeSlot: activeSlot,
+                                hue: DayThemes.theme(for: item.prayer).accent, light: light)
+                            .frame(maxWidth: .infinity)
                     }
                 }
+            }
+            .frame(height: 11)
 
-                // Active pulse marker — sits at the end of the fill line
-                PulseMarker(accent: accent)
-                    .frame(width: 20, height: 20)
-                    .offset(x: w * fill - 10, y: -1)
+            // Pip labels
+            HStack(spacing: 0) {
+                ForEach(Array(ordered.enumerated()), id: \.offset) { i, item in
+                    Text(railLabel(item.prayer))
+                        .font(Typography.ui(6, weight: .bold))
+                        .tracking(0.2)
+                        .foregroundStyle(light.opacity(railLabelOpacity(index: i, activeSlot: activeSlot)))
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.6)
+                        .frame(maxWidth: .infinity)
+                }
             }
         }
-        .frame(height: 20)
+    }
+
+    private func railPip(index i: Int, activeSlot: Int, hue: Color, light: Color) -> some View {
+        let active = i == activeSlot
+        return ZStack {
+            if active { RailPipPing(color: light) }
+            Circle()
+                .fill(active ? light : hue)
+                .frame(width: active ? 10 : 6, height: active ? 10 : 6)
+                .shadow(color: active ? light.opacity(0.6) : .clear, radius: active ? 3 : 0)
+        }
+    }
+
+    private func railLabelOpacity(index i: Int, activeSlot: Int) -> Double {
+        if i == activeSlot { return 0.82 }
+        return i < activeSlot ? 0.35 : 0.20
+    }
+
+    private func railLabel(_ p: Prayer) -> String {
+        switch p {
+        case .fajr:    "Fajr"
+        case .sunrise: "Sunrise"
+        case .dhuhr:   "Dhuhr"
+        case .asr:     "Asr"
+        case .maghrib: "Maghrib"
+        case .isha:    "Isha"
+        }
     }
 
     // Current location, matching the iPhone's location pill (mappin + city name).
     private var locationCapsule: some View {
         HStack(spacing: 3) {
             Image(systemName: "mappin.and.ellipse").font(.system(size: 8))
-            Text(location.cityName).font(Typography.ui(9, weight: .medium))
+            Text(location.cityName)
+                .font(Typography.ui(9, weight: .medium))
+                .lineLimit(1)
+                .truncationMode(.tail)
         }
         .foregroundStyle(theme.ink.opacity(0.9))
         .padding(.horizontal, 7)
@@ -166,19 +184,26 @@ struct MainMenuView: View {
                 background()
                     .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
                 VStack(alignment: .leading, spacing: 0) {
-                    icon()
-                        .frame(height: 26, alignment: .leading)
+                    // Top row: label pinned top-left (never shrinks), accessory (location) to its
+                    // right — a long city name truncates instead of pushing the label out.
+                    HStack(spacing: 8) {
+                        icon()
+                        Text(title)
+                            .font(Typography.display(18, weight: .semibold))
+                            .foregroundStyle(theme.ink)
+                            .fixedSize(horizontal: true, vertical: false)
+                            .layoutPriority(1)          // label is pinned — never pushed or shrunk
+                        Spacer(minLength: 6)
+                        accessory()                     // hugs its content; truncates only when the row is tight
+                    }
+                    .frame(height: 26)
                     Spacer(minLength: 8)
-                    footer()   // full-width, above the title (Prayer Times day rail)
-                    Text(title)
-                        .font(Typography.display(18, weight: .semibold))
-                        .foregroundStyle(theme.ink)
+                    footer()   // rail pinned to the bottom (Prayer Times)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(15)
             }
             .frame(height: 112)
-            .overlay(alignment: .topTrailing) { accessory().padding(11) }
         }
         .buttonStyle(.plain)
         // watchOS carousel depth: cards recede + fade as they scroll to the edges.
@@ -282,28 +307,20 @@ struct PrayerBeadsIcon: View {
     }
 }
 
-// Pulsing marker at the day rail's leading edge — a solid dot with a glow and an outward
-// ripple. Self-contained (accent-driven), ported from the iPhone rail.
-private struct PulseMarker: View {
-    let accent: Color
-    @State private var pulsing = false
+// Expanding "ping" ring behind the active rail pip (Watch Card v2): a light disc that scales
+// out and fades on a 1.8s loop.
+private struct RailPipPing: View {
+    let color: Color
+    @State private var animate = false
 
     var body: some View {
-        ZStack {
-            Circle()
-                .strokeBorder(accent, lineWidth: 1)
-                .scaleEffect(pulsing ? 1.5 : 0.85)
-                .opacity(pulsing ? 0 : 0.55)
-                .animation(
-                    .easeOut(duration: 3.6).repeatForever(autoreverses: false),
-                    value: pulsing
-                )
-            Circle()
-                .fill(accent)
-                .frame(width: 11, height: 11)
-                .shadow(color: accent.opacity(0.9), radius: 6)
-        }
-        .onAppear { pulsing = true }
+        Circle()
+            .fill(color.opacity(0.45))
+            .frame(width: 10, height: 10)
+            .scaleEffect(animate ? 2.6 : 1)
+            .opacity(animate ? 0 : 0.7)
+            .animation(.easeOut(duration: 1.8).repeatForever(autoreverses: false), value: animate)
+            .onAppear { animate = true }
     }
 }
 
