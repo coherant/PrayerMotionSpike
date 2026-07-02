@@ -10,23 +10,26 @@ struct PrayerTimesWatchView: View {
             if let next = engine.nextPrayer, let date = engine.nextPrayerDate {
                 VStack(alignment: .leading, spacing: 2) {
                     Text("NEXT")
-                        .font(.system(size: 9, weight: .semibold)).tracking(1.5)
+                        .font(Typography.ui(9, weight: .semibold)).tracking(1.5)
                         .foregroundStyle(.secondary)
-                    Text(label(next)).font(.system(size: 24, weight: .semibold))
+                    Text(label(next)).font(Typography.display(26, weight: .semibold))
                     Text(date, style: .relative)
-                        .font(.system(size: 12)).foregroundStyle(.secondary)
+                        .font(Typography.ui(12)).foregroundStyle(.secondary)
                 }
                 .listRowBackground(Color.clear)
             }
 
             Section {
                 ForEach(Array(engine.ordered.enumerated()), id: \.offset) { _, item in
+                    let isNext = item.prayer == engine.nextPrayer
                     HStack {
                         Text(label(item.prayer))
+                            .font(Typography.display(17, weight: isNext ? .semibold : .medium))
                         Spacer()
-                        Text(item.date, style: .time).foregroundStyle(.secondary)
+                        Text(item.date, style: .time)
+                            .font(Typography.ui(14, weight: isNext ? .semibold : .regular))
+                            .foregroundStyle(.secondary)
                     }
-                    .fontWeight(item.prayer == engine.nextPrayer ? .semibold : .regular)
                 }
             }
         }

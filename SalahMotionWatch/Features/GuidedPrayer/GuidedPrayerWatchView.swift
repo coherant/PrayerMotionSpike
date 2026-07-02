@@ -31,7 +31,7 @@ struct GuidedPrayerWatchView: View {
 
     private var idle: some View {
         VStack(spacing: 10) {
-            Text("Practice · Farḍ").font(.headline)
+            Text("Practice · Farḍ").font(Typography.display(18, weight: .semibold))
             Picker("Prayer", selection: $prayer) {
                 ForEach(SalatType.allCases) { p in Text(p.displayName).tag(p) }
             }
@@ -47,7 +47,7 @@ struct GuidedPrayerWatchView: View {
             VStack(spacing: 3) {
                 Text("🙌").font(.title3).opacity(motion.isTakbir ? 1 : 0.45)
                 Text(motion.isTakbir ? "Hold…" : "Takbīr to begin")
-                    .font(.caption2)
+                    .font(Typography.ui(11, weight: .medium))
                     .foregroundStyle(motion.isTakbir ? .green : .secondary)
             }
             .padding(.top, 2)
@@ -56,7 +56,7 @@ struct GuidedPrayerWatchView: View {
                 .buttonStyle(.bordered)
                 .disabled(!motion.isAvailable)
             if !motion.isAvailable {
-                Text("Motion unavailable").font(.caption2).foregroundStyle(.secondary)
+                Text("Motion unavailable").font(Typography.ui(11)).foregroundStyle(.secondary)
             }
         }
         .padding(.horizontal, 8)
@@ -70,15 +70,17 @@ struct GuidedPrayerWatchView: View {
         ScrollView {
             VStack(spacing: 8) {
                 if s.unitCount > 1 {
-                    Text(s.currentUnitLabel).font(.caption2).foregroundStyle(.secondary)
+                    Text(s.currentUnitLabel).font(Typography.ui(11)).foregroundStyle(.secondary)
                 }
-                Text(s.currentState.displayLabel).font(.headline).multilineTextAlignment(.center)
+                Text(s.currentState.displayLabel)
+                    .font(Typography.display(18, weight: .semibold))
+                    .multilineTextAlignment(.center)
                 if !s.currentState.arabic.isEmpty {
-                    Text(s.currentState.arabic).font(.caption)
+                    Text(s.currentState.arabic).arabicStyle(size: 18)
                 }
                 if let posture = motion.postureLabel {
                     Text("wrist: \(posture)  gz \(motion.gravityZ, specifier: "%.2f")")
-                        .font(.caption2).foregroundStyle(.secondary)
+                        .font(Typography.ui(10)).foregroundStyle(.secondary)
                 }
                 // Hands-free advance. Double Tap (finger pinch, Series 9 / Ultra 2+) triggers
                 // this; a screen tap is the universal fallback. For the taslīm — which the wrist
@@ -90,7 +92,7 @@ struct GuidedPrayerWatchView: View {
                 .buttonStyle(.bordered)
                 .doubleTapPrimary()
                 Button("End", role: .destructive) { s.cancel() }
-                    .font(.caption)
+                    .font(Typography.ui(12))
             }
             .padding(.horizontal, 8)
         }
@@ -98,7 +100,7 @@ struct GuidedPrayerWatchView: View {
 
     private var complete: some View {
         VStack(spacing: 10) {
-            Text("✅ Complete").font(.headline)
+            Text("✅ Complete").font(Typography.display(18, weight: .semibold))
             Button("Done") { session = nil }
                 .buttonStyle(.bordered)
         }
