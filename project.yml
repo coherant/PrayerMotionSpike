@@ -74,6 +74,9 @@ targets:
       - path: SalahMotionWatch
         excludes:
           - "**/.DS_Store"
+      # Shared, pure-Foundation prayer-times + qibla calc (compiled into both the iPhone
+      # app and the watch — no network, standalone on the wrist). See docs/features/watch.
+      - path: SalahMotion/Core/Prayer/Adhan
     dependencies:
       - package: SalahMotionCore
     info:
