@@ -8,10 +8,26 @@ import Observation
 // demand and on calendar-day rollover — the calc is cheap, so nothing is persisted.
 @Observable
 final class WatchPrayerTimes {
-    var coordinate = CLLocationCoordinate2D(latitude: -37.8136, longitude: 144.9631)  // Melbourne default 🇦🇺
+    static let shared = WatchPrayerTimes()
+
+    private(set) var coordinate = CLLocationCoordinate2D(latitude: -37.8136, longitude: 144.9631)  // Melbourne default 🇦🇺
+    private(set) var timeZone: TimeZone = .current
 
     private(set) var pt: PrayerTimes?
     private(set) var computedForDay: Date?
+
+    /// Update to a live device fix (from WatchLocationManager) and recompute.
+    func setCoordinate(_ coord: CLLocationCoordinate2D) {
+        coordinate = coord
+        recompute()
+    }
+
+    /// Update to the location's timezone (from reverse-geocoding) so times render at its
+    /// wall-clock time, and recompute.
+    func setTimeZone(_ tz: TimeZone) {
+        timeZone = tz
+        recompute()
+    }
 
     /// The five obligatory prayers in order, with today's instants.
     var ordered: [(prayer: Prayer, date: Date)] {
@@ -27,7 +43,7 @@ final class WatchPrayerTimes {
     }
 
     func refreshIfNeeded(now: Date = Date()) {
-        var cal = Calendar(identifier: .gregorian); cal.timeZone = .current
+        var cal = Calendar(identifier: .gregorian); cal.timeZone = timeZone
         if computedForDay != cal.startOfDay(for: now) { recompute(now: now) }
     }
 
@@ -36,7 +52,7 @@ final class WatchPrayerTimes {
         var params = CalculationMethod.muslimWorldLeague.params
         params.madhab = .shafi
 
-        var cal = Calendar(identifier: .gregorian); cal.timeZone = .current
+        var cal = Calendar(identifier: .gregorian); cal.timeZone = timeZone
         let comps = cal.dateComponents([.year, .month, .day], from: now)
 
         guard let computed = PrayerTimes(coordinates: coords, date: comps, calculationParameters: params) else { return }

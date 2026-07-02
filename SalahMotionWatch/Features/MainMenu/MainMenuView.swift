@@ -6,17 +6,34 @@ import SwiftUI
 // iOS theme's top + ink colours (SalahMotion/DesignSystem/Tokens/PrayerTime.swift).
 struct MainMenuView: View {
     private let theme = DayThemes.active
+    private let location = WatchLocationManager.shared
 
     var body: some View {
         ScrollView {
             LazyVStack(spacing: 5) {
-                card(title: "Prayer Times",  icon: { symbol("clock") }) { PrayerTimesWatchView() }
-                card(title: "Guided Prayer",  icon: { PrayerBeadsIcon(color: theme.ink).frame(width: 26, height: 26) }) { GuidedPrayerWatchView() }
-                card(title: "Calibration",    icon: { symbol("scope") }) { CalibrationWatchView() }
+                card(title: "Prayer Times",  icon: { symbol("clock") },
+                     accessory: { locationCapsule }) { PrayerTimesWatchView() }
+                card(title: "Guided Prayer",  icon: { PrayerBeadsIcon(color: theme.ink).frame(width: 26, height: 26) },
+                     accessory: { EmptyView() }) { GuidedPrayerWatchView() }
+                card(title: "Calibration",    icon: { symbol("scope") },
+                     accessory: { EmptyView() }) { CalibrationWatchView() }
             }
             .padding(.horizontal, 8)
             .padding(.vertical, 4)
         }
+        .task { location.requestLocation() }
+    }
+
+    // Current location, matching the iPhone's location pill (mappin + city name).
+    private var locationCapsule: some View {
+        HStack(spacing: 3) {
+            Image(systemName: "mappin.and.ellipse").font(.system(size: 8))
+            Text(location.cityName).font(.system(size: 9, weight: .medium))
+        }
+        .foregroundStyle(theme.ink.opacity(0.9))
+        .padding(.horizontal, 7)
+        .padding(.vertical, 3)
+        .background(Capsule().fill(theme.ink.opacity(0.15)))
     }
 
     private func symbol(_ name: String) -> some View {
@@ -25,8 +42,12 @@ struct MainMenuView: View {
             .foregroundStyle(theme.ink)
     }
 
-    private func card<Icon: View, D: View>(title: String, @ViewBuilder icon: () -> Icon,
-                                           @ViewBuilder destination: @escaping () -> D) -> some View {
+    private func card<Icon: View, Accessory: View, D: View>(
+        title: String,
+        @ViewBuilder icon: () -> Icon,
+        @ViewBuilder accessory: () -> Accessory,
+        @ViewBuilder destination: @escaping () -> D
+    ) -> some View {
         NavigationLink(destination: destination) {
             ZStack {
                 RoundedRectangle(cornerRadius: 22, style: .continuous)
@@ -43,6 +64,7 @@ struct MainMenuView: View {
                 .padding(15)
             }
             .frame(height: 112)
+            .overlay(alignment: .topTrailing) { accessory().padding(11) }
         }
         .buttonStyle(.plain)
         // watchOS carousel depth: cards recede + fade as they scroll to the edges.

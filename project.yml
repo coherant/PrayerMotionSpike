@@ -88,6 +88,7 @@ targets:
         # Without this, watchOS rejects install: it demands either WKWatchOnly=TRUE
         # or a valid WKCompanionAppBundleIdentifier.
         WKWatchOnly: true
+        NSLocationWhenInUseUsageDescription: "SalahMotion uses your location to calculate accurate prayer times and qibla."
         NSHealthShareUsageDescription: "SalahMotion uses HealthKit to keep the motion sensors active during a prayer session."
         NSHealthUpdateUsageDescription: "SalahMotion records a workout session to keep the wrist motion sensors alive during prayer."
     settings:

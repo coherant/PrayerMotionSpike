@@ -3,7 +3,7 @@ import SwiftUI
 // Prayer Times — computed on the wrist from the shared Adhan calc (WatchPrayerTimes).
 // Shows the next prayer + countdown and today's five times, the next one emphasised.
 struct PrayerTimesWatchView: View {
-    @State private var engine = WatchPrayerTimes()
+    private let engine = WatchPrayerTimes.shared
 
     var body: some View {
         List {

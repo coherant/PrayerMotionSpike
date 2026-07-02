@@ -24,6 +24,8 @@
 	<string>SalahMotion uses HealthKit to keep the motion sensors active during a prayer session.</string>
 	<key>NSHealthUpdateUsageDescription</key>
 	<string>SalahMotion records a workout session to keep the wrist motion sensors alive during prayer.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>SalahMotion uses your location to calculate accurate prayer times and qibla.</string>
 	<key>WKApplication</key>
 	<true/>
 	<key>WKWatchOnly</key>
